@@ -73,19 +73,18 @@ class DamageCalculator:
         """Performs the combat calculation according to currently defined values
         and updates elements for displaying calculation results.
         """
-        print(data)
         ui.notify("Calculating", type="info", group=False)
 
         keyword_args: dict[str, Any] = {}
         option_config: dict[str, Any] = self.doll_calculator.option_config
-        itam_function: Callable = option_config[data["type"]]["function"]
+        combat_action: Callable = option_config[data["type"]]["function"]
 
         for field in option_config[data["type"]]["fields"]:
             field_name: str = field["key"]
             field_value: int = data[field_name]
             keyword_args[field_name] = field_value
 
-        di: DamageInstance = itam_function(**keyword_args)
+        di: DamageInstance = combat_action(**keyword_args)
 
         stability_broken: bool = self.target_stability_broken.value
         phase_weaknesses_exploited: int = self.target_phase_weaknesses_exploited.value  # type: ignore
@@ -246,7 +245,7 @@ class DamageCalculator:
             with ui.item():
                 with ui.item_section().props(""):
                     ui.item_label("Expected Damage")
-                    ui.item_label('Average').props('caption')
+                    ui.item_label("Average").props("caption")
                 with ui.item_section().props("side"):
                     self.results_labels["expected_damage"] = ui.label()
 
@@ -290,7 +289,7 @@ class DamageCalculator:
             with ui.item():
                 with ui.item_section().props(""):
                     ui.item_label("Negative Defense")
-                    ui.item_label('Defense ignore beyond 100%').props('caption')
+                    ui.item_label("Defense ignore beyond 100%").props("caption")
                 with ui.item_section().props("side"):
                     self.results_labels["negative_defense"] = ui.label()
 

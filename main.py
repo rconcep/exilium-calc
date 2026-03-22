@@ -1,10 +1,11 @@
-from nicegui import ui
+from nicegui import app, ui
 
 from gui.doll_calculator.dolls.robella import Robella
 from gui.doll_calculator.dolls.voymastina import Voymastina
 from gui.doll_calculator.dolls.lewis import Lewis
 from gui.doll_calculator.dolls.mosin_nagant import MosinNagant
 from gui.doll_calculator.dolls.tololo import Tololo
+from gui.doll_calculator.dolls.leva import Leva
 
 
 def root():
@@ -12,6 +13,7 @@ def root():
     ui.page_title("Exilium-Calc")
 
     pages: dict[str, str] = {
+        "Leva": "/leva",
         "Lewis": "/lewis",
         "Mosin-Nagant": "/mosin-nagant",
         "Robella": "/robella",
@@ -45,6 +47,7 @@ def root():
             "/lewis": Lewis().get_page,
             "/mosin-nagant": MosinNagant().get_page,
             "/tololo": Tololo().get_page,
+            "/leva": Leva().get_page,
         }
     )
 
@@ -74,9 +77,9 @@ which is multiplied by factors like ATK, critical damage multipliers, etc.
 Potency is used to abstract away the effects of those stats which tend to remain constant among gearing choices 
 such as attachment sets. This term is borrowed from other games.
             """,
-                extras=[
-                    "latex",
-                ],
+                # extras=[
+                #     "latex",
+                # ],
             )
 
         with ui.card().classes("w-150 h-100"):
@@ -89,4 +92,12 @@ tab is shared with all tools!
             )
 
 
-ui.run(root)
+if __name__ in {"__main__", "__mp_main__"}:
+    app.add_static_files(
+        "/resources",
+        "resources",
+    )
+    ui.run(
+        root,
+        # reload=False,
+    )

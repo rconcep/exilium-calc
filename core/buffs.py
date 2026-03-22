@@ -14,6 +14,7 @@ from core.types import (
 @dataclass
 class BuffBase(ABC):
     """Base class for Buffs/Debuffs."""
+
     # Value of the buff or debuff. Note that debuffs are likely to have negative values to represent
     # reductions of an attribute.
     value: float
@@ -32,12 +33,14 @@ class BuffBase(ABC):
 @dataclass
 class Buff(BuffBase):
     """Represents a buff to a Doll."""
+
     ...
 
 
 @dataclass
 class Debuff(BuffBase):
     """Represents a debuff to a target."""
+
     ...
 
 
@@ -71,8 +74,7 @@ class LightOfBond(Buff):
 class SenseWeakness(Buff):
     """Robella self-buff."""
 
-    def __init__(self):
-        ...
+    def __init__(self): ...
 
     def get_buffs(self, stacks: int):
         """
@@ -93,8 +95,7 @@ class SenseWeakness(Buff):
 class PredatorsPrinciple(Buff):
     """Buff granted to Voymastina when Confectance Index is full."""
 
-    def __init__(self):
-        ...
+    def __init__(self): ...
 
     def get_buffs(self):
         self.value = 50
@@ -113,8 +114,7 @@ class PredatorsPrinciple(Buff):
 class Venator(Buff):
     """Buff granted to Voymastina (V6) at the start of battle."""
 
-    def __init__(self):
-        ...
+    def __init__(self): ...
 
     def get_buffs(self):
         self.value = 45
@@ -132,22 +132,23 @@ class Venator(Buff):
 class CooperativeHunt(Buff):
     """Buff granted to Voymastina (V4) when performing a support action."""
 
-    def __init__(self):
-        ...
+    def __init__(self): ...
 
     def get_buffs(self, stacks: int):
         """
         Arguments:
         stacks -- the number of stacks of this buff, up to 3
         """
-        value: int = 10*min(3, stacks)
+        value: int = 10 * min(3, stacks)
 
         self.value = value
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = SpecialAttribute.DAMAGE_BOOST
         self.tag = DamageTag.ALL
 
-        ret: list[Buff] = [self,]
+        ret: list[Buff] = [
+            self,
+        ]
         ret.append(Buff(value, ModifierType.ADDITIVE, StatType.CRIT_RATE))
 
         return ret
@@ -156,8 +157,7 @@ class CooperativeHunt(Buff):
 class UnshakableConfidence(Buff):
     """Buff granted to Mosin-Nagant after support actions."""
 
-    def __init__(self):
-        ...
+    def __init__(self): ...
 
     def get_buffs(self, stacks: int):
         """
@@ -197,8 +197,7 @@ class PowerSurge(Buff):
 class Lightspike(Buff):
     """Tololo buff."""
 
-    def __init__(self):
-        ...
+    def __init__(self): ...
 
     def get_buffs(
         self, stacks: int, tololo_fortification_level: FortificationLevel
@@ -230,6 +229,59 @@ class Lightspike(Buff):
         )
 
         return ret
+
+
+class SuperconductiveCode(Buff):
+    """Leva buff."""
+
+    def __init__(self): ...
+
+    def get_buffs(self, stacks: int) -> list[Buff]:
+        """
+        Arguments:
+        stacks -- the number of stacks of this buff, up to 4
+        """
+
+        self.value = 5 * min(4, stacks)
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = StatType.CRIT_RATE
+
+        ret: list[Buff] = [
+            self,
+        ]
+
+        ret.append(
+            Buff(
+                7.5 * min(4, stacks),
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=StatType.CRIT_DAMAGE,
+            )
+        )
+
+        return ret
+
+
+class SuperconductiveChain(Buff):
+    """Buff granted to Leva at 4 stacks of Superconductive Code."""
+
+    def __init__(self):
+        self.value = 10
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.ATTACK
+
+
+class PositiveCharge(Buff):
+    """Electric buff."""
+
+    def __init__(self, target_has_negative_charge: bool):
+        """
+        Arguments:
+        target_has_negative_charge -- True if the target of the attack has a negative charge
+        """
+        self.value = 35 if target_has_negative_charge else 0
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.ELECTRIC
 
 
 class AttackUpI(Buff):
@@ -548,6 +600,30 @@ buffs_option_config: Dict[str, Dict[str, Any]] = {
             },
         ],
         "function": Lightspike().get_buffs,
+    },
+    "Superconductive Code (Leva)": {
+        "fields": [
+            {
+                "key": "stacks",
+                "type": "select",
+                "label": "Stacks",
+                "options": [n for n in range(0, 5)],
+                "default": 4,
+            },
+        ],
+        "function": SuperconductiveCode().get_buffs,
+    },
+    "Superconductive Chain (Leva)": {"fields": [], "function": SuperconductiveChain},
+    "Positive Charge": {
+        "fields": [
+            {
+                "key": "target_has_negative_charge",
+                "type": "checkbox",
+                "label": "Target Has Negative Charge",
+                "default": True,
+            },
+        ],
+        "function": PositiveCharge,
     },
     "Attack Up I": {"fields": [], "function": AttackUpI},
     "Attack Up II": {"fields": [], "function": AttackUpII},

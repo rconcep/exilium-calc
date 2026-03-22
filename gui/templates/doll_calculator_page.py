@@ -50,12 +50,31 @@ class DollCalculatorPage(ABC):
     ]
 
     def __init__(self):
+        # Basic Tab
         self.initial_stats_number_inputs: dict[StatType, ui.number] = {}
+
+        # Special Tab
         self.damage_boost_number_inputs: dict[DamageTag, ui.number] = {}
         self.critical_damage_number_inputs: dict[DamageTag, ui.number] = {}
         self.defense_ignore_number_inputs: dict[DamageTag, ui.number] = {}
+
+        # Additive Modifier Tab
         self.additive_stat_modifier_number_inputs: dict[StatType, ui.number] = {}
+        self.additive_mod_damage_boost_number_inputs: dict[DamageTag, ui.number] = {}
+        self.additive_mod_critical_damage_number_inputs: dict[DamageTag, ui.number] = {}
+        self.additive_mod_defense_ignore_number_inputs: dict[DamageTag, ui.number] = {}
+
+        # Multiplicative Modifier Tab
         self.multiplicative_stat_modifier_number_inputs: dict[StatType, ui.number] = {}
+        self.multiplicative_mod_damage_boost_number_inputs: dict[
+            DamageTag, ui.number
+        ] = {}
+        self.multiplicative_mod_critical_damage_number_inputs: dict[
+            DamageTag, ui.number
+        ] = {}
+        self.multiplicative_mod_defense_ignore_number_inputs: dict[
+            DamageTag, ui.number
+        ] = {}
 
         self.damage_instances: list[DamageInstance] = []
         self.option_config: Dict[str, Dict[str, Any]] = dict()
@@ -215,6 +234,66 @@ class DollCalculatorPage(ABC):
                 "change", self.stats_update_callback
             )
 
+            self.additive_mod_damage_boost_number_inputs[tag].bind_value(
+                self.doll.additive_modifiers.special_attributes[
+                    SpecialAttribute.DAMAGE_BOOST
+                ].multipliers,
+                tag,
+            )
+            self.additive_mod_damage_boost_number_inputs[tag].on(
+                "change", self.stats_update_callback
+            )
+
+            self.additive_mod_critical_damage_number_inputs[tag].bind_value(
+                self.doll.additive_modifiers.special_attributes[
+                    SpecialAttribute.CRITICAL_DAMAGE
+                ].multipliers,
+                tag,
+            )
+            self.additive_mod_critical_damage_number_inputs[tag].on(
+                "change", self.stats_update_callback
+            )
+
+            self.additive_mod_defense_ignore_number_inputs[tag].bind_value(
+                self.doll.additive_modifiers.special_attributes[
+                    SpecialAttribute.DEFENSE_IGNORE
+                ].multipliers,
+                tag,
+            )
+            self.additive_mod_defense_ignore_number_inputs[tag].on(
+                "change", self.stats_update_callback
+            )
+
+            self.multiplicative_mod_damage_boost_number_inputs[tag].bind_value(
+                self.doll.multiplicative_modifiers.special_attributes[
+                    SpecialAttribute.DAMAGE_BOOST
+                ].multipliers,
+                tag,
+            )
+            self.multiplicative_mod_damage_boost_number_inputs[tag].on(
+                "change", self.stats_update_callback
+            )
+
+            self.multiplicative_mod_critical_damage_number_inputs[tag].bind_value(
+                self.doll.multiplicative_modifiers.special_attributes[
+                    SpecialAttribute.CRITICAL_DAMAGE
+                ].multipliers,
+                tag,
+            )
+            self.multiplicative_mod_critical_damage_number_inputs[tag].on(
+                "change", self.stats_update_callback
+            )
+
+            self.multiplicative_mod_defense_ignore_number_inputs[tag].bind_value(
+                self.doll.multiplicative_modifiers.special_attributes[
+                    SpecialAttribute.DEFENSE_IGNORE
+                ].multipliers,
+                tag,
+            )
+            self.multiplicative_mod_defense_ignore_number_inputs[tag].on(
+                "change", self.stats_update_callback
+            )
+
     @abstractmethod
     def set_initial_values(self) -> None:
         """Initializes Doll's stats to specified values."""
@@ -334,7 +413,7 @@ class DollCalculatorPage(ABC):
                         "Initial values of basic stats as seen in Refitting Room or Formation."
                     )
                     special_stats_tab = ui.tab("Special").tooltip(
-                        "Conditionally applied stats from all sources."
+                        "Conditionally applied stats from innate abilities."
                     )
                     additive_mods_tab = ui.tab("Additive Mods").tooltip(
                         '"Additive" modifiers from: Remolding Core or in-combat buffs.'
@@ -368,6 +447,62 @@ class DollCalculatorPage(ABC):
 
                     with ui.tab_panel(special_stats_tab):
                         with ui.scroll_area().classes("w-full h-full"):
+                            with ui.expansion(
+                                text="Help",
+                            ).classes("w-full"):
+                                ui.label(
+                                    """Put additive modifiers from innate abilities here.
+                                    Expect these to be pre-populated and to dynamically
+                                    change based on Fortification level and other factors.
+                                    """
+                                )
+                                ui.label(
+                                    """Prefer to use the 'Additive Mods' tab for that reason."""
+                                ).classes("italic")
+                                with ui.list().props("bordered dense separator"):
+                                    ui.item_label("Examples").props("header").classes(
+                                        "text-bold"
+                                    )
+                                    ui.separator()
+                                    with ui.item():
+                                        with ui.item_section():
+                                            ui.item_label("Fixed Key")
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Leva Fixed Key 2 - Fox's Smile"
+                                            ).props("caption")
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Damage dealt to enemy units in Stability Break is increased by 7%."
+                                            ).props("caption")
+                                    with ui.item():
+                                        with ui.item_section():
+                                            ui.item_label("Expansion Key")
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Leva Expansion Key - Electric Espionage"
+                                            ).props("caption")
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                """"At the start of battle, Electric damage dealt by Leva
+                                                is increased by 2% [...] for each Electric attributed
+                                                Doll on the battlefield."""
+                                            ).props("caption")
+                                    with ui.item():
+                                        with ui.item_section():
+                                            ui.item_label("Passive Ability")
+                                        with ui.item_section():
+                                            ui.item_label("Fox's Scheme (Leva)").props(
+                                                "caption"
+                                            )
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                """If Leva has Positive Charge, Electric damage dealt 
+                                                is increased by 10%."""
+                                            ).props("caption")
+
+                            ui.separator()
+
                             with ui.expansion(
                                 text="Damage Boost (Increased Damage)",
                                 group="doll_stats",
@@ -440,114 +575,342 @@ class DollCalculatorPage(ABC):
 
                     with ui.tab_panel(additive_mods_tab):
                         with ui.scroll_area().classes("w-full h-full"):
-                            with ui.list().props("bordered dense separator"):
-                                ui.item_label("Examples").props("header").classes(
-                                    "text-bold"
+                            with ui.expansion(
+                                text="Help",
+                            ).classes("w-full"):
+                                ui.label(
+                                    """Put additive modifiers from keys, attachment set 
+                                        bonuses, remolding core, and in-combat buffs here."""
                                 )
-                                ui.separator()
-                                with ui.item():
-                                    with ui.item_section():
-                                        ui.item_label("Food buff")
-                                    with ui.item_section():
-                                        ui.item_label("Condiment: Rose Salt").props(
-                                            "caption"
-                                        )
-                                    with ui.item_section():
-                                        ui.item_label(
-                                            "Attack is increased by 20 points."
-                                        ).props("caption")
-                                with ui.item():
-                                    with ui.item_section():
-                                        ui.item_label(
-                                            "Remolding Core Specialized Trait"
-                                        )
-                                    with ui.item_section():
-                                        ui.item_label("Smite Boost (Vanguard)").props(
-                                            "caption"
-                                        )
-                                    with ui.item_section():
-                                        ui.item_label(
-                                            "Critical damage is increased by 2.4%."
-                                        ).props("caption")
+                                ui.label(
+                                    """Note: Since these mods are additive with the 'Special' tab,
+                                        it technically doesn't matter if they are put here or 
+                                        in the 'Special' tab, but the values in the 'Special'
+                                        tab are liable to dynamically change (e.g., when changing
+                                        Fortification Level)."""
+                                ).classes("italic")
+                                with ui.list().props("bordered dense separator"):
+                                    ui.item_label("Examples").props("header").classes(
+                                        "text-bold"
+                                    )
+                                    ui.separator()
+                                    with ui.item():
+                                        with ui.item_section():
+                                            ui.item_label("Attachment Set")
+                                        with ui.item_section():
+                                            ui.item_label("Electric Boost").props(
+                                                "caption"
+                                            )
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "When dealing Electric damage, the damage is increased by 20%."
+                                            ).props("caption")
+                                    with ui.item():
+                                        with ui.item_section():
+                                            ui.item_label("Weapon")
+                                        with ui.item_section():
+                                            ui.item_label("Leaping Tiger").props(
+                                                "caption"
+                                            )
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Phase damage dealt is increased by 10%. [...]."
+                                            ).props("caption")
+                                    with ui.item():
+                                        with ui.item_section():
+                                            ui.item_label("Common Key")
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Common Key - Endless Night"
+                                            ).props("caption")
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "When attacking enemies with debuffs, phase damage dealt is increased by 10%."
+                                            ).props("caption")
+                                    with ui.item():
+                                        with ui.item_section():
+                                            ui.item_label("Food buff")
+                                        with ui.item_section():
+                                            ui.item_label("Condiment: Rose Salt").props(
+                                                "caption"
+                                            )
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Attack is increased by 20 points."
+                                            ).props("caption")
+                                    with ui.item():
+                                        with ui.item_section():
+                                            ui.item_label("Remolding Core Imagoform")
+                                        with ui.item_section():
+                                            ui.item_label("Sprout (Jiangyu)").props(
+                                                "caption"
+                                            )
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Electric damage dealt is increased by 5%."
+                                            ).props("caption")
+                                    with ui.item():
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Remolding Core Specialized Trait"
+                                            )
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Smite Boost (Vanguard)"
+                                            ).props("caption")
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Critical damage is increased by 2.4%."
+                                            ).props("caption")
+                                    with ui.item():
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Remolding Core Specialized Trait"
+                                            )
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Freeze Boost (Sentinel)"
+                                            ).props("caption")
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Freeze damage dealt is increased by 1.4%."
+                                            ).props("caption")
 
                             ui.separator()
 
-                            with ui.list().props("bordered dense separator").classes(
-                                "w-full"
-                            ):
-                                for stat in StatType:
-                                    with ui.item():
-                                        with ui.item_section().props("no-wrap"):
-                                            ui.item_label(stat)
-                                            ui.item_label(
-                                                get_stat_description(stat)
-                                            ).props("caption")
-                                        with ui.item_section().props("side"):
-                                            self.additive_stat_modifier_number_inputs[
-                                                stat
-                                            ] = ui.number(value=0, min=0, precision=2)
+                            with ui.expansion(
+                                text="Basic",
+                                group="additive_mods",
+                            ).classes("w-full"):
+                                with ui.list().props(
+                                    "bordered dense separator"
+                                ).classes("w-full"):
+                                    for stat in StatType:
+                                        with ui.item():
+                                            with ui.item_section().props("no-wrap"):
+                                                ui.item_label(stat)
+                                                ui.item_label(
+                                                    get_stat_description(stat)
+                                                ).props("caption")
+                                            with ui.item_section().props("side"):
+                                                self.additive_stat_modifier_number_inputs[
+                                                    stat
+                                                ] = ui.number(
+                                                    value=0, min=0, precision=2
+                                                )
+                            with ui.expansion(
+                                text="Damage Boost (Increased Damage)",
+                                group="additive_mods",
+                            ).classes("w-full"):
+                                with ui.list().props(
+                                    "bordered dense separator"
+                                ).classes("w-full"):
+                                    for tag in self.relevant_damage_tags:
+                                        with ui.item():
+                                            with ui.item_section().props("no-wrap"):
+                                                ui.item_label(tag)
+                                                ui.item_label(
+                                                    get_tag_description(tag)
+                                                ).props("caption")
+                                            with ui.item_section().props("side"):
+                                                self.additive_mod_damage_boost_number_inputs[
+                                                    tag
+                                                ] = ui.number(
+                                                    value=0,
+                                                    min=0,
+                                                    precision=2,
+                                                    suffix="%",
+                                                )
+
+                            with ui.expansion(
+                                text="Critical Damage", group="additive_mods"
+                            ).classes("w-full"):
+                                with ui.list().props(
+                                    "bordered dense separator"
+                                ).classes("w-full"):
+                                    for tag in self.relevant_damage_tags:
+                                        with ui.item():
+                                            with ui.item_section().props("no-wrap"):
+                                                ui.item_label(tag)
+                                                ui.item_label(
+                                                    get_tag_description(tag)
+                                                ).props("caption")
+                                            with ui.item_section().props("side"):
+                                                self.additive_mod_critical_damage_number_inputs[
+                                                    tag
+                                                ] = ui.number(
+                                                    value=0,
+                                                    min=0,
+                                                    precision=2,
+                                                    suffix="%",
+                                                )
+
+                            with ui.expansion(
+                                text="Defense Ignore", group="additive_mods"
+                            ).classes("w-full"):
+                                with ui.list().props(
+                                    "bordered dense separator"
+                                ).classes("w-full"):
+                                    for tag in self.relevant_damage_tags:
+                                        with ui.item():
+                                            with ui.item_section().props("no-wrap"):
+                                                ui.item_label(tag)
+                                                ui.item_label(
+                                                    get_tag_description(tag)
+                                                ).props("caption")
+                                            with ui.item_section().props("side"):
+                                                self.additive_mod_defense_ignore_number_inputs[
+                                                    tag
+                                                ] = ui.number(
+                                                    value=0,
+                                                    min=0,
+                                                    precision=2,
+                                                    suffix="%",
+                                                )
 
                     with ui.tab_panel(multiplicative_mods_tab):
                         with ui.scroll_area().classes("w-full h-full"):
-                            with ui.list().props("bordered dense separator"):
-                                ui.item_label("Examples").props("header").classes(
-                                    "text-bold"
+                            with ui.expansion(
+                                text="Help",
+                            ).classes("w-full"):
+                                ui.label(
+                                    """Put multiplicative modifiers from remolding core 
+                                        and in-combat buffs here. Currently, this is 
+                                        limited to effects on basic stats like Attack.
+                                        """
                                 )
-                                ui.separator()
-                                with ui.item():
-                                    with ui.item_section():
-                                        ui.item_label("Food buff")
-                                    with ui.item_section():
-                                        ui.item_label(
-                                            "Condiment: Weijixian Soy Sauce"
-                                        ).props("caption")
-                                    with ui.item_section():
-                                        ui.item_label(
-                                            "Attack is increased by 0.8%, and defense is increased by 0.8%."
-                                        ).props("caption")
-                                with ui.item():
-                                    with ui.item_section():
-                                        ui.item_label(
-                                            "Remolding Core Specialized Trait"
-                                        )
-                                    with ui.item_section():
-                                        ui.item_label("Attack Boost (Sentinel)").props(
-                                            "caption"
-                                        )
-                                    with ui.item_section():
-                                        ui.item_label(
-                                            "Attack is increased by 2%."
-                                        ).props("caption")
-                                with ui.item():
-                                    with ui.item_section():
-                                        ui.item_label("Remolding Core Imagoform")
-                                    with ui.item_section():
-                                        ui.item_label(
-                                            "Bud (Level 45) (Sentinel)"
-                                        ).props("caption")
-                                    with ui.item_section():
-                                        ui.item_label(
-                                            "Attack is increased by 8%."
-                                        ).props("caption")
+                                with ui.list().props("bordered dense separator"):
+                                    ui.item_label("Examples").props("header").classes(
+                                        "text-bold"
+                                    )
+                                    ui.separator()
+                                    with ui.item():
+                                        with ui.item_section():
+                                            ui.item_label("Food buff")
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Condiment: Weijixian Soy Sauce"
+                                            ).props("caption")
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Attack is increased by 0.8%, and defense is increased by 0.8%."
+                                            ).props("caption")
+                                    with ui.item():
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Remolding Core Specialized Trait"
+                                            )
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Attack Boost (Sentinel)"
+                                            ).props("caption")
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Attack is increased by 2%."
+                                            ).props("caption")
+                                    with ui.item():
+                                        with ui.item_section():
+                                            ui.item_label("Remolding Core Imagoform")
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Bud (Level 45) (Sentinel)"
+                                            ).props("caption")
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Attack is increased by 8%."
+                                            ).props("caption")
 
                             ui.separator()
 
-                            with ui.list().props("bordered dense separator").classes(
-                                "w-full"
-                            ):
-                                for stat in StatType:
-                                    with ui.item():
-                                        with ui.item_section().props("no-wrap"):
-                                            ui.item_label(stat)
-                                            ui.item_label(
-                                                get_stat_description(stat)
-                                            ).props("caption")
-                                        with ui.item_section().props("side"):
-                                            self.multiplicative_stat_modifier_number_inputs[
-                                                stat
-                                            ] = ui.number(
-                                                value=0, min=0, precision=2, suffix="%"
-                                            )
+                            with ui.expansion(
+                                text="Basic",
+                                group="multiplicative_mods",
+                            ).classes("w-full"):
+                                with ui.list().props(
+                                    "bordered dense separator"
+                                ).classes("w-full"):
+                                    for stat in StatType:
+                                        with ui.item():
+                                            with ui.item_section().props("no-wrap"):
+                                                ui.item_label(stat)
+                                                ui.item_label(
+                                                    get_stat_description(stat)
+                                                ).props("caption")
+                                            with ui.item_section().props("side"):
+                                                self.multiplicative_stat_modifier_number_inputs[
+                                                    stat
+                                                ] = ui.number(
+                                                    value=0, min=0, precision=2
+                                                )
+                            with ui.expansion(
+                                text="Damage Boost (Increased Damage)",
+                                group="multiplicative_mods",
+                            ).classes("w-full"):
+                                with ui.list().props(
+                                    "bordered dense separator"
+                                ).classes("w-full"):
+                                    for tag in self.relevant_damage_tags:
+                                        with ui.item():
+                                            with ui.item_section().props("no-wrap"):
+                                                ui.item_label(tag)
+                                                ui.item_label(
+                                                    get_tag_description(tag)
+                                                ).props("caption")
+                                            with ui.item_section().props("side"):
+                                                self.multiplicative_mod_damage_boost_number_inputs[
+                                                    tag
+                                                ] = ui.number(
+                                                    value=0,
+                                                    min=0,
+                                                    precision=2,
+                                                    suffix="%",
+                                                )
+
+                            with ui.expansion(
+                                text="Critical Damage", group="multiplicative_mods"
+                            ).classes("w-full"):
+                                with ui.list().props(
+                                    "bordered dense separator"
+                                ).classes("w-full"):
+                                    for tag in self.relevant_damage_tags:
+                                        with ui.item():
+                                            with ui.item_section().props("no-wrap"):
+                                                ui.item_label(tag)
+                                                ui.item_label(
+                                                    get_tag_description(tag)
+                                                ).props("caption")
+                                            with ui.item_section().props("side"):
+                                                self.multiplicative_mod_critical_damage_number_inputs[
+                                                    tag
+                                                ] = ui.number(
+                                                    value=0,
+                                                    min=0,
+                                                    precision=2,
+                                                    suffix="%",
+                                                )
+
+                            with ui.expansion(
+                                text="Defense Ignore", group="multiplicative_mods"
+                            ).classes("w-full"):
+                                with ui.list().props(
+                                    "bordered dense separator"
+                                ).classes("w-full"):
+                                    for tag in self.relevant_damage_tags:
+                                        with ui.item():
+                                            with ui.item_section().props("no-wrap"):
+                                                ui.item_label(tag)
+                                                ui.item_label(
+                                                    get_tag_description(tag)
+                                                ).props("caption")
+                                            with ui.item_section().props("side"):
+                                                self.multiplicative_mod_defense_ignore_number_inputs[
+                                                    tag
+                                                ] = ui.number(
+                                                    value=0,
+                                                    min=0,
+                                                    precision=2,
+                                                    suffix="%",
+                                                )
 
         ui.separator().classes("w-330")
 
