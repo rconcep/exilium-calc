@@ -82,7 +82,7 @@ class SingleConfigurableItemEditor:
         self.current_type = new_type
         self.reset_to_defaults(new_type)
         self.card.visible = bool(new_type)
-        ui.notify(f"Switched to {new_type}")
+        # ui.notify(f"Switched to {new_type}")
 
     def _build_ui(self):
         if self.title != "":

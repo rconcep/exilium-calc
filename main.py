@@ -1,4 +1,4 @@
-from nicegui import app, ui
+from nicegui import app, ui, core
 
 from gui.doll_calculator.dolls.robella import Robella
 from gui.doll_calculator.dolls.voymastina import Voymastina
@@ -6,6 +6,10 @@ from gui.doll_calculator.dolls.lewis import Lewis
 from gui.doll_calculator.dolls.mosin_nagant import MosinNagant
 from gui.doll_calculator.dolls.tololo import Tololo
 from gui.doll_calculator.dolls.leva import Leva
+
+core.app.config.socket_io_js_transports = [
+    "polling",
+]
 
 
 def root():
@@ -100,4 +104,5 @@ if __name__ in {"__main__", "__mp_main__"}:
     ui.run(
         root,
         reload=False,
+        reconnect_timeout=60,
     )
