@@ -1,7 +1,14 @@
 from dataclasses import dataclass, field
 from typing import override, ClassVar
 
-from core.types import DamageTag, ModifierType, StatType, SpecialAttribute, Doll, FortificationLevel
+from core.types import (
+    DamageTag,
+    ModifierType,
+    StatType,
+    SpecialAttribute,
+    Doll,
+    FortificationLevel,
+)
 from core.buffs import Buff, Debuff, Crumble, DefenseDownII
 from core.combat import DamageInstance, CombatAction
 
@@ -455,6 +462,7 @@ class PileBunkerActiveV5(CombatAction):
 @dataclass
 class Voymastina(Doll):
     """Voymastina."""
+
     name: str = "Voymastina"
     irrelevant_damage_tags: ClassVar[set[DamageTag]] = set(
         [
@@ -493,6 +501,10 @@ class Voymastina(Doll):
         self.pile_bunker_passive: CombatAction = PileBunkerPassive()
         self.pile_bunker_active: CombatAction = PileBunkerActive()
 
+        self.initial_stats.special_attributes[
+            SpecialAttribute.DEFENSE_IGNORE
+        ].set_multiplier(DamageTag.PHYSICAL, 50)
+
     def set_to_v1(self) -> None:
         """Sets Fortification Level to Segment01."""
         self.set_to_v0()
@@ -509,7 +521,7 @@ class Voymastina(Doll):
 
     def set_to_v3(self) -> None:
         """Sets Fortification Level to Segment03."""
-        self.set_to_v0()
+        self.set_to_v2()
 
         self.eye_of_the_white_mastiff_passive: CombatAction = (
             EyeOfTheWhiteMastiffPassiveV3()

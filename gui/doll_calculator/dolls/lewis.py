@@ -95,9 +95,7 @@ class Lewis(DollCalculatorPage):
 
             Sentinel / Burn"""
         self.dandegate_link: str = "https://www.dandegate.net/dolls/lewis"
-        self.doll_portrait: str = (
-            "resources/lewis.webp"
-        )
+        self.doll_portrait: str = "resources/lewis.webp"
 
     @override
     def update_doll_abilities(self) -> None:
@@ -149,7 +147,7 @@ class Lewis(DollCalculatorPage):
 
     @override
     def set_initial_values(self) -> None:
-        self.doll.initial_stats.special_attributes[
+        self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
         ].set_multiplier(
             DamageTag.BURN, 30
@@ -158,7 +156,9 @@ class Lewis(DollCalculatorPage):
         self.doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 78.9
         self.doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 156.9
 
-        self.doll.additive_modifiers.basic_attributes[StatType.CRIT_DAMAGE] = 20
+        self.doll.additive_modifiers.basic_attributes[StatType.CRIT_DAMAGE] = (
+            15 + 5
+        )  # 5 from Embers, 15 from Rank 3 Tin Soldier
 
     @override
     def revision_history(self) -> None:

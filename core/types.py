@@ -164,6 +164,7 @@ class FinalStatModifiers(StatSheet):
 @dataclass
 class Unit:
     """A unit in combat, like a Doll or a target."""
+
     # 'Initial stats' shown in the refitting room / formation screen. Composed of basic doll stats,
     # weapon+attachments, remolding pattern (excluding imagoform and growth data, just innate stats
     # from the remolding pattern), affinity, common key, affinity key, fixed key, expansion key, ...
@@ -206,6 +207,18 @@ class Unit:
 
         return (initial_value + additive_modifier) * (1 + multiplicative_modifier / 100)
 
+    def get_effective_special_attribute(
+        self, special_attribute: SpecialAttribute
+    ) -> DamageTagMultipliers:
+        """Returns the combined value of special_attribute across all tags."""
+        effective_multipliers: DamageTagMultipliers = DamageTagMultipliers()
+        for tag in DamageTag:
+            effective_multipliers.set_multiplier(
+                tag, self.get_special_attribute(special_attribute, tag)
+            )
+
+        return effective_multipliers
+
     def get_effective_critical_damage_multiplier(self, tags: set[DamageTag]) -> float:
         """Returns the final critical damage multiplier for a damage instance with tags."""
         return self.get_basic_attribute(StatType.CRIT_DAMAGE) + (
@@ -231,6 +244,7 @@ class FortificationLevel(IntEnum, boundary=STRICT):
 @dataclass
 class Doll(ABC, Unit):
     """A Doll."""
+
     name: ClassVar[str] = ""
 
     # The set of all DamageTag that are not applicable to Doll's abilities.

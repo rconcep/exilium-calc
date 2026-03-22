@@ -60,26 +60,35 @@ Get started by selecting a Doll above.
     )
 
     with ui.row():
-        with ui.card().classes("w-150 h-100"):
+        with ui.card().classes("w-150 h-200"):
             ui.markdown(
-                r"""## Rotation Potency 
-A tool used for simulating the effect of 'increased damage' stats on rotations intended for informing gearing choices:
+                """## Rotation Potency 
+A tool used for simulating the effect of "increased damage" stats on rotations intended for informing gearing choices:
 
 * Selecting between attachment sets
 * Selecting Remolding Core Special Traits
-* Not intended for comparing damage output between Dolls
+
+This tool is not intended for comparing damage output between Dolls - it abstracts away many of the components of 
+the damage calculation and instead focuses on "potency".
 
 ### What is "potency"?
-In the damage formula, there is a term that can be thought of as:
-$$\text{potency} = \text{skill modifier in ATK%} \cdot \left( 1 + \sum \text{increased damage modifiers} \right)$$
-which is multiplied by factors like ATK, critical damage multipliers, etc.
-                        
-Potency is used to abstract away the effects of those stats which tend to remain constant among gearing choices 
-such as attachment sets. This term is borrowed from other games.
+The damage formula consists of several terms that are multiplied together:
+
+* Base damage, as a function of Attack and the target's Defense
+* Skill multiplier ("deals x% of attack")
+* The sum of all applicable "increased damage" stats
+* Critical damage multiplier, if the attack is a crit
+* Increased damage taken effects on the target
+* Bonus damage if phase weaknesses are exploited
+* Damage reduction if the target has stability
+
+We use the term "potency" to refer to the product of skill multiplier and the sum of all applicable "increased damage" stats. 
+This is because these are the terms that are most relevant to gearing choices. The other terms are either constant across 
+gearing choices (base damage, critical damage multiplier, increased damage taken effects) or are not relevant 
+(phase weaknesses, stability).
+
+
             """,
-                # extras=[
-                #     "latex",
-                # ],
             )
 
         with ui.card().classes("w-150 h-100"):
@@ -99,6 +108,6 @@ if __name__ in {"__main__", "__mp_main__"}:
     )
     ui.run(
         root,
-        reload=False,
+        # reload=False,
         reconnect_timeout=300,
     )

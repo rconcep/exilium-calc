@@ -195,31 +195,26 @@ class Leva(DollCalculatorPage):
         # Attachments, common keys, imagoform, specialized traits
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
-        ].add_to_multiplier(DamageTag.ELECTRIC, 78.9)
+        ].set_multiplier(DamageTag.ELECTRIC, 78.9)
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
-        ].add_to_multiplier(DamageTag.PHASE, 20)
+        ].set_multiplier(DamageTag.PHASE, 20)
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
-        ].add_to_multiplier(DamageTag.STABILITY_BROKEN, 21)
+        ].set_multiplier(DamageTag.STABILITY_BROKEN, 21)
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
-        ].add_to_multiplier(DamageTag.ALL, 17)
+        ].set_multiplier(DamageTag.ALL, 17.4)
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
-        ].add_to_multiplier(DamageTag.BOSS, 5.5)
+        ].set_multiplier(DamageTag.BOSS, 5.5)
 
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.CRITICAL_DAMAGE
-        ].add_to_multiplier(DamageTag.BOSS, 5)
+        ].set_multiplier(DamageTag.BOSS, 5)
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.CRITICAL_DAMAGE
-        ].add_to_multiplier(DamageTag.ELECTRIC, 0.4)
-
-        # CQC Elite
-        self.doll.additive_modifiers.special_attributes[
-            SpecialAttribute.DAMAGE_BOOST
-        ].add_to_multiplier(DamageTag.ALL, 0.4)
+        ].set_multiplier(DamageTag.ELECTRIC, 0.4)
 
         # Imagoform
         self.doll.multiplicative_modifiers.basic_attributes[StatType.ATTACK] = 11.6

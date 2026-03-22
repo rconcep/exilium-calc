@@ -122,32 +122,32 @@ class MosinNagant(DollCalculatorPage):
         self.doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 80.8
         self.doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 177
 
-        self.doll.initial_stats.special_attributes[
+        self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
         ].set_multiplier(DamageTag.PHASE, 25)
-        self.doll.initial_stats.special_attributes[
+        self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
         ].set_multiplier(DamageTag.PASSIVE, 16.8)
-        self.doll.initial_stats.special_attributes[
+        self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
         ].set_multiplier(DamageTag.ELECTRIC, 5)
-        self.doll.initial_stats.special_attributes[
+        self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
         ].set_multiplier(DamageTag.SUPPORT_ACTION, 5)
-        self.doll.initial_stats.special_attributes[
+        self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
         ].set_multiplier(DamageTag.TARGETED, 3.5)
 
-        self.doll.initial_stats.special_attributes[
+        self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.CRITICAL_DAMAGE
         ].set_multiplier(DamageTag.PASSIVE, 6.8)
-        self.doll.initial_stats.special_attributes[
+        self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.CRITICAL_DAMAGE
         ].set_multiplier(DamageTag.ELECTRIC, 0.6)
-        self.doll.initial_stats.special_attributes[
+        self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.CRITICAL_DAMAGE
         ].set_multiplier(DamageTag.SUPPORT_ACTION, 5)
-        self.doll.initial_stats.special_attributes[
+        self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.CRITICAL_DAMAGE
         ].set_multiplier(DamageTag.TARGETED, 3)
 

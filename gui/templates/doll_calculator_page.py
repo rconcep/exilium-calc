@@ -32,7 +32,7 @@ class DollCalculatorPage(ABC):
         },
         {
             "name": "potency_adjusted",
-            "label": "Potency (Adjusted)",
+            "label": "Potency (Effective)",
             "field": "adjusted_potency",
             "sortable": False,
         },
@@ -86,7 +86,7 @@ class DollCalculatorPage(ABC):
         self.relevant_damage_tags: list[DamageTag]
 
         self.potency_bar_chart_data: dict = get_bar_chart_template()
-        self.potency_bar_chart_data["data"][0]["x"] = ["base", "adjusted"]
+        self.potency_bar_chart_data["data"][0]["x"] = ["Base", "Effective"]
         self.potency_bar_chart_plot: ui.plotly
         self.ability_donut_chart: dict = get_donut_chart_template()
         self.damage_type_breakdown_table: ui.table
@@ -146,9 +146,7 @@ class DollCalculatorPage(ABC):
         """Updates elements when Doll stats are modified."""
         for di in self.damage_instances:
             di.calculate_adjusted_potency(
-                self.doll.initial_stats.special_attributes[
-                    SpecialAttribute.DAMAGE_BOOST
-                ]
+                self.doll.get_effective_special_attribute(SpecialAttribute.DAMAGE_BOOST)
             )
 
         self.update_actions_table()
@@ -170,9 +168,7 @@ class DollCalculatorPage(ABC):
 
         for di in self.damage_instances:
             di.calculate_adjusted_potency(
-                self.doll.initial_stats.special_attributes[
-                    SpecialAttribute.DAMAGE_BOOST
-                ]
+                self.doll.get_effective_special_attribute(SpecialAttribute.DAMAGE_BOOST)
             )
 
         self.actions_table_data: list[dict] = [
@@ -416,10 +412,10 @@ class DollCalculatorPage(ABC):
                         "Conditionally applied stats from innate abilities."
                     )
                     additive_mods_tab = ui.tab("Additive Mods").tooltip(
-                        '"Additive" modifiers from: Remolding Core or in-combat buffs.'
+                        '"Additive" modifiers from non-innate sources.'
                     )
                     multiplicative_mods_tab = ui.tab("Multiplicative Mods").tooltip(
-                        '"Multiplicative" modifiers from: Remolding Core or in-combat buffs.'
+                        '"Multiplicative" modifiers from non-innate sources.'
                     )
                 with ui.tab_panels(tabs, value=basic_stats_tab).classes(
                     "w-full h-full"

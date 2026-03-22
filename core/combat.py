@@ -1,8 +1,16 @@
 from dataclasses import dataclass, field
 from abc import ABC, abstractmethod
 
-from core.types import (DamageTag, DamageTagMultipliers, Unit, StatType,
-ModifierType, SpecialAttribute, DefenseIgnoreMultipliers, IncreasedDamageMultipliers,)
+from core.types import (
+    DamageTag,
+    DamageTagMultipliers,
+    Unit,
+    StatType,
+    ModifierType,
+    SpecialAttribute,
+    DefenseIgnoreMultipliers,
+    IncreasedDamageMultipliers,
+)
 from core.buffs import Buff, Debuff
 
 
@@ -272,9 +280,8 @@ def calculate_damage(
     """
     # Apply buffs and debuffs before
     resolve_buffs(attacker, target, damage_instance, buffs_before, debuffs_before)
-    total_damage_boost_multipliers: IncreasedDamageMultipliers = (
-        attacker.initial_stats.special_attributes[SpecialAttribute.DAMAGE_BOOST]
-        + attacker.additive_modifiers.special_attributes[SpecialAttribute.DAMAGE_BOOST]
+    total_damage_boost_multipliers: DamageTagMultipliers = (
+        attacker.get_effective_special_attribute(SpecialAttribute.DAMAGE_BOOST)
     )
 
     # Compute the term that is a function of attack and defense
@@ -292,7 +299,7 @@ def calculate_damage(
             DamageTag.PHYSICAL, bonus_increased_damage
         )
 
-    # TODO: check conditional modifiers before adding: exposed, in stability break, 
+    # TODO: check conditional modifiers before adding: exposed, in stability break,
     # close proximity, distance, has overburn, etc.
     damage_instance.tags.add(DamageTag.EXPOSED)
     damage_instance.tags.add(DamageTag.STABILITY_BROKEN)
