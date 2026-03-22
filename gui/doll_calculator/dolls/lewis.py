@@ -147,18 +147,85 @@ class Lewis(DollCalculatorPage):
 
     @override
     def set_initial_values(self) -> None:
+        self.doll.initial_stats.basic_attributes[StatType.ATTACK] = 4280
+        self.doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 68.7
+        self.doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 145.2
+
+        # Attachments, common keys, imagoform, specialized traits
+        # keys: 7
+        # imagoform: 5
+        # imagoform: 12
+        # Vector imagoform: 4
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
-        ].set_multiplier(
-            DamageTag.BURN, 30
-        )  # Embers
-        self.doll.initial_stats.basic_attributes[StatType.ATTACK] = 5429
-        self.doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 78.9
-        self.doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 156.9
+        ].set_multiplier(DamageTag.ALL, 7 + 5 + 12 + 4)
 
-        self.doll.additive_modifiers.basic_attributes[StatType.CRIT_DAMAGE] = (
-            15 + 5
-        )  # 5 from Embers, 15 from Rank 3 Tin Soldier
+        # attachment: 15
+        # keys: 10:
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.PASSIVE, 15 + 10)
+
+        # Toysmith: 25
+        # burn boost: 1.4
+        # imagoform: 5
+        # Vector imagoform: 3
+        # burn unity: 0.9
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.BURN, 25 + 1.4 + 5 + 3 + 0.9)
+
+        # keys: 7
+        # raid stance: 1.8
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.PASSIVE, 7 + 1.8)
+
+        # pinpoint spec: 3.5
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.TARGETED, 3.5)
+
+        # keys: 10
+        # imagoform: 10
+        # follow-up strike: 0.5
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.STABILITY_BROKEN, 10 + 10 + 0.5)
+
+        # thronebreaker: 5.5
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.BOSS, 5.5)
+
+        # smite boost: 2.4
+        # tin soldiers: 15
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.CRITICAL_DAMAGE
+        ].set_multiplier(DamageTag.ALL, 15 + 2.4)
+
+        # burning smite: 0.4
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.CRITICAL_DAMAGE
+        ].set_multiplier(DamageTag.BURN, 0.4)
+
+        # precision blow: 3
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.CRITICAL_DAMAGE
+        ].set_multiplier(DamageTag.TARGETED, 3)
+
+        # Toysmith: 20
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DEFENSE_IGNORE
+        ].set_multiplier(DamageTag.ALL, 20)
+
+        # imagoform: 8
+        # attack boost: 3.6
+        # Vector imagoform: 3
+        # attack unity: 1
+        self.doll.multiplicative_modifiers.basic_attributes[StatType.ATTACK] = (
+            8 + 3.6 + 3 + 1
+        )
 
     @override
     def revision_history(self) -> None:

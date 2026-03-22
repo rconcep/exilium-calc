@@ -518,8 +518,9 @@ class DollCalculatorPage(ABC):
                                                     ui.number(
                                                         value=0,
                                                         min=0,
-                                                        precision=2,
                                                         suffix="%",
+                                                        precision=1,
+                                                        format="%.1f",
                                                     )
                                                 )
 
@@ -542,8 +543,9 @@ class DollCalculatorPage(ABC):
                                                 ] = ui.number(
                                                     value=0,
                                                     min=0,
-                                                    precision=2,
                                                     suffix="%",
+                                                    precision=1,
+                                                    format="%.1f",
                                                 )
 
                             with ui.expansion(
@@ -565,8 +567,9 @@ class DollCalculatorPage(ABC):
                                                 ] = ui.number(
                                                     value=0,
                                                     min=0,
-                                                    precision=2,
                                                     suffix="%",
+                                                    precision=1,
+                                                    format="%.1f",
                                                 )
 
                     with ui.tab_panel(additive_mods_tab):
@@ -692,7 +695,10 @@ class DollCalculatorPage(ABC):
                                                 self.additive_stat_modifier_number_inputs[
                                                     stat
                                                 ] = ui.number(
-                                                    value=0, min=0, precision=2
+                                                    value=0,
+                                                    min=0,
+                                                    precision=1,
+                                                    format="%.1f",
                                                 )
                             with ui.expansion(
                                 text="Damage Boost (Increased Damage)",
@@ -714,8 +720,9 @@ class DollCalculatorPage(ABC):
                                                 ] = ui.number(
                                                     value=0,
                                                     min=0,
-                                                    precision=2,
                                                     suffix="%",
+                                                    precision=1,
+                                                    format="%.1f",
                                                 )
 
                             with ui.expansion(
@@ -737,8 +744,9 @@ class DollCalculatorPage(ABC):
                                                 ] = ui.number(
                                                     value=0,
                                                     min=0,
-                                                    precision=2,
                                                     suffix="%",
+                                                    precision=1,
+                                                    format="%.1f",
                                                 )
 
                             with ui.expansion(
@@ -760,8 +768,9 @@ class DollCalculatorPage(ABC):
                                                 ] = ui.number(
                                                     value=0,
                                                     min=0,
-                                                    precision=2,
                                                     suffix="%",
+                                                    precision=1,
+                                                    format="%.1f",
                                                 )
 
                     with ui.tab_panel(multiplicative_mods_tab):
@@ -836,7 +845,11 @@ class DollCalculatorPage(ABC):
                                                 self.multiplicative_stat_modifier_number_inputs[
                                                     stat
                                                 ] = ui.number(
-                                                    value=0, min=0, precision=2
+                                                    value=0,
+                                                    min=0,
+                                                    suffix="%",
+                                                    precision=1,
+                                                    format="%.1f",
                                                 )
                             with ui.expansion(
                                 text="Damage Boost (Increased Damage)",
@@ -858,8 +871,9 @@ class DollCalculatorPage(ABC):
                                                 ] = ui.number(
                                                     value=0,
                                                     min=0,
-                                                    precision=2,
                                                     suffix="%",
+                                                    precision=1,
+                                                    format="%.1f",
                                                 )
 
                             with ui.expansion(
@@ -881,8 +895,9 @@ class DollCalculatorPage(ABC):
                                                 ] = ui.number(
                                                     value=0,
                                                     min=0,
-                                                    precision=2,
                                                     suffix="%",
+                                                    precision=1,
+                                                    format="%.1f",
                                                 )
 
                             with ui.expansion(
@@ -904,8 +919,9 @@ class DollCalculatorPage(ABC):
                                                 ] = ui.number(
                                                     value=0,
                                                     min=0,
-                                                    precision=2,
                                                     suffix="%",
+                                                    precision=1,
+                                                    format="%.1f",
                                                 )
 
         ui.separator().classes("w-330")

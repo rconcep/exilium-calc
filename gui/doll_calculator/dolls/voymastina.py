@@ -3,7 +3,12 @@ from nicegui import ui
 from gui.templates.doll_calculator_page import DollCalculatorPage
 from gui.templates.rotation_planner import RotationPlanner
 from typing import Any, override
-from core.types import StatType, FortificationLevel
+from core.types import (
+    StatType,
+    FortificationLevel,
+    SpecialAttribute,
+    DamageTag,
+)
 from core.dolls import voymastina
 
 
@@ -67,9 +72,7 @@ class Voymastina(DollCalculatorPage):
 
             Sentinel / Physical"""
         self.dandegate_link: str = "https://www.dandegate.net/dolls/voymastina"
-        self.doll_portrait: str = (
-            "resources/voymastina.webp"
-        )
+        self.doll_portrait: str = "resources/voymastina.webp"
 
     @override
     def update_doll_abilities(self) -> None:
@@ -127,9 +130,79 @@ class Voymastina(DollCalculatorPage):
 
     @override
     def set_initial_values(self) -> None:
-        self.doll.initial_stats.basic_attributes[StatType.ATTACK] = 5429
-        self.doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 78.9
-        self.doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 156.9
+        self.doll.initial_stats.basic_attributes[StatType.ATTACK] = 3960
+        self.doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 78.6
+        self.doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 135.5
+
+        # Attachments, common keys, imagoform, specialized traits
+        # attachment: 12
+        # imagoform: 12
+        # Yoohee imagoform: 4
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.ALL, 12 + 12 + 4)
+
+        # imagoform: 5
+        # physical boost: 1.4
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.PHYSICAL, 5 + 1.4)
+
+        # attachment: 36
+        # keys: 10
+        # imagoform: 8
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.MELEE, 36 + 10 + 8)
+
+        # keys: 7
+        # raid stance: 3
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.PASSIVE, 7 + 3)
+
+        # keys: 10
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.AREA_OF_EFFECT, 10)
+
+        # imagoform: 10
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.STABILITY_BROKEN, 10)
+
+        # thronebreaker: 5.5
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.BOSS, 5.5)
+
+        # smite boost: 2.4
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.CRITICAL_DAMAGE
+        ].set_multiplier(DamageTag.ALL, 2.4)
+
+        # physical smite: 0.4
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.CRITICAL_DAMAGE
+        ].set_multiplier(DamageTag.PHYSICAL, 0.4)
+
+        # ambush mastery: 0.2
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.CRITICAL_DAMAGE
+        ].set_multiplier(DamageTag.PASSIVE, 0.2)
+
+        # Yoohee Imagoform: 5
+        # Yoohee Sparkling Centerstage: 10
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DEFENSE_IGNORE
+        ].set_multiplier(DamageTag.PHYSICAL, 5 + 10)
+
+        # imagoform: 8
+        # attack boost: 3.6
+        # Yoohee imagoform: 3
+        self.doll.multiplicative_modifiers.basic_attributes[StatType.ATTACK] = (
+            8 + 3.6 + 3
+        )
 
     @override
     def revision_history(self) -> None:
