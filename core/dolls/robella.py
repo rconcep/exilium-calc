@@ -259,7 +259,6 @@ class HowlingCycloneV6(CombatAction):
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
             DamageTag.ULTIMATE,
-            DamageTag.LIGHT_AMMO,
             DamageTag.AREA_OF_EFFECT,
             DamageTag.FREEZE,
             DamageTag.PHASE,
