@@ -1,5 +1,5 @@
 steps:
-- name: 'gcr.io/cloud-builders/gsutil'
-args: ['-m', 'rsync', '-r', '.', 'gs://your-bucket-name']
+  - name: 'gcr.io/cloud-builders/gsutil'
+    args: ['-m', 'rsync', '-r', '.', 'gs://your-bucket-name']
 options:
-logging: NONE
+  logging: NONE
