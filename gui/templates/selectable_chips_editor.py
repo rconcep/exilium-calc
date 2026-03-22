@@ -1,5 +1,6 @@
 from typing import Any
 from nicegui import ui
+from nicegui.events import ClickEventArguments
 
 
 class SelectableChipsEditor:
@@ -120,12 +121,13 @@ class SelectableChipsEditor:
 
                 field_elements[key] = el
 
-            def save_and_close():
+            def save_and_close(e: ClickEventArguments):
                 for key, element in field_elements.items():
                     item[key] = element.value
                 dialog.close()
                 self.refresh_chips()
-                ui.notify(f'Updated {item["name"]}')
+                with e.client:
+                    ui.notify(f'Updated {item["name"]}')
 
             with ui.row().classes("w-full justify-end gap-2 q-mt-md"):
                 ui.button("Cancel", on_click=dialog.close).props("flat color=negative")
@@ -167,7 +169,8 @@ class SelectableChipsEditor:
                 def remove_this(e, it=item):
                     self.selected_items.remove(it)
                     self.refresh_chips()
-                    ui.notify(f'Removed {it["name"]}')
+                    with e.client:
+                        ui.notify(f'Removed {it["name"]}')
 
                 chip.on("remove", remove_this)
 
