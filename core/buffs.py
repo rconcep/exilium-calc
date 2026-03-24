@@ -85,6 +85,40 @@ class LightOfBond(Buff):
         self.stat_type = StatType.ATTACK
 
 
+class Unity(Buff):
+    """Buff from Robella. Only applies when dealing Freeze damage."""
+
+    display_name = "Unity"
+    max_stack_count = 4000
+    stack_input_type = "number"
+
+    def __init__(self, robella_initial_attack: float):
+        """
+        Arguments:
+        robella_initial_attack -- the initial attack of Robella
+        """
+        self.value = 0.10 * robella_initial_attack
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = StatType.ATTACK
+
+
+class UnityEnhanced(Buff):
+    """Buff from Robella. Only applies when dealing Freeze damage."""
+
+    display_name = "Unity: Enhanced"
+    max_stack_count = 4000
+    stack_input_type = "number"
+
+    def __init__(self, robella_initial_attack: float):
+        """
+        Arguments:
+        robella_initial_attack -- the initial attack of Robella
+        """
+        self.value = 0.15 * robella_initial_attack
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = StatType.ATTACK
+
+
 class SenseWeakness(Buff):
     """Robella self-buff."""
 
@@ -108,6 +142,41 @@ class SenseWeakness(Buff):
             ret.append(Buff(30, ModifierType.ADDITIVE, StatType.CRIT_DAMAGE))
 
         return ret
+
+
+class ColdConviction(Buff):
+    """Makiatto buff granted by Cold Precision Shot."""
+
+    display_name = "Cold Conviction (Makiatto)"
+    max_stack_count = 3
+    stack_input_type = "select"
+
+    def __init__(self, stacks: int):
+        """
+        Arguments:
+        stacks -- the number of stacks of this buff, up to 3
+        """
+        self.value = 10 * min(ColdConviction.max_stack_count, stacks)
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.ATTACK
+
+
+class Rapture(Buff):
+    """Makiatto buff granted by Interception crits."""
+
+    display_name = "Rapture (Makiatto)"
+    max_stack_count = 4
+    stack_input_type = "select"
+
+    def __init__(self, stacks: int):
+        """
+        Arguments:
+        stacks -- the number of stacks of this buff, up to 4
+        """
+        self.value = 7.5 * min(Rapture.max_stack_count, stacks)
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.ALL
 
 
 class PredatorsPrinciple(Buff):
@@ -527,6 +596,37 @@ class Rend(Debuff):
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
         self.tag = DamageTag.PHYSICAL
+
+
+class SugarOverdose(Debuff):
+    """Damage taken from Makiatto is increased by 15%."""
+
+    display_name = "Sugar Overdose (Makiatto)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        self.value = 15
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.ALL
+
+
+class MurderousIntent(Debuff):
+    """Increase incoming Freeze damage from Makiatto."""
+
+    display_name = "Murderous Intent (Makiatto)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, phase_weakness_exploited: bool):
+        if phase_weakness_exploited:
+            self.value = 30
+        else:
+            self.value = 20
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.FREEZE
 
 
 class ElectricSparks(Debuff):

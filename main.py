@@ -6,6 +6,7 @@ from gui.doll_calculator.dolls.lewis import Lewis
 from gui.doll_calculator.dolls.mosin_nagant import MosinNagant
 from gui.doll_calculator.dolls.tololo import Tololo
 from gui.doll_calculator.dolls.leva import Leva
+from gui.doll_calculator.dolls.makiatto import Makiatto
 
 
 def root():
@@ -15,6 +16,7 @@ def root():
     pages: dict[str, str] = {
         "Leva": "/leva",
         "Lewis": "/lewis",
+        "Makiatto": "/makiatto",
         "Mosin-Nagant": "/mosin-nagant",
         "Robella": "/robella",
         "Voymastina": "/voymastina",
@@ -22,6 +24,7 @@ def root():
     }
 
     with ui.row().classes("w-full items-center"):
+        ui.button("", icon="home", on_click=lambda: ui.navigate.to("/")).props("flat")
         ui.select(
             options=sorted(list(pages.keys())),
             label="Doll",
@@ -48,6 +51,7 @@ def root():
             "/mosin-nagant": MosinNagant().get_page,
             "/tololo": Tololo().get_page,
             "/leva": Leva().get_page,
+            "/makiatto": Makiatto().get_page,
         }
     )
 
@@ -60,7 +64,7 @@ Get started by selecting a Doll above.
     )
 
     with ui.row():
-        with ui.card().classes("w-150 h-200"):
+        with ui.card().classes("w-150 h-150"):
             ui.markdown(
                 """## Rotation Potency 
 A tool used for simulating the effect of "increased damage" stats on rotations intended for informing gearing choices:
@@ -99,6 +103,27 @@ select a skill, and hit calculate to see the expected result. Note that all visi
 tab is shared with all tools!
                         """
             )
+
+    with ui.row():
+        with ui.card().classes("w-150 h-100"):
+            ui.label("Revision history").classes("text-lg")
+            ui.separator()
+            with ui.scroll_area().classes("w-full h-150"):
+                with ui.timeline(side="right"):
+                    ui.timeline_entry(
+                        "Implemented Makiatto",
+                        title="",
+                        subtitle="March 23, 2026",
+                    )
+                    ui.timeline_entry(
+                        "First deployment as a web app",
+                        title="First deployment",
+                        subtitle="March 22, 2026",
+                        icon="rocket",
+                    )
+                    ui.timeline_entry(
+                        "", title="Development begins", subtitle="March 3, 2026"
+                    )
 
 
 if __name__ in {"__main__", "__mp_main__"}:
