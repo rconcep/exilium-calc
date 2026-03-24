@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from abc import ABC
 from typing import Any, Dict
+import inspect
 
 from core.types import (
     StatType,
@@ -29,6 +30,11 @@ class BuffBase(ABC):
     stat_type: StatType | SpecialAttribute
     tag: DamageTag = DamageTag.ALL
 
+    # Class attributes for config generation
+    display_name: str = ""
+    max_stack_count: int = 0  # 0 means no stacks, >0 means stacks with this max
+    stack_input_type: str = "select"  # 'select' or 'number'
+
 
 @dataclass
 class Buff(BuffBase):
@@ -47,6 +53,10 @@ class Debuff(BuffBase):
 class RadiantRise(Buff):
     """Buff granted to Robella by her S2, Radiant Memory."""
 
+    display_name = "Radiant Rise (Robella)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
     def __init__(self, fortification_level: FortificationLevel):
         """
         Arguments:
@@ -61,6 +71,10 @@ class RadiantRise(Buff):
 class LightOfBond(Buff):
     """V1 effect of Light of Bond (Unity) (Robella)."""
 
+    display_name = "Light of Bond"
+    max_stack_count = 4000
+    stack_input_type = "number"
+
     def __init__(self, target_ally_initial_attack: float):
         """
         Arguments:
@@ -73,6 +87,10 @@ class LightOfBond(Buff):
 
 class SenseWeakness(Buff):
     """Robella self-buff."""
+
+    display_name = "Sense Weakness (Robella)"
+    max_stack_count = 10
+    stack_input_type = "number"
 
     def __init__(self): ...
 
@@ -95,6 +113,10 @@ class SenseWeakness(Buff):
 class PredatorsPrinciple(Buff):
     """Buff granted to Voymastina when Confectance Index is full."""
 
+    display_name = "Predator's Principle (Voymastina)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
     def __init__(self): ...
 
     def get_buffs(self):
@@ -114,6 +136,10 @@ class PredatorsPrinciple(Buff):
 class Venator(Buff):
     """Buff granted to Voymastina (V6) at the start of battle."""
 
+    display_name = "Venator (Voymastina)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
     def __init__(self): ...
 
     def get_buffs(self):
@@ -131,6 +157,10 @@ class Venator(Buff):
 
 class CooperativeHunt(Buff):
     """Buff granted to Voymastina (V4) when performing a support action."""
+
+    display_name = "Cooperative Hunt (Voymastina)"
+    max_stack_count = 3
+    stack_input_type = "select"
 
     def __init__(self): ...
 
@@ -157,6 +187,10 @@ class CooperativeHunt(Buff):
 class UnshakableConfidence(Buff):
     """Buff granted to Mosin-Nagant after support actions."""
 
+    display_name = "Unshakable Confidence (Mosin-Nagant)"
+    max_stack_count = 4
+    stack_input_type = "select"
+
     def __init__(self): ...
 
     def get_buffs(self, stacks: int):
@@ -179,6 +213,10 @@ class UnshakableConfidence(Buff):
 class PowerSurge(Buff):
     """Jiangyu buff."""
 
+    display_name = "Power Surge"
+    max_stack_count = 3
+    stack_input_type = "select"
+
     def __init__(self, stacks: int, jiangyu_fortification_level: FortificationLevel):
         """
         Arguments:
@@ -196,6 +234,10 @@ class PowerSurge(Buff):
 
 class Lightspike(Buff):
     """Tololo buff."""
+
+    display_name = "Lightspike (Tololo)"
+    max_stack_count = 8
+    stack_input_type = "select"
 
     def __init__(self): ...
 
@@ -234,6 +276,10 @@ class Lightspike(Buff):
 class SuperconductiveCode(Buff):
     """Leva buff."""
 
+    display_name = "Superconductive Code (Leva)"
+    max_stack_count = 4
+    stack_input_type = "select"
+
     def __init__(self): ...
 
     def get_buffs(self, stacks: int) -> list[Buff]:
@@ -264,6 +310,10 @@ class SuperconductiveCode(Buff):
 class SuperconductiveChain(Buff):
     """Buff granted to Leva at 4 stacks of Superconductive Code."""
 
+    display_name = "Superconductive Chain (Leva)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
     def __init__(self):
         self.value = 10
         self.modifier_type = ModifierType.MULTIPLICATIVE
@@ -272,6 +322,10 @@ class SuperconductiveChain(Buff):
 
 class PositiveCharge(Buff):
     """Electric buff."""
+
+    display_name = "Positive Charge"
+    max_stack_count = 1
+    stack_input_type = "select"
 
     def __init__(self, target_has_negative_charge: bool):
         """
@@ -287,6 +341,10 @@ class PositiveCharge(Buff):
 class AttackUpI(Buff):
     """Attack is increased by 10%. Considered a buff."""
 
+    display_name = "Attack Up I"
+    max_stack_count = 1
+    stack_input_type = "select"
+
     def __init__(self):
         self.value = 10
         self.modifier_type = ModifierType.MULTIPLICATIVE
@@ -295,6 +353,10 @@ class AttackUpI(Buff):
 
 class AttackUpII(Buff):
     """Attack is increased by 15%. Considered a buff."""
+
+    display_name = "Attack Up II"
+    max_stack_count = 1
+    stack_input_type = "select"
 
     def __init__(self):
         self.value = 15
@@ -305,6 +367,10 @@ class AttackUpII(Buff):
 class CriticalRateBoostI(Buff):
     """Increases critical rate by 10%."""
 
+    display_name = "Critical Rate Boost I"
+    max_stack_count = 1
+    stack_input_type = "select"
+
     def __init__(self):
         self.value = 10
         self.modifier_type = ModifierType.ADDITIVE
@@ -314,6 +380,10 @@ class CriticalRateBoostI(Buff):
 class CriticalRateBoostII(Buff):
     """Increases critical rate by 20%."""
 
+    display_name = "Critical Rate Boost II"
+    max_stack_count = 1
+    stack_input_type = "select"
+
     def __init__(self):
         self.value = 20
         self.modifier_type = ModifierType.ADDITIVE
@@ -322,6 +392,10 @@ class CriticalRateBoostII(Buff):
 
 class DamageUpI(Buff):
     """Increases damage dealt by 10%."""
+
+    display_name = "Damage Up I"
+    max_stack_count = 1
+    stack_input_type = "select"
 
     def __init__(self):
         self.value = 10
@@ -333,6 +407,10 @@ class DamageUpI(Buff):
 class DamageUpII(Buff):
     """Increases damage dealt by 20%."""
 
+    display_name = "Damage Up II"
+    max_stack_count = 1
+    stack_input_type = "select"
+
     def __init__(self):
         self.value = 20
         self.modifier_type = ModifierType.ADDITIVE
@@ -342,6 +420,10 @@ class DamageUpII(Buff):
 
 class TargetedAttackBoostI(Buff):
     """Targeted damage is increased by 10%."""
+
+    display_name = "Targeted Attack BoostI"
+    max_stack_count = 1
+    stack_input_type = "select"
 
     def __init__(self):
         self.value = 10
@@ -353,6 +435,10 @@ class TargetedAttackBoostI(Buff):
 class TargetedAttackBoostII(Buff):
     """Targeted damage is increased by 20%."""
 
+    display_name = "Targeted Attack Boost II"
+    max_stack_count = 1
+    stack_input_type = "select"
+
     def __init__(self):
         self.value = 20
         self.modifier_type = ModifierType.ADDITIVE
@@ -362,6 +448,10 @@ class TargetedAttackBoostII(Buff):
 
 class PiercingI(Buff):
     """Targeted damage ignores 20% of the target's defense."""
+
+    display_name = "Piercing I"
+    max_stack_count = 1
+    stack_input_type = "select"
 
     def __init__(self):
         self.value = 20
@@ -373,6 +463,10 @@ class PiercingI(Buff):
 class PiercingII(Buff):
     """Targeted damage ignores 30% of the target's defense."""
 
+    display_name = "Piercing II"
+    max_stack_count = 1
+    stack_input_type = "select"
+
     def __init__(self):
         self.value = 30
         self.modifier_type = ModifierType.ADDITIVE
@@ -382,6 +476,10 @@ class PiercingII(Buff):
 
 class PhaseBoostI(Buff):
     """Increased Phase damage dealt by 10%."""
+
+    display_name = "Phase Boost I"
+    max_stack_count = 1
+    stack_input_type = "select"
 
     def __init__(self):
         self.value = 10
@@ -393,6 +491,10 @@ class PhaseBoostI(Buff):
 class PhaseBoostII(Buff):
     """Increased Phase damage dealt by 20%."""
 
+    display_name = "Phase Boost II"
+    max_stack_count = 1
+    stack_input_type = "select"
+
     def __init__(self):
         self.value = 20
         self.modifier_type = ModifierType.ADDITIVE
@@ -403,6 +505,10 @@ class PhaseBoostII(Buff):
 class Crumble(Debuff):
     """When attacked by Voymastina, this unit's defense is reduced by 40%. Considered a debuff."""
 
+    display_name = "Crumble (Voymastina)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
     def __init__(self):
         self.value = -40
         self.modifier_type = ModifierType.MULTIPLICATIVE
@@ -411,6 +517,10 @@ class Crumble(Debuff):
 
 class Rend(Debuff):
     """Physical damage taken is increased by 30%."""
+
+    display_name = "Rend"
+    max_stack_count = 1
+    stack_input_type = "select"
 
     def __init__(self):
         self.value = 30
@@ -422,6 +532,10 @@ class Rend(Debuff):
 class ElectricSparks(Debuff):
     """Electric damage taken from Mosin-Nagant is increased by 15%."""
 
+    display_name = "Electric Sparks"
+    max_stack_count = 1
+    stack_input_type = "select"
+
     def __init__(self):
         self.value = 15
         self.modifier_type = ModifierType.ADDITIVE
@@ -431,6 +545,10 @@ class ElectricSparks(Debuff):
 
 class VoltageSag(Debuff):
     """Jiangyu debuff"""
+
+    display_name = "Voltage Sag"
+    max_stack_count = 6
+    stack_input_type = "select"
 
     def __init__(self, stacks: int, jiangyu_fortification_level: FortificationLevel):
         """
@@ -451,6 +569,10 @@ class VoltageSag(Debuff):
 class Hypothermia(Debuff):
     """Alva debuff"""
 
+    display_name = "Hypothermia"
+    max_stack_count = 1
+    stack_input_type = "select"
+
     def __init__(self, alva_fortification_level: FortificationLevel):
         """
         Arguments:
@@ -466,8 +588,27 @@ class Hypothermia(Debuff):
         self.tag = DamageTag.FREEZE
 
 
+class Frostbite(Debuff):
+    """Freeze damage taken is increased by 20%. Removed after gaining Hoarfrost."""
+
+    display_name = "Frostbite"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        self.value = 20
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.FREEZE
+
+
 class VulnerableI(Debuff):
     """Increase damage taken by 10%."""
+
+    display_name = "Vulnerable I"
+    max_stack_count = 1
+    stack_input_type = "select"
 
     def __init__(self):
         self.value = 10
@@ -479,6 +620,10 @@ class VulnerableI(Debuff):
 class VulnerableII(Debuff):
     """Increase damage taken by 20%."""
 
+    display_name = "Vulnerable II"
+    max_stack_count = 1
+    stack_input_type = "select"
+
     def __init__(self):
         self.value = 20
         self.modifier_type = ModifierType.ADDITIVE
@@ -489,6 +634,10 @@ class VulnerableII(Debuff):
 class DefenseDownI(Debuff):
     """Reduce defense by 20%. Considered a defense buff."""
 
+    display_name = "Defense Down I"
+    max_stack_count = 1
+    stack_input_type = "select"
+
     def __init__(self):
         self.value = -20
         self.modifier_type = ModifierType.MULTIPLICATIVE
@@ -498,241 +647,186 @@ class DefenseDownI(Debuff):
 class DefenseDownII(Debuff):
     """Reduce defense by 30%. Considered a defense buff."""
 
+    display_name = "Defense Down II"
+    max_stack_count = 1
+    stack_input_type = "select"
+
     def __init__(self):
         self.value = -30
         self.modifier_type = ModifierType.MULTIPLICATIVE
         self.stat_type = StatType.DEFENSE
 
 
-buffs_option_config: Dict[str, Dict[str, Any]] = {
-    "Radiant Rise (Robella)": {
-        "fields": [
-            {
-                "key": "fortification_level",
+def _generate_field(param_name, annotation, default, cls):
+    label = param_name.replace("_", " ").title()
+    if annotation == FortificationLevel:
+        return {
+            "key": param_name,
+            "type": "select",
+            "label": label,
+            "options": [n for n in FortificationLevel],
+            "default": FortificationLevel.SEGMENT06,
+        }
+    elif annotation == bool:
+        return {
+            "key": param_name,
+            "type": "checkbox",
+            "label": label,
+            "default": True,
+        }
+    elif annotation in (int, float):
+        if "stack" in param_name.lower():
+            input_type = getattr(cls, "stack_input_type", "select")
+            max_count = getattr(cls, "max_stack_count", 10)
+            if input_type == "number":
+                return {
+                    "key": param_name,
+                    "type": "number",
+                    "label": label,
+                    "default": max_count,
+                }
+            return {
+                "key": param_name,
                 "type": "select",
-                "label": "Robella Fortification Level",
-                "options": [n for n in FortificationLevel],
-                "default": FortificationLevel.SEGMENT06,
-            },
-        ],
-        "function": RadiantRise,
-    },
-    "Light of Bond": {
-        "fields": [
-            {
-                "key": "target_ally_initial_attack",
-                "type": "number",
-                "label": "Target Ally's Initial Attack",
-                "default": 3800,
-            },
-        ],
-        "function": LightOfBond,
-    },
-    "Sense Weakness (Robella)": {
-        "fields": [
-            {"key": "stacks", "type": "number", "label": "Stacks", "default": 10},
-        ],
-        "function": SenseWeakness().get_buffs,
-    },
-    "Predator's Principle (Voymastina)": {
-        "fields": [],
-        "function": PredatorsPrinciple().get_buffs,
-    },
-    "Venator (Voymastina)": {"fields": [], "function": Venator().get_buffs},
-    "Cooperative Hunt (Voymastina)": {
-        "fields": [
-            {
-                "key": "stacks",
-                "type": "select",
-                "label": "Stacks",
-                "options": [n for n in range(0, 4)],
-                "default": 3,
-            },
-        ],
-        "function": CooperativeHunt().get_buffs,
-    },
-    "Unshakable Confidence (Mosin-Nagant)": {
-        "fields": [
-            {
-                "key": "stacks",
-                "type": "select",
-                "label": "Stacks",
-                "options": [n for n in range(0, 5)],
-                "default": 4,
-            },
-        ],
-        "function": UnshakableConfidence().get_buffs,
-    },
-    "Power Surge": {
-        "fields": [
-            {
-                "key": "stacks",
-                "type": "select",
-                "label": "Stacks",
-                "options": [n for n in range(0, 4)],
-                "default": 3,
-            },
-            {
-                "key": "jiangyu_fortification_level",
-                "type": "select",
-                "label": "Jiangyu Fortification Level",
-                "options": [n for n in FortificationLevel],
-                "default": FortificationLevel.SEGMENT06,
-            },
-        ],
-        "function": PowerSurge,
-    },
-    "Lightspike (Tololo)": {
-        "fields": [
-            {
-                "key": "stacks",
-                "type": "select",
-                "label": "Stacks",
-                "options": [n for n in range(0, 9)],
-                "default": 8,
-            },
-            {
-                "key": "tololo_fortification_level",
-                "type": "select",
-                "label": "Tololo Fortification Level",
-                "options": [n for n in FortificationLevel],
-                "default": FortificationLevel.SEGMENT06,
-            },
-        ],
-        "function": Lightspike().get_buffs,
-    },
-    "Superconductive Code (Leva)": {
-        "fields": [
-            {
-                "key": "stacks",
-                "type": "select",
-                "label": "Stacks",
-                "options": [n for n in range(0, 5)],
-                "default": 4,
-            },
-        ],
-        "function": SuperconductiveCode().get_buffs,
-    },
-    "Superconductive Chain (Leva)": {"fields": [], "function": SuperconductiveChain},
-    "Positive Charge": {
-        "fields": [
-            {
-                "key": "target_has_negative_charge",
-                "type": "checkbox",
-                "label": "Target Has Negative Charge",
-                "default": True,
-            },
-        ],
-        "function": PositiveCharge,
-    },
-    "Attack Up I": {"fields": [], "function": AttackUpI},
-    "Attack Up II": {"fields": [], "function": AttackUpII},
-    "Critical Rate Boost I": {"fields": [], "function": CriticalRateBoostI},
-    "Critical Rate Boost II": {"fields": [], "function": CriticalRateBoostII},
-    "Damage Up I": {"fields": [], "function": DamageUpI},
-    "Damage Up II": {"fields": [], "function": DamageUpII},
-    "Targeted Attack Boost I": {"fields": [], "function": TargetedAttackBoostI},
-    "Targeted Attack Boost II": {"fields": [], "function": TargetedAttackBoostII},
-    "Piercing I": {"fields": [], "function": PiercingI},
-    "Piercing II": {"fields": [], "function": PiercingII},
-    "Phase Boost I": {"fields": [], "function": PhaseBoostI},
-    "Phase Boost II": {"fields": [], "function": PhaseBoostII},
-    # Custom buff
-    "Custom Buff": {
-        "fields": [
-            {"key": "value", "type": "number", "label": "Value", "default": 0},
-            {
-                "key": "modifier_type",
-                "type": "select",
-                "label": "Modifier Type",
-                "options": [ModifierType.ADDITIVE, ModifierType.MULTIPLICATIVE],
-                "default": ModifierType.MULTIPLICATIVE,
-            },
-            {
-                "key": "stat_type",
-                "type": "select",
-                "label": "Stat",
-                "options": [stat for stat in StatType]
-                + [stat for stat in SpecialAttribute],
-                "default": StatType.ATTACK,
-            },
-            {
-                "key": "tag",
-                "type": "select",
-                "label": "Damage Tag",
-                "options": [tag for tag in DamageTag],
-                "default": DamageTag.ALL,
-            },
-        ],
-        "function": Buff,
-    },
-}
+                "label": label,
+                "options": [n for n in range(0, max_count + 1)],
+                "default": max_count,
+            }
+        return {
+            "key": param_name,
+            "type": "number",
+            "label": label,
+            "default": 0,
+        }
+    return {
+        "key": param_name,
+        "type": "text",
+        "label": label,
+        "default": "",
+    }
 
-debuffs_option_config: Dict[str, Dict[str, Any]] = {
-    "Crumble": {"fields": [], "function": Crumble},
-    "Rend": {"fields": [], "function": Rend},
-    "Electric Sparks": {"fields": [], "function": ElectricSparks},
-    "Voltage Sag": {
-        "fields": [
-            {
-                "key": "stacks",
-                "type": "select",
-                "label": "Stacks",
-                "options": [n for n in range(0, 7)],
-                "default": 6,
-            },
-            {
-                "key": "jiangyu_fortification_level",
-                "type": "select",
-                "label": "Jiangyu Fortification Level",
-                "options": [n for n in FortificationLevel],
-                "default": FortificationLevel.SEGMENT06,
-            },
-        ],
-        "function": VoltageSag,
-    },
-    "Hypothermia": {
-        "fields": [
-            {
-                "key": "alva_fortification_level",
-                "type": "select",
-                "label": "Alva Fortification Level",
-                "options": [n for n in FortificationLevel],
-                "default": FortificationLevel.SEGMENT05,
-            },
-        ],
-        "function": Hypothermia,
-    },
-    "Defense Down I": {"fields": [], "function": DefenseDownI},
-    "Defense Down II": {"fields": [], "function": DefenseDownII},
-    "Vulnerable I": {"fields": [], "function": VulnerableI},
-    "Vulnerable II": {"fields": [], "function": VulnerableII},
-    "Custom Debuff": {
-        "fields": [
-            {"key": "value", "type": "number", "label": "Value", "default": 0},
-            {
-                "key": "modifier_type",
-                "type": "select",
-                "label": "Modifier Type",
-                "options": [ModifierType.ADDITIVE, ModifierType.MULTIPLICATIVE],
-                "default": ModifierType.MULTIPLICATIVE,
-            },
-            {
-                "key": "stat_type",
-                "type": "select",
-                "label": "Stat",
-                "options": [stat for stat in StatType]
-                + [stat for stat in SpecialAttribute],
-                "default": StatType.ATTACK,
-            },
-            {
-                "key": "tag",
-                "type": "select",
-                "label": "Damage Tag",
-                "options": [tag for tag in DamageTag],
-                "default": DamageTag.ALL,
-            },
-        ],
-        "function": Debuff,
-    },
-}
+
+def _get_display_name(cls):
+    if hasattr(cls, "display_name") and cls.display_name:
+        return cls.display_name
+    return cls.__name__
+
+
+def _get_option_config(subclass_base, custom_entries):
+    """Generic config builder for Buff/Debuff subclasses."""
+    classes = [
+        cls
+        for name, cls in globals().items()
+        if isinstance(cls, type)
+        and issubclass(cls, subclass_base)
+        and cls not in {subclass_base, BuffBase}
+    ]
+
+    config: Dict[str, Dict[str, Any]] = {}
+
+    for cls in classes:
+        display_name = _get_display_name(cls)
+
+        if hasattr(cls, "get_buffs"):
+            sig = inspect.signature(cls.get_buffs)
+            params = [p for p in sig.parameters.values() if p.name != "self"]
+            fields = [
+                _generate_field(p.name, p.annotation, p.default, cls) for p in params
+            ]
+            function = cls().get_buffs
+        else:
+            sig = inspect.signature(cls.__init__)
+            params = [p for p in sig.parameters.values() if p.name != "self"]
+            fields = [
+                _generate_field(p.name, p.annotation, p.default, cls) for p in params
+            ]
+            function = cls
+
+        config[display_name] = {
+            "fields": fields,
+            "function": function,
+        }
+
+    config.update(custom_entries())
+    return config
+
+
+def get_buffs_option_config() -> Dict[str, Dict[str, Any]]:
+    """Generate Buff options config."""
+
+    def custom_buffs():
+        return {
+            "Custom Buff": {
+                "fields": [
+                    {"key": "value", "type": "number", "label": "Value", "default": 0},
+                    {
+                        "key": "modifier_type",
+                        "type": "select",
+                        "label": "Modifier Type",
+                        "options": [ModifierType.ADDITIVE, ModifierType.MULTIPLICATIVE],
+                        "default": ModifierType.MULTIPLICATIVE,
+                    },
+                    {
+                        "key": "stat_type",
+                        "type": "select",
+                        "label": "Stat",
+                        "options": [stat for stat in StatType]
+                        + [stat for stat in SpecialAttribute],
+                        "default": StatType.ATTACK,
+                    },
+                    {
+                        "key": "tag",
+                        "type": "select",
+                        "label": "Damage Tag",
+                        "options": [tag for tag in DamageTag],
+                        "default": DamageTag.ALL,
+                    },
+                ],
+                "function": Buff,
+            }
+        }
+
+    return _get_option_config(Buff, custom_buffs)
+
+
+def get_debuffs_option_config() -> Dict[str, Dict[str, Any]]:
+    """Generate Debuff options config."""
+
+    def custom_debuffs():
+        return {
+            "Custom Debuff": {
+                "fields": [
+                    {"key": "value", "type": "number", "label": "Value", "default": 0},
+                    {
+                        "key": "modifier_type",
+                        "type": "select",
+                        "label": "Modifier Type",
+                        "options": [ModifierType.ADDITIVE, ModifierType.MULTIPLICATIVE],
+                        "default": ModifierType.MULTIPLICATIVE,
+                    },
+                    {
+                        "key": "stat_type",
+                        "type": "select",
+                        "label": "Stat",
+                        "options": [stat for stat in StatType]
+                        + [stat for stat in SpecialAttribute],
+                        "default": StatType.ATTACK,
+                    },
+                    {
+                        "key": "tag",
+                        "type": "select",
+                        "label": "Damage Tag",
+                        "options": [tag for tag in DamageTag],
+                        "default": DamageTag.ALL,
+                    },
+                ],
+                "function": Debuff,
+            }
+        }
+
+    return _get_option_config(Debuff, custom_debuffs)
+
+
+# Generate the config at module level
+buffs_option_config = get_buffs_option_config()
+debuffs_option_config = get_debuffs_option_config()
