@@ -7,6 +7,7 @@ from gui.doll_calculator.dolls.mosin_nagant import MosinNagant
 from gui.doll_calculator.dolls.tololo import Tololo
 from gui.doll_calculator.dolls.leva import Leva
 from gui.doll_calculator.dolls.makiatto import Makiatto
+from gui.doll_calculator.dolls.nikketa import Nikketa
 
 
 def root():
@@ -18,6 +19,7 @@ def root():
         "Lewis": "/lewis",
         "Makiatto": "/makiatto",
         "Mosin-Nagant": "/mosin-nagant",
+        "Nikketa": "/nikketa",
         "Robella": "/robella",
         "Voymastina": "/voymastina",
         "Tololo": "/tololo",
@@ -52,6 +54,7 @@ def root():
             "/tololo": Tololo().get_page,
             "/leva": Leva().get_page,
             "/makiatto": Makiatto().get_page,
+            "/nikketa": Nikketa().get_page,
         }
     )
 

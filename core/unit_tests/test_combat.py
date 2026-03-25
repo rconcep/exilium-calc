@@ -10,7 +10,7 @@ class TestDamageInstance:
         """ """
         label: str = "Ultra Shot"
         base_potency: float = 188.0
-        di: DamageInstance = DamageInstance(label, base_potency)
+        di: DamageInstance = DamageInstance(label=label, base_potency=base_potency)
 
         assert di.label == label
         assert di.base_potency == base_potency
@@ -28,7 +28,9 @@ class TestDamageInstance:
             DamageTag.FREEZE,
             DamageTag.PASSIVE,
         }
-        di: DamageInstance = DamageInstance(label, base_potency, tags=tags)
+        di: DamageInstance = DamageInstance(
+            label=label, base_potency=base_potency, tags=tags
+        )
 
         assert DamageTag.PASSIVE in di.tags
         assert DamageTag.BURN not in di.tags
@@ -43,7 +45,9 @@ class TestDamageInstance:
             DamageTag.FREEZE,
             DamageTag.PASSIVE,
         }
-        di: DamageInstance = DamageInstance(label, base_potency, tags=tags)
+        di: DamageInstance = DamageInstance(
+            label=label, base_potency=base_potency, tags=tags
+        )
 
         mult: IncreasedDamageMultipliers = IncreasedDamageMultipliers()
         mult.set_multiplier(DamageTag.SUPPORT_ACTION, 25)
@@ -62,7 +66,9 @@ class TestDamageInstance:
             DamageTag.CONFECTANCE,
             DamageTag.ULTIMATE,
         }
-        di: DamageInstance = DamageInstance(label, base_potency, tags=tags)
+        di: DamageInstance = DamageInstance(
+            label=label, base_potency=base_potency, tags=tags
+        )
 
         assert pytest.approx(base_potency * 1.27) == di.calculate_adjusted_potency(mult)
 
@@ -75,15 +81,15 @@ class TestSumDamageInstances:
         """ """
         damage_instances: list[DamageInstance] = [
             DamageInstance(
-                "Ultra Shot",
-                80.0,
-                {DamageTag.TARGETED, DamageTag.FREEZE, DamageTag.ACTIVE},
+                label="Ultra Shot",
+                base_potency=80.0,
+                tags={DamageTag.TARGETED, DamageTag.FREEZE, DamageTag.ACTIVE},
                 adjusted_potency=111.0,
             ),
             DamageInstance(
-                "Unity",
-                30.0,
-                {
+                label="Unity",
+                base_potency=30.0,
+                tags={
                     DamageTag.TARGETED,
                     DamageTag.FREEZE,
                     DamageTag.PASSIVE,
@@ -92,9 +98,9 @@ class TestSumDamageInstances:
                 adjusted_potency=52.0,
             ),
             DamageInstance(
-                "Howling Cyclone",
-                474.0,
-                {
+                label="Howling Cyclone",
+                base_potency=474.0,
+                tags={
                     DamageTag.AREA_OF_EFFECT,
                     DamageTag.FREEZE,
                     DamageTag.CONFECTANCE,
@@ -184,7 +190,9 @@ class TestDamageCalculationStrategy:
             DamageTag.ULTIMATE,
         }
 
-        di: DamageInstance = DamageInstance(label, base_potency, tags=tags)
+        di: DamageInstance = DamageInstance(
+            label=label, base_potency=base_potency, tags=tags
+        )
 
         buff: Buff = Buff(
             value=10,
@@ -226,7 +234,9 @@ class TestDamageCalculationStrategy:
             DamageTag.ULTIMATE,
         }
 
-        di: DamageInstance = DamageInstance(label, base_potency, tags=tags)
+        di: DamageInstance = DamageInstance(
+            label=label, base_potency=base_potency, tags=tags
+        )
 
         buff: Buff = Buff(
             value=10,
@@ -258,7 +268,9 @@ class TestDamageCalculationStrategy:
         assert term == pytest.approx(3765.199)
 
     def test_resolve_defense_shredding(self):
-        di: DamageInstance = DamageInstance("", 100, {DamageTag.FREEZE})
+        di: DamageInstance = DamageInstance(
+            label="", base_potency=100, tags={DamageTag.FREEZE}
+        )
         negative_def: float = 25
         assert StandardDamageCalculationStrategy().resolve_reversed_assault(
             di, negative_def

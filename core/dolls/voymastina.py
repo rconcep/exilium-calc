@@ -29,7 +29,9 @@ class DreadUltimatum(CombatAction):
             DamageTag.PHYSICAL,
         }
 
-        return DamageInstance(label, base_potency, tags, group_name="Basic")
+        return DamageInstance(
+            label=label, base_potency=base_potency, tags=tags, group_name="Basic"
+        )
 
 
 class SiriusFallPassive(CombatAction):
@@ -58,9 +60,9 @@ class SiriusFallPassive(CombatAction):
             )
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Sirius Fall (passive)",
             buffs_before=buffs_before,
         )
@@ -92,9 +94,9 @@ class SiriusFallPassiveV1(CombatAction):
             )
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Sirius Fall (passive)",
             buffs_before=buffs_before,
         )
@@ -125,9 +127,9 @@ class SiriusFallActive(CombatAction):
             )
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Sirius Fall (active)",
             buffs_before=buffs_before,
         )
@@ -158,9 +160,9 @@ class SiriusFallActiveV1(CombatAction):
             )
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Sirius Fall (active)",
             buffs_before=buffs_before,
         )
@@ -180,7 +182,10 @@ class EyeOfTheWhiteMastiffPassive(CombatAction):
         }
 
         return DamageInstance(
-            label, base_potency, tags, group_name="Eye of the White Mastiff (passive)"
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Eye of the White Mastiff (passive)",
         )
 
 
@@ -198,7 +203,10 @@ class EyeOfTheWhiteMastiffPassiveV3(CombatAction):
         }
 
         return DamageInstance(
-            label, base_potency, tags, group_name="Eye of the White Mastiff (passive)"
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Eye of the White Mastiff (passive)",
         )
 
 
@@ -215,7 +223,12 @@ class LockOnAttackV3(CombatAction):
             DamageTag.AREA_OF_EFFECT,
         }
 
-        return DamageInstance(label, base_potency, tags, group_name="Lock-On Attack")
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Lock-On Attack",
+        )
 
 
 class LockOnAttack(CombatAction):
@@ -231,7 +244,12 @@ class LockOnAttack(CombatAction):
             DamageTag.AREA_OF_EFFECT,
         }
 
-        return DamageInstance(label, base_potency, tags, group_name="Lock-On Attack")
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Lock-On Attack",
+        )
 
 
 class PileBunkerPassive(CombatAction):
@@ -251,7 +269,10 @@ class PileBunkerPassive(CombatAction):
         }
 
         return DamageInstance(
-            label, base_potency, tags, group_name="Pile Bunker (passive)"
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Pile Bunker (passive)",
         )
 
 
@@ -281,9 +302,9 @@ class PileBunkerPassiveV2(CombatAction):
         )
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Pile Bunker (passive)",
             buffs_before=buffs_before,
             debuffs_before=[
@@ -323,9 +344,9 @@ class PileBunkerPassiveV5(CombatAction):
         debuffs_before.append(Crumble())
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Pile Bunker (passive)",
             buffs_before=buffs_before,
             debuffs_before=debuffs_before,
@@ -360,7 +381,10 @@ class PileBunkerActive(CombatAction):
             )
 
         return DamageInstance(
-            label, base_potency, tags, group_name="Pile Bunker (active)"
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Pile Bunker (active)",
         )
 
 
@@ -400,9 +424,9 @@ class PileBunkerActiveV2(CombatAction):
         )
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Pile Bunker (active)",
             buffs_before=buffs_before,
             debuffs_before=[
@@ -451,9 +475,9 @@ class PileBunkerActiveV5(CombatAction):
         debuffs_before.append(Crumble())
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Pile Bunker (active)",
             buffs_before=buffs_before,
             debuffs_before=debuffs_before,

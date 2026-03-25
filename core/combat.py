@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pydantic import BaseModel, Field
 from abc import ABC, abstractmethod
-from typing import final
+from typing import final, override
 
 from core.types import (
     DamageTag,
@@ -13,6 +13,8 @@ from core.types import (
     SpecialAttribute,
     DefenseIgnoreMultipliers,
     IncreasedDamageMultipliers,
+    SummonedUnit,
+    PhysicalSummonedUnit,
 )
 from core.buffs import Buff, Debuff
 
@@ -130,7 +132,6 @@ class DamageCalculationStrategy(ABC):
 
         return combat_summary
 
-    @final
     def resolve_buffs(
         self,
         attacker: Unit,
@@ -269,6 +270,7 @@ class StandardDamageCalculationStrategy(DamageCalculationStrategy):
     """Implements the standard damage formula where base damage is solely a function of attack and defense."""
 
     @final
+    @override
     def calculate_base_damage(
         self, attacker: Unit, target: Unit, damage_instance: DamageInstance
     ) -> tuple[float, float, float, float]:
@@ -289,6 +291,68 @@ class StandardDamageCalculationStrategy(DamageCalculationStrategy):
         )
 
         effective_atk: float = attacker.get_basic_attribute(StatType.ATTACK)
+        effective_def: float = (
+            target.initial_stats.basic_attributes[StatType.DEFENSE]
+            + target.additive_modifiers.basic_attributes[StatType.DEFENSE]
+        )
+
+        ignore_def: float = (
+            total_defense_ignore_multipliers.get_total_multiplier(damage_instance.tags)
+            - target.multiplicative_modifiers.basic_attributes[StatType.DEFENSE]
+        )  # defense down is additive with ignore defense
+        negative_def: float = max(0, ignore_def - 100)
+        effective_def: float = max(0, effective_def * (1 - ignore_def / 100))
+
+        return (
+            effective_atk,
+            effective_def,
+            negative_def,
+            effective_atk / (1 + effective_def / effective_atk),
+        )
+
+
+class KulichDamageCalculationStrategy(DamageCalculationStrategy):
+    """Implements the base damage for Nikketa's Kulich."""
+
+    @final
+    @override
+    def resolve_buffs(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> None:
+        summon: SummonedUnit = attacker.get_summoned_unit("Kulich")  # type: ignore
+        return super().resolve_buffs(
+            summon, target, damage_instance, buffs_before, debuffs_before
+        )
+
+    @final
+    @override
+    def calculate_base_damage(
+        self, attacker: Unit, target: Unit, damage_instance: DamageInstance
+    ) -> tuple[float, float, float, float]:
+        """Returns the term in the damage formula that is a function of attacker attack
+        and target defense. In addition, returns the effective attack, effective defense,
+        and any defense reduced/ignored beyond 0.
+
+        Arguments:
+        attacker -- the attacking Unit
+        target -- the target of the attack
+        damage_instance -- describes the action
+        """
+        total_defense_ignore_multipliers: DefenseIgnoreMultipliers = (
+            attacker.initial_stats.special_attributes[SpecialAttribute.DEFENSE_IGNORE]
+            + attacker.additive_modifiers.special_attributes[
+                SpecialAttribute.DEFENSE_IGNORE
+            ]
+        )
+
+        summon: SummonedUnit = attacker.get_summoned_unit("Kulich")  # type: ignore
+
+        effective_atk: float = summon.get_basic_attribute(StatType.ATTACK)
         effective_def: float = (
             target.initial_stats.basic_attributes[StatType.DEFENSE]
             + target.additive_modifiers.basic_attributes[StatType.DEFENSE]

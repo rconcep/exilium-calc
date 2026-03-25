@@ -43,6 +43,7 @@ class DamageTag(StrEnum, boundary=STRICT):
     EXPOSED = "Exposed"
     STABILITY_BROKEN = "Stability Broken"
     BOSS = "Boss"
+    PHYSICAL_SUMMON = "Physical Summon"
 
 
 class DamageTagMultipliers(BaseModel):
@@ -139,10 +140,12 @@ class StatSheet(BaseModel):
 
     @model_validator(mode="after")
     def initialize_defaults(self):
-        self.basic_attributes = {stat: 0 for stat in StatType}
-        for sp in SpecialAttribute:
-            self.special_attributes[sp] = DamageTagMultipliers()
-            self.special_attributes[sp].multipliers = {tag: 0 for tag in DamageTag}
+        if not self.basic_attributes:
+            self.basic_attributes = {stat: 0 for stat in StatType}
+        if not self.special_attributes:
+            for sp in SpecialAttribute:
+                self.special_attributes[sp] = DamageTagMultipliers()
+                self.special_attributes[sp].multipliers = {tag: 0 for tag in DamageTag}
         return self
 
 
@@ -154,10 +157,12 @@ class FinalStatModifiers(StatSheet):
 
     @model_validator(mode="after")
     def initialize_defaults(self):
-        self.basic_attributes = {stat: 0 for stat in StatType}
-        for sp in SpecialAttribute:
-            self.special_attributes[sp] = DamageTagMultipliers()
-            self.special_attributes[sp].multipliers = {tag: 0 for tag in DamageTag}
+        if not self.basic_attributes:
+            self.basic_attributes = {stat: 0 for stat in StatType}
+        if not self.special_attributes:
+            for sp in SpecialAttribute:
+                self.special_attributes[sp] = DamageTagMultipliers()
+                self.special_attributes[sp].multipliers = {tag: 0 for tag in DamageTag}
         return self
 
 
@@ -179,6 +184,13 @@ class Unit(BaseModel):
     )
 
     summoned_units: list["SummonedUnit"] = Field(default_factory=list)
+
+    def get_summoned_unit(self, name: str) -> "SummonedUnit" | None:  # type: ignore
+        """Returns the summoned unit with name."""
+        for unit in self.summoned_units:
+            if unit.name == name:
+                return unit
+        return None
 
     def get_basic_attribute(self, stat: StatType) -> float:
         """Returns the final value of stat."""
