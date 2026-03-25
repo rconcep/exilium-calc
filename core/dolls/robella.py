@@ -1,7 +1,7 @@
 from typing import override, ClassVar
-from dataclasses import dataclass, field
+from pydantic import Field
 
-from core.types import DamageTag, FortificationLevel, Doll
+from core.types import DamageTag, FortificationLevel, Doll, SummonedUnit
 from core.buffs import Buff
 from core.combat import DamageInstance, CombatAction
 
@@ -270,9 +270,9 @@ class HowlingCycloneV6(CombatAction):
         return DamageInstance(label, base_potency, tags, group_name="Howling Cyclone")
 
 
-@dataclass
 class Robella(Doll):
     """Robella."""
+
     name: str = "Robella"
     irrelevant_damage_tags: ClassVar[set[DamageTag]] = set(
         [
@@ -292,14 +292,14 @@ class Robella(Doll):
     )
     sense_weakness_stack_cap: ClassVar[int] = 10
 
-    ultra_shot: CombatAction = field(default_factory=UltraShot)
-    unity: CombatAction = field(default_factory=Unity)
-    unity_enhanced: CombatAction = field(default_factory=UnityEnhanced)
-    frigid_infiltration: CombatAction = field(default_factory=FrigidInfiltration)
-    frigid_infiltration_enhanced: CombatAction = field(
+    ultra_shot: CombatAction = Field(default_factory=UltraShot)
+    unity: CombatAction = Field(default_factory=Unity)
+    unity_enhanced: CombatAction = Field(default_factory=UnityEnhanced)
+    frigid_infiltration: CombatAction = Field(default_factory=FrigidInfiltration)
+    frigid_infiltration_enhanced: CombatAction = Field(
         default_factory=FrigidInfiltrationEnhanced
     )
-    howling_cyclone: CombatAction = field(default_factory=HowlingCyclone)
+    howling_cyclone: CombatAction = Field(default_factory=HowlingCyclone)
 
     def set_to_v0(self) -> None:
         """Sets Fortification Level to Segment00."""

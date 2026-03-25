@@ -1,7 +1,15 @@
-from dataclasses import dataclass, field
 from typing import override, ClassVar
+from pydantic import Field
 
-from core.types import DamageTag, StatType, SpecialAttribute, ModifierType, Doll, FortificationLevel
+from core.types import (
+    DamageTag,
+    StatType,
+    SpecialAttribute,
+    ModifierType,
+    Doll,
+    FortificationLevel,
+    SummonedUnit,
+)
 from core.buffs import Buff
 from core.combat import DamageInstance, CombatAction
 
@@ -305,9 +313,9 @@ class VolleyFireV3(CombatAction):
         return DamageInstance(label, base_potency, tags, group_name="Volley Fire")
 
 
-@dataclass
 class Lewis(Doll):
     """Lewis."""
+
     name: str = "Lewis"
     irrelevant_damage_tags: ClassVar[set[DamageTag]] = set(
         [
@@ -325,11 +333,11 @@ class Lewis(Doll):
         ]
     )
 
-    playtime: CombatAction = field(default_factory=Playtime)
-    bad_guy_cleanup: CombatAction = field(default_factory=BadGuyCleanup)
-    surprising_funball: CombatAction = field(default_factory=SurprisingFunball)
-    toy_carnival: CombatAction = field(default_factory=ToyCarnival)
-    volley_fire: CombatAction = field(default_factory=VolleyFire)
+    playtime: CombatAction = Field(default_factory=Playtime)
+    bad_guy_cleanup: CombatAction = Field(default_factory=BadGuyCleanup)
+    surprising_funball: CombatAction = Field(default_factory=SurprisingFunball)
+    toy_carnival: CombatAction = Field(default_factory=ToyCarnival)
+    volley_fire: CombatAction = Field(default_factory=VolleyFire)
 
     def set_to_v0(self) -> None:
         """Sets Fortification Level to Segment00."""

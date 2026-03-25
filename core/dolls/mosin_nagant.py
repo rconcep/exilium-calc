@@ -1,7 +1,15 @@
-from dataclasses import dataclass, field
 from typing import override, ClassVar
+from pydantic import Field
 
-from core.types import DamageTag, ModifierType, SpecialAttribute, Doll, FortificationLevel
+from core.types import (
+    DamageTag,
+    StatType,
+    SpecialAttribute,
+    ModifierType,
+    Doll,
+    FortificationLevel,
+    SummonedUnit,
+)
 from core.buffs import Buff
 from core.combat import DamageInstance, CombatAction
 
@@ -324,9 +332,9 @@ class SupportActionV5(CombatAction):
         )
 
 
-@dataclass
 class MosinNagant(Doll):
     """Mosin-Nagant."""
+
     name: str = "Mosin-Nagant"
     irrelevant_damage_tags: ClassVar[set[DamageTag]] = set(
         [
@@ -344,10 +352,10 @@ class MosinNagant(Doll):
         ]
     )
 
-    patrol_time: CombatAction = field(default_factory=PatrolTime)
-    target_victory: CombatAction = field(default_factory=TargetVictory)
-    declaration_of_victory: CombatAction = field(default_factory=DeclarationOfVictory)
-    support_action: CombatAction = field(default_factory=SupportAction)
+    patrol_time: CombatAction = Field(default_factory=PatrolTime)
+    target_victory: CombatAction = Field(default_factory=TargetVictory)
+    declaration_of_victory: CombatAction = Field(default_factory=DeclarationOfVictory)
+    support_action: CombatAction = Field(default_factory=SupportAction)
 
     def set_to_v0(self) -> None:
         """Sets Fortification Level to Segment00."""

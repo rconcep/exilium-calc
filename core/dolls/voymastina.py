@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from pydantic import Field
 from typing import override, ClassVar
 
 from core.types import (
@@ -8,6 +8,7 @@ from core.types import (
     SpecialAttribute,
     Doll,
     FortificationLevel,
+    SummonedUnit,
 )
 from core.buffs import Buff, Debuff, Crumble, DefenseDownII
 from core.combat import DamageInstance, CombatAction
@@ -459,7 +460,6 @@ class PileBunkerActiveV5(CombatAction):
         )
 
 
-@dataclass
 class Voymastina(Doll):
     """Voymastina."""
 
@@ -479,15 +479,15 @@ class Voymastina(Doll):
         ]
     )
 
-    dread_ultimatum: CombatAction = field(default_factory=DreadUltimatum)
-    sirius_fall_passive: CombatAction = field(default_factory=SiriusFallPassive)
-    sirius_fall_active: CombatAction = field(default_factory=SiriusFallActive)
-    eye_of_the_white_mastiff_passive: CombatAction = field(
+    dread_ultimatum: CombatAction = Field(default_factory=DreadUltimatum)
+    sirius_fall_passive: CombatAction = Field(default_factory=SiriusFallPassive)
+    sirius_fall_active: CombatAction = Field(default_factory=SiriusFallActive)
+    eye_of_the_white_mastiff_passive: CombatAction = Field(
         default_factory=EyeOfTheWhiteMastiffPassive
     )
-    lockon_attack: CombatAction = field(default_factory=LockOnAttack)
-    pile_bunker_passive: CombatAction = field(default_factory=PileBunkerPassive)
-    pile_bunker_active: CombatAction = field(default_factory=PileBunkerActive)
+    lockon_attack: CombatAction = Field(default_factory=LockOnAttack)
+    pile_bunker_passive: CombatAction = Field(default_factory=PileBunkerPassive)
+    pile_bunker_active: CombatAction = Field(default_factory=PileBunkerActive)
 
     def set_to_v0(self) -> None:
         """Sets Fortification Level to Segment00."""

@@ -1,5 +1,5 @@
-from dataclasses import dataclass, field
 from typing import override, ClassVar
+from pydantic import Field
 
 from core.types import (
     DamageTag,
@@ -8,6 +8,7 @@ from core.types import (
     Doll,
     FortificationLevel,
     StatType,
+    SummonedUnit,
 )
 from core.buffs import Buff
 from core.combat import DamageInstance, CombatAction
@@ -201,7 +202,6 @@ class Interception(CombatAction):
         )
 
 
-@dataclass
 class Makiatto(Doll):
     """Makiatto."""
 
@@ -223,13 +223,13 @@ class Makiatto(Doll):
         ]
     )
 
-    lone_wolf_territory: CombatAction = field(default_factory=LoneWolfTerritory)
-    professional_tactics: CombatAction = field(default_factory=ProfessionalTactics)
-    cold_precision_shot_first: CombatAction = field(default_factory=ColdPrecisionShot)
-    cold_precision_shot_second: CombatAction = field(
+    lone_wolf_territory: CombatAction = Field(default_factory=LoneWolfTerritory)
+    professional_tactics: CombatAction = Field(default_factory=ProfessionalTactics)
+    cold_precision_shot_first: CombatAction = Field(default_factory=ColdPrecisionShot)
+    cold_precision_shot_second: CombatAction = Field(
         default_factory=ColdPrecisionShotSecond
     )
-    interception: CombatAction = field(default_factory=Interception)
+    interception: CombatAction = Field(default_factory=Interception)
 
     def set_to_v0(self) -> None:
         """Sets Fortification Level to Segment00."""

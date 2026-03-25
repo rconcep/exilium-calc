@@ -1,5 +1,5 @@
 from typing import override, ClassVar
-from dataclasses import dataclass, field
+from pydantic import Field
 
 from core.types import (
     DamageTag,
@@ -8,6 +8,7 @@ from core.types import (
     ModifierType,
     FortificationLevel,
     Doll,
+    SummonedUnit,
 )
 from core.buffs import Buff
 from core.combat import DamageInstance, CombatAction
@@ -343,7 +344,6 @@ class OverclockingStrikeV5(CombatAction):
         )
 
 
-@dataclass
 class Leva(Doll):
     """Leva."""
 
@@ -363,23 +363,23 @@ class Leva(Doll):
         ]
     )
 
-    dangerous_smile: CombatAction = field(default_factory=DangerousSmile)
-    rational_suppression: CombatAction = field(
+    dangerous_smile: CombatAction = Field(default_factory=DangerousSmile)
+    rational_suppression: CombatAction = Field(
         default_factory=RationalSuppression,
     )
-    ordered_disruption: CombatAction = field(
+    ordered_disruption: CombatAction = Field(
         default_factory=OrderedDisruption,
     )
-    quantum_calculation: CombatAction = field(
+    quantum_calculation: CombatAction = Field(
         default_factory=QuantumCalculation,
     )
-    superconductive_strike: CombatAction = field(
+    superconductive_strike: CombatAction = Field(
         default_factory=SuperconductiveStrike,
     )
-    emergency_support: CombatAction = field(
+    emergency_support: CombatAction = Field(
         default_factory=EmergencySupport,
     )
-    overclocking_strike: CombatAction = field(
+    overclocking_strike: CombatAction = Field(
         default_factory=OverclockingStrike,
     )
 

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from pydantic import BaseModel, Field
 from abc import ABC, abstractmethod
 from typing import final
 
@@ -309,20 +309,30 @@ class StandardDamageCalculationStrategy(DamageCalculationStrategy):
         )
 
 
-@dataclass
-class DamageInstance:
+class DamageInstance(BaseModel):
     """An instance of damage."""
+
+    model_config = {"arbitrary_types_allowed": True}
 
     label: str
     base_potency: float
-    tags: set[DamageTag] = field(default_factory=set)
+    tags: set[DamageTag] = Field(default_factory=set)
     adjusted_potency: float = 0
     group_name: str = ""
-    buffs_before: list[Buff] = field(default_factory=list)
-    debuffs_before: list[Debuff] = field(default_factory=list)
-    damage_calculation_strategy: DamageCalculationStrategy = field(
+    buffs_before: list[Buff] = Field(default_factory=list)
+    debuffs_before: list[Debuff] = Field(default_factory=list)
+    damage_calculation_strategy: DamageCalculationStrategy = Field(
         default_factory=StandardDamageCalculationStrategy
     )
+
+    def __init__(self, *args, **kwargs):
+        if len(args) >= 1:
+            kwargs["label"] = args[0]
+        if len(args) >= 2:
+            kwargs["base_potency"] = args[1]
+        if len(args) >= 3:
+            kwargs["tags"] = args[2]
+        super().__init__(**kwargs)
 
     def calculate_adjusted_potency(self, mult: DamageTagMultipliers) -> float:
         """
@@ -338,8 +348,7 @@ class DamageInstance:
         return self.adjusted_potency
 
 
-@dataclass
-class CombatAction(ABC):
+class CombatAction(ABC, BaseModel):
     """Represents an action in combat (i.e., skill usage or event)."""
 
     @abstractmethod
@@ -348,8 +357,7 @@ class CombatAction(ABC):
         pass
 
 
-@dataclass
-class CombatSummary:
+class CombatSummary(BaseModel):
     """Summarizes the result of an a combat action."""
 
     non_critical_damage: float = 0

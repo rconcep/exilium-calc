@@ -1,7 +1,14 @@
 from typing import override, ClassVar
-from dataclasses import dataclass, field
+from pydantic import Field
 
-from core.types import DamageTag, ModifierType, SpecialAttribute, Doll, FortificationLevel
+from core.types import (
+    DamageTag,
+    ModifierType,
+    SpecialAttribute,
+    Doll,
+    FortificationLevel,
+    SummonedUnit,
+)
 from core.buffs import Buff
 from core.combat import DamageInstance, CombatAction
 
@@ -191,9 +198,9 @@ class MorteLuminaV3(CombatAction):
         )
 
 
-@dataclass
 class Tololo(Doll):
     """Tololo."""
+
     name: str = "Tololo"
     irrelevant_damage_tags: ClassVar[set[DamageTag]] = set(
         [
@@ -214,10 +221,10 @@ class Tololo(Doll):
         ]
     )
 
-    meteor: CombatAction = field(default_factory=Meteor)
-    black_hole_inversion: CombatAction = field(default_factory=BlackHoleInversion)
-    supernova_impact: CombatAction = field(default_factory=SupernovaImpact)
-    morte_lumina: CombatAction = field(default_factory=MorteLumina)
+    meteor: CombatAction = Field(default_factory=Meteor)
+    black_hole_inversion: CombatAction = Field(default_factory=BlackHoleInversion)
+    supernova_impact: CombatAction = Field(default_factory=SupernovaImpact)
+    morte_lumina: CombatAction = Field(default_factory=MorteLumina)
 
     def set_to_v0(self) -> None:
         """Sets Fortification Level to Segment00."""

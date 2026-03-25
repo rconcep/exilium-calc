@@ -1,3 +1,4 @@
+from pydantic import BaseModel
 from dataclasses import dataclass
 from abc import ABC
 from typing import Any, Dict
@@ -36,14 +37,12 @@ class BuffBase(ABC):
     stack_input_type: str = "select"  # 'select' or 'number'
 
 
-@dataclass
 class Buff(BuffBase):
     """Represents a buff to a Doll."""
 
     ...
 
 
-@dataclass
 class Debuff(BuffBase):
     """Represents a debuff to a target."""
 

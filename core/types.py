@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 from enum import Enum, StrEnum, IntEnum, STRICT
 from typing import Dict, ClassVar
-from dataclasses import dataclass, field
 from collections import defaultdict
 from abc import ABC, abstractmethod
+from pydantic import BaseModel, Field, model_validator
 
 
 class DamageTag(StrEnum, boundary=STRICT):
@@ -43,12 +45,11 @@ class DamageTag(StrEnum, boundary=STRICT):
     BOSS = "Boss"
 
 
-@dataclass
-class DamageTagMultipliers:
+class DamageTagMultipliers(BaseModel):
     """Contains multipliers for each DamageTag expressed
     in parts per 100 (aka, percent)."""
 
-    multipliers: dict[DamageTag, float] = field(
+    multipliers: dict[DamageTag, float] = Field(
         default_factory=lambda: defaultdict(float)
     )
 
@@ -82,21 +83,18 @@ class DamageTagMultipliers:
         return ret
 
 
-@dataclass
 class IncreasedDamageMultipliers(DamageTagMultipliers):
     """Contains multipliers for 'increased damage'."""
 
     ...
 
 
-@dataclass
 class IncreasedCriticalDamageMultipliers(DamageTagMultipliers):
     """Contains multipliers for 'increased critical damage'."""
 
     ...
 
 
-@dataclass
 class DefenseIgnoreMultipliers(DamageTagMultipliers):
     """Contains percentages for ignoring defense."""
 
@@ -131,53 +129,56 @@ class SpecialAttribute(Enum):
     INCREASE_DAMAGE_TAKEN = "Increased Damage Taken"
 
 
-@dataclass
-class StatSheet:
+class StatSheet(BaseModel):
     """Contains all attributes."""
 
-    basic_attributes: Dict[StatType, float] = field(default_factory=dict)
-    special_attributes: Dict[SpecialAttribute, DamageTagMultipliers] = field(
+    basic_attributes: Dict[StatType, float] = Field(default_factory=dict)
+    special_attributes: Dict[SpecialAttribute, DamageTagMultipliers] = Field(
         default_factory=dict
     )
 
-    def __post_init__(self):
+    @model_validator(mode="after")
+    def initialize_defaults(self):
         self.basic_attributes = {stat: 0 for stat in StatType}
         for sp in SpecialAttribute:
             self.special_attributes[sp] = DamageTagMultipliers()
             self.special_attributes[sp].multipliers = {tag: 0 for tag in DamageTag}
+        return self
 
 
-@dataclass
 class FinalStatModifiers(StatSheet):
     """Contains multiplicative modifiers to final stats (e.g., increase Attack by x%).
     A value of 0: no modifier. A value of x > 0: Increase by x%. A value of x < 0:
     Decrease by x%.
     """
 
-    def __post_init__(self):
+    @model_validator(mode="after")
+    def initialize_defaults(self):
         self.basic_attributes = {stat: 0 for stat in StatType}
         for sp in SpecialAttribute:
             self.special_attributes[sp] = DamageTagMultipliers()
             self.special_attributes[sp].multipliers = {tag: 0 for tag in DamageTag}
+        return self
 
 
-@dataclass
-class Unit:
+class Unit(BaseModel):
     """A unit in combat, like a Doll or a target."""
 
     # 'Initial stats' shown in the refitting room / formation screen. Composed of basic doll stats,
     # weapon+attachments, remolding pattern (excluding imagoform and growth data, just innate stats
     # from the remolding pattern), affinity, common key, affinity key, fixed key, expansion key, ...
-    initial_stats: StatSheet = field(default_factory=StatSheet)
+    initial_stats: StatSheet = Field(default_factory=StatSheet)
 
     # Additive modifiers to initial stats. From in-combat buffs, remolding pattern imagoform and
     # growth data, food buff, ...
-    additive_modifiers: StatSheet = field(default_factory=StatSheet)
+    additive_modifiers: StatSheet = Field(default_factory=StatSheet)
 
     # Multiplicative modifiers. Total stat is (initial + additive modifiers)*multiplicative modifiers.
-    multiplicative_modifiers: FinalStatModifiers = field(
+    multiplicative_modifiers: FinalStatModifiers = Field(
         default_factory=FinalStatModifiers
     )
+
+    summoned_units: list["SummonedUnit"] = Field(default_factory=list)
 
     def get_basic_attribute(self, stat: StatType) -> float:
         """Returns the final value of stat."""
@@ -241,11 +242,10 @@ class FortificationLevel(IntEnum, boundary=STRICT):
     SEGMENT06 = 6
 
 
-@dataclass
 class Doll(ABC, Unit):
     """A Doll."""
 
-    name: ClassVar[str] = ""
+    name: str = ""
 
     # The set of all DamageTag that are not applicable to Doll's abilities.
     irrelevant_damage_tags: ClassVar[set[DamageTag]] = set()
@@ -254,3 +254,15 @@ class Doll(ABC, Unit):
     def set_fortification_level(self, level: FortificationLevel) -> None:
         """Update Doll to the input Fortification Level."""
         pass
+
+
+class SummonedUnit(Unit):
+    """A unit summoned by a Doll's skill."""
+
+    name: str = ""
+
+
+class PhysicalSummonedUnit(SummonedUnit):
+    """A summoned unit that can deal damage and be attacked."""
+
+    ...
