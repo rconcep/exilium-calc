@@ -145,8 +145,7 @@ class TestSumDamageInstances:
         assert combined_di.adjusted_potency == pytest.approx(52 + 111)
 
 
-class TestCalculateDamage:
-    """ """
+class TestDamageCalculationStrategy:
 
     @staticmethod
     def construct_attacker() -> Unit:
@@ -172,8 +171,8 @@ class TestCalculateDamage:
         return t
 
     def test_resolve_buffs(self):
-        g = TestCalculateDamage.construct_attacker()
-        t = TestCalculateDamage.construct_defender()
+        g = TestDamageCalculationStrategy.construct_attacker()
+        t = TestDamageCalculationStrategy.construct_defender()
 
         label: str = "Howling Cyclone"
         base_potency: float = 150.0
@@ -198,7 +197,7 @@ class TestCalculateDamage:
             stat_type=StatType.DEFENSE,
         )
 
-        resolve_buffs(
+        StandardDamageCalculationStrategy().resolve_buffs(
             g,
             t,
             di,
@@ -213,9 +212,9 @@ class TestCalculateDamage:
         assert g.multiplicative_modifiers.basic_attributes[StatType.ATTACK] == 10
         assert t.multiplicative_modifiers.basic_attributes[StatType.DEFENSE] == -30
 
-    def test_resolve_atk_def_term(self):
-        g = TestCalculateDamage.construct_attacker()
-        t = TestCalculateDamage.construct_defender()
+    def test_standard_base_damage(self):
+        g = TestDamageCalculationStrategy.construct_attacker()
+        t = TestDamageCalculationStrategy.construct_defender()
 
         label: str = "Howling Cyclone"
         base_potency: float = 150.0
@@ -240,7 +239,7 @@ class TestCalculateDamage:
             stat_type=StatType.DEFENSE,
         )
 
-        resolve_buffs(
+        StandardDamageCalculationStrategy().resolve_buffs(
             g,
             t,
             di,
@@ -252,33 +251,47 @@ class TestCalculateDamage:
             ],
         )
 
-        _, _, _, term = resolve_atk_def_term(g, t, di)
+        _, _, _, term = StandardDamageCalculationStrategy().calculate_base_damage(
+            g, t, di
+        )
 
         assert term == pytest.approx(3765.199)
 
     def test_resolve_defense_shredding(self):
         di: DamageInstance = DamageInstance("", 100, {DamageTag.FREEZE})
         negative_def: float = 25
-        assert resolve_reversed_assault(di, negative_def) == pytest.approx(0)
+        assert StandardDamageCalculationStrategy().resolve_reversed_assault(
+            di, negative_def
+        ) == pytest.approx(0)
 
         di.tags = {DamageTag.PHYSICAL}
-        assert resolve_reversed_assault(di, negative_def) == pytest.approx(25 * 0.5)
+        assert StandardDamageCalculationStrategy().resolve_reversed_assault(
+            di, negative_def
+        ) == pytest.approx(25 * 0.5)
 
         negative_def: float = -25
-        assert resolve_reversed_assault(di, negative_def) == pytest.approx(0)
+        assert StandardDamageCalculationStrategy().resolve_reversed_assault(
+            di, negative_def
+        ) == pytest.approx(0)
 
         negative_def: float = 125
-        assert resolve_reversed_assault(di, negative_def) == pytest.approx(125 * 0.75)
+        assert StandardDamageCalculationStrategy().resolve_reversed_assault(
+            di, negative_def
+        ) == pytest.approx(125 * 0.75)
 
         negative_def: float = 255
-        assert resolve_reversed_assault(di, negative_def) == pytest.approx(255 * 1)
+        assert StandardDamageCalculationStrategy().resolve_reversed_assault(
+            di, negative_def
+        ) == pytest.approx(255 * 1)
 
         negative_def: float = 302
-        assert resolve_reversed_assault(di, negative_def) == pytest.approx(302 * 1.5)
+        assert StandardDamageCalculationStrategy().resolve_reversed_assault(
+            di, negative_def
+        ) == pytest.approx(302 * 1.5)
 
     def test_buffs_before(self):
-        g = TestCalculateDamage.construct_attacker()
-        t = TestCalculateDamage.construct_defender()
+        g = TestDamageCalculationStrategy.construct_attacker()
+        t = TestDamageCalculationStrategy.construct_defender()
 
         label: str = "Howling Cyclone"
         base_potency: float = 150.0
@@ -306,7 +319,7 @@ class TestCalculateDamage:
             ],
         )
 
-        assert calculate_damage(
+        assert StandardDamageCalculationStrategy().calculate_damage(
             attacker=g,
             target=t,
             damage_instance=di,
@@ -315,8 +328,8 @@ class TestCalculateDamage:
         ).non_critical_damage == pytest.approx(7888.837)
 
     def test_debuffs_before(self):
-        g = TestCalculateDamage.construct_attacker()
-        t = TestCalculateDamage.construct_defender()
+        g = TestDamageCalculationStrategy.construct_attacker()
+        t = TestDamageCalculationStrategy.construct_defender()
 
         mult: IncreasedDamageMultipliers = IncreasedDamageMultipliers()
         mult.set_multiplier(DamageTag.FREEZE, 21.4)
@@ -350,7 +363,7 @@ class TestCalculateDamage:
         )
         di.calculate_adjusted_potency(mult)
 
-        assert calculate_damage(
+        assert StandardDamageCalculationStrategy().calculate_damage(
             attacker=g,
             target=t,
             damage_instance=di,
@@ -359,8 +372,8 @@ class TestCalculateDamage:
         ).non_critical_damage == pytest.approx(8011.367)
 
     def test_ignore_defense(self):
-        g = TestCalculateDamage.construct_attacker()
-        t = TestCalculateDamage.construct_defender()
+        g = TestDamageCalculationStrategy.construct_attacker()
+        t = TestDamageCalculationStrategy.construct_defender()
 
         label: str = "Howling Cyclone"
         base_potency: float = 150.0
@@ -381,9 +394,9 @@ class TestCalculateDamage:
             SpecialAttribute.DEFENSE_IGNORE
         ].get_total_multiplier(tags) == pytest.approx(0)
 
-        assert calculate_damage(g, t, di, True, 0).non_critical_damage == pytest.approx(
-            6859.095
-        )
+        assert StandardDamageCalculationStrategy().calculate_damage(
+            g, t, di, True, 0
+        ).non_critical_damage == pytest.approx(6859.095)
 
         g.initial_stats.special_attributes[
             SpecialAttribute.DEFENSE_IGNORE
@@ -392,9 +405,9 @@ class TestCalculateDamage:
             SpecialAttribute.DEFENSE_IGNORE
         ].get_total_multiplier(tags) == pytest.approx(50)
 
-        assert calculate_damage(g, t, di, True, 0).non_critical_damage == pytest.approx(
-            9021.755
-        )
+        assert StandardDamageCalculationStrategy().calculate_damage(
+            g, t, di, True, 0
+        ).non_critical_damage == pytest.approx(9021.755)
 
         # 100% ignore
         g.initial_stats.special_attributes[
@@ -404,9 +417,9 @@ class TestCalculateDamage:
             SpecialAttribute.DEFENSE_IGNORE
         ].get_total_multiplier(tags) == pytest.approx(100)
 
-        assert calculate_damage(g, t, di, True, 0).non_critical_damage == pytest.approx(
-            13176.183
-        )
+        assert StandardDamageCalculationStrategy().calculate_damage(
+            g, t, di, True, 0
+        ).non_critical_damage == pytest.approx(13176.183)
 
         # >100% ignore
         g.initial_stats.special_attributes[
@@ -419,13 +432,13 @@ class TestCalculateDamage:
             > 100
         )
 
-        assert calculate_damage(g, t, di, True, 0).non_critical_damage == pytest.approx(
-            13176.183
-        )
+        assert StandardDamageCalculationStrategy().calculate_damage(
+            g, t, di, True, 0
+        ).non_critical_damage == pytest.approx(13176.183)
 
     def test_resolve_increased_damage_taken(self):
-        g = TestCalculateDamage.construct_attacker()
-        t = TestCalculateDamage.construct_defender()
+        g = TestDamageCalculationStrategy.construct_attacker()
+        t = TestDamageCalculationStrategy.construct_defender()
         di = DamageInstance("", 80, tags={DamageTag.PHYSICAL})
 
         t.initial_stats.special_attributes[
@@ -438,11 +451,14 @@ class TestCalculateDamage:
             SpecialAttribute.INCREASE_DAMAGE_TAKEN
         ].set_multiplier(DamageTag.ALL, 20)
 
-        assert resolve_increased_damage_taken(t, di) == 50
+        assert (
+            StandardDamageCalculationStrategy().resolve_increased_damage_taken(t, di)
+            == 50
+        )
 
     def test_stability_damage_reduction(self):
-        g = TestCalculateDamage.construct_attacker()
-        t = TestCalculateDamage.construct_defender()
+        g = TestDamageCalculationStrategy.construct_attacker()
+        t = TestDamageCalculationStrategy.construct_defender()
 
         label: str = "Howling Cyclone"
         base_potency: float = 150.0
@@ -455,7 +471,7 @@ class TestCalculateDamage:
         }
         di: DamageInstance = DamageInstance(label, base_potency, tags=tags)
 
-        assert calculate_damage(
+        assert StandardDamageCalculationStrategy().calculate_damage(
             attacker=g,
             target=t,
             damage_instance=di,
@@ -464,8 +480,8 @@ class TestCalculateDamage:
         ).non_critical_damage == pytest.approx(2743.637)
 
     def test_phase_weaknesses_exploited(self):
-        g = TestCalculateDamage.construct_attacker()
-        t = TestCalculateDamage.construct_defender()
+        g = TestDamageCalculationStrategy.construct_attacker()
+        t = TestDamageCalculationStrategy.construct_defender()
 
         label: str = "Howling Cyclone"
         base_potency: float = 150.0
@@ -478,14 +494,14 @@ class TestCalculateDamage:
         }
         di: DamageInstance = DamageInstance(label, base_potency, tags=tags)
 
-        assert calculate_damage(
+        assert StandardDamageCalculationStrategy().calculate_damage(
             attacker=g,
             target=t,
             damage_instance=di,
             is_stability_broken=True,
             phase_weaknesses_exploited=1,
         ).non_critical_damage == pytest.approx(7545.004)
-        assert calculate_damage(
+        assert StandardDamageCalculationStrategy().calculate_damage(
             attacker=g,
             target=t,
             damage_instance=di,

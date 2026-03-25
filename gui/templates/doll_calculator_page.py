@@ -172,7 +172,12 @@ class DollCalculatorPage(ABC):
             )
 
         self.actions_table_data: list[dict] = [
-            asdict(di) for di in self.damage_instances
+            {
+                "label": di.label,
+                "base_potency": di.base_potency,
+                "adjusted_potency": di.adjusted_potency,
+            }
+            for di in self.damage_instances
         ]
         self.stats_update_callback(None)
 
@@ -297,12 +302,16 @@ class DollCalculatorPage(ABC):
 
     def update_actions_table(self) -> None:
         """Updates the Actions Table."""
-        new_rows = [asdict(di) for di in self.damage_instances]
+        new_rows = [
+            {
+                "label": di.label,
+                "base_potency": di.base_potency,
+                "adjusted_potency": di.adjusted_potency,
+            }
+            for di in self.damage_instances
+        ]
 
-        # Null out the tags key because Set isn't JSON serializable
-        # and we don't display it anyway
         for row in new_rows:
-            row["tags"] = ""
             row["adjusted_potency"] = Decimal(row["adjusted_potency"]).quantize(
                 Decimal("0.01"), rounding=ROUND_DOWN
             )
@@ -348,8 +357,17 @@ class DollCalculatorPage(ABC):
 
     def update_damage_type_breakdown_table(self) -> None:
         """Updates the table breaking down damage by tag."""
-        new_rows: list[dict[Any]] = [
-            asdict(sum_damage_instances(self.damage_instances, tag))
+        new_rows: list[dict[str, Any]] = [
+            {
+                "label": sum_damage_instances(self.damage_instances, tag).label,
+                "base_potency": sum_damage_instances(
+                    self.damage_instances, tag
+                ).base_potency,
+                "adjusted_potency": sum_damage_instances(
+                    self.damage_instances, tag
+                ).adjusted_potency,
+                "tags": sum_damage_instances(self.damage_instances, tag).tags,
+            }
             for tag in DamageTag
         ]
 

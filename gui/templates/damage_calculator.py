@@ -10,7 +10,7 @@ from core.types import (
     DamageTag,
     SpecialAttribute,
 )
-from core.combat import DamageInstance, CombatSummary, calculate_damage
+from core.combat import DamageInstance, CombatSummary
 from core.buffs import Buff, Debuff, buffs_option_config, debuffs_option_config
 from gui.templates.doll_calculator_page import DollCalculatorPage
 from gui.templates.single_configurable_item_editor import SingleConfigurableItemEditor
@@ -89,7 +89,7 @@ class DamageCalculator:
         stability_broken: bool = self.target_stability_broken.value
         phase_weaknesses_exploited: int = self.target_phase_weaknesses_exploited.value  # type: ignore
 
-        self.combat_summary = calculate_damage(
+        self.combat_summary = di.damage_calculation_strategy.calculate_damage(
             copy.deepcopy(self.doll),
             copy.deepcopy(self.target),
             di,
