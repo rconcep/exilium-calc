@@ -406,6 +406,64 @@ class PositiveCharge(Buff):
         self.tag = DamageTag.ELECTRIC
 
 
+class Clue(Buff):
+    """Nikketa buff"""
+
+    display_name = "Clue"
+    max_stack_count = 10
+    stack_input_type = "select"
+
+    def __init__(self, stacks: int, nikketa_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        stacks -- the number of stacks
+        alva_fortification_level -- the Fortification Level of the Alva applying this debuff
+        """
+        if nikketa_fortification_level >= FortificationLevel.SEGMENT03:
+            max_stacks = 10
+        else:
+            max_stacks = 5
+
+        self.value = 5 * min(max_stacks, stacks)
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.PASSIVE
+
+
+class Justice(Buff):
+    """Nikketa buff"""
+
+    display_name = "Justice"
+    max_stack_count = 5
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self, stacks: int):
+        """
+        Arguments:
+        stacks -- the number of stacks
+        """
+        self.value = 30
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = StatType.CRIT_RATE
+
+        ret: list[Buff] = [
+            self,
+        ]
+
+        ret.append(
+            Buff(
+                value=30,
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=SpecialAttribute.CRITICAL_DAMAGE,
+                tag=DamageTag.ALL,
+            ),
+        )
+
+        return ret
+
+
 class AttackUpI(Buff):
     """Attack is increased by 10%. Considered a buff."""
 
@@ -700,6 +758,28 @@ class Frostbite(Debuff):
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
         self.tag = DamageTag.FREEZE
+
+
+class Guilt(Debuff):
+    """Nikketa debuff"""
+
+    display_name = "Guilt"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, nikketa_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        nikketa_fortification_level -- the Fortification Level of the Nikketa applying this debuff
+        """
+        if nikketa_fortification_level >= FortificationLevel.SEGMENT04:
+            self.value = 10
+        else:
+            self.value = 5
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.HYDRO
 
 
 class VulnerableI(Debuff):

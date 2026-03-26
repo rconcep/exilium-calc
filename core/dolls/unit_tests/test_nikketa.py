@@ -188,7 +188,7 @@ class TestNikketaSkills:
         assert DamageTag.HYDRO in kc.tags
         assert DamageTag.PHASE in kc.tags
         assert DamageTag.PHYSICAL_SUMMON in kc.tags
-        assert kc.group_name == "Kulich's Counterattack"
+        assert kc.group_name == "Counterattack (Kulich)"
         assert isinstance(
             kc.damage_calculation_strategy, KulichDamageCalculationStrategy
         )

@@ -281,7 +281,7 @@ class KulichCounterattack(CombatAction):
 
     @override
     def execute(self) -> DamageInstance:
-        label: str = "Kulich's Counterattack"
+        label: str = "Counterattack (Kulich)"
         base_potency: int = 80
 
         tags: set[DamageTag] = {
@@ -290,13 +290,14 @@ class KulichCounterattack(CombatAction):
             DamageTag.HYDRO,
             DamageTag.PHASE,
             DamageTag.PHYSICAL_SUMMON,
+            DamageTag.TARGETED,
         }
 
         return DamageInstance(
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Kulich's Counterattack",
+            group_name="Counterattack (Kulich)",
             damage_calculation_strategy=KulichDamageCalculationStrategy(),
         )
 

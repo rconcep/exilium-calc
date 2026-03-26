@@ -114,6 +114,11 @@ tab is shared with all tools!
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
                     ui.timeline_entry(
+                        "Implemented Nikketa; made backend changes to support summons",
+                        title="",
+                        subtitle="March 26, 2026",
+                    )
+                    ui.timeline_entry(
                         "Implemented Makiatto",
                         title="",
                         subtitle="March 23, 2026",
