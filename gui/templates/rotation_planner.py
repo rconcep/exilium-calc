@@ -11,7 +11,7 @@ class RotationPlanner:
     NUMBER_OF_TURNS: int = 7
 
     def __init__(self, options_config: dict[str, dict[str, Any]]):
-        """ 
+        """
         Arguments:
         options_config -- data structure describing actions and their programmable fields
         """

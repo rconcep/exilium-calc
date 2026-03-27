@@ -35,43 +35,6 @@ class TestDamageInstance:
         assert DamageTag.PASSIVE in di.tags
         assert DamageTag.BURN not in di.tags
 
-    def test_calculate_adjusted_potency(self):
-        """ """
-        label: str = "Unity: Enhanced"
-        base_potency: float = 30.0
-        tags: set[DamageTag] = {
-            DamageTag.PASSIVE,
-            DamageTag.TARGETED,
-            DamageTag.FREEZE,
-            DamageTag.PASSIVE,
-        }
-        di: DamageInstance = DamageInstance(
-            label=label, base_potency=base_potency, tags=tags
-        )
-
-        mult: IncreasedDamageMultipliers = IncreasedDamageMultipliers()
-        mult.set_multiplier(DamageTag.SUPPORT_ACTION, 25)
-        mult.set_multiplier(DamageTag.FREEZE, 20)
-        mult.set_multiplier(DamageTag.PASSIVE, 15)
-        mult.set_multiplier(DamageTag.AREA_OF_EFFECT, 7)
-
-        assert pytest.approx(base_potency * 1.35) == di.calculate_adjusted_potency(mult)
-
-        label: str = "Howling Cyclone"
-        base_potency: float = 474.0
-        tags: set[DamageTag] = {
-            DamageTag.ACTIVE,
-            DamageTag.AREA_OF_EFFECT,
-            DamageTag.FREEZE,
-            DamageTag.CONFECTANCE,
-            DamageTag.ULTIMATE,
-        }
-        di: DamageInstance = DamageInstance(
-            label=label, base_potency=base_potency, tags=tags
-        )
-
-        assert pytest.approx(base_potency * 1.27) == di.calculate_adjusted_potency(mult)
-
 
 class TestSumDamageInstances:
     """ """
@@ -323,8 +286,8 @@ class TestDamageCalculationStrategy:
         )
 
         di: DamageInstance = DamageInstance(
-            label,
-            base_potency,
+            label=label,
+            base_potency=base_potency,
             tags=tags,
             buffs_before=[
                 buff,
@@ -342,11 +305,6 @@ class TestDamageCalculationStrategy:
     def test_debuffs_before(self):
         g = TestDamageCalculationStrategy.construct_attacker()
         t = TestDamageCalculationStrategy.construct_defender()
-
-        mult: IncreasedDamageMultipliers = IncreasedDamageMultipliers()
-        mult.set_multiplier(DamageTag.FREEZE, 21.4)
-        mult.set_multiplier(DamageTag.ULTIMATE, 10.4)
-        mult.set_multiplier(DamageTag.AREA_OF_EFFECT, 30)
 
         label: str = "Howling Cyclone"
         base_potency: float = 150.0
@@ -366,14 +324,13 @@ class TestDamageCalculationStrategy:
         )
 
         di: DamageInstance = DamageInstance(
-            label,
-            base_potency,
+            label=label,
+            base_potency=base_potency,
             tags=tags,
             debuffs_before=[
                 debuff,
             ],
         )
-        di.calculate_adjusted_potency(mult)
 
         assert StandardDamageCalculationStrategy().calculate_damage(
             attacker=g,
@@ -396,7 +353,9 @@ class TestDamageCalculationStrategy:
             DamageTag.CONFECTANCE,
             DamageTag.ULTIMATE,
         }
-        di: DamageInstance = DamageInstance(label, base_potency, tags=tags)
+        di: DamageInstance = DamageInstance(
+            label=label, base_potency=base_potency, tags=tags
+        )
 
         # get relevant parameters
         g.initial_stats.special_attributes[
@@ -451,7 +410,7 @@ class TestDamageCalculationStrategy:
     def test_resolve_increased_damage_taken(self):
         g = TestDamageCalculationStrategy.construct_attacker()
         t = TestDamageCalculationStrategy.construct_defender()
-        di = DamageInstance("", 80, tags={DamageTag.PHYSICAL})
+        di = DamageInstance(label="", base_potency=80, tags={DamageTag.PHYSICAL})
 
         t.initial_stats.special_attributes[
             SpecialAttribute.INCREASE_DAMAGE_TAKEN
@@ -481,7 +440,9 @@ class TestDamageCalculationStrategy:
             DamageTag.CONFECTANCE,
             DamageTag.ULTIMATE,
         }
-        di: DamageInstance = DamageInstance(label, base_potency, tags=tags)
+        di: DamageInstance = DamageInstance(
+            label=label, base_potency=base_potency, tags=tags
+        )
 
         assert StandardDamageCalculationStrategy().calculate_damage(
             attacker=g,
@@ -504,7 +465,9 @@ class TestDamageCalculationStrategy:
             DamageTag.CONFECTANCE,
             DamageTag.ULTIMATE,
         }
-        di: DamageInstance = DamageInstance(label, base_potency, tags=tags)
+        di: DamageInstance = DamageInstance(
+            label=label, base_potency=base_potency, tags=tags
+        )
 
         assert StandardDamageCalculationStrategy().calculate_damage(
             attacker=g,

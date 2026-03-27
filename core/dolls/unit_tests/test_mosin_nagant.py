@@ -17,7 +17,10 @@ class TestMosinNagantSkills:
         assert DamageTag.ELECTRIC in di.tags
         assert DamageTag.PHASE in di.tags
         assert di.buffs_before[0] == Buff(
-            ACTIVE_ENGAGEMENT_BUFF, ModifierType.ADDITIVE, SpecialAttribute.DAMAGE_BOOST, DamageTag.ELECTRIC
+            ACTIVE_ENGAGEMENT_BUFF,
+            ModifierType.ADDITIVE,
+            SpecialAttribute.DAMAGE_BOOST,
+            DamageTag.ELECTRIC,
         )
 
     def test_target_victory(self):
@@ -52,7 +55,10 @@ class TestMosinNagantSkills:
         assert DamageTag.ELECTRIC in di.tags
         assert DamageTag.PHASE in di.tags
         assert di.buffs_before[0] == Buff(
-            ACTIVE_ENGAGEMENT_BUFF_V5, ModifierType.ADDITIVE, SpecialAttribute.DAMAGE_BOOST, DamageTag.ELECTRIC
+            ACTIVE_ENGAGEMENT_BUFF_V5,
+            ModifierType.ADDITIVE,
+            SpecialAttribute.DAMAGE_BOOST,
+            DamageTag.ELECTRIC,
         )
 
     def test_target_victory_v5(self):

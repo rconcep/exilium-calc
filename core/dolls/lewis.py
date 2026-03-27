@@ -29,7 +29,9 @@ class Playtime(CombatAction):
             DamageTag.PHYSICAL,
         }
 
-        return DamageInstance(label, base_potency, tags, group_name="Playtime")
+        return DamageInstance(
+            label=label, base_potency=base_potency, tags=tags, group_name="Playtime"
+        )
 
 
 class BadGuyCleanup(CombatAction):
@@ -47,7 +49,12 @@ class BadGuyCleanup(CombatAction):
 
         # TODO: Overburn 10%
 
-        return DamageInstance(label, base_potency, tags, group_name="Bad Guy Cleanup")
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Bad Guy Cleanup",
+        )
 
 
 class BadGuyCleanupV4(CombatAction):
@@ -65,7 +72,12 @@ class BadGuyCleanupV4(CombatAction):
 
         # TODO: Implement +10% damage per burn debuff on target
 
-        return DamageInstance(label, base_potency, tags, group_name="Bad Guy Cleanup")
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Bad Guy Cleanup",
+        )
 
 
 class SurprisingFunball(CombatAction):
@@ -85,7 +97,10 @@ class SurprisingFunball(CombatAction):
         # TODO: 30% fixed damage, 2 stacks Tin Soldier's order
 
         return DamageInstance(
-            label, base_potency, tags, group_name="Surprising Funball"
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Surprising Funball",
         )
 
 
@@ -104,7 +119,10 @@ class SurprisingFunballV3(CombatAction):
         }
 
         return DamageInstance(
-            label, base_potency, tags, group_name="Surprising Funball"
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Surprising Funball",
         )
 
 
@@ -134,9 +152,9 @@ class ToyCarnival(CombatAction):
         )
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Toy Carnival",
             buffs_before=[
                 buff,
@@ -188,9 +206,9 @@ class ToyCarnivalV2(CombatAction):
             )
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Toy Carnival",
             buffs_before=buffs_before,
         )
@@ -247,9 +265,9 @@ class ToyCarnivalV5(CombatAction):
             )
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Toy Carnival",
             buffs_before=buffs_before,
         )
@@ -270,7 +288,9 @@ class VolleyFire(CombatAction):
         if has_tin_soldiers_order:
             base_potency += 30
 
-        return DamageInstance(label, base_potency, tags, group_name="Volley Fire")
+        return DamageInstance(
+            label=label, base_potency=base_potency, tags=tags, group_name="Volley Fire"
+        )
 
 
 class VolleyFireV1(CombatAction):
@@ -290,7 +310,9 @@ class VolleyFireV1(CombatAction):
 
         # TODO: Trigger Overburn one time per Rank
 
-        return DamageInstance(label, base_potency, tags, group_name="Volley Fire")
+        return DamageInstance(
+            label=label, base_potency=base_potency, tags=tags, group_name="Volley Fire"
+        )
 
 
 class VolleyFireV3(CombatAction):
@@ -310,7 +332,9 @@ class VolleyFireV3(CombatAction):
 
         # TODO: Trigger Overburn one time per Rank
 
-        return DamageInstance(label, base_potency, tags, group_name="Volley Fire")
+        return DamageInstance(
+            label=label, base_potency=base_potency, tags=tags, group_name="Volley Fire"
+        )
 
 
 class Lewis(Doll):

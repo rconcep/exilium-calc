@@ -60,9 +60,9 @@ class DamageCalculationStrategy(ABC):
             bonus_increased_damage = self.resolve_reversed_assault(
                 damage_instance, negative_def
             )
-            total_damage_boost_multipliers.add_to_multiplier(
-                DamageTag.PHYSICAL, bonus_increased_damage
-            )
+            attacker.additive_modifiers.special_attributes[
+                SpecialAttribute.DAMAGE_BOOST
+            ].add_to_multiplier(DamageTag.PHYSICAL, bonus_increased_damage)
 
         # TODO: check conditional modifiers before adding: exposed, in stability break,
         # close proximity, distance, has overburn, etc.
@@ -70,9 +70,14 @@ class DamageCalculationStrategy(ABC):
         damage_instance.tags.add(DamageTag.STABILITY_BROKEN)
         damage_instance.tags.add(DamageTag.BOSS)
 
-        # Recompute adjusted potency to get the effective damage multiplier
-        damage_instance.calculate_adjusted_potency(total_damage_boost_multipliers)
-        effective_dmg_multiplier: float = damage_instance.adjusted_potency / 100
+        # Get the effective damage multiplier
+        effective_dmg_multiplier: float = self.get_effective_multiplier(
+            attacker=attacker,
+            target=target,
+            damage_instance=damage_instance,
+            buffs_before=buffs_before,
+            debuffs_before=debuffs_before,
+        )
 
         # Resolve "increased damage taken" effects
         increased_damage_taken: float = self.resolve_increased_damage_taken(
@@ -244,6 +249,95 @@ class DamageCalculationStrategy(ABC):
         return bonus_increased_damage
 
     @final
+    def do_adjust_potency(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> None:
+        """
+        Modifies damage_instance to set adjusted potencies. Not
+        intended to be used in the calculate_damage template
+        because it would resolve buffs twice.
+
+        Arguments:
+        attacker -- the attacking Unit
+        target -- the target of the attack
+        damage_instance -- describes the action
+        buffs_before -- Buffs to apply to attacker before the action
+        debuffs_before -- Debuffs to apply to target before the action
+        """
+        self.resolve_buffs(
+            attacker=attacker,
+            target=target,
+            damage_instance=damage_instance,
+            buffs_before=buffs_before,
+            debuffs_before=debuffs_before,
+        )
+
+        self.calculate_adjusted_potency(
+            attacker=attacker,
+            target=target,
+            damage_instance=damage_instance,
+        )
+
+    def calculate_adjusted_potency(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+    ) -> float:
+        """
+        Returns the adjusted potency for damage_instance, accounting for attacker and target.
+
+        Arguments:
+        attacker -- the attacking Unit
+        target -- the target of the attack
+        damage_instance -- describes the action
+        buffs_before -- Buffs to apply to attacker before the action
+        debuffs_before -- Debuffs to apply to target before the action
+        """
+        adjusted_potency: float = damage_instance.base_potency * (
+            1
+            + attacker.get_effective_special_attribute(
+                SpecialAttribute.DAMAGE_BOOST
+            ).get_total_multiplier(damage_instance.tags)
+            / 100
+        )
+
+        damage_instance.adjusted_potency = adjusted_potency
+
+        return adjusted_potency
+
+    @final
+    def get_effective_multiplier(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> float:
+        """Returns the effective multiplier of damage_instance.
+
+        Arguments:
+        attacker -- the attacking Unit
+        target -- the target of the attack
+        damage_instance -- describes the action
+        buffs_before -- Buffs to apply to attacker before the action
+        debuffs_before -- Debuffs to apply to target before the action
+        """
+        adjusted_potency: float = self.calculate_adjusted_potency(
+            attacker=attacker,
+            target=target,
+            damage_instance=damage_instance,
+        )
+
+        return adjusted_potency / 100
+
+    @final
     def resolve_increased_damage_taken(
         self, target: Unit, damage_instance: DamageInstance
     ) -> float:
@@ -389,28 +483,6 @@ class DamageInstance(BaseModel):
         default_factory=StandardDamageCalculationStrategy
     )
 
-    def __init__(self, *args, **kwargs):
-        if len(args) >= 1:
-            kwargs["label"] = args[0]
-        if len(args) >= 2:
-            kwargs["base_potency"] = args[1]
-        if len(args) >= 3:
-            kwargs["tags"] = args[2]
-        super().__init__(**kwargs)
-
-    def calculate_adjusted_potency(self, mult: DamageTagMultipliers) -> float:
-        """
-        Calculates the adjusted potency from the base potency, given a set of
-        increased damage multipliers.
-
-        Arguments:
-        mult -- the increased damage multipliers to apply
-        """
-        self.adjusted_potency = (
-            1 + mult.get_total_multiplier(self.tags) / 100.0
-        ) * self.base_potency
-        return self.adjusted_potency
-
 
 class CombatAction(ABC, BaseModel):
     """Represents an action in combat (i.e., skill usage or event)."""
@@ -422,7 +494,7 @@ class CombatAction(ABC, BaseModel):
 
 
 class CombatSummary(BaseModel):
-    """Summarizes the result of an a combat action."""
+    """Summarizes the result of a combat action."""
 
     non_critical_damage: float = 0
     critical_damage: float = 0
@@ -465,8 +537,8 @@ def sum_damage_instances(
             combined_adjusted_potency += damage_instance.adjusted_potency
 
     return DamageInstance(
-        "Combined",
-        combined_base_potency,
+        label="Combined",
+        base_potency=combined_base_potency,
         tags={tag},
         adjusted_potency=combined_adjusted_potency,
     )

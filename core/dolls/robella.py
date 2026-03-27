@@ -29,7 +29,9 @@ class UltraShot(CombatAction):
         else:
             tags.add(DamageTag.PHYSICAL)
 
-        return DamageInstance(label, base_potency, tags, group_name="Ultra Shot")
+        return DamageInstance(
+            label=label, base_potency=base_potency, tags=tags, group_name="Ultra Shot"
+        )
 
 
 class UltraShotV6(CombatAction):
@@ -56,9 +58,9 @@ class UltraShotV6(CombatAction):
             tags.add(DamageTag.PHYSICAL)
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Ultra Shot",
             buffs_before=buffs_before,
         )
@@ -80,7 +82,9 @@ class Unity(CombatAction):
             DamageTag.TARGETED,
         }
 
-        return DamageInstance(label, base_potency, tags, group_name="Unity")
+        return DamageInstance(
+            label=label, base_potency=base_potency, tags=tags, group_name="Unity"
+        )
 
 
 class UnityEnhanced(CombatAction):
@@ -99,7 +103,9 @@ class UnityEnhanced(CombatAction):
             DamageTag.TARGETED,
         }
 
-        return DamageInstance(label, base_potency, tags, group_name="Unity")
+        return DamageInstance(
+            label=label, base_potency=base_potency, tags=tags, group_name="Unity"
+        )
 
 
 class FrigidInfiltration(CombatAction):
@@ -121,7 +127,10 @@ class FrigidInfiltration(CombatAction):
         }
 
         return DamageInstance(
-            label, base_potency, tags, group_name="Frigid Infiltration"
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Frigid Infiltration",
         )
 
 
@@ -149,7 +158,10 @@ class FrigidInfiltrationV3(CombatAction):
         }
 
         return DamageInstance(
-            label, base_potency, tags, group_name="Frigid Infiltration"
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Frigid Infiltration",
         )
 
 
@@ -172,7 +184,10 @@ class FrigidInfiltrationEnhanced(CombatAction):
         }
 
         return DamageInstance(
-            label, base_potency, tags, group_name="Frigid Infiltration"
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Frigid Infiltration",
         )
 
 
@@ -200,7 +215,10 @@ class FrigidInfiltrationEnhancedV3(CombatAction):
         }
 
         return DamageInstance(
-            label, base_potency, tags, group_name="Frigid Infiltration"
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Frigid Infiltration",
         )
 
 
@@ -221,7 +239,12 @@ class HowlingCyclone(CombatAction):
             DamageTag.CONFECTANCE,
         }
 
-        return DamageInstance(label, base_potency, tags, group_name="Howling Cyclone")
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Howling Cyclone",
+        )
 
 
 class HowlingCycloneV4(CombatAction):
@@ -245,7 +268,12 @@ class HowlingCycloneV4(CombatAction):
             sense_weakness_stacks, Robella.sense_weakness_stack_cap
         )
 
-        return DamageInstance(label, base_potency, tags, group_name="Howling Cyclone")
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Howling Cyclone",
+        )
 
 
 class HowlingCycloneV6(CombatAction):
@@ -267,7 +295,12 @@ class HowlingCycloneV6(CombatAction):
 
         base_potency += potency_per_sense_weakness * sense_weakness_stacks
 
-        return DamageInstance(label, base_potency, tags, group_name="Howling Cyclone")
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Howling Cyclone",
+        )
 
 
 class Robella(Doll):

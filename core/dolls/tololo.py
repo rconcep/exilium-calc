@@ -28,7 +28,9 @@ class Meteor(CombatAction):
             DamageTag.TARGETED,
         }
 
-        return DamageInstance(label, base_potency, tags, group_name="Meteor")
+        return DamageInstance(
+            label=label, base_potency=base_potency, tags=tags, group_name="Meteor"
+        )
 
 
 class BlackHoleInversion(CombatAction):
@@ -47,7 +49,10 @@ class BlackHoleInversion(CombatAction):
         }
 
         return DamageInstance(
-            label, base_potency, tags, group_name="Black Hole Inversion"
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Black Hole Inversion",
         )
 
 
@@ -79,9 +84,9 @@ class SupernovaImpact(CombatAction):
         }
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Supernova Impact",
             buffs_before=buffs_before,
         )
@@ -118,9 +123,9 @@ class SupernovaImpactV2(CombatAction):
             tags.add(DamageTag.PHASE)
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Supernova Impact",
             buffs_before=buffs_before,
         )
@@ -154,9 +159,9 @@ class MorteLumina(CombatAction):
             )
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Morte Lumina",
             buffs_before=buffs_before,
         )
@@ -190,9 +195,9 @@ class MorteLuminaV3(CombatAction):
             )
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Morte Lumina",
             buffs_before=buffs_before,
         )

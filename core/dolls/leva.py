@@ -30,7 +30,12 @@ class DangerousSmile(CombatAction):
             DamageTag.PHYSICAL,
         }
 
-        return DamageInstance(label, base_potency, tags, group_name="Dangerous Smile")
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Dangerous Smile",
+        )
 
 
 class RationalSuppression(CombatAction):
@@ -48,9 +53,9 @@ class RationalSuppression(CombatAction):
         }
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Rational Suppression",
         )
 
@@ -70,9 +75,9 @@ class RationalSuppressionV4(CombatAction):
         }
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Rational Suppression",
             buffs_before=[
                 Buff(25, ModifierType.ADDITIVE, StatType.CRIT_DAMAGE),
@@ -108,9 +113,9 @@ class OrderedDisruption(CombatAction):
             )
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Ordered Disruption",
             buffs_before=buffs_before,
         )
@@ -144,9 +149,9 @@ class OrderedDisruptionV2(CombatAction):
             )
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Ordered Disruption",
             buffs_before=buffs_before,
         )
@@ -169,9 +174,9 @@ class QuantumCalculation(CombatAction):
         }
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Quantum Calculation",
         )
 
@@ -193,9 +198,9 @@ class QuantumCalculationV5(CombatAction):
         }
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Quantum Calculation",
         )
 
@@ -229,9 +234,9 @@ class SuperconductiveStrike(CombatAction):
         }
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Superconductive Strike",
         )
 
@@ -265,9 +270,9 @@ class SuperconductiveStrikeV3(CombatAction):
         }
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Superconductive Strike",
             buffs_before=[
                 Buff(
@@ -297,7 +302,12 @@ class EmergencySupport(CombatAction):
             DamageTag.TARGETED,
         }
 
-        return DamageInstance(label, base_potency, tags, group_name="Emergency Support")
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Emergency Support",
+        )
 
 
 class OverclockingStrike(CombatAction):
@@ -318,7 +328,10 @@ class OverclockingStrike(CombatAction):
         }
 
         return DamageInstance(
-            label, base_potency, tags, group_name="Overclocking Strike"
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Overclocking Strike",
         )
 
 
@@ -340,7 +353,10 @@ class OverclockingStrikeV5(CombatAction):
         }
 
         return DamageInstance(
-            label, base_potency, tags, group_name="Overclocking Strike"
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Overclocking Strike",
         )
 
 

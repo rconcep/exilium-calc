@@ -49,9 +49,9 @@ class PatrolTime(CombatAction):
             tags.add(DamageTag.PHYSICAL)
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Patrol Time",
             buffs_before=buffs_before,
         )
@@ -88,9 +88,9 @@ class TargetVictory(CombatAction):
             tags.add(DamageTag.PHYSICAL)
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Target Victory",
             buffs_before=buffs_before,
         )
@@ -128,9 +128,9 @@ class DeclarationOfVictory(CombatAction):
             tags.add(DamageTag.PHYSICAL)
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Declaration of Victory",
             buffs_before=buffs_before,
         )
@@ -167,9 +167,9 @@ class SupportAction(CombatAction):
             tags.add(DamageTag.PHYSICAL)
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Support Action",
             buffs_before=buffs_before,
         )
@@ -206,9 +206,9 @@ class PatrolTimeV5(CombatAction):
             tags.add(DamageTag.PHYSICAL)
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Patrol Time",
             buffs_before=buffs_before,
         )
@@ -245,9 +245,9 @@ class TargetVictoryV5(CombatAction):
             tags.add(DamageTag.PHYSICAL)
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Target Victory",
             buffs_before=buffs_before,
         )
@@ -285,9 +285,9 @@ class DeclarationOfVictoryV5(CombatAction):
             tags.add(DamageTag.PHYSICAL)
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Declaration of Victory",
             buffs_before=buffs_before,
         )
@@ -324,9 +324,9 @@ class SupportActionV5(CombatAction):
             tags.add(DamageTag.PHYSICAL)
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Support Action",
             buffs_before=buffs_before,
         )

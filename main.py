@@ -1,13 +1,15 @@
 from nicegui import app, ui
 
-from gui.doll_calculator.dolls.robella import Robella
-from gui.doll_calculator.dolls.voymastina import Voymastina
-from gui.doll_calculator.dolls.lewis import Lewis
-from gui.doll_calculator.dolls.mosin_nagant import MosinNagant
-from gui.doll_calculator.dolls.tololo import Tololo
-from gui.doll_calculator.dolls.leva import Leva
-from gui.doll_calculator.dolls.makiatto import Makiatto
-from gui.doll_calculator.dolls.nikketa import Nikketa
+from gui.doll_calculator.dolls import (
+    Robella,
+    Voymastina,
+    Lewis,
+    MosinNagant,
+    Tololo,
+    Leva,
+    Makiatto,
+    Nikketa,
+)
 
 
 def root():
@@ -113,6 +115,11 @@ tab is shared with all tools!
             ui.separator()
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
+                    ui.timeline_entry(
+                        "Added feature to save/load Doll stats as JSON files",
+                        title="Added save/load feature",
+                        subtitle="March 26, 2026",
+                    )
                     ui.timeline_entry(
                         "Implemented Nikketa; made backend changes to support summons",
                         title="",

@@ -30,9 +30,9 @@ class LoneWolfTerritory(CombatAction):
         }
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Lone Wolf Territory",
         )
 
@@ -63,9 +63,9 @@ class ColdPrecisionShot(CombatAction):
         ]
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Cold Precision Shot",
             buffs_before=buffs_before,
         )
@@ -88,9 +88,9 @@ class ColdPrecisionShotV1(CombatAction):
         }
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Cold Precision Shot",
         )
 
@@ -105,9 +105,9 @@ class ColdPrecisionShotSecond(CombatAction):
         tags: set[DamageTag] = set()
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Cold Precision Shot",
         )
 
@@ -148,9 +148,9 @@ class ColdPrecisionShotSecondV1(CombatAction):
             )
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Cold Precision Shot",
             buffs_before=buffs_before,
         )
@@ -171,9 +171,9 @@ class ProfessionalTactics(CombatAction):
         }
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Professional Tactics",
         )
 
@@ -195,9 +195,9 @@ class Interception(CombatAction):
         }
 
         return DamageInstance(
-            label,
-            base_potency,
-            tags,
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
             group_name="Interception",
         )
 

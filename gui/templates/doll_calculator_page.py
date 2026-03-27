@@ -1,11 +1,14 @@
-from nicegui import ui
+from nicegui import events, ui
 
+import copy
+import inspect
 from typing import final, Any
 from abc import ABC, abstractmethod
 from dataclasses import asdict
 from decimal import Decimal, ROUND_DOWN
 
 from core.types import *
+from core.stat_serializer import SerializationError, StatsSerializer
 from core.combat import DamageInstance, sum_damage_instances
 from gui.templates.rotation_planner import RotationPlanner
 from gui.styles.descriptions import get_tag_description, get_stat_description
@@ -145,8 +148,8 @@ class DollCalculatorPage(ABC):
     def stats_update_callback(self, update: ui.number) -> None:
         """Updates elements when Doll stats are modified."""
         for di in self.damage_instances:
-            di.calculate_adjusted_potency(
-                self.doll.get_effective_special_attribute(SpecialAttribute.DAMAGE_BOOST)
+            di.damage_calculation_strategy.do_adjust_potency(
+                attacker=copy.deepcopy(self.doll), target=Unit(), damage_instance=di
             )
 
         self.update_actions_table()
@@ -167,8 +170,8 @@ class DollCalculatorPage(ABC):
         self.rotation_planner.set_options_config(self.option_config)
 
         for di in self.damage_instances:
-            di.calculate_adjusted_potency(
-                self.doll.get_effective_special_attribute(SpecialAttribute.DAMAGE_BOOST)
+            di.damage_calculation_strategy.do_adjust_potency(
+                attacker=copy.deepcopy(self.doll), target=Unit(), damage_instance=di
             )
 
         self.actions_table_data: list[dict] = [
@@ -180,6 +183,49 @@ class DollCalculatorPage(ABC):
             for di in self.damage_instances
         ]
         self.stats_update_callback(None)
+
+    def export_stats_json(self) -> str:
+        """Serialize the current doll stats to a JSON string."""
+        return StatsSerializer.save_to_string(self.doll, doll_name=self.doll.name)
+
+    def import_stats_from_unit(self, loaded: Unit) -> None:
+        """Copy stats from a deserialized Unit into self.doll in-place.
+
+        Mutates the existing dicts so that all bound UI inputs stay valid
+        and automatically reflect the new values.
+        """
+        # Basic attributes
+        for stat in StatType:
+            self.doll.initial_stats.basic_attributes[stat] = (
+                loaded.initial_stats.basic_attributes.get(stat, 0)
+            )
+            self.doll.additive_modifiers.basic_attributes[stat] = (
+                loaded.additive_modifiers.basic_attributes.get(stat, 0)
+            )
+            self.doll.multiplicative_modifiers.basic_attributes[stat] = (
+                loaded.multiplicative_modifiers.basic_attributes.get(stat, 0)
+            )
+
+        # Special attributes (all tags)
+        for attr in SpecialAttribute:
+            for tag in DamageTag:
+                self.doll.initial_stats.special_attributes[attr].multipliers[tag] = (
+                    loaded.initial_stats.special_attributes[attr].multipliers.get(
+                        tag, 0
+                    )
+                )
+                self.doll.additive_modifiers.special_attributes[attr].multipliers[
+                    tag
+                ] = loaded.additive_modifiers.special_attributes[attr].multipliers.get(
+                    tag, 0
+                )
+                self.doll.multiplicative_modifiers.special_attributes[attr].multipliers[
+                    tag
+                ] = loaded.multiplicative_modifiers.special_attributes[
+                    attr
+                ].multipliers.get(
+                    tag, 0
+                )
 
     def rebind_doll(self) -> None:
         """Binds UI elements to new Doll's stats."""
@@ -339,7 +385,9 @@ class DollCalculatorPage(ABC):
         grouped_damage_instances: dict[str, DamageInstance] = dict()
 
         for di in self.damage_instances:
-            grouped_damage_instances.setdefault(di.group_name, DamageInstance("", 0))
+            grouped_damage_instances.setdefault(
+                di.group_name, DamageInstance(label="", base_potency=0)
+            )
             grouped_damage_instances[di.group_name].base_potency += di.base_potency
             grouped_damage_instances[
                 di.group_name
@@ -397,7 +445,7 @@ class DollCalculatorPage(ABC):
         ]
 
         with ui.row():
-            with ui.card().classes("w-100 h-150"):
+            with ui.card().classes("w-85 h-150"):
                 self.doll_header()
                 self.revision_history()
 
@@ -429,11 +477,14 @@ class DollCalculatorPage(ABC):
                     special_stats_tab = ui.tab("Special").tooltip(
                         "Conditionally applied stats from innate abilities."
                     )
-                    additive_mods_tab = ui.tab("Additive Mods").tooltip(
+                    additive_mods_tab = ui.tab("Additive").tooltip(
                         '"Additive" modifiers from non-innate sources.'
                     )
-                    multiplicative_mods_tab = ui.tab("Multiplicative Mods").tooltip(
+                    multiplicative_mods_tab = ui.tab("Multiplicative").tooltip(
                         '"Multiplicative" modifiers from non-innate sources.'
+                    )
+                    save_load_tab = ui.tab("Load/Save").tooltip(
+                        "Export stats as JSON to copy/download, or import from a JSON file."
                     )
                 with ui.tab_panels(tabs, value=basic_stats_tab).classes(
                     "w-full h-full"
@@ -941,6 +992,204 @@ class DollCalculatorPage(ABC):
                                                     precision=1,
                                                     format="%.1f",
                                                 )
+
+                    with ui.tab_panel(save_load_tab):
+                        with ui.scroll_area().classes("w-full h-full"):
+                            ui.label("Export").classes("text-subtitle2 font-bold")
+                            ui.label(
+                                "Copy the JSON below and save it to a file. "
+                                "You can upload that file later to restore these stats."
+                            ).classes("text-sm text-gray-500")
+
+                            export_area = (
+                                ui.textarea(label="Stats JSON")
+                                .props("autogrow readonly")
+                                .classes("w-full font-mono text-xs")
+                            )
+
+                            with ui.row().classes("gap-2"):
+
+                                def _do_export() -> None:
+                                    export_area.value = self.export_stats_json()
+
+                                def _do_copy() -> None:
+                                    if not export_area.value:
+                                        ui.notify("Generate JSON first", type="warning")
+                                        return
+                                    escaped = export_area.value.replace(
+                                        "\\", "\\\\"
+                                    ).replace("`", "\\`")
+                                    ui.run_javascript(
+                                        f"navigator.clipboard.writeText(`{escaped}`)"
+                                    )
+                                    ui.notify("Copied to clipboard", type="positive")
+
+                                ui.button(
+                                    "Generate JSON",
+                                    on_click=_do_export,
+                                    icon="download",
+                                )
+                                ui.button(
+                                    "Copy", on_click=_do_copy, icon="content_copy"
+                                ).props("outline")
+
+                            ui.separator()
+                            ui.label("Import").classes("text-subtitle2 font-bold")
+                            ui.label(
+                                "Upload a saved .json file or paste JSON below."
+                            ).classes("text-sm text-gray-500")
+
+                            def _apply_import(json_string: str) -> None:
+                                try:
+                                    loaded_unit, metadata = (
+                                        StatsSerializer.load_from_string(json_string)
+                                    )
+                                except SerializationError as exc:
+                                    ui.notify(
+                                        f"Invalid configuration JSON: {exc}",
+                                        type="negative",
+                                    )
+                                    return
+                                self.import_stats_from_unit(loaded_unit)
+                                self.stats_update_callback(None)
+                                doll_name = metadata.get("doll_name") or "unknown"
+                                ui.notify(
+                                    f"Imported stats for '{doll_name}'",
+                                    type="positive",
+                                )
+
+                            async def _on_upload(
+                                e: events.UploadEventArguments,
+                            ) -> None:
+                                async def _maybe_await(value):
+                                    if inspect.isawaitable(value):
+                                        return await value
+                                    return value
+
+                                async def _read_text(source) -> str | None:
+                                    if source is None:
+                                        return None
+
+                                    if hasattr(source, "seek"):
+                                        try:
+                                            await _maybe_await(source.seek(0))
+                                        except Exception:
+                                            pass
+
+                                    if hasattr(source, "text"):
+                                        try:
+                                            text_val = await _maybe_await(
+                                                source.text(encoding="utf-8")
+                                            )
+                                            if isinstance(text_val, str):
+                                                return text_val
+                                        except TypeError:
+                                            try:
+                                                text_val = await _maybe_await(
+                                                    source.text()
+                                                )
+                                                if isinstance(text_val, str):
+                                                    return text_val
+                                            except Exception:
+                                                pass
+                                        except Exception:
+                                            pass
+
+                                    if hasattr(source, "read"):
+                                        raw = await _maybe_await(source.read())
+                                        if isinstance(
+                                            raw, (bytes, bytearray, memoryview)
+                                        ):
+                                            return bytes(raw).decode("utf-8")
+                                        if isinstance(raw, str):
+                                            return raw
+
+                                    if hasattr(source, "getvalue"):
+                                        raw = await _maybe_await(source.getvalue())
+                                        if isinstance(
+                                            raw, (bytes, bytearray, memoryview)
+                                        ):
+                                            return bytes(raw).decode("utf-8")
+                                        if isinstance(raw, str):
+                                            return raw
+
+                                    return None
+
+                                try:
+                                    payload = None
+
+                                    if hasattr(e, "content") and e.content is not None:
+                                        payload = await _read_text(e.content)
+
+                                    if (
+                                        payload is None
+                                        and hasattr(e, "file")
+                                        and e.file is not None
+                                    ):
+                                        payload = await _read_text(e.file)
+
+                                    if (
+                                        payload is None
+                                        and hasattr(e, "file")
+                                        and e.file is not None
+                                        and hasattr(e.file, "file")
+                                    ):
+                                        payload = await _read_text(e.file.file)
+
+                                except UnicodeDecodeError:
+                                    ui.notify(
+                                        "File must be UTF-8 encoded JSON",
+                                        type="negative",
+                                    )
+                                    return
+
+                                if payload is None:
+                                    ui.notify(
+                                        "Could not read uploaded file",
+                                        type="negative",
+                                    )
+                                    return
+
+                                payload = (
+                                    payload.lstrip("\ufeff") if payload else payload
+                                )
+                                if not payload or not payload.strip():
+                                    ui.notify("Uploaded file is empty", type="negative")
+                                    return
+                                if payload.lstrip()[:1] not in {"{", "["}:
+                                    ui.notify(
+                                        "Upload did not contain JSON text",
+                                        type="negative",
+                                    )
+                                    return
+                                paste_area.value = payload
+                                _apply_import(payload)
+
+                            ui.upload(
+                                label="Upload .json configuration",
+                                on_upload=_on_upload,
+                                auto_upload=True,
+                            ).props("accept=.json")
+
+                            paste_area = (
+                                ui.textarea(
+                                    label="Or paste JSON here",
+                                    placeholder=(
+                                        '{ "metadata": { ... }, '
+                                        '"initial_stats": { ... } ... }'
+                                    ),
+                                )
+                                .props("autogrow")
+                                .classes("w-full font-mono text-xs")
+                            )
+
+                            ui.button(
+                                "Import from text",
+                                on_click=lambda: _apply_import(
+                                    paste_area.value.strip()
+                                ),
+                                icon="upload",
+                            )
 
         ui.separator().classes("w-330")
 
