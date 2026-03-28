@@ -94,7 +94,7 @@ class TestLainieSkills:
         ]
 
     def test_phantom_barrage(self):
-        pb: DamageInstance = PhantomBarrage().execute()
+        pb: DamageInstance = PerplexedReflex().execute()
 
         assert pb.base_potency == 80
         assert DamageTag.PHYSICAL_SUMMON in pb.tags
@@ -154,7 +154,7 @@ class TestLainieSkills:
         assert os.base_potency == 100
 
     def test_cognition_overclock(self):
-        co: DamageInstance = CognitionOverclock().execute()
+        co: DamageInstance = HashrateOverclock().execute()
 
         assert co.base_potency == 120
         assert DamageTag.PHYSICAL_SUMMON in co.tags
@@ -191,9 +191,9 @@ class TestLainie:
         assert isinstance(lainie.victory_protocol, VictoryProtocol)
         assert isinstance(lainie.combat_algorithm, CombatAlgorithm)
         assert isinstance(lainie.computational_crush, ComputationalCrush)
-        assert isinstance(lainie.phantom_barrage, PhantomBarrage)
+        assert isinstance(lainie.perplexed_reflex, PerplexedReflex)
         assert isinstance(lainie.offense_simulation, OffenseSimulation)
-        assert isinstance(lainie.cognition_overclock, CognitionOverclock)
+        assert isinstance(lainie.hashrate_overclock, HashrateOverclock)
         assert lainie.get_summoned_unit("Simulacrum") is not None
 
     def test_set_to_v2(self):

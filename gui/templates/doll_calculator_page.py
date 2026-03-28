@@ -149,7 +149,9 @@ class DollCalculatorPage(ABC):
         """Updates elements when Doll stats are modified."""
         for di in self.damage_instances:
             di.damage_calculation_strategy.do_adjust_potency(
-                attacker=copy.deepcopy(self.doll), target=Unit(), damage_instance=di
+                attacker=copy.deepcopy(self.doll),
+                target=Unit(stats=StatSheet(basic_attributes={StatType.DEFENSE: -1})),
+                damage_instance=di,
             )
 
         self.update_actions_table()
@@ -171,7 +173,9 @@ class DollCalculatorPage(ABC):
 
         for di in self.damage_instances:
             di.damage_calculation_strategy.do_adjust_potency(
-                attacker=copy.deepcopy(self.doll), target=Unit(), damage_instance=di
+                attacker=copy.deepcopy(self.doll),
+                target=Unit(stats=StatSheet(basic_attributes={StatType.DEFENSE: -1})),
+                damage_instance=di,
             )
 
         self.actions_table_data: list[dict] = [
@@ -187,6 +191,14 @@ class DollCalculatorPage(ABC):
     def export_stats_json(self) -> str:
         """Serialize the current doll stats to a JSON string."""
         return StatsSerializer.save_to_string(self.doll, doll_name=self.doll.name)
+
+    def export_stats_filename(self) -> str:
+        """Build a safe default filename for exported stats."""
+        safe_name = "".join(
+            character.lower() if character.isalnum() else "_"
+            for character in self.doll.name.strip()
+        ).strip("_")
+        return f"{safe_name or 'doll'}_stats.json"
 
     def import_stats_from_unit(self, loaded: Unit) -> None:
         """Copy stats from a deserialized Unit into self.doll in-place.
@@ -344,7 +356,7 @@ class DollCalculatorPage(ABC):
     @abstractmethod
     def set_initial_values(self) -> None:
         """Initializes Doll's stats to specified values."""
-        pass
+        ...
 
     def update_actions_table(self) -> None:
         """Updates the Actions Table."""
@@ -447,7 +459,8 @@ class DollCalculatorPage(ABC):
         with ui.row():
             with ui.card().classes("w-85 h-150"):
                 self.doll_header()
-                self.revision_history()
+                with ui.scroll_area().classes("w-full h-full"):
+                    self.revision_history()
 
                 with ui.grid(columns="50% auto").classes("w-full gap-0"):
                     ui.select(
@@ -469,7 +482,7 @@ class DollCalculatorPage(ABC):
             with ui.card().classes("w-75 h-150"):
                 ui.image(self.doll_portrait)
 
-            with ui.card().classes("w-150 h-150"):
+            with ui.card().classes("w-160 h-150"):
                 with ui.tabs().classes("w-full") as tabs:
                     basic_stats_tab = ui.tab("Basic").tooltip(
                         "Initial values of basic stats as seen in Refitting Room or Formation."
@@ -996,47 +1009,32 @@ class DollCalculatorPage(ABC):
                     with ui.tab_panel(save_load_tab):
                         with ui.scroll_area().classes("w-full h-full"):
                             ui.label("Export").classes("text-subtitle2 font-bold")
-                            ui.label(
-                                "Copy the JSON below and save it to a file. "
-                                "You can upload that file later to restore these stats."
-                            ).classes("text-sm text-gray-500")
-
-                            export_area = (
-                                ui.textarea(label="Stats JSON")
-                                .props("autogrow readonly")
-                                .classes("w-full font-mono text-xs")
+                            (
+                                ui.label(
+                                    "Download a JSON file with the current configuration. "
+                                    "You can upload that file later to restore these stats."
+                                ).classes("text-sm text-gray-500")
                             )
 
                             with ui.row().classes("gap-2"):
 
                                 def _do_export() -> None:
-                                    export_area.value = self.export_stats_json()
-
-                                def _do_copy() -> None:
-                                    if not export_area.value:
-                                        ui.notify("Generate JSON first", type="warning")
-                                        return
-                                    escaped = export_area.value.replace(
-                                        "\\", "\\\\"
-                                    ).replace("`", "\\`")
-                                    ui.run_javascript(
-                                        f"navigator.clipboard.writeText(`{escaped}`)"
+                                    ui.download.content(
+                                        self.export_stats_json(),
+                                        self.export_stats_filename(),
+                                        media_type="application/json",
                                     )
-                                    ui.notify("Copied to clipboard", type="positive")
 
                                 ui.button(
-                                    "Generate JSON",
+                                    "Download JSON",
                                     on_click=_do_export,
                                     icon="download",
                                 )
-                                ui.button(
-                                    "Copy", on_click=_do_copy, icon="content_copy"
-                                ).props("outline")
 
                             ui.separator()
                             ui.label("Import").classes("text-subtitle2 font-bold")
                             ui.label(
-                                "Upload a saved .json file or paste JSON below."
+                                "Upload a saved .json file to restore these stats."
                             ).classes("text-sm text-gray-500")
 
                             def _apply_import(json_string: str) -> None:
@@ -1162,7 +1160,6 @@ class DollCalculatorPage(ABC):
                                         type="negative",
                                     )
                                     return
-                                paste_area.value = payload
                                 _apply_import(payload)
 
                             ui.upload(
@@ -1170,26 +1167,6 @@ class DollCalculatorPage(ABC):
                                 on_upload=_on_upload,
                                 auto_upload=True,
                             ).props("accept=.json")
-
-                            paste_area = (
-                                ui.textarea(
-                                    label="Or paste JSON here",
-                                    placeholder=(
-                                        '{ "metadata": { ... }, '
-                                        '"initial_stats": { ... } ... }'
-                                    ),
-                                )
-                                .props("autogrow")
-                                .classes("w-full font-mono text-xs")
-                            )
-
-                            ui.button(
-                                "Import from text",
-                                on_click=lambda: _apply_import(
-                                    paste_area.value.strip()
-                                ),
-                                icon="upload",
-                            )
 
         ui.separator().classes("w-330")
 

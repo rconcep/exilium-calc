@@ -3,11 +3,90 @@ from nicegui import ui
 from gui.templates.doll_calculator_page import DollCalculatorPage
 from gui.templates.rotation_planner import RotationPlanner
 from typing import Any, override
-from core.types import FortificationLevel, StatType, Unit
+from core.types import FortificationLevel, StatType, Unit, SpecialAttribute, DamageTag
 from core.dolls import lainie
 
 
-sample_rotation: dict[int, list[dict]] = {}
+sample_rotation: dict[int, list[dict]] = {
+    1: [
+        # Summon Simulacrum
+        {
+            "name": "Offense Simulation (Simulacrum)",
+            "number_of_targets": 1,
+            "hit_same_target_as_combat_algorithm": True,
+        },
+        {
+            "name": "Combat Algorithm",
+            "target_has_nonpositive_defense": True,
+        },
+    ],
+    2: [
+        {
+            "name": "Offense Simulation (Simulacrum)",
+            "number_of_targets": 1,
+            "hit_same_target_as_combat_algorithm": True,
+        },
+        {
+            "name": "Combat Algorithm",
+            "target_has_nonpositive_defense": True,
+        },
+    ],
+    3: [
+        {
+            "name": "Offense Simulation (Simulacrum)",
+            "number_of_targets": 1,
+            "hit_same_target_as_combat_algorithm": True,
+        },
+        {
+            "name": "Combat Algorithm",
+            "target_has_nonpositive_defense": True,
+        },
+    ],
+    4: [
+        {
+            "name": "Offense Simulation (Simulacrum)",
+            "number_of_targets": 1,
+            "hit_same_target_as_combat_algorithm": True,
+        },
+        {
+            "name": "Combat Algorithm",
+            "target_has_nonpositive_defense": True,
+        },
+    ],
+    5: [
+        {
+            "name": "Offense Simulation (Simulacrum)",
+            "number_of_targets": 1,
+            "hit_same_target_as_combat_algorithm": True,
+        },
+        {
+            "name": "Combat Algorithm",
+            "target_has_nonpositive_defense": True,
+        },
+    ],
+    6: [
+        {
+            "name": "Offense Simulation (Simulacrum)",
+            "number_of_targets": 1,
+            "hit_same_target_as_combat_algorithm": True,
+        },
+        {
+            "name": "Combat Algorithm",
+            "target_has_nonpositive_defense": True,
+        },
+    ],
+    7: [
+        {
+            "name": "Offense Simulation (Simulacrum)",
+            "number_of_targets": 1,
+            "hit_same_target_as_combat_algorithm": True,
+        },
+        {
+            "name": "Combat Algorithm",
+            "target_has_nonpositive_defense": True,
+        },
+    ],
+}
 
 
 class Lainie(DollCalculatorPage):
@@ -37,8 +116,8 @@ class Lainie(DollCalculatorPage):
                     {
                         "key": "target_has_nonpositive_defense",
                         "type": "checkbox",
-                        "label": "Target has non-positive defense",
-                        "default": False,
+                        "label": "Target Defense ≤ 0",
+                        "default": True,
                     },
                 ],
                 "function": self._lainie.combat_algorithm.execute,
@@ -47,11 +126,11 @@ class Lainie(DollCalculatorPage):
                 "fields": [],
                 "function": self._lainie.computational_crush.execute,
             },
-            "Phantom Barrage": {
+            "Perplexed Reflex (Simulacrum)": {
                 "fields": [],
-                "function": self._lainie.phantom_barrage.execute,
+                "function": self._lainie.perplexed_reflex.execute,
             },
-            "Offense Simulation": {
+            "Offense Simulation (Simulacrum)": {
                 "fields": [
                     {
                         "key": "number_of_targets",
@@ -68,18 +147,81 @@ class Lainie(DollCalculatorPage):
                 ],
                 "function": self._lainie.offense_simulation.execute,
             },
-            "Cognition Overclock": {
+            "Hashrate Overclock (Simulacrum)": {
                 "fields": [],
-                "function": self._lainie.cognition_overclock.execute,
+                "function": self._lainie.hashrate_overclock.execute,
             },
         }
 
     @override
     def set_initial_values(self) -> None:
-        self.doll.initial_stats.basic_attributes[StatType.ATTACK] = 4200
-        self.doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 80
-        self.doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 150
-        self.doll.initial_stats.basic_attributes[StatType.HEALTH] = 3200
+        self.doll.initial_stats.basic_attributes[StatType.ATTACK] = 3900
+
+        # Base + Universal Keys + Weapon Attachment
+        self.doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 20 + 15 + 30
+
+        # Base + Universal Keys + Signature Weapon + Weapon Attachment
+        self.doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = (
+            120 + 20 + 25 + 15
+        )
+        self.doll.initial_stats.basic_attributes[StatType.HEALTH] = 5200
+
+        # Attachments, common keys, imagoform, specialized traits
+
+        # imagoform: 12
+        # CQC elite: 0.4
+        # Imagoform (Shoot): 4+3
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.ALL, 12 + 0.4 + 4 + 3)
+
+        # attachment: 20
+        # imagoform: 5
+        # physical boost: 1.5
+        # physical Unity: 0.9
+        # Imagoform (Bud): 3
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.PHYSICAL, 20 + 5 + 1.5 + 0.9 + 3)
+
+        # imagoform: 8
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.PHYSICAL_SUMMON, 8)
+
+        # imagoform: 10
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.STABILITY_BROKEN, 10)
+
+        # thronebreaker: 5
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.BOSS, 5)
+
+        # smite boost: 2.4
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.CRITICAL_DAMAGE
+        ].set_multiplier(DamageTag.ALL, 2.4)
+
+        # ambush mastery: 0.2
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.CRITICAL_DAMAGE
+        ].set_multiplier(DamageTag.PASSIVE, 0.2)
+
+        # imagoform: 8
+        # attack boost: 3.6
+        # Support Imagoform: 3
+        self.doll.multiplicative_modifiers.basic_attributes[StatType.ATTACK] = (
+            8 + 3.6 + 3
+        )
+
+        # Project Helios: 20 + 15
+        # Yoohee Sparkling Centerstage: 10
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DEFENSE_IGNORE
+        ].set_multiplier(DamageTag.PHYSICAL, 20 + 15 + 10)
+
         # Sync the Simulacrum now that real stats are in place.
         self._lainie.refresh_simulacrum()
 

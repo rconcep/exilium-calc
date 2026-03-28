@@ -252,6 +252,100 @@ class CooperativeHunt(Buff):
         return ret
 
 
+class SynchronizedPower(Buff):
+    """Attack is increased by 15%."""
+
+    display_name = "Synchronized Power (Lainie)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        self.value = 15
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.ATTACK
+
+
+class NeverGiveUp(Buff):
+    """Buff granted to Yoohee; applied to allied units when dealing Physical damage."""
+
+    display_name = "Never Give Up (Yoohee)"
+    max_stack_count = 4
+    stack_input_type = "select"
+
+    def __init__(self, stacks: int):
+        """
+        Arguments:
+        stacks -- the number of stacks of this buff, up to 4
+        """
+        value: int = 15 * min(4, stacks)
+
+        self.value = value
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DEFENSE_IGNORE
+        self.tag = DamageTag.PHYSICAL
+
+
+class TroupesCore(Buff):
+    """Buff granted to Yoohee."""
+
+    display_name = "Troupe's Core (Yoohee)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, yoohee_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        yoohee_fortification_level -- the Fortification Level of Yoohee granting this buff
+        """
+        if yoohee_fortification_level >= FortificationLevel.SEGMENT03:
+            self.value = 50
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DEFENSE_IGNORE
+        self.tag = DamageTag.ALL
+
+
+class GracefulSpin(Buff):
+    """Buff granted by Yoohee. Mutually exclusive with Passionate Spin."""
+
+    display_name = "Graceful Spin (Yoohee)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        self.value = 10
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.CRITICAL_DAMAGE
+        self.tag = DamageTag.ALL
+
+
+class PassionateSpin(Buff):
+    """Buff granted by Yoohee. Mutually exclusive with Graceful Spin."""
+
+    display_name = "Passionate Spin (Yoohee)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        self.value = 10
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.CRITICAL_DAMAGE
+        self.tag = DamageTag.ALL
+
+
+class PreshowWarmup(Buff):
+    """Buff granted by Yoohee (V6)."""
+
+    display_name = "Preshow Warmup (Yoohee)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        self.value = 25
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.CRITICAL_DAMAGE
+        self.tag = DamageTag.PHYSICAL
+
+
 class UnshakableConfidence(Buff):
     """Buff granted to Mosin-Nagant after support actions."""
 
@@ -652,6 +746,76 @@ class Rend(Debuff):
         self.value = 30
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.PHYSICAL
+
+
+class ParapluiesPenetration(Debuff):
+    """Lainie debuff"""
+
+    display_name = "Parapluie's Penetration (Lainie)"
+    max_stack_count = 6
+    stack_input_type = "select"
+
+    def __init__(self, stacks: int, lainie_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        stacks -- the number of stacks of this buff
+        lainie_fortification_level -- the Fortification Level of the Lainie applying this debuff
+        """
+        # Expansion Key: Superimposed Algorithm - Additional 6%
+        reduction_per_stack: int = -(15 + 6)
+        max_stacks: int = 3
+
+        if lainie_fortification_level >= FortificationLevel.SEGMENT01:
+            max_stacks = 6
+
+        self.value = reduction_per_stack * min(max_stacks, stacks)
+
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.DEFENSE
+
+
+class PrecognitionForesight(Debuff):
+    """Lainie debuff"""
+
+    display_name = "Precognition Foresight (Lainie)"
+    max_stack_count = 6
+    stack_input_type = "select"
+
+    def __init__(self, lainie_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        lainie_fortification_level -- the Fortification Level of the Lainie applying this debuff
+        """
+        if lainie_fortification_level >= FortificationLevel.SEGMENT03:
+            self.value = -20
+        else:
+            self.value = -10
+
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.DEFENSE
+        self.tag = DamageTag.PHYSICAL
+
+
+class PrecognitionAwareness(Debuff):
+    """Lainie's Simulacrum debuff"""
+
+    display_name = "Precognition Awareness (Simulacrum)"
+    max_stack_count = 6
+    stack_input_type = "select"
+
+    def __init__(self, lainie_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        lainie_fortification_level -- the Fortification Level of the Lainie applying this debuff
+        """
+        if lainie_fortification_level >= FortificationLevel.SEGMENT03:
+            self.value = -20
+        else:
+            self.value = -10
+
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.DEFENSE
         self.tag = DamageTag.PHYSICAL
 
 

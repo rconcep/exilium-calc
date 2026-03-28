@@ -246,12 +246,12 @@ class ComputationalCrush(CombatAction):
         )
 
 
-class PhantomBarrage(CombatAction):
+class PerplexedReflex(CombatAction):
     """Simulacrum Basic Attack."""
 
     @override
     def execute(self) -> DamageInstance:
-        label: str = "Phantom Barrage"
+        label: str = "Perplexed Reflex"
         base_potency: int = 80
 
         tags: set[DamageTag] = {
@@ -267,7 +267,7 @@ class PhantomBarrage(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Phantom Barrage",
+            group_name="Perplexed Reflex",
             damage_calculation_strategy=SimulacrumDamageCalculationStrategy(),
         )
 
@@ -428,12 +428,12 @@ class OffenseSimulationV6(CombatAction):
         )
 
 
-class CognitionOverclock(CombatAction):
+class HashrateOverclock(CombatAction):
     """Simulacrum S2."""
 
     @override
     def execute(self) -> DamageInstance:
-        label: str = "Cognition Overclock"
+        label: str = "Hashrate Overclock"
         base_potency: int = 120
 
         tags: set[DamageTag] = {
@@ -459,7 +459,7 @@ class CognitionOverclock(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Cognition Overclock",
+            group_name="Hashrate Overclock",
             damage_calculation_strategy=SimulacrumDamageCalculationStrategy(),
             buffs_before=buffs_before,
         )
@@ -492,9 +492,9 @@ class Lainie(Doll):
     victory_protocol: CombatAction = Field(default_factory=VictoryProtocol)
     combat_algorithm: CombatAction = Field(default_factory=CombatAlgorithm)
     computational_crush: CombatAction = Field(default_factory=ComputationalCrush)
-    phantom_barrage: CombatAction = Field(default_factory=PhantomBarrage)
+    perplexed_reflex: CombatAction = Field(default_factory=PerplexedReflex)
     offense_simulation: CombatAction = Field(default_factory=OffenseSimulation)
-    cognition_overclock: CombatAction = Field(default_factory=CognitionOverclock)
+    hashrate_overclock: CombatAction = Field(default_factory=HashrateOverclock)
 
     def _build_simulacrum(self) -> PhysicalSummonedUnit:
         return PhysicalSummonedUnit(
@@ -517,9 +517,7 @@ class Lainie(Doll):
         Call this whenever Lainie's stats have been mutated so that subsequent
         deepcopy-based damage calculations see up-to-date Simulacrum stats.
         """
-        self.summoned_units = [
-            u for u in self.summoned_units if u.name != "Simulacrum"
-        ]
+        self.summoned_units = [u for u in self.summoned_units if u.name != "Simulacrum"]
         self.summoned_units.append(self._build_simulacrum())
 
     @override
@@ -532,9 +530,9 @@ class Lainie(Doll):
         self.victory_protocol = VictoryProtocol()
         self.combat_algorithm = CombatAlgorithm()
         self.computational_crush = ComputationalCrush()
-        self.phantom_barrage = PhantomBarrage()
+        self.perplexed_reflex = PerplexedReflex()
         self.offense_simulation = OffenseSimulation()
-        self.cognition_overclock = CognitionOverclock()
+        self.hashrate_overclock = HashrateOverclock()
 
         self.summon_simulacrum()
 

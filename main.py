@@ -28,25 +28,20 @@ def root():
         "Voymastina": "/voymastina",
         "Tololo": "/tololo",
     }
+    with ui.header(fixed=True, bordered=True):
+        with ui.row().classes("w-full items-center"):
+            ui.button("", icon="home", on_click=lambda: ui.navigate.to("/")).props(
+                "color=primary push"
+            )
+            ui.select(
+                options=sorted(list(pages.keys())),
+                label="Doll",
+                with_input=True,
+                new_value_mode=None,
+                on_change=lambda t: ui.navigate.to(pages[t.value]),
+            ).props("square outlined")
 
-    with ui.row().classes("w-full items-center"):
-        ui.button("", icon="home", on_click=lambda: ui.navigate.to("/")).props("flat")
-        ui.select(
-            options=sorted(list(pages.keys())),
-            label="Doll",
-            with_input=True,
-            new_value_mode=None,
-            on_change=lambda t: ui.navigate.to(pages[t.value]),
-        ).props("standout")
-
-        # with ui.button(icon='menu'):
-        #     with ui.menu() as menu:
-        #         ui.menu_item('Home', lambda: ui.navigate.to('/'))
-        #         ui.menu_item('Robella', lambda: ui.navigate.to('/robella'))
-        #         ui.menu_item('Voymastina', lambda: ui.navigate.to('/voymastina'))
-        #         ui.menu_item('Lewis', lambda: ui.navigate.to('/lewis'))
-
-        ui.switch("Dark mode").bind_value(dark)
+            ui.switch("Dark mode").bind_value(dark).props("color=white")
 
     ui.sub_pages(
         {
@@ -62,6 +57,9 @@ def root():
             "/nikketa": Nikketa().get_page,
         }
     )
+
+    with ui.footer(bordered=True, fixed=False):
+        ui.label("Exilium-Calc © 2026").classes("text-center w-full")
 
 
 def mainpage() -> None:
@@ -118,6 +116,11 @@ tab is shared with all tools!
             ui.separator()
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
+                    ui.timeline_entry(
+                        "Implemented preview of Lainie (why does her scaling look insane?)",
+                        title="",
+                        subtitle="March 27, 2026",
+                    )
                     ui.timeline_entry(
                         "Added feature to save/load Doll stats as JSON files",
                         title="Added save/load feature",
