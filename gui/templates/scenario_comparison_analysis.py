@@ -195,9 +195,13 @@ def create_scenario_row(
             )
 
         with ui.row().classes("w-full gap-2"):
-            add_component_btn = ui.button("+ Component", color="secondary")
-            remove_component_btn = ui.button("- Component", color="secondary")
-            remove_row_btn = ui.button("Remove Row", color="negative").props("outline")
+            add_component_btn = ui.button("Component", icon="add", color="secondary")
+            remove_component_btn = ui.button(
+                "Component", icon="remove", color="secondary"
+            )
+            remove_row_btn = ui.button("Remove Scenario", color="negative").props(
+                "outline"
+            )
 
         with ui.column().classes("w-full gap-2") as component_container_1:
             ui.label("Component 1").classes("text-caption text-bold")
@@ -230,7 +234,7 @@ def create_scenario_row(
                 row_special_attribute_1 = ui.select(
                     options=[attribute for attribute in SpecialAttribute],
                     value=component_1["special_attribute"],
-                    label="Special attr",
+                    label="Special Attribute",
                 ).on(
                     "update:model-value",
                     lambda e: update_scenario_comparison_chart(tool, e),
@@ -275,7 +279,7 @@ def create_scenario_row(
                 row_special_attribute_2 = ui.select(
                     options=[attribute for attribute in SpecialAttribute],
                     value=component_2["special_attribute"],
-                    label="Special attr",
+                    label="Special Attribute",
                 ).on(
                     "update:model-value",
                     lambda e: update_scenario_comparison_chart(tool, e),
@@ -320,7 +324,7 @@ def create_scenario_row(
                 row_special_attribute_3 = ui.select(
                     options=[attribute for attribute in SpecialAttribute],
                     value=component_3["special_attribute"],
-                    label="Special attr",
+                    label="Special Attribute",
                 ).on(
                     "update:model-value",
                     lambda e: update_scenario_comparison_chart(tool, e),

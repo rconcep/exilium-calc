@@ -101,12 +101,17 @@ gearing choices (base damage, critical damage multiplier, increased damage taken
             """,
             )
 
-        with ui.card().classes("w-150 h-100"):
+        with ui.card().classes("w-150 h-150"):
             ui.markdown(
                 """## Damage Calculator
 A tool used for calculating the damage dealt by a single action. Apply buffs to the Doll and debuffs to the target,
 select a skill, and hit calculate to see the expected result. Note that all visible stats are applied - the attribute
 tab is shared with all tools!
+
+### Scenario Comparison
+Trying to figure out if losing 3 levels of Freeze Boost for 3 levels of Freeze Smite in your Remolding Core is worth it? This feature 
+allows you to compare the expected damage output of different scenarios by applying the respective stat changes to the Doll and 
+comparing the resulting expected damage (for a specific action under specified conditions).
 
 ### Stat Increment Analysis
 Should you add "increased damage" modifiers or "increased critical damage", given the Doll's current build? This feature 
@@ -121,6 +126,11 @@ each stat and observing the resulting change in expected damage.
             ui.separator()
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
+                    ui.timeline_entry(
+                        "Trying to decide which attachment or growth data to use? See which stat change combination increases damage more.",
+                        title="Added Scenario Comparison to Damage Calculator",
+                        subtitle="March 28, 2026",
+                    )
                     ui.timeline_entry(
                         "Analyze relative change in expected damage by marginal changes in stats",
                         title="Added Stat Increment Analysis to Damage Calculator",

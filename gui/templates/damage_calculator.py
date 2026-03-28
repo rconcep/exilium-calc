@@ -461,7 +461,11 @@ class DamageCalculator:
 
         ### Incremental Scenario Comparison (top, open by default)
         with ui.expansion(
-            "Scenario Comparison", value=True, group="stat-increment-analysis"
+            "Scenario Comparison",
+            caption="Expected damage change for specific stat change scenarios",
+            value=True,
+            icon="analytics",
+            group="stat-increment-analysis",
         ).classes("w-full"):
             with ui.row().classes("w-full gap-2"):
                 ui.button("Add Scenario", on_click=self._add_single_scenario_row)
@@ -474,18 +478,18 @@ class DamageCalculator:
 
             default_tag: DamageTag = self._default_scenario_tag()
             self._create_scenario_row(
-                label="+30 Initial Attack",
-                mode="single",
+                label="Crit Dmg for Dmg Boost",
+                mode="combined",
                 component_1={
-                    "source": "initial_stats",
-                    "increment": 30,
-                    "stat": StatType.ATTACK,
-                    "special_attribute": SpecialAttribute.DAMAGE_BOOST,
+                    "source": "additive_special_attributes",
+                    "increment": -0.8,
+                    "stat": StatType.CRIT_DAMAGE,
+                    "special_attribute": SpecialAttribute.CRITICAL_DAMAGE,
                     "tag": default_tag,
                 },
                 component_2={
-                    "source": "initial_stats",
-                    "increment": 0,
+                    "source": "additive_special_attributes",
+                    "increment": 2,
                     "stat": StatType.HEALTH,
                     "special_attribute": SpecialAttribute.DAMAGE_BOOST,
                     "tag": default_tag,
@@ -499,7 +503,7 @@ class DamageCalculator:
                 },
             )
             self._create_scenario_row(
-                label="+50 Initial Health",
+                label="Change Attack for Health",
                 mode="combined",
                 component_1={
                     "source": "initial_stats",
@@ -510,7 +514,7 @@ class DamageCalculator:
                 },
                 component_2={
                     "source": "initial_stats",
-                    "increment": 0,
+                    "increment": -20,
                     "stat": StatType.ATTACK,
                     "special_attribute": SpecialAttribute.DAMAGE_BOOST,
                     "tag": default_tag,
@@ -524,11 +528,11 @@ class DamageCalculator:
                 },
             )
             self._create_scenario_row(
-                label="+4 Additive Damage Boost [All]",
+                label="+2 Additive Damage Boost [All]",
                 mode="single",
                 component_1={
                     "source": "additive_special_attributes",
-                    "increment": 4,
+                    "increment": 2,
                     "stat": StatType.ATTACK,
                     "special_attribute": SpecialAttribute.DAMAGE_BOOST,
                     "tag": default_tag,
@@ -556,7 +560,11 @@ class DamageCalculator:
 
         ### Sweep (below, closed by default)
         with ui.expansion(
-            "Stat Increment Analysis", value=False, group="stat-increment-analysis"
+            "Stat Increment Analysis",
+            caption="Expected damage as a function of stats",
+            value=False,
+            icon="data_exploration",
+            group="stat-increment-analysis",
         ).classes("w-full"):
             with ui.grid(columns=3).classes("w-full gap-2"):
                 self.delta_increment_input = ui.number(
@@ -579,7 +587,7 @@ class DamageCalculator:
                             "additive_special_attributes": "Additive Modifiers (Special)",
                             "multi_series": "Custom Multi-Series",
                         },
-                        value="initial_stats",
+                        value="multi_series",
                         label="Increment source",
                     )
                     .classes("w-full")
@@ -641,7 +649,7 @@ class DamageCalculator:
                     self.delta_multi_initial_stats_selector = (
                         ui.select(
                             options=[stat for stat in StatType],
-                            value=[StatType.ATTACK],
+                            value=[],
                             multiple=True,
                             with_input=False,
                             label="Initial stats (multi-series)",
@@ -670,7 +678,11 @@ class DamageCalculator:
                 self.delta_multi_additive_special_selector = (
                     ui.select(
                         options=self.delta_special_combo_options,
-                        value=[],
+                        value=[
+                            f"{SpecialAttribute.DAMAGE_BOOST.value}::{DamageTag.ALL.value}",
+                            f"{SpecialAttribute.CRITICAL_DAMAGE.value}::{DamageTag.ALL.value}",
+                            f"{SpecialAttribute.DEFENSE_IGNORE.value}::{DamageTag.ALL.value}",
+                        ],
                         multiple=True,
                         with_input=True,
                         label="Additive modifiers (special) (multi-series)",
