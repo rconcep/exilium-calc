@@ -107,6 +107,11 @@ gearing choices (base damage, critical damage multiplier, increased damage taken
 A tool used for calculating the damage dealt by a single action. Apply buffs to the Doll and debuffs to the target,
 select a skill, and hit calculate to see the expected result. Note that all visible stats are applied - the attribute
 tab is shared with all tools!
+
+### Stat Increment Analysis
+Should you add "increased damage" modifiers or "increased critical damage", given the Doll's current build? This feature 
+allows you to see which stats provide the most marginal benefit to expected damage output by incrementally increasing 
+each stat and observing the resulting change in expected damage.
                         """
             )
 
@@ -116,6 +121,11 @@ tab is shared with all tools!
             ui.separator()
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
+                    ui.timeline_entry(
+                        "Analyze relative change in expected damage by marginal changes in stats",
+                        title="Added Stat Increment Analysis to Damage Calculator",
+                        subtitle="March 28, 2026",
+                    )
                     ui.timeline_entry(
                         "Implemented preview of Lainie (why does her scaling look insane?)",
                         title="",
