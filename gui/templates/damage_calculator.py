@@ -15,6 +15,8 @@ from core.buffs import Buff, Debuff, buffs_option_config, debuffs_option_config
 from gui.templates.doll_calculator_page import DollCalculatorPage
 from gui.templates.single_configurable_item_editor import SingleConfigurableItemEditor
 from gui.templates.selectable_chips_editor import SelectableChipsEditor
+import gui.templates.increment_sweep_analysis as sweep_analysis
+import gui.templates.scenario_comparison_analysis as scenario_analysis
 from gui.styles.descriptions import get_tag_description, get_stat_description
 
 
@@ -65,8 +67,23 @@ class DamageCalculator:
                 "legend": {"orientation": "h", "y": -0.25},
             },
         }
+        self.scenario_chart: dict[str, Any] = {
+            "data": [],
+            "layout": {
+                "title": {"text": "Scenario Comparison (Single Increment)"},
+                "margin": {"l": 250, "r": 20, "t": 50, "b": 50},
+                "plot_bgcolor": "#E5ECF6",
+                "xaxis": {
+                    "title": {"text": "Change in expected damage (%)"},
+                    "gridcolor": "white",
+                },
+                "yaxis": {"gridcolor": "white"},
+                "showlegend": False,
+            },
+        }
 
         self.delta_chart_plot: ui.plotly
+        self.scenario_chart_plot: ui.plotly
         self.delta_increment_input: ui.number
         self.delta_steps_input: ui.number
         self.delta_stats_selector: ui.select
@@ -79,6 +96,9 @@ class DamageCalculator:
         self.delta_basic_controls_container: ui.column
         self.delta_single_special_controls_container: ui.column
         self.delta_multi_controls_container: ui.column
+        self.scenario_rows_container: ui.column
+        self.delta_scenario_rows: list[dict[str, Any]] = []
+        self.delta_scenario_next_index: int = 1
 
         self.delta_special_combo_options: dict[str, str] = {
             f"{attribute.value}::{tag.value}": f"{attribute.value} [{tag.value}]"
@@ -195,249 +215,91 @@ class DamageCalculator:
         )
 
         self._update_expected_damage_delta_chart()
+        self._update_scenario_comparison_chart()
 
     def _update_expected_damage_delta_chart(self, _event: Any = None) -> None:
         """Updates expected damage deltas from basic stat increments."""
-        if not self.last_action_type:
-            self.delta_chart["data"] = []
-            ui.update(self.delta_chart_plot)
-            return
+        return sweep_analysis.update_expected_damage_delta_chart(self, _event)
 
-        increment: float = float(self.delta_increment_input.value or 0)
-        steps: int = int(self.delta_steps_input.value or 0)
-        x_values: list[float] = [increment * i for i in range(steps + 1)]
-        stat_source: str = self.delta_stat_source_selector.value or "initial_stats"
+    def _default_scenario_tag(self) -> DamageTag:
+        """Returns a stable default tag for scenario controls."""
+        return scenario_analysis.default_scenario_tag(self)
 
-        selected_multi_initial_stats: list[StatType] = (
-            self.delta_multi_initial_stats_selector.value or []  # type: ignore
-        )
-        selected_multi_additive_stats: list[StatType] = (
-            self.delta_multi_additive_stats_selector.value or []  # type: ignore
-        )
-        selected_multi_additive_special: list[str] = (
-            self.delta_multi_additive_special_selector.value or []  # type: ignore
-        )
-
-        selected_stats: list[StatType] = self.delta_stats_selector.value or []  # type: ignore
-        selected_special_attribute: SpecialAttribute | None = (
-            self.delta_special_attribute_selector.value
-        )
-        selected_special_attribute_tag: DamageTag | None = (
-            self.delta_special_attribute_tag_selector.value
+    def _apply_scenario_component(
+        self,
+        doll: Doll,
+        source: str,
+        increment: float,
+        stat: StatType,
+        special_attribute: SpecialAttribute,
+        tag: DamageTag,
+    ) -> None:
+        """Applies one increment component to a doll clone."""
+        return scenario_analysis.apply_scenario_component(
+            doll, source, increment, stat, special_attribute, tag
         )
 
-        if stat_source != "additive_special_attributes" and not selected_stats:
-            self.delta_chart["data"] = []
-            ui.update(self.delta_chart_plot)
-            return
+    def _update_scenario_component_visibility(
+        self, scenario_row: dict[str, Any], component_index: int
+    ) -> None:
+        """Shows only the relevant selectors for one scenario component."""
+        return scenario_analysis.update_scenario_component_visibility(
+            self, scenario_row, component_index
+        )
 
-        if stat_source == "additive_special_attributes" and (
-            selected_special_attribute is None or selected_special_attribute_tag is None
-        ):
-            self.delta_chart["data"] = []
-            ui.update(self.delta_chart_plot)
-            return
+    def _update_scenario_row_visibility(self, scenario_row: dict[str, Any]) -> None:
+        """Shows only controls relevant to row mode and component source."""
+        return scenario_analysis.update_scenario_row_visibility(self, scenario_row)
 
-        base_expected_damage: float = self.combat_summary.expected_damage
-        if base_expected_damage <= 0:
-            self.delta_chart["data"] = []
-            ui.update(self.delta_chart_plot)
-            return
+    def _remove_scenario_row(self, scenario_row: dict[str, Any]) -> None:
+        """Removes the specified scenario row."""
+        return scenario_analysis.remove_scenario_row(self, scenario_row)
 
-        traces: list[dict[str, Any]] = []
+    def _add_component_to_scenario_row(self, scenario_row: dict[str, Any]) -> None:
+        """Adds one component to a combined row up to 3."""
+        return scenario_analysis.add_component_to_scenario_row(self, scenario_row)
 
-        if stat_source == "multi_series":
-            if (
-                not selected_multi_initial_stats
-                and not selected_multi_additive_stats
-                and not selected_multi_additive_special
-            ):
-                self.delta_chart["data"] = []
-                ui.update(self.delta_chart_plot)
-                return
+    def _remove_component_from_scenario_row(self, scenario_row: dict[str, Any]) -> None:
+        """Removes one component from a combined row down to 1."""
+        return scenario_analysis.remove_component_from_scenario_row(self, scenario_row)
 
-            for stat in selected_multi_initial_stats:
-                deltas: list[float] = []
-                for stat_increment in x_values:
-                    doll: Doll = copy.deepcopy(self.doll)
-                    doll.initial_stats.basic_attributes[stat] += stat_increment
-                    summary: CombatSummary = self._get_combat_summary_with_doll(doll)
-                    deltas.append(
-                        (summary.expected_damage - base_expected_damage)
-                        / base_expected_damage
-                        * 100
-                    )
+    def _add_single_scenario_row(self, _event: Any = None) -> None:
+        """Adds one single-component scenario row."""
+        return scenario_analysis.add_single_scenario_row(self, _event)
 
-                traces.append(
-                    {
-                        "type": "scatter",
-                        "mode": "lines+markers",
-                        "name": f"{stat} (Initial)",
-                        "x": x_values,
-                        "y": deltas,
-                        "hovertemplate": "%{x}: %{y:.2f}%<extra>%{fullData.name}</extra>",
-                    }
-                )
+    def _add_combined_scenario_row(self, _event: Any = None) -> None:
+        """Adds one combined scenario row with three increment components."""
+        return scenario_analysis.add_combined_scenario_row(self, _event)
 
-            for stat in selected_multi_additive_stats:
-                deltas = []
-                for stat_increment in x_values:
-                    doll = copy.deepcopy(self.doll)
-                    doll.additive_modifiers.basic_attributes[stat] += stat_increment
-                    summary = self._get_combat_summary_with_doll(doll)
-                    deltas.append(
-                        (summary.expected_damage - base_expected_damage)
-                        / base_expected_damage
-                        * 100
-                    )
+    def _create_scenario_row(
+        self,
+        label: str,
+        mode: str,
+        component_1: dict[str, Any],
+        component_2: dict[str, Any],
+        component_3: dict[str, Any],
+    ) -> None:
+        """Creates one editable scenario row for the comparison chart."""
+        return scenario_analysis.create_scenario_row(
+            self,
+            label,
+            mode,
+            component_1,
+            component_2,
+            component_3,
+        )
 
-                traces.append(
-                    {
-                        "type": "scatter",
-                        "mode": "lines+markers",
-                        "name": f"{stat} (Additive)",
-                        "x": x_values,
-                        "y": deltas,
-                        "hovertemplate": "%{x}: %{y:.2f}%<extra>%{fullData.name}</extra>",
-                    }
-                )
-
-            for special_combo in selected_multi_additive_special:
-                special_attribute_value, tag_value = special_combo.split(
-                    "::", maxsplit=1
-                )
-                selected_attribute: SpecialAttribute = SpecialAttribute(
-                    special_attribute_value
-                )
-                selected_tag: DamageTag = DamageTag(tag_value)
-
-                deltas = []
-                for stat_increment in x_values:
-                    doll = copy.deepcopy(self.doll)
-                    doll.additive_modifiers.special_attributes[
-                        selected_attribute
-                    ].add_to_multiplier(selected_tag, stat_increment)
-
-                    summary = self._get_combat_summary_with_doll(doll)
-                    deltas.append(
-                        (summary.expected_damage - base_expected_damage)
-                        / base_expected_damage
-                        * 100
-                    )
-
-                traces.append(
-                    {
-                        "type": "scatter",
-                        "mode": "lines+markers",
-                        "name": f"{selected_attribute} [{selected_tag}] (Additive)",
-                        "x": x_values,
-                        "y": deltas,
-                        "hovertemplate": "%{x}: %{y:.2f}%<extra>%{fullData.name}</extra>",
-                    }
-                )
-        elif stat_source == "additive_special_attributes":
-            selected_special_attribute_typed: SpecialAttribute = (
-                selected_special_attribute  # type: ignore
-            )
-            selected_special_attribute_tag_typed: DamageTag = (
-                selected_special_attribute_tag  # type: ignore
-            )
-            deltas: list[float] = []
-
-            for stat_increment in x_values:
-                doll: Doll = copy.deepcopy(self.doll)
-                doll.additive_modifiers.special_attributes[
-                    selected_special_attribute_typed
-                ].add_to_multiplier(
-                    selected_special_attribute_tag_typed, stat_increment
-                )
-
-                summary: CombatSummary = self._get_combat_summary_with_doll(doll)
-                deltas.append(
-                    (summary.expected_damage - base_expected_damage)
-                    / base_expected_damage
-                    * 100
-                )
-
-            traces.append(
-                {
-                    "type": "scatter",
-                    "mode": "lines+markers",
-                    "name": f"{selected_special_attribute_typed} [{selected_special_attribute_tag_typed}] (Additive)",
-                    "x": x_values,
-                    "y": deltas,
-                    "hovertemplate": "%{x}: %{y:.2f}%<extra>%{fullData.name}</extra>",
-                }
-            )
-        else:
-            for stat in selected_stats:
-                deltas: list[float] = []
-
-                for stat_increment in x_values:
-                    doll: Doll = copy.deepcopy(self.doll)
-                    if stat_source == "additive_modifiers":
-                        doll.additive_modifiers.basic_attributes[stat] += stat_increment
-                    else:
-                        doll.initial_stats.basic_attributes[stat] += stat_increment
-
-                    summary: CombatSummary = self._get_combat_summary_with_doll(doll)
-                    deltas.append(
-                        (summary.expected_damage - base_expected_damage)
-                        / base_expected_damage
-                        * 100
-                    )
-
-                traces.append(
-                    {
-                        "type": "scatter",
-                        "mode": "lines+markers",
-                        "name": f"{stat} ({'Additive' if stat_source == 'additive_modifiers' else 'Initial'})",
-                        "x": x_values,
-                        "y": deltas,
-                        "hovertemplate": "%{x}: %{y:.2f}%<extra>%{fullData.name}</extra>",
-                    }
-                )
-
-        self.delta_chart["data"] = traces
-        ui.update(self.delta_chart_plot)
+    def _update_scenario_comparison_chart(self, _event: Any = None) -> None:
+        """Updates one-point mixed-increment scenario comparison chart."""
+        return scenario_analysis.update_scenario_comparison_chart(self, _event)
 
     def _on_delta_stat_source_changed(self, _event: Any = None) -> None:
         """Prefills common comparison traces when switching to multi-series."""
-        stat_source: str = self.delta_stat_source_selector.value or "initial_stats"
-        if stat_source == "multi_series":
-            self.delta_multi_initial_stats_selector.value = []
-            self.delta_multi_additive_stats_selector.value = []
-
-            default_special_series: list[str] = []
-            for attribute, tag in [
-                (SpecialAttribute.DAMAGE_BOOST, DamageTag.ALL),
-                (SpecialAttribute.CRITICAL_DAMAGE, DamageTag.ALL),
-                (SpecialAttribute.DEFENSE_IGNORE, DamageTag.ALL),
-            ]:
-                key: str = f"{attribute.value}::{tag.value}"
-                if key in self.delta_special_combo_options:
-                    default_special_series.append(key)
-
-            self.delta_multi_additive_special_selector.value = default_special_series
-
-            if not default_special_series and self.delta_special_combo_options:
-                first_special_combo: str = next(iter(self.delta_special_combo_options))
-                self.delta_multi_additive_special_selector.value = [first_special_combo]
-
-        self._update_delta_control_visibility()
-        self._update_expected_damage_delta_chart()
+        return sweep_analysis.on_delta_stat_source_changed(self, _event)
 
     def _update_delta_control_visibility(self) -> None:
         """Shows only controls relevant to the currently selected increment source."""
-        stat_source: str = self.delta_stat_source_selector.value or "initial_stats"
-
-        show_basic_stats: bool = stat_source in ["initial_stats", "additive_modifiers"]
-        show_single_special: bool = stat_source == "additive_special_attributes"
-        show_multi: bool = stat_source == "multi_series"
-
-        self.delta_basic_controls_container.set_visibility(show_basic_stats)
-        self.delta_single_special_controls_container.set_visibility(show_single_special)
-        self.delta_multi_controls_container.set_visibility(show_multi)
+        return sweep_analysis.update_delta_control_visibility(self)
 
     def _get_combat_summary_with_doll(self, doll: Doll) -> CombatSummary:
         """Runs the active action for doll and returns a combat summary."""
@@ -596,115 +458,229 @@ class DamageCalculator:
 
     def _delta_section(self):
         """Generates the Expected Damage Delta section."""
-        ui.label("Stat Increment Analysis").props("header")
-        ui.separator()
 
-        with ui.grid(columns=3).classes("w-full gap-2"):
-            self.delta_increment_input = ui.number(
-                value=0.4,
-                min=0,
-                precision=2,
-                label="Increment per step",
-            ).on("update:model-value", self._update_expected_damage_delta_chart)
-            self.delta_steps_input = ui.number(
-                value=10,
-                min=1,
-                precision=0,
-                label="Number of steps",
-            ).on("update:model-value", self._update_expected_damage_delta_chart)
-            self.delta_stat_source_selector = (
-                ui.select(
-                    options={
-                        "initial_stats": "Initial Stats",
-                        "additive_modifiers": "Additive Modifiers (Basic)",
-                        "additive_special_attributes": "Additive Modifiers (Special)",
-                        "multi_series": "Custom Multi-Series",
-                    },
-                    value="initial_stats",
-                    label="Increment source",
+        ### Incremental Scenario Comparison (top, open by default)
+        with ui.expansion(
+            "Scenario Comparison", value=True, group="stat-increment-analysis"
+        ).classes("w-full"):
+            with ui.row().classes("w-full gap-2"):
+                ui.button("Add Scenario", on_click=self._add_single_scenario_row)
+                ui.button(
+                    "Add Combined Scenario", on_click=self._add_combined_scenario_row
                 )
-                .classes("w-full")
-                .on("update:model-value", self._on_delta_stat_source_changed)
+
+            with ui.column().classes("w-full gap-2") as self.scenario_rows_container:
+                pass
+
+            default_tag: DamageTag = self._default_scenario_tag()
+            self._create_scenario_row(
+                label="+30 Initial Attack",
+                mode="single",
+                component_1={
+                    "source": "initial_stats",
+                    "increment": 30,
+                    "stat": StatType.ATTACK,
+                    "special_attribute": SpecialAttribute.DAMAGE_BOOST,
+                    "tag": default_tag,
+                },
+                component_2={
+                    "source": "initial_stats",
+                    "increment": 0,
+                    "stat": StatType.HEALTH,
+                    "special_attribute": SpecialAttribute.DAMAGE_BOOST,
+                    "tag": default_tag,
+                },
+                component_3={
+                    "source": "additive_special_attributes",
+                    "increment": 0,
+                    "stat": StatType.ATTACK,
+                    "special_attribute": SpecialAttribute.DAMAGE_BOOST,
+                    "tag": default_tag,
+                },
+            )
+            self._create_scenario_row(
+                label="+50 Initial Health",
+                mode="combined",
+                component_1={
+                    "source": "initial_stats",
+                    "increment": 50,
+                    "stat": StatType.HEALTH,
+                    "special_attribute": SpecialAttribute.DAMAGE_BOOST,
+                    "tag": default_tag,
+                },
+                component_2={
+                    "source": "initial_stats",
+                    "increment": 0,
+                    "stat": StatType.ATTACK,
+                    "special_attribute": SpecialAttribute.DAMAGE_BOOST,
+                    "tag": default_tag,
+                },
+                component_3={
+                    "source": "additive_special_attributes",
+                    "increment": 0,
+                    "stat": StatType.ATTACK,
+                    "special_attribute": SpecialAttribute.DAMAGE_BOOST,
+                    "tag": default_tag,
+                },
+            )
+            self._create_scenario_row(
+                label="+4 Additive Damage Boost [All]",
+                mode="single",
+                component_1={
+                    "source": "additive_special_attributes",
+                    "increment": 4,
+                    "stat": StatType.ATTACK,
+                    "special_attribute": SpecialAttribute.DAMAGE_BOOST,
+                    "tag": default_tag,
+                },
+                component_2={
+                    "source": "initial_stats",
+                    "increment": 0,
+                    "stat": StatType.HEALTH,
+                    "special_attribute": SpecialAttribute.DAMAGE_BOOST,
+                    "tag": default_tag,
+                },
+                component_3={
+                    "source": "initial_stats",
+                    "increment": 0,
+                    "stat": StatType.ATTACK,
+                    "special_attribute": SpecialAttribute.DAMAGE_BOOST,
+                    "tag": default_tag,
+                },
+            )
+            self.delta_scenario_next_index = 4
+
+            self.scenario_chart_plot = ui.plotly(self.scenario_chart).classes(
+                "w-full h-80"
             )
 
-        with ui.column().classes("w-full") as self.delta_basic_controls_container:
-            self.delta_stats_selector = (
-                ui.select(
-                    options=[stat for stat in StatType],
-                    value=[StatType.ATTACK, StatType.CRIT_RATE, StatType.CRIT_DAMAGE],
-                    multiple=True,
-                    with_input=False,
-                    label="Stats to vary",
-                )
-                .classes("w-full")
-                .on("update:model-value", self._update_expected_damage_delta_chart)
-            )
-
-        with ui.column().classes(
-            "w-full"
-        ) as self.delta_single_special_controls_container:
-            with ui.grid(columns=2).classes("w-full gap-2"):
-                self.delta_special_attribute_selector = (
+        ### Sweep (below, closed by default)
+        with ui.expansion(
+            "Stat Increment Analysis", value=False, group="stat-increment-analysis"
+        ).classes("w-full"):
+            with ui.grid(columns=3).classes("w-full gap-2"):
+                self.delta_increment_input = ui.number(
+                    value=0.4,
+                    min=0,
+                    precision=2,
+                    label="Increment per step",
+                ).on("update:model-value", self._update_expected_damage_delta_chart)
+                self.delta_steps_input = ui.number(
+                    value=10,
+                    min=1,
+                    precision=0,
+                    label="Number of steps",
+                ).on("update:model-value", self._update_expected_damage_delta_chart)
+                self.delta_stat_source_selector = (
                     ui.select(
-                        options=[attribute for attribute in SpecialAttribute],
-                        value=SpecialAttribute.DAMAGE_BOOST,
-                        label="Special attribute",
+                        options={
+                            "initial_stats": "Initial Stats",
+                            "additive_modifiers": "Additive Modifiers (Basic)",
+                            "additive_special_attributes": "Additive Modifiers (Special)",
+                            "multi_series": "Custom Multi-Series",
+                        },
+                        value="initial_stats",
+                        label="Increment source",
                     )
                     .classes("w-full")
-                    .on("update:model-value", self._update_expected_damage_delta_chart)
-                )
-                self.delta_special_attribute_tag_selector = (
-                    ui.select(
-                        options=self.relevant_damage_tags,
-                        value=(
-                            DamageTag.ALL
-                            if DamageTag.ALL in self.relevant_damage_tags
-                            else self.relevant_damage_tags[0]
-                        ),
-                        label="Special attribute tag",
-                    )
-                    .classes("w-full")
-                    .on("update:model-value", self._update_expected_damage_delta_chart)
+                    .on("update:model-value", self._on_delta_stat_source_changed)
                 )
 
-        with ui.column().classes("w-full") as self.delta_multi_controls_container:
-            with ui.grid(columns=2).classes("w-full gap-2"):
-                self.delta_multi_initial_stats_selector = (
+            with ui.column().classes("w-full") as self.delta_basic_controls_container:
+                self.delta_stats_selector = (
                     ui.select(
                         options=[stat for stat in StatType],
-                        value=[StatType.ATTACK],
+                        value=[
+                            StatType.ATTACK,
+                            StatType.CRIT_RATE,
+                            StatType.CRIT_DAMAGE,
+                        ],
                         multiple=True,
                         with_input=False,
-                        label="Initial stats (multi-series)",
+                        label="Stats to vary",
                     )
                     .classes("w-full")
                     .on("update:model-value", self._update_expected_damage_delta_chart)
                 )
-                self.delta_multi_additive_stats_selector = (
+
+            with ui.column().classes(
+                "w-full"
+            ) as self.delta_single_special_controls_container:
+                with ui.grid(columns=2).classes("w-full gap-2"):
+                    self.delta_special_attribute_selector = (
+                        ui.select(
+                            options=[attribute for attribute in SpecialAttribute],
+                            value=SpecialAttribute.DAMAGE_BOOST,
+                            label="Special attribute",
+                        )
+                        .classes("w-full")
+                        .on(
+                            "update:model-value",
+                            self._update_expected_damage_delta_chart,
+                        )
+                    )
+                    self.delta_special_attribute_tag_selector = (
+                        ui.select(
+                            options=self.relevant_damage_tags,
+                            value=(
+                                DamageTag.ALL
+                                if DamageTag.ALL in self.relevant_damage_tags
+                                else self.relevant_damage_tags[0]
+                            ),
+                            label="Special attribute tag",
+                        )
+                        .classes("w-full")
+                        .on(
+                            "update:model-value",
+                            self._update_expected_damage_delta_chart,
+                        )
+                    )
+
+            with ui.column().classes("w-full") as self.delta_multi_controls_container:
+                with ui.grid(columns=2).classes("w-full gap-2"):
+                    self.delta_multi_initial_stats_selector = (
+                        ui.select(
+                            options=[stat for stat in StatType],
+                            value=[StatType.ATTACK],
+                            multiple=True,
+                            with_input=False,
+                            label="Initial stats (multi-series)",
+                        )
+                        .classes("w-full")
+                        .on(
+                            "update:model-value",
+                            self._update_expected_damage_delta_chart,
+                        )
+                    )
+                    self.delta_multi_additive_stats_selector = (
+                        ui.select(
+                            options=[stat for stat in StatType],
+                            value=[],
+                            multiple=True,
+                            with_input=False,
+                            label="Additive modifiers (basic) (multi-series)",
+                        )
+                        .classes("w-full")
+                        .on(
+                            "update:model-value",
+                            self._update_expected_damage_delta_chart,
+                        )
+                    )
+
+                self.delta_multi_additive_special_selector = (
                     ui.select(
-                        options=[stat for stat in StatType],
+                        options=self.delta_special_combo_options,
                         value=[],
                         multiple=True,
-                        with_input=False,
-                        label="Additive modifiers (basic) (multi-series)",
+                        with_input=True,
+                        label="Additive modifiers (special) (multi-series)",
                     )
                     .classes("w-full")
                     .on("update:model-value", self._update_expected_damage_delta_chart)
                 )
 
-            self.delta_multi_additive_special_selector = (
-                ui.select(
-                    options=self.delta_special_combo_options,
-                    value=[],
-                    multiple=True,
-                    with_input=True,
-                    label="Additive modifiers (special) (multi-series)",
-                )
-                .classes("w-full")
-                .on("update:model-value", self._update_expected_damage_delta_chart)
-            )
+            self.delta_chart_plot = ui.plotly(self.delta_chart).classes("w-full h-90")
 
-        self.delta_chart_plot = ui.plotly(self.delta_chart).classes("w-full h-90")
         self._update_delta_control_visibility()
 
     def _target_section(self):
