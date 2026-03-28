@@ -4,6 +4,7 @@ This package re-exports doll page classes for convenient imports:
         from gui.doll_calculator.dolls import Leva, Robella
 """
 
+from .lainie import Lainie
 from .leva import Leva
 from .lewis import Lewis
 from .makiatto import Makiatto
@@ -14,6 +15,7 @@ from .tololo import Tololo
 from .voymastina import Voymastina
 
 __all__ = [
+    "Lainie",
     "Leva",
     "Lewis",
     "Makiatto",

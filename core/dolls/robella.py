@@ -365,6 +365,7 @@ class Robella(Doll):
 
     @override
     def set_fortification_level(self, level: FortificationLevel):
+        self.fortification_level = level
         match level:
             case FortificationLevel.SEGMENT00:
                 self.set_to_v0()

@@ -139,6 +139,66 @@ class TestDamageCalculationStrategy:
 
         return t
 
+    @staticmethod
+    def construct_doll_attacker(level: FortificationLevel) -> Doll:
+        class DummyDoll(Doll):
+            def set_fortification_level(self, level: FortificationLevel) -> None:
+                self.fortification_level = level
+
+        d: Doll = DummyDoll()
+        d.initial_stats.basic_attributes[StatType.ATTACK] = 5429
+        d.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 156.9
+        d.set_fortification_level(level)
+
+        return d
+
+    @staticmethod
+    def construct_doll_with_simulacrum(
+        level: FortificationLevel,
+        doll_attack: float = 1000,
+        doll_health: float = 3000,
+        summon_attack: float = 5000,
+        summon_health: float = 2400,
+    ) -> Doll:
+        class DummyDoll(Doll):
+            def set_fortification_level(self, level: FortificationLevel) -> None:
+                self.fortification_level = level
+
+        d: Doll = DummyDoll()
+        d.initial_stats.basic_attributes[StatType.ATTACK] = doll_attack
+        d.initial_stats.basic_attributes[StatType.HEALTH] = doll_health
+        d.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 100
+        d.set_fortification_level(level)
+
+        summon = PhysicalSummonedUnit(name="Simulacrum")
+        summon.initial_stats.basic_attributes[StatType.ATTACK] = summon_attack
+        summon.initial_stats.basic_attributes[StatType.HEALTH] = summon_health
+        summon.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 100
+
+        d.summoned_units.append(summon)
+        return d
+
+    @staticmethod
+    def construct_doll_with_named_summon(
+        summon_name: str,
+        level: FortificationLevel = FortificationLevel.SEGMENT00,
+        doll_attack: float = 1000,
+        summon_attack: float = 5000,
+    ) -> Doll:
+        class DummyDoll(Doll):
+            def set_fortification_level(self, level: FortificationLevel) -> None:
+                self.fortification_level = level
+
+        d: Doll = DummyDoll()
+        d.initial_stats.basic_attributes[StatType.ATTACK] = doll_attack
+        d.set_fortification_level(level)
+
+        summon = SummonedUnit(name=summon_name)
+        summon.initial_stats.basic_attributes[StatType.ATTACK] = summon_attack
+        d.summoned_units.append(summon)
+
+        return d
+
     def test_resolve_buffs(self):
         g = TestDamageCalculationStrategy.construct_attacker()
         t = TestDamageCalculationStrategy.construct_defender()
@@ -483,3 +543,253 @@ class TestDamageCalculationStrategy:
             is_stability_broken=True,
             phase_weaknesses_exploited=2,
         ).non_critical_damage == pytest.approx(8230.914)
+
+    def test_lainie_resolve_buffs_adds_crit_rate_from_health(self):
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.PHYSICAL})
+
+        g_v0 = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT00
+        )
+        g_v3 = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT03
+        )
+        g_v0.initial_stats.basic_attributes[StatType.HEALTH] = 3000
+        g_v3.initial_stats.basic_attributes[StatType.HEALTH] = 3000
+
+        LainieDamageCalculationStrategy().resolve_buffs(g_v0, t, di)
+        LainieDamageCalculationStrategy().resolve_buffs(g_v3, t, di)
+
+        # V0 uses 12 health per 0.1 crit chance, capped at 30
+        assert g_v0.additive_modifiers.basic_attributes[
+            StatType.CRIT_RATE
+        ] == pytest.approx(25)
+        # V3 uses 6 health per 0.1 crit chance, capped at 60
+        assert g_v3.additive_modifiers.basic_attributes[
+            StatType.CRIT_RATE
+        ] == pytest.approx(50)
+
+    def test_lainie_adjusted_potency_scales_with_fortification_when_defense_zero(self):
+        t: Unit = Unit()
+        t.initial_stats.basic_attributes[StatType.DEFENSE] = 0
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.PHYSICAL})
+
+        g_v0 = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT00
+        )
+        g_v3 = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT03
+        )
+        g_v5 = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT05
+        )
+        g_v0.initial_stats.basic_attributes[StatType.HEALTH] = 1000
+        g_v3.initial_stats.basic_attributes[StatType.HEALTH] = 1000
+        g_v5.initial_stats.basic_attributes[StatType.HEALTH] = 1000
+
+        strat = LainieDamageCalculationStrategy()
+        p0 = strat.calculate_adjusted_potency(g_v0, t, di)
+        p3 = strat.calculate_adjusted_potency(g_v3, t, di)
+        p5 = strat.calculate_adjusted_potency(g_v5, t, di)
+
+        assert p0 == pytest.approx(200)
+        assert p3 == pytest.approx(300)
+        assert p5 == pytest.approx(400)
+
+    def test_simulacrum_base_damage_uses_simulacrum_attack(self):
+        g = TestDamageCalculationStrategy.construct_doll_with_simulacrum(
+            FortificationLevel.SEGMENT00,
+            doll_attack=1000,
+            summon_attack=5000,
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.PHYSICAL})
+
+        effective_atk, _, _, _ = (
+            SimulacrumDamageCalculationStrategy().calculate_base_damage(g, t, di)
+        )
+
+        assert effective_atk == pytest.approx(5000)
+
+    def test_simulacrum_resolve_buffs_applies_passive_to_summon(self):
+        g = TestDamageCalculationStrategy.construct_doll_with_simulacrum(
+            FortificationLevel.SEGMENT03,
+            summon_health=2400,
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.PHYSICAL})
+
+        summon = g.get_summoned_unit("Simulacrum")
+        assert isinstance(summon, PhysicalSummonedUnit)
+
+        SimulacrumDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        # 2400 / 6 * 0.1 = 40 at V3
+        assert summon.additive_modifiers.basic_attributes[
+            StatType.CRIT_RATE
+        ] == pytest.approx(40)
+        assert g.additive_modifiers.basic_attributes[
+            StatType.CRIT_RATE
+        ] == pytest.approx(0)
+
+    def test_simulacrum_adjusted_potency_scales_with_fortification_when_defense_zero(
+        self,
+    ):
+        g_v0 = TestDamageCalculationStrategy.construct_doll_with_simulacrum(
+            FortificationLevel.SEGMENT00,
+            summon_health=1000,
+        )
+        g_v3 = TestDamageCalculationStrategy.construct_doll_with_simulacrum(
+            FortificationLevel.SEGMENT03,
+            summon_health=1000,
+        )
+        g_v5 = TestDamageCalculationStrategy.construct_doll_with_simulacrum(
+            FortificationLevel.SEGMENT05,
+            summon_health=1000,
+        )
+        t: Unit = Unit()
+        t.initial_stats.basic_attributes[StatType.DEFENSE] = 0
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.PHYSICAL})
+
+        strat = SimulacrumDamageCalculationStrategy()
+        p0 = strat.calculate_adjusted_potency(g_v0, t, di)
+        p3 = strat.calculate_adjusted_potency(g_v3, t, di)
+        p5 = strat.calculate_adjusted_potency(g_v5, t, di)
+
+        assert p0 == pytest.approx(200)
+        assert p3 == pytest.approx(300)
+        assert p5 == pytest.approx(400)
+
+    def test_simulacrum_strategy_raises_when_summon_missing(self):
+        g = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT00
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.PHYSICAL})
+
+        with pytest.raises(ValueError, match="Simulacrum summon is required"):
+            SimulacrumDamageCalculationStrategy().calculate_base_damage(g, t, di)
+
+        with pytest.raises(ValueError, match="Simulacrum summon is required"):
+            SimulacrumDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        with pytest.raises(ValueError, match="Simulacrum summon is required"):
+            SimulacrumDamageCalculationStrategy().calculate_adjusted_potency(g, t, di)
+
+    def test_kulich_base_damage_uses_kulich_attack(self):
+        g = TestDamageCalculationStrategy.construct_doll_with_named_summon(
+            summon_name="Kulich",
+            doll_attack=1000,
+            summon_attack=5000,
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.PHYSICAL})
+
+        effective_atk, _, _, _ = (
+            KulichDamageCalculationStrategy().calculate_base_damage(g, t, di)
+        )
+
+        assert effective_atk == pytest.approx(5000)
+
+    def test_kulich_resolve_buffs_applies_to_kulich_summon(self):
+        g = TestDamageCalculationStrategy.construct_doll_with_named_summon(
+            summon_name="Kulich"
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.PHYSICAL})
+        summon = g.get_summoned_unit("Kulich")
+        assert isinstance(summon, SummonedUnit)
+
+        buff = Buff(
+            value=10,
+            modifier_type=ModifierType.MULTIPLICATIVE,
+            stat_type=StatType.ATTACK,
+        )
+
+        KulichDamageCalculationStrategy().resolve_buffs(g, t, di, buffs_before=[buff])
+
+        assert summon.multiplicative_modifiers.basic_attributes[StatType.ATTACK] == 10
+        assert g.multiplicative_modifiers.basic_attributes[StatType.ATTACK] == 0
+
+    def test_kulich_strategy_raises_when_summon_missing(self):
+        g = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT00
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.PHYSICAL})
+
+        with pytest.raises(ValueError, match="Kulich summon is required"):
+            KulichDamageCalculationStrategy().calculate_base_damage(g, t, di)
+
+        with pytest.raises(ValueError, match="Kulich summon is required"):
+            KulichDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+    def test_simulacrum_calculate_damage_uses_summon_crit_stats(self):
+        """Full calculate_damage regression: crit rate/dmg written by the passive
+        must be read from the summon, not the Doll owner."""
+        # Doll owner has no crit rate of its own
+        g = TestDamageCalculationStrategy.construct_doll_with_simulacrum(
+            FortificationLevel.SEGMENT03,
+            doll_attack=5429,
+            doll_health=0,  # no passive contribution
+            summon_attack=5429,
+            summon_health=3000,  # passive adds 50% crit at V3 (3000/6*0.1 = 50)
+        )
+        # Give the summon 200% crit damage so critical_damage = 2 * non_critical_damage,
+        # making expected_damage meaningfully larger than non_critical_damage at 50% crit rate.
+        g.get_summoned_unit("Simulacrum").initial_stats.basic_attributes[
+            StatType.CRIT_DAMAGE
+        ] = 200
+
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(
+            label="",
+            base_potency=100,
+            tags={DamageTag.PHYSICAL},
+        )
+
+        import copy
+
+        summary = SimulacrumDamageCalculationStrategy().calculate_damage(
+            attacker=copy.deepcopy(g),
+            target=copy.deepcopy(t),
+            damage_instance=di,
+        )
+
+        # Effective crit rate must come from the summon (50%), not the owner (0%)
+        assert summary.effective_critical_rate == pytest.approx(0.50)
+        # With 200% crit_damage and 50% crit_rate: expected = 1.5 * non_critical
+        assert summary.expected_damage == pytest.approx(
+            1.5 * summary.non_critical_damage
+        )
+
+    def test_simulacrum_calculate_damage_doll_owner_crit_stats_not_used(self):
+        """Doll owner crit rate must NOT bleed into the Simulacrum damage path."""
+        # Give the owner 100 % crit rate but the summon has none
+        doll_with_summon = TestDamageCalculationStrategy.construct_doll_with_simulacrum(
+            FortificationLevel.SEGMENT00,
+            doll_attack=5429,
+            doll_health=0,
+            summon_attack=5429,
+            summon_health=0,
+        )
+        doll_with_summon.initial_stats.basic_attributes[StatType.CRIT_RATE] = 100
+
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(
+            label="",
+            base_potency=100,
+            tags={DamageTag.PHYSICAL},
+        )
+
+        import copy
+
+        summary = SimulacrumDamageCalculationStrategy().calculate_damage(
+            attacker=copy.deepcopy(doll_with_summon),
+            target=copy.deepcopy(t),
+            damage_instance=di,
+        )
+
+        # Summon has 0 crit rate, so effective crit rate must be 0
+        assert summary.effective_critical_rate == pytest.approx(0.0)
+        assert summary.expected_damage == pytest.approx(summary.non_critical_damage)

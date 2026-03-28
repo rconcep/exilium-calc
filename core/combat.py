@@ -2,12 +2,15 @@ from __future__ import annotations
 
 from pydantic import BaseModel, Field
 from abc import ABC, abstractmethod
-from typing import final, override
+from typing import final, override, TypeGuard
 
 from core.types import (
     DamageTag,
     DamageTagMultipliers,
     Unit,
+    Doll,
+    FortificationLevel,
+    SummonOwningAttacker,
     StatType,
     ModifierType,
     SpecialAttribute,
@@ -17,6 +20,19 @@ from core.types import (
     PhysicalSummonedUnit,
 )
 from core.buffs import Buff, Debuff
+
+
+def _is_doll_attacker(attacker: Unit) -> TypeGuard[Doll]:
+    """Returns True when attacker is a Doll."""
+    return isinstance(attacker, Doll)
+
+
+def _require_summon_owning_attacker(attacker: Unit) -> SummonOwningAttacker:
+    """Returns attacker narrowed to a summon-owning, fortification-aware type."""
+    if not isinstance(attacker, Doll):
+        raise TypeError("This strategy requires a Doll attacker")
+
+    return attacker
 
 
 class DamageCalculationStrategy(ABC):
@@ -47,20 +63,21 @@ class DamageCalculationStrategy(ABC):
         self.resolve_buffs(
             attacker, target, damage_instance, buffs_before, debuffs_before
         )
-        total_damage_boost_multipliers: DamageTagMultipliers = (
-            attacker.get_effective_special_attribute(SpecialAttribute.DAMAGE_BOOST)
-        )
 
         # Compute the base damage
         effective_atk, effective_def, negative_def, term1 = self.calculate_base_damage(
             attacker, target, damage_instance
         )
 
+        # Resolve the unit whose stats should receive/be read for combat modifiers.
+        # For summon-based strategies this is the summon, not the Doll owner.
+        effective_unit: Unit = self.get_effective_attacker(attacker)
+
         if True:  # TODO: check if have reversed assault
             bonus_increased_damage = self.resolve_reversed_assault(
                 damage_instance, negative_def
             )
-            attacker.additive_modifiers.special_attributes[
+            effective_unit.additive_modifiers.special_attributes[
                 SpecialAttribute.DAMAGE_BOOST
             ].add_to_multiplier(DamageTag.PHYSICAL, bonus_increased_damage)
 
@@ -108,9 +125,11 @@ class DamageCalculationStrategy(ABC):
         )
 
         # Account for critical hit
-        crit_rate: float = attacker.get_basic_attribute(StatType.CRIT_RATE) / 100
+        crit_rate: float = effective_unit.get_basic_attribute(StatType.CRIT_RATE) / 100
         crit_dmg_multiplier: float = (
-            attacker.get_effective_critical_damage_multiplier(damage_instance.tags)
+            effective_unit.get_effective_critical_damage_multiplier(
+                damage_instance.tags
+            )
             / 100
         )
 
@@ -202,6 +221,14 @@ class DamageCalculationStrategy(ABC):
                     ].add_to_multiplier(debuff.tag, debuff.value)
                 else:
                     TypeError("Unexpected modifier type")
+
+    def get_effective_attacker(self, attacker: Unit) -> Unit:
+        """Returns the Unit whose combat stats should be read/written in the damage template.
+
+        For most strategies this is the attacker itself. Override in summon-based
+        strategies to redirect crit stats and damage-boost writes to the summon.
+        """
+        return attacker
 
     @abstractmethod
     def calculate_base_damage(
@@ -409,6 +436,20 @@ class KulichDamageCalculationStrategy(DamageCalculationStrategy):
     """Implements the base damage for Nikketa's Kulich."""
 
     @final
+    def _require_kulich_summon(self, attacker: Unit) -> SummonedUnit:
+        owner: SummonOwningAttacker = _require_summon_owning_attacker(attacker)
+        summon: SummonedUnit | None = owner.get_summoned_unit("Kulich")
+        if summon is None:
+            raise ValueError("Kulich summon is required for this strategy")
+
+        return summon
+
+    @final
+    @override
+    def get_effective_attacker(self, attacker: Unit) -> Unit:
+        return self._require_kulich_summon(attacker)
+
+    @final
     @override
     def resolve_buffs(
         self,
@@ -418,7 +459,7 @@ class KulichDamageCalculationStrategy(DamageCalculationStrategy):
         buffs_before: list[Buff] = [],
         debuffs_before: list[Debuff] = [],
     ) -> None:
-        summon: SummonedUnit = attacker.get_summoned_unit("Kulich")  # type: ignore
+        summon: SummonedUnit = self._require_kulich_summon(attacker)
         return super().resolve_buffs(
             summon, target, damage_instance, buffs_before, debuffs_before
         )
@@ -444,7 +485,7 @@ class KulichDamageCalculationStrategy(DamageCalculationStrategy):
             ]
         )
 
-        summon: SummonedUnit = attacker.get_summoned_unit("Kulich")  # type: ignore
+        summon: SummonedUnit = self._require_kulich_summon(attacker)
 
         effective_atk: float = summon.get_basic_attribute(StatType.ATTACK)
         effective_def: float = (
@@ -465,6 +506,253 @@ class KulichDamageCalculationStrategy(DamageCalculationStrategy):
             negative_def,
             effective_atk / (1 + effective_def / effective_atk),
         )
+
+
+class LainieDamageCalculationStrategy(DamageCalculationStrategy):
+    """Damage calculation strategy for Lainie, implementing her passive."""
+
+    @final
+    @override
+    def calculate_base_damage(
+        self, attacker: Unit, target: Unit, damage_instance: DamageInstance
+    ) -> tuple[float, float, float, float]:
+        return StandardDamageCalculationStrategy().calculate_base_damage(
+            attacker=attacker,
+            target=target,
+            damage_instance=damage_instance,
+        )
+
+    @override
+    def resolve_buffs(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> None:
+        """Implement Lainie's passive: Precognition Foresight. Grants critical strike chance based on initial max health."""
+        super().resolve_buffs(
+            attacker, target, damage_instance, buffs_before, debuffs_before
+        )
+
+        # Only expecting to run this for Lainie
+        if _is_doll_attacker(attacker):
+            initial_max_health: float = attacker.initial_stats.basic_attributes[
+                StatType.HEALTH
+            ]
+
+            health_per_crit_chance: float = 12
+            crit_chance_from_passive: float = 0
+
+            if attacker.fortification_level >= FortificationLevel.SEGMENT03:
+                health_per_crit_chance = 6
+                crit_chance_from_passive = min(
+                    60, initial_max_health / health_per_crit_chance * 0.1
+                )
+            else:
+                crit_chance_from_passive = min(
+                    30, initial_max_health / health_per_crit_chance * 0.1
+                )
+
+            attacker.additive_modifiers.basic_attributes[
+                StatType.CRIT_RATE
+            ] += crit_chance_from_passive
+
+            # Lainie's Fixed Key 6 - OGAS's Might
+            _, effective_def, _, _ = self.calculate_base_damage(
+                attacker, target, damage_instance
+            )
+
+            if effective_def <= 0:
+                attacker.additive_modifiers.special_attributes[
+                    SpecialAttribute.CRITICAL_DAMAGE
+                ].add_to_multiplier(DamageTag.ALL, 5)
+
+    @override
+    def calculate_adjusted_potency(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+    ) -> float:
+        """
+        Implements Lainie's passive.
+
+        Arguments:
+        attacker -- the attacking Unit
+        target -- the target of the attack
+        damage_instance -- describes the action
+        buffs_before -- Buffs to apply to attacker before the action
+        debuffs_before -- Debuffs to apply to target before the action
+        """
+        bonus_potency_from_passive: float = 0
+
+        _, effective_def, _, _ = self.calculate_base_damage(
+            attacker, target, damage_instance
+        )
+
+        if _is_doll_attacker(attacker) and effective_def <= 0:
+            health_to_potency_conversion_rate: float = 0.1
+
+            if attacker.fortification_level >= FortificationLevel.SEGMENT05:
+                health_to_potency_conversion_rate = 0.3
+            elif attacker.fortification_level >= FortificationLevel.SEGMENT03:
+                health_to_potency_conversion_rate = 0.2
+
+            bonus_potency_from_passive: float = (
+                attacker.initial_stats.basic_attributes[StatType.HEALTH]
+                * health_to_potency_conversion_rate
+            )
+
+        adjusted_potency: float = (
+            damage_instance.base_potency + bonus_potency_from_passive
+        ) * (
+            1
+            + attacker.get_effective_special_attribute(
+                SpecialAttribute.DAMAGE_BOOST
+            ).get_total_multiplier(damage_instance.tags)
+            / 100
+        )
+
+        damage_instance.adjusted_potency = adjusted_potency
+
+        return adjusted_potency
+
+
+class SimulacrumDamageCalculationStrategy(DamageCalculationStrategy):
+    """Damage calculation strategy for Lainie's Simulacrum, implementing her passive."""
+
+    @final
+    @override
+    def get_effective_attacker(self, attacker: Unit) -> Unit:
+        owner: SummonOwningAttacker = _require_summon_owning_attacker(attacker)
+        summon: SummonedUnit | None = owner.get_summoned_unit("Simulacrum")
+        if summon is None:
+            raise ValueError("Simulacrum summon is required for this strategy")
+        return summon
+
+    @final
+    @override
+    def calculate_base_damage(
+        self, attacker: Unit, target: Unit, damage_instance: DamageInstance
+    ) -> tuple[float, float, float, float]:
+        owner: SummonOwningAttacker = _require_summon_owning_attacker(attacker)
+        summon: SummonedUnit | None = owner.get_summoned_unit("Simulacrum")
+        if summon is None:
+            raise ValueError("Simulacrum summon is required for this strategy")
+
+        return StandardDamageCalculationStrategy().calculate_base_damage(
+            attacker=summon,
+            target=target,
+            damage_instance=damage_instance,
+        )
+
+    @override
+    def resolve_buffs(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> None:
+        """Implement Lainie's Simulacrum's passive: Precognition Perception. Grants critical strike chance based on initial max health."""
+        owner: SummonOwningAttacker = _require_summon_owning_attacker(attacker)
+        summon: SummonedUnit | None = owner.get_summoned_unit("Simulacrum")
+        if summon is None:
+            raise ValueError("Simulacrum summon is required for this strategy")
+
+        super().resolve_buffs(
+            summon, target, damage_instance, buffs_before, debuffs_before
+        )
+
+        # Only expecting to run this for Lainie's Simulacrum
+        if isinstance(summon, PhysicalSummonedUnit):
+            initial_max_health: float = summon.initial_stats.basic_attributes[
+                StatType.HEALTH
+            ]
+
+            health_per_crit_chance: float = 12
+            crit_chance_from_passive: float = 0
+
+            if owner.fortification_level >= FortificationLevel.SEGMENT03:
+                health_per_crit_chance = 6
+                crit_chance_from_passive = min(
+                    60, initial_max_health / health_per_crit_chance * 0.1
+                )
+            else:
+                crit_chance_from_passive = min(
+                    30, initial_max_health / health_per_crit_chance * 0.1
+                )
+
+            summon.additive_modifiers.basic_attributes[
+                StatType.CRIT_RATE
+            ] += crit_chance_from_passive
+
+            # Lainie's Fixed Key 6 - OGAS's Might
+            _, effective_def, _, _ = self.calculate_base_damage(
+                attacker, target, damage_instance
+            )
+
+            if effective_def <= 0:
+                summon.additive_modifiers.special_attributes[
+                    SpecialAttribute.CRITICAL_DAMAGE
+                ].add_to_multiplier(DamageTag.ALL, 5)
+
+    @override
+    def calculate_adjusted_potency(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+    ) -> float:
+        """
+        Implements Lainie's Simulacrum's passive.
+
+        Arguments:
+        attacker -- the attacking Unit
+        target -- the target of the attack
+        damage_instance -- describes the action
+        buffs_before -- Buffs to apply to attacker before the action
+        debuffs_before -- Debuffs to apply to target before the action
+        """
+        bonus_potency_from_passive: float = 0
+        owner: SummonOwningAttacker = _require_summon_owning_attacker(attacker)
+        summon: SummonedUnit | None = owner.get_summoned_unit("Simulacrum")
+        if summon is None:
+            raise ValueError("Simulacrum summon is required for this strategy")
+
+        _, effective_def, _, _ = self.calculate_base_damage(
+            attacker, target, damage_instance
+        )
+
+        if isinstance(summon, PhysicalSummonedUnit) and effective_def <= 0:
+            health_to_potency_conversion_rate: float = 0.1
+
+            if owner.fortification_level >= FortificationLevel.SEGMENT05:
+                health_to_potency_conversion_rate = 0.3
+            elif owner.fortification_level >= FortificationLevel.SEGMENT03:
+                health_to_potency_conversion_rate = 0.2
+
+            bonus_potency_from_passive: float = (
+                summon.initial_stats.basic_attributes[StatType.HEALTH]
+                * health_to_potency_conversion_rate
+            )
+
+        adjusted_potency: float = (
+            damage_instance.base_potency + bonus_potency_from_passive
+        ) * (
+            1
+            + summon.get_effective_special_attribute(
+                SpecialAttribute.DAMAGE_BOOST
+            ).get_total_multiplier(damage_instance.tags)
+            / 100
+        )
+
+        damage_instance.adjusted_potency = adjusted_potency
+
+        return adjusted_potency
 
 
 class DamageInstance(BaseModel):

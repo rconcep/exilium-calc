@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from enum import Enum, StrEnum, IntEnum, STRICT
-from typing import Dict, ClassVar
+from typing import Dict, ClassVar, Protocol
 from collections import defaultdict
 from abc import ABC, abstractmethod
 from pydantic import BaseModel, Field, model_validator
@@ -258,6 +258,7 @@ class Doll(ABC, Unit):
     """A Doll."""
 
     name: str = ""
+    fortification_level: FortificationLevel = FortificationLevel.SEGMENT00
 
     # The set of all DamageTag that are not applicable to Doll's abilities.
     irrelevant_damage_tags: ClassVar[set[DamageTag]] = set()
@@ -278,3 +279,15 @@ class PhysicalSummonedUnit(SummonedUnit):
     """A summoned unit that can deal damage and be attacked."""
 
     ...
+
+
+class FortificationAwareAttacker(Protocol):
+    """Structural type for attackers with Fortification Level state."""
+
+    fortification_level: FortificationLevel
+
+
+class SummonOwningAttacker(FortificationAwareAttacker, Protocol):
+    """Structural type for fortified attackers that can provide summoned units."""
+
+    def get_summoned_unit(self, name: str) -> SummonedUnit | None: ...

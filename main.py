@@ -9,6 +9,7 @@ from gui.doll_calculator.dolls import (
     Leva,
     Makiatto,
     Nikketa,
+    Lainie,
 )
 
 
@@ -17,6 +18,7 @@ def root():
     ui.page_title("Exilium-Calc")
 
     pages: dict[str, str] = {
+        "Lainie": "/lainie",
         "Leva": "/leva",
         "Lewis": "/lewis",
         "Makiatto": "/makiatto",
@@ -49,6 +51,7 @@ def root():
     ui.sub_pages(
         {
             "/": mainpage,
+            "/lainie": Lainie().get_page,
             "/robella": Robella().get_page,
             "/voymastina": Voymastina().get_page,
             "/lewis": Lewis().get_page,
