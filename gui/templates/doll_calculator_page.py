@@ -1178,7 +1178,7 @@ class DollCalculatorPage(ABC):
             basic_stats_tab = ui.tab("Rotation Potency")
             special_stats_tab = ui.tab("Damage Calculator")
 
-        with ui.tab_panels(tabs, value=basic_stats_tab).classes("w-330 h-300"):
+        with ui.tab_panels(tabs, value=basic_stats_tab).classes("w-330 h-350"):
             with ui.tab_panel(basic_stats_tab).classes("w-full h-full"):
                 with ui.grid(columns="25% auto").classes("w-full h-full"):
                     self.get_rotation_planner()

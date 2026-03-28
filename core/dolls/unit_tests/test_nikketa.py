@@ -192,3 +192,44 @@ class TestNikketaSkills:
         assert isinstance(
             kc.damage_calculation_strategy, KulichDamageCalculationStrategy
         )
+
+
+class TestNikketaSummon:
+    def test_refresh_kulich_syncs_stats(self):
+        """refresh_kulich should snapshot Nikketa's current stats onto Kulich."""
+        nikketa: Nikketa = Nikketa()
+        nikketa.set_to_v0()
+        nikketa.initial_stats.basic_attributes[StatType.ATTACK] = 5000
+        nikketa.initial_stats.basic_attributes[StatType.HEALTH] = 3000
+
+        nikketa.refresh_kulich()
+
+        kulich = next(u for u in nikketa.summoned_units if u.name == "Kulich")
+        assert kulich.initial_stats.basic_attributes[StatType.ATTACK] == 5000 * 0.8
+        assert kulich.initial_stats.basic_attributes[StatType.HEALTH] == 3000 * 0.8
+
+    def test_refresh_kulich_replaces_stale_summon(self):
+        """Calling refresh_kulich twice leaves exactly one Kulich."""
+        nikketa: Nikketa = Nikketa()
+        nikketa.set_to_v0()
+        nikketa.initial_stats.basic_attributes[StatType.ATTACK] = 1111
+
+        nikketa.refresh_kulich()
+        nikketa.initial_stats.basic_attributes[StatType.ATTACK] = 2222
+        nikketa.refresh_kulich()
+
+        assert len(nikketa.summoned_units) == 1
+        kulich = next(u for u in nikketa.summoned_units if u.name == "Kulich")
+        assert kulich.initial_stats.basic_attributes[StatType.ATTACK] == 2222 * 0.8
+
+    def test_prepare_for_calculation_refreshes_kulich(self):
+        """prepare_for_calculation should act as refresh_kulich."""
+        nikketa: Nikketa = Nikketa()
+        nikketa.set_to_v0()
+        nikketa.initial_stats.basic_attributes[StatType.ATTACK] = 4000
+
+        nikketa.prepare_for_calculation()
+
+        assert len(nikketa.summoned_units) == 1
+        kulich = next(u for u in nikketa.summoned_units if u.name == "Kulich")
+        assert kulich.initial_stats.basic_attributes[StatType.ATTACK] == 4000 * 0.8

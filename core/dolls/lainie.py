@@ -521,6 +521,10 @@ class Lainie(Doll):
         self.summoned_units.append(self._build_simulacrum())
 
     @override
+    def prepare_for_calculation(self) -> None:
+        self.refresh_simulacrum()
+
+    @override
     def get_summoned_unit(self, name: str) -> SummonedUnit | None:
         self.summon_simulacrum()
         return super().get_summoned_unit(name)

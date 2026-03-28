@@ -322,6 +322,16 @@ class Nikketa(DollCalculatorPage):
             8 + 3.6 + 3
         )
 
+        # Sync Kulich's snapshot now that real stats are in place.
+        self.doll.refresh_kulich()
+
+    @override
+    def stats_update_callback(self, update: ui.number) -> None:  # type: ignore[override]
+        # Keep Kulich's snapshot current before deepcopy is taken
+        # for every damage calculation inside the parent's callback.
+        self.doll.refresh_kulich()
+        super().stats_update_callback(update)
+
     @override
     def revision_history(self) -> None:
         with ui.timeline(side="right"):

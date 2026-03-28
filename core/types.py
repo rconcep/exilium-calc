@@ -268,6 +268,14 @@ class Doll(ABC, Unit):
         """Update Doll to the input Fortification Level."""
         pass
 
+    def prepare_for_calculation(self) -> None:
+        """Hook called after stats have been mutated on a deepcopy of this Doll,
+        before damage calculation proceeds. Override in subclasses that maintain
+        derived state (e.g. a snapshotted summon) that must be refreshed after
+        any stat change.
+        """
+        pass
+
 
 class SummonedUnit(Unit):
     """A unit summoned by a Doll's skill."""

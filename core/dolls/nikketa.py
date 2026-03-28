@@ -327,10 +327,7 @@ class Nikketa(Doll):
     righteous_verdict: CombatAction = Field(default_factory=RighteousVerdict)
     kulich_counterattack: CombatAction = Field(default_factory=KulichCounterattack)
 
-    def summon_kulich(self) -> None:
-        """Summons Kulich."""
-        self.summoned_units.clear()  # Clear existing summoned units to prevent duplicates
-
+    def _build_kulich(self) -> PhysicalSummonedUnit:
         kulich: PhysicalSummonedUnit = PhysicalSummonedUnit(
             name="Kulich",
             initial_stats=self.initial_stats.model_copy(deep=True),
@@ -349,7 +346,25 @@ class Nikketa(Doll):
         kulich.initial_stats.basic_attributes[StatType.ATTACK] *= attack_ratio
         kulich.initial_stats.basic_attributes[StatType.DEFENSE] *= defense_ratio
 
-        self.summoned_units.append(kulich)
+        return kulich
+
+    def summon_kulich(self) -> None:
+        """Summons Kulich with a snapshot of Nikketa's current stats."""
+        if super().get_summoned_unit("Kulich") is None:
+            self.summoned_units.append(self._build_kulich())
+
+    def refresh_kulich(self) -> None:
+        """Replaces Kulich with a fresh snapshot of Nikketa's current stats.
+
+        Call this whenever Nikketa's stats have been mutated so that subsequent
+        deepcopy-based damage calculations see up-to-date Kulich stats.
+        """
+        self.summoned_units = [u for u in self.summoned_units if u.name != "Kulich"]
+        self.summoned_units.append(self._build_kulich())
+
+    @override
+    def prepare_for_calculation(self) -> None:
+        self.refresh_kulich()
 
     @override
     def get_summoned_unit(self, name: str) -> SummonedUnit | None:
