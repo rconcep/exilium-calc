@@ -43,6 +43,7 @@ class DamageTag(StrEnum, boundary=STRICT):
     EXPOSED = "Exposed"
     STABILITY_BROKEN = "Stability Broken"
     BOSS = "Boss"
+    HAS_MOVEMENT_DEBUFF = "Has Movement Debuff"
     PHYSICAL_SUMMON = "Physical Summon"
 
 

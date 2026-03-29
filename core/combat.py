@@ -86,6 +86,7 @@ class DamageCalculationStrategy(ABC):
         damage_instance.tags.add(DamageTag.EXPOSED)
         damage_instance.tags.add(DamageTag.STABILITY_BROKEN)
         damage_instance.tags.add(DamageTag.BOSS)
+        damage_instance.tags.add(DamageTag.HAS_MOVEMENT_DEBUFF)
 
         # Get the effective damage multiplier
         effective_dmg_multiplier: float = self.get_effective_multiplier(

@@ -12,6 +12,7 @@ from .mosin_nagant import MosinNagant
 from .nikketa import Nikketa
 from .robella import Robella
 from .tololo import Tololo
+from .vepley import Vepley
 from .voymastina import Voymastina
 from .yoohee import Yoohee
 
@@ -24,6 +25,7 @@ __all__ = [
     "Nikketa",
     "Robella",
     "Tololo",
+    "Vepley",
     "Voymastina",
     "Yoohee",
 ]

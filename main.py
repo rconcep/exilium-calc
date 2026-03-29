@@ -11,6 +11,7 @@ from gui.doll_calculator.dolls import (
     Nikketa,
     Lainie,
     Yoohee,
+    Vepley,
 )
 
 
@@ -29,6 +30,7 @@ def root():
         "Voymastina": "/voymastina",
         "Tololo": "/tololo",
         "Yoohee": "/yoohee",
+        "Vepley": "/vepley",
     }
     with ui.header(fixed=True, bordered=True):
         with ui.row().classes("w-full items-center"):
@@ -58,6 +60,7 @@ def root():
             "/makiatto": Makiatto().get_page,
             "/nikketa": Nikketa().get_page,
             "/yoohee": Yoohee().get_page,
+            "/vepley": Vepley().get_page,
         }
     )
 
