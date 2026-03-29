@@ -52,7 +52,7 @@ class SelectableChipsEditor:
         )
 
         self.selected_items: list[dict[str, Any]] = []
-        self.container = ui.row().classes(container_classes)
+        self.container = ui.row().classes(f"{container_classes} exilium-chipbar")
 
         self._build_ui()
         self.refresh_chips()
@@ -71,7 +71,7 @@ class SelectableChipsEditor:
         config = self.get_config(item["name"])
 
         with ui.dialog(value=True).props("persistent") as dialog, ui.card().classes(
-            "w-96 max-w-full"
+            "w-96 max-w-full exilium-panel"
         ):
             ui.label(f'Edit {item["name"]}').classes("text-h6")
             ui.separator()
@@ -202,7 +202,7 @@ class SelectableChipsEditor:
         with ui.dialog(value=False).props(
             "persistent"
         ) as self.select_dialog, self.select_dialog:
-            with ui.card().classes("w-96"):
+            with ui.card().classes("w-96 exilium-panel"):
                 ui.label(self.title).classes("text-h6")
                 ui.separator()
 

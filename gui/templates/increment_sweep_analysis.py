@@ -294,6 +294,36 @@ def update_expected_damage_delta_chart(tool: Any, _event: Any = None) -> None:
                 }
             )
 
+    # Use a high-contrast categorical cycle so adjacent traces are easy to tell apart.
+    contrast_colors: list[str] = [
+        "#ffb000",  # amber
+        "#fe6100",  # orange
+        "#dc267f",  # magenta
+        "#785ef0",  # purple
+        "#648fff",  # blue
+        "#00bcd4",  # cyan
+        "#2ca02c",  # green
+        "#bcbd22",  # olive
+        "#e45756",  # red
+        "#f58518",  # tangerine
+    ]
+    dash_cycle: list[str] = ["solid", "dot", "dash", "dashdot", "longdash"]
+    marker_cycle: list[str] = ["circle", "square", "diamond", "cross", "x"]
+
+    for index, trace in enumerate(traces):
+        color = contrast_colors[index % len(contrast_colors)]
+        trace["line"] = {
+            "color": color,
+            "width": 2.6,
+            "dash": dash_cycle[index % len(dash_cycle)],
+        }
+        trace["marker"] = {
+            "color": color,
+            "size": 8,
+            "symbol": marker_cycle[index % len(marker_cycle)],
+            "line": {"color": "#071319", "width": 1},
+        }
+
     tool.delta_chart["data"] = traces
     ui_update(tool)
 

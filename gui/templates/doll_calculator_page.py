@@ -117,7 +117,7 @@ class DollCalculatorPage(ABC):
 
             [Dandegate]({self.dandegate_link})
         """
-        )
+        ).classes("exilium-character-copy")
 
     @abstractmethod
     def revision_history(self) -> None:
@@ -139,17 +139,17 @@ class DollCalculatorPage(ABC):
                 pagination={
                     "rowsPerPage": 5,
                 },
-            )
+            ).classes("exilium-data-table")
             self.potency_bar_chart_plot = ui.plotly(
                 self.potency_bar_chart_data
-            ).classes("w-full h-100")
+            ).classes("w-full h-100 exilium-plot")
             self.damage_type_breakdown_table = ui.table(
                 columns=DollCalculatorPage.damage_type_breakdown_table_columns,
                 rows=[],
                 pagination={"rowsPerPage": 5, "sortBy": "share", "descending": True},
-            )
+            ).classes("exilium-data-table")
             self.donut_chart_plot_3 = ui.plotly(self.ability_donut_chart).classes(
-                "w-full h-80"
+                "w-full h-80 exilium-plot"
             )
 
             self.update_potency_bar_chart()
@@ -237,7 +237,9 @@ class DollCalculatorPage(ABC):
                 ].multipliers.get(
                     tag, 0
                 )
-                self.doll.additive_modifiers.conditional_basic_attributes[stat].multipliers[
+                self.doll.additive_modifiers.conditional_basic_attributes[
+                    stat
+                ].multipliers[
                     tag
                 ] = loaded.additive_modifiers.conditional_basic_attributes[
                     stat
@@ -246,7 +248,9 @@ class DollCalculatorPage(ABC):
                 )
                 self.doll.multiplicative_modifiers.conditional_basic_attributes[
                     stat
-                ].multipliers[tag] = loaded.multiplicative_modifiers.conditional_basic_attributes[
+                ].multipliers[
+                    tag
+                ] = loaded.multiplicative_modifiers.conditional_basic_attributes[
                     stat
                 ].multipliers.get(
                     tag, 0
@@ -517,13 +521,13 @@ class DollCalculatorPage(ABC):
             tag for tag in DamageTag if tag not in self.doll.irrelevant_damage_tags
         ]
 
-        with ui.row():
-            with ui.card().classes("w-85 h-150"):
+        with ui.row().classes("w-full exilium-dashboard"):
+            with ui.card().classes("w-100 h-150 exilium-panel"):
                 self.doll_header()
                 with ui.scroll_area().classes("w-full h-full"):
                     self.revision_history()
 
-                with ui.grid(columns="50% auto").classes("w-full gap-0"):
+                with ui.grid(columns="75% auto").classes("w-full gap-0"):
                     ui.select(
                         {
                             0: "Segment 00",
@@ -538,13 +542,13 @@ class DollCalculatorPage(ABC):
                         label="Fortification",
                         multiple=False,
                         on_change=self.doll_fortification_callback,  # type: ignore
-                    )
+                    ).props("outlined")
 
-            with ui.card().classes("w-75 h-150"):
+            with ui.card().classes("w-75 h-150 exilium-panel exilium-portrait-panel"):
                 ui.image(self.doll_portrait)
 
-            with ui.card().classes("w-160 h-150"):
-                with ui.tabs().classes("w-full") as tabs:
+            with ui.card().classes("w-160 h-150 exilium-panel"):
+                with ui.tabs().classes("w-full exilium-top-tabs") as tabs:
                     basic_stats_tab = ui.tab("Basic").tooltip(
                         "Initial values of basic stats as seen in Refitting Room or Formation."
                     )
@@ -558,10 +562,10 @@ class DollCalculatorPage(ABC):
                         '"Multiplicative" modifiers from non-innate sources.'
                     )
                     save_load_tab = ui.tab("Load/Save").tooltip(
-                        "Export stats as JSON to copy/download, or import from a JSON file."
+                        "Export a snapshot of the current stats or import from a file."
                     )
                 with ui.tab_panels(tabs, value=basic_stats_tab).classes(
-                    "w-full h-full"
+                    "w-full h-full exilium-tab-panels"
                 ):
                     with ui.tab_panel(basic_stats_tab):
                         with ui.scroll_area().classes("w-full h-full"):
@@ -869,7 +873,9 @@ class DollCalculatorPage(ABC):
                                                     ):
                                                         self.additive_conditional_stat_modifier_number_inputs[
                                                             stat
-                                                        ][tag] = ui.number(
+                                                        ][
+                                                            tag
+                                                        ] = ui.number(
                                                             value=0,
                                                             min=0,
                                                             precision=1,
@@ -1053,7 +1059,9 @@ class DollCalculatorPage(ABC):
                                                     ):
                                                         self.multiplicative_conditional_stat_modifier_number_inputs[
                                                             stat
-                                                        ][tag] = ui.number(
+                                                        ][
+                                                            tag
+                                                        ] = ui.number(
                                                             value=0,
                                                             min=0,
                                                             suffix="%",
@@ -1157,7 +1165,7 @@ class DollCalculatorPage(ABC):
                                     "Download JSON",
                                     on_click=_do_export,
                                     icon="download",
-                                )
+                                ).props("color=primary unelevated")
 
                             ui.separator()
                             ui.label("Import").classes("text-subtitle2 font-bold")
@@ -1294,19 +1302,21 @@ class DollCalculatorPage(ABC):
                                 label="Upload .json configuration",
                                 on_upload=_on_upload,
                                 auto_upload=True,
-                            ).props("accept=.json")
+                            ).props("accept=.json outlined")
 
-        ui.separator().classes("w-330")
+        ui.separator().classes("w-330 exilium-divider")
 
         self.set_initial_values()
         self.update_doll_abilities()
         self.rebind_doll()
 
-        with ui.tabs().classes("") as tabs:
+        with ui.tabs().classes("w-fit exilium-main-tabs") as tabs:
             basic_stats_tab = ui.tab("Rotation Potency")
             special_stats_tab = ui.tab("Damage Calculator")
 
-        with ui.tab_panels(tabs, value=basic_stats_tab).classes("w-330 h-full"):
+        with ui.tab_panels(tabs, value=basic_stats_tab).classes(
+            "w-340 h-full exilium-tab-panels"
+        ):
             with ui.tab_panel(basic_stats_tab).classes("w-full h-400"):
                 with ui.grid(columns="25% auto").classes("w-full h-full"):
                     self.get_rotation_planner()

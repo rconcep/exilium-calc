@@ -58,26 +58,43 @@ class DamageCalculator:
             "layout": {
                 "title": {"text": "Change in Expected Damage by Stat Increment"},
                 "margin": {"l": 50, "r": 20, "t": 50, "b": 50},
-                "plot_bgcolor": "#E5ECF6",
-                "xaxis": {"title": {"text": "Stat increment"}, "gridcolor": "white"},
+                "paper_bgcolor": "rgba(0,0,0,0)",
+                "plot_bgcolor": "rgba(10,24,30,0.9)",
+                "font": {"color": "#eef4ef", "family": "Inter, sans-serif"},
+                "title_font": {"family": "Josefin Sans, sans-serif", "size": 18},
+                "colorway": ["#d5a34f", "#65bbc4", "#8fd6d0", "#dfc27d", "#7fa8ad"],
+                "xaxis": {
+                    "title": {"text": "Stat increment"},
+                    "gridcolor": "rgba(143,214,208,0.08)",
+                    "linecolor": "rgba(143,214,208,0.24)",
+                },
                 "yaxis": {
                     "title": {"text": "Change in expected damage (%)"},
-                    "gridcolor": "white",
+                    "gridcolor": "rgba(143,214,208,0.08)",
+                    "linecolor": "rgba(143,214,208,0.24)",
                 },
-                "legend": {"orientation": "h", "y": -0.25},
+                "legend": {"orientation": "h", "y": -0.55, "x": 0, "xanchor": "left"},
             },
         }
         self.scenario_chart: dict[str, Any] = {
             "data": [],
             "layout": {
                 "title": {"text": "Scenario Comparison (Single Increment)"},
-                "margin": {"l": 250, "r": 20, "t": 50, "b": 50},
-                "plot_bgcolor": "#E5ECF6",
+                "margin": {"l": 250, "r": 20, "t": 50, "b": 65},
+                "paper_bgcolor": "rgba(0,0,0,0)",
+                "plot_bgcolor": "rgba(10,24,30,0.9)",
+                "font": {"color": "#eef4ef", "family": "Inter, sans-serif"},
+                "title_font": {"family": "Josefin Sans, sans-serif", "size": 18},
+                "colorway": ["#d5a34f", "#65bbc4", "#8fd6d0", "#dfc27d", "#7fa8ad"],
                 "xaxis": {
                     "title": {"text": "Change in expected damage (%)"},
-                    "gridcolor": "white",
+                    "gridcolor": "rgba(143,214,208,0.08)",
+                    "linecolor": "rgba(143,214,208,0.24)",
                 },
-                "yaxis": {"gridcolor": "white"},
+                "yaxis": {
+                    "gridcolor": "rgba(143,214,208,0.08)",
+                    "linecolor": "rgba(143,214,208,0.24)",
+                },
                 "showlegend": False,
             },
         }
@@ -121,17 +138,17 @@ class DamageCalculator:
 
         self.results_labels: dict[str, ui.label] = {}
 
-        with ui.row().classes("h-full"):
-            with ui.column().classes("w-full"):
-                with ui.row().classes("w-full"):
-                    with ui.card().classes("w-115 h-180"):
+        with ui.row().classes("h-full w-full"):
+            with ui.column().classes("w-full gap-6"):
+                with ui.row().classes("w-full gap-6 items-start"):
+                    with ui.card().classes("w-120 h-180 exilium-panel"):
                         self._attacker_section()
-                    with ui.card().classes("w-80 h-180"):
+                    with ui.card().classes("w-80 h-180 exilium-panel"):
                         self._results_section()
-                    with ui.card().classes("w-115 h-180"):
+                    with ui.card().classes("w-120 h-180 exilium-panel"):
                         self._target_section()
 
-                with ui.card().classes("w-full"):
+                with ui.card().classes("w-full exilium-panel"):
                     self._delta_section()
 
     def initialize_target(self):
@@ -568,7 +585,7 @@ class DamageCalculator:
             self.delta_scenario_next_index = 4
 
             self.scenario_chart_plot = ui.plotly(self.scenario_chart).classes(
-                "w-full h-80"
+                "w-full h-100 exilium-plot"
             )
 
         ### Sweep (below, closed by default)
@@ -749,7 +766,9 @@ class DamageCalculator:
                     )
                 )
 
-            self.delta_chart_plot = ui.plotly(self.delta_chart).classes("w-full h-90")
+            self.delta_chart_plot = ui.plotly(self.delta_chart).classes(
+                "w-full h-100 exilium-plot"
+            )
 
         self._update_delta_control_visibility()
 
@@ -757,7 +776,7 @@ class DamageCalculator:
         """Generates the elements in the Target section."""
         ui.label("Target").props("header")
         ui.separator()
-        with ui.grid(columns="55% auto").classes("w-full"):
+        with ui.grid(columns="65% auto").classes("w-full"):
             self.target_phase_weaknesses_exploited = ui.select(
                 options=[0, 1, 2], value=2, label="Phase Weaknesses Exploited"
             )

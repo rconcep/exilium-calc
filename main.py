@@ -13,10 +13,13 @@ from gui.doll_calculator.dolls import (
     Yoohee,
     Vepley,
 )
+from gui.styles.theme import apply_exilium_theme
 
 
 def root():
     dark = ui.dark_mode()
+    dark.enable()
+    apply_exilium_theme()
     ui.page_title("Exilium-Calc")
 
     pages: dict[str, str] = {
@@ -32,8 +35,8 @@ def root():
         "Yoohee": "/yoohee",
         "Vepley": "/vepley",
     }
-    with ui.header(fixed=True, bordered=True):
-        with ui.row().classes("w-full items-center"):
+    with ui.header(fixed=True, bordered=True).classes("exilium-topbar"):
+        with ui.row().classes("w-full items-center gap-3 exilium-shell"):
             ui.button("", icon="home", on_click=lambda: ui.navigate.to("/")).props(
                 "color=primary push"
             )
@@ -64,7 +67,7 @@ def root():
         }
     )
 
-    with ui.footer(bordered=True, fixed=False):
+    with ui.footer(bordered=True, fixed=False).classes("exilium-footer"):
         ui.label("Exilium-Calc © 2026").classes("text-center w-full")
 
 
@@ -73,10 +76,10 @@ def mainpage() -> None:
         """# Welcome to Exilium-Calc!
 Get started by selecting a Doll above.
                 """
-    )
+    ).classes("exilium-intro-copy exilium-shell")
 
-    with ui.row():
-        with ui.card().classes("w-150 h-150"):
+    with ui.row().classes("w-full exilium-mainpage-row"):
+        with ui.card().classes("w-150 h-150 exilium-panel"):
             ui.markdown(
                 """## Rotation Potency 
 A tool used for simulating the effect of "increased damage" stats on rotations intended for informing gearing choices:
@@ -99,15 +102,14 @@ The damage formula consists of several terms that are multiplied together:
 * Damage reduction if the target has stability
 
 We use the term "potency" to refer to the product of skill multiplier and the sum of all applicable "increased damage" stats. 
-This is because these are the terms that are most relevant to gearing choices. The other terms are either constant across 
-gearing choices (base damage, critical damage multiplier, increased damage taken effects) or are not relevant 
-(phase weaknesses, stability).
+This is because these are the terms that are most relevant to gearing choices. The other terms are typically constant across 
+gearing choices (base damage, critical damage, etc.).
 
 
             """,
-            )
+            ).classes("exilium-intro-copy")
 
-        with ui.card().classes("w-150 h-150"):
+        with ui.card().classes("w-150 h-150 exilium-panel"):
             ui.markdown(
                 """## Damage Calculator
 A tool used for calculating the damage dealt by a single action. Apply buffs to the Doll and debuffs to the target,
@@ -124,10 +126,10 @@ Should you add "increased damage" modifiers or "increased critical damage", give
 allows you to see which stats provide the most marginal benefit to expected damage output by incrementally increasing 
 each stat and observing the resulting change in expected damage.
                         """
-            )
+            ).classes("exilium-intro-copy")
 
-    with ui.row():
-        with ui.card().classes("w-150 h-100"):
+    with ui.row().classes("w-full exilium-mainpage-row"):
+        with ui.card().classes("w-150 h-100 exilium-panel"):
             ui.label("Revision history").classes("text-lg")
             ui.separator()
             with ui.scroll_area().classes("w-full h-150"):

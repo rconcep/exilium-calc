@@ -88,7 +88,7 @@ class SingleConfigurableItemEditor:
         if self.title != "":
             ui.label(self.title).classes("text-h5 q-mt-xl")
         if self.subtitle != "":
-            ui.label(self.subtitle).classes("text-subtitle2 q-mb-md")
+            ui.label(self.subtitle).classes("text-subtitle2 q-mb-md exilium-subtle")
 
         # Type selector
         type_select = (
@@ -103,7 +103,7 @@ class SingleConfigurableItemEditor:
         type_select.on_value_change(self._on_type_change)
 
         # Main card (hidden until type selected)
-        self.card = ui.card().classes(self.card_classes).props("flat bordered")
+        self.card = ui.card().classes(f"{self.card_classes} exilium-panel").props("flat bordered")
         self.card.visible = False
 
         with self.card:
