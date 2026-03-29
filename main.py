@@ -10,6 +10,7 @@ from gui.doll_calculator.dolls import (
     Makiatto,
     Nikketa,
     Lainie,
+    Yoohee,
 )
 
 
@@ -27,6 +28,7 @@ def root():
         "Robella": "/robella",
         "Voymastina": "/voymastina",
         "Tololo": "/tololo",
+        "Yoohee": "/yoohee",
     }
     with ui.header(fixed=True, bordered=True):
         with ui.row().classes("w-full items-center"):
@@ -55,6 +57,7 @@ def root():
             "/leva": Leva().get_page,
             "/makiatto": Makiatto().get_page,
             "/nikketa": Nikketa().get_page,
+            "/yoohee": Yoohee().get_page,
         }
     )
 
@@ -126,6 +129,11 @@ each stat and observing the resulting change in expected damage.
             ui.separator()
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
+                    ui.timeline_entry(
+                        "Implemented Yoohee",
+                        title="",
+                        subtitle="March 28, 2026",
+                    )
                     ui.timeline_entry(
                         "Trying to decide which attachment or growth data to use? See which stat change combination increases damage more.",
                         title="Added Scenario Comparison to Damage Calculator",

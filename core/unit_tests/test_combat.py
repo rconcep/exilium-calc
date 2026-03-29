@@ -793,3 +793,69 @@ class TestDamageCalculationStrategy:
         # Summon has 0 crit rate, so effective crit rate must be 0
         assert summary.effective_critical_rate == pytest.approx(0.0)
         assert summary.expected_damage == pytest.approx(summary.non_critical_damage)
+
+    def test_yoohee_resolve_buffs_applies_v6_passive_and_super_resolution(self):
+        g = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT06
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.PHYSICAL})
+
+        buff = Buff(
+            value=12,
+            modifier_type=ModifierType.MULTIPLICATIVE,
+            stat_type=StatType.ATTACK,
+        )
+        debuff = Debuff(
+            value=-20,
+            modifier_type=ModifierType.MULTIPLICATIVE,
+            stat_type=StatType.DEFENSE,
+        )
+
+        YooheeDamageCalculationStrategy().resolve_buffs(
+            g,
+            t,
+            di,
+            buffs_before=[buff],
+            debuffs_before=[debuff],
+        )
+
+        assert g.initial_stats.special_attributes[
+            SpecialAttribute.CRITICAL_DAMAGE
+        ].get_multiplier(DamageTag.ALL) == pytest.approx(10)
+        assert g.multiplicative_modifiers.basic_attributes[StatType.ATTACK] == (
+            pytest.approx(57)
+        )
+        assert t.multiplicative_modifiers.basic_attributes[StatType.DEFENSE] == (
+            pytest.approx(-20)
+        )
+
+    def test_yoohee_resolve_buffs_does_not_apply_passive_below_v6(self):
+        g = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT05
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.PHYSICAL})
+
+        YooheeDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        assert g.initial_stats.special_attributes[
+            SpecialAttribute.CRITICAL_DAMAGE
+        ].get_multiplier(DamageTag.ALL) == pytest.approx(0)
+        assert g.multiplicative_modifiers.basic_attributes[StatType.ATTACK] == (
+            pytest.approx(0)
+        )
+
+    def test_yoohee_resolve_buffs_does_not_apply_passive_to_non_doll(self):
+        g = TestDamageCalculationStrategy.construct_attacker()
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.PHYSICAL})
+
+        YooheeDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        assert g.initial_stats.special_attributes[
+            SpecialAttribute.CRITICAL_DAMAGE
+        ].get_multiplier(DamageTag.ALL) == pytest.approx(0)
+        assert g.multiplicative_modifiers.basic_attributes[StatType.ATTACK] == (
+            pytest.approx(0)
+        )

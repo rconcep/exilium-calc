@@ -755,6 +755,38 @@ class SimulacrumDamageCalculationStrategy(DamageCalculationStrategy):
         return adjusted_potency
 
 
+class YooheeDamageCalculationStrategy(StandardDamageCalculationStrategy):
+    """Damage calculation strategy for Yoohee, implementing her V6 passive."""
+
+    @override
+    def resolve_buffs(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> None:
+        """Implement Yoohee's V6 passive: Main Dancer's Aura."""
+
+        # Only expecting to run this for Yoohee (V6)
+        if _is_doll_attacker(attacker) and (
+            attacker.fortification_level >= FortificationLevel.SEGMENT06
+        ):
+            # Effect of Dance Steps on Yoohee doubled (Crit Damage +10%, get the other 10% from applying the buff)
+            attacker.initial_stats.special_attributes[
+                SpecialAttribute.CRITICAL_DAMAGE
+            ].add_to_multiplier(DamageTag.ALL, 10)
+
+            # Each buff applied to other allied units increases Yoohee's attack by 1.5%, to a maximum increase of 45%
+            # Assume 30 buffs for max bonus, and that all buffs on allies are applied to Yoohee for simplicity
+            attacker.multiplicative_modifiers.basic_attributes[StatType.ATTACK] += 45
+
+        super().resolve_buffs(
+            attacker, target, damage_instance, buffs_before, debuffs_before
+        )
+
+
 class DamageInstance(BaseModel):
     """An instance of damage."""
 

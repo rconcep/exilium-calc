@@ -13,6 +13,7 @@ from .nikketa import Nikketa
 from .robella import Robella
 from .tololo import Tololo
 from .voymastina import Voymastina
+from .yoohee import Yoohee
 
 __all__ = [
     "Lainie",
@@ -24,4 +25,5 @@ __all__ = [
     "Robella",
     "Tololo",
     "Voymastina",
+    "Yoohee",
 ]
