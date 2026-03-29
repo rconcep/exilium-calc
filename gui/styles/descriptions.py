@@ -12,6 +12,10 @@ def get_tag_description(tag: DamageTag) -> str:
         DamageTag.STABILITY_BROKEN: "In stability break",
         DamageTag.BOSS: "Target is a boss",
         DamageTag.HAS_MOVEMENT_DEBUFF: "Target has a movement debuff",
+        DamageTag.PHYSICAL_SUMMON: "Damage from physical summons",
+        DamageTag.ONLY_HIT_ONE_TARGET: "Damage only hits one target",
+        DamageTag.NEAR: "Target is within 3 tiles",
+        DamageTag.FAR: "Target is more than 6 tiles away",
     }
 
     return descriptions.get(tag, "")

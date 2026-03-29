@@ -26,6 +26,15 @@ def update_expected_damage_delta_chart(tool: Any, _event: Any = None) -> None:
     selected_multi_additive_special: list[str] = (
         tool.delta_multi_additive_special_selector.value or []
     )
+    selected_multi_additive_conditional_basic_stats: list[str] = (
+        tool.delta_multi_additive_conditional_basic_stats_selector.value or []
+    )
+    selected_multi_multiplicative_stats: list[StatType] = (
+        tool.delta_multi_multiplicative_stats_selector.value or []
+    )
+    selected_multi_multiplicative_conditional_basic_stats: list[str] = (
+        tool.delta_multi_multiplicative_conditional_basic_stats_selector.value or []
+    )
 
     selected_stats: list[StatType] = tool.delta_stats_selector.value or []
     selected_special_attribute: SpecialAttribute | None = (
@@ -60,6 +69,9 @@ def update_expected_damage_delta_chart(tool: Any, _event: Any = None) -> None:
             not selected_multi_initial_stats
             and not selected_multi_additive_stats
             and not selected_multi_additive_special
+            and not selected_multi_additive_conditional_basic_stats
+            and not selected_multi_multiplicative_stats
+            and not selected_multi_multiplicative_conditional_basic_stats
         ):
             tool.delta_chart["data"] = []
             ui_update(tool)
@@ -142,6 +154,89 @@ def update_expected_damage_delta_chart(tool: Any, _event: Any = None) -> None:
                     "hovertemplate": "%{x}: %{y:.2f}%<extra>%{fullData.name}</extra>",
                 }
             )
+
+        for conditional_combo in selected_multi_additive_conditional_basic_stats:
+            stat_value, tag_value = conditional_combo.split("::", maxsplit=1)
+            selected_stat: StatType = StatType(stat_value)
+            selected_tag: DamageTag = DamageTag(tag_value)
+
+            deltas = []
+            for stat_increment in x_values:
+                doll = copy.deepcopy(tool.doll)
+                doll.additive_modifiers.conditional_basic_attributes[
+                    selected_stat
+                ].add_to_multiplier(selected_tag, stat_increment)
+
+                summary = tool._get_combat_summary_with_doll(doll)
+                deltas.append(
+                    (summary.expected_damage - base_expected_damage)
+                    / base_expected_damage
+                    * 100
+                )
+
+            traces.append(
+                {
+                    "type": "scatter",
+                    "mode": "lines+markers",
+                    "name": f"{selected_stat} [{selected_tag}] (Additive Conditional)",
+                    "x": x_values,
+                    "y": deltas,
+                    "hovertemplate": "%{x}: %{y:.2f}%<extra>%{fullData.name}</extra>",
+                }
+            )
+
+        for stat in selected_multi_multiplicative_stats:
+            deltas = []
+            for stat_increment in x_values:
+                doll = copy.deepcopy(tool.doll)
+                doll.multiplicative_modifiers.basic_attributes[stat] += stat_increment
+                summary = tool._get_combat_summary_with_doll(doll)
+                deltas.append(
+                    (summary.expected_damage - base_expected_damage)
+                    / base_expected_damage
+                    * 100
+                )
+
+            traces.append(
+                {
+                    "type": "scatter",
+                    "mode": "lines+markers",
+                    "name": f"{stat} (Multiplicative)",
+                    "x": x_values,
+                    "y": deltas,
+                    "hovertemplate": "%{x}: %{y:.2f}%<extra>%{fullData.name}</extra>",
+                }
+            )
+
+        for conditional_combo in selected_multi_multiplicative_conditional_basic_stats:
+            stat_value, tag_value = conditional_combo.split("::", maxsplit=1)
+            selected_stat: StatType = StatType(stat_value)
+            selected_tag: DamageTag = DamageTag(tag_value)
+
+            deltas = []
+            for stat_increment in x_values:
+                doll = copy.deepcopy(tool.doll)
+                doll.multiplicative_modifiers.conditional_basic_attributes[
+                    selected_stat
+                ].add_to_multiplier(selected_tag, stat_increment)
+
+                summary = tool._get_combat_summary_with_doll(doll)
+                deltas.append(
+                    (summary.expected_damage - base_expected_damage)
+                    / base_expected_damage
+                    * 100
+                )
+
+            traces.append(
+                {
+                    "type": "scatter",
+                    "mode": "lines+markers",
+                    "name": f"{selected_stat} [{selected_tag}] (Multiplicative Conditional)",
+                    "x": x_values,
+                    "y": deltas,
+                    "hovertemplate": "%{x}: %{y:.2f}%<extra>%{fullData.name}</extra>",
+                }
+            )
     elif stat_source == "additive_special_attributes":
         selected_special_attribute_typed: SpecialAttribute = selected_special_attribute  # type: ignore
         selected_special_attribute_tag_typed: DamageTag = selected_special_attribute_tag  # type: ignore
@@ -209,6 +304,9 @@ def on_delta_stat_source_changed(tool: Any, _event: Any = None) -> None:
     if stat_source == "multi_series":
         tool.delta_multi_initial_stats_selector.value = []
         tool.delta_multi_additive_stats_selector.value = []
+        tool.delta_multi_additive_conditional_basic_stats_selector.value = []
+        tool.delta_multi_multiplicative_stats_selector.value = []
+        tool.delta_multi_multiplicative_conditional_basic_stats_selector.value = []
 
         default_special_series: list[str] = []
         for attribute, tag in [

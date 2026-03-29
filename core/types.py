@@ -45,6 +45,9 @@ class DamageTag(StrEnum, boundary=STRICT):
     BOSS = "Boss"
     HAS_MOVEMENT_DEBUFF = "Has Movement Debuff"
     PHYSICAL_SUMMON = "Physical Summon"
+    ONLY_HIT_ONE_TARGET = "Only Hit One Target"
+    NEAR = "CQC"
+    FAR = "Headhunter"
 
 
 class DamageTagMultipliers(BaseModel):
@@ -224,22 +227,23 @@ class Unit(BaseModel):
             stat
         ]
 
-        conditional_additive_modifier: float = self.initial_stats.conditional_basic_attributes[
-            stat
-        ].get_total_multiplier(resolved_tags) + self.additive_modifiers.conditional_basic_attributes[
+        conditional_additive_modifier: (
+            float
+        ) = self.initial_stats.conditional_basic_attributes[stat].get_total_multiplier(
+            resolved_tags
+        ) + self.additive_modifiers.conditional_basic_attributes[
             stat
         ].get_total_multiplier(
             resolved_tags
         )
-        conditional_multiplicative_modifier: float = self.multiplicative_modifiers.conditional_basic_attributes[
-            stat
-        ].get_total_multiplier(
-            resolved_tags
+        conditional_multiplicative_modifier: float = (
+            self.multiplicative_modifiers.conditional_basic_attributes[
+                stat
+            ].get_total_multiplier(resolved_tags)
         )
 
         return (initial_value + additive_modifier + conditional_additive_modifier) * (
-            1
-            + (multiplicative_modifier + conditional_multiplicative_modifier) / 100
+            1 + (multiplicative_modifier + conditional_multiplicative_modifier) / 100
         )
 
     def get_special_attribute(

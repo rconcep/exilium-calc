@@ -31,6 +31,20 @@ def apply_scenario_component(
         doll.additive_modifiers.special_attributes[special_attribute].add_to_multiplier(
             tag, increment
         )
+    elif source == "additive_conditional_basic_attributes":
+        doll.additive_modifiers.conditional_basic_attributes[stat].add_to_multiplier(
+            tag, increment
+        )
+    elif source == "multiplicative_special_attributes":
+        doll.multiplicative_modifiers.special_attributes[special_attribute].add_to_multiplier(
+            tag, increment
+        )
+    elif source == "multiplicative_conditional_basic_attributes":
+        doll.multiplicative_modifiers.conditional_basic_attributes[stat].add_to_multiplier(
+            tag, increment
+        )
+    elif source == "multiplicative_modifiers":
+        doll.multiplicative_modifiers.basic_attributes[stat] += increment
     elif source == "additive_modifiers":
         doll.additive_modifiers.basic_attributes[stat] += increment
     else:
@@ -42,12 +56,13 @@ def update_scenario_component_visibility(
 ) -> None:
     """Shows only the relevant selectors for one scenario component."""
     source: str = scenario_row[f"source_{component_index}"].value
-    show_basic: bool = source in ["initial_stats", "additive_modifiers"]
-    show_special: bool = source == "additive_special_attributes"
+    show_basic: bool = source in ["initial_stats", "additive_modifiers", "multiplicative_modifiers"]
+    show_special: bool = source in ["additive_special_attributes", "multiplicative_special_attributes"]
+    show_conditional_basic: bool = source in ["additive_conditional_basic_attributes", "multiplicative_conditional_basic_attributes"]
 
-    scenario_row[f"stat_{component_index}"].set_visibility(show_basic)
+    scenario_row[f"stat_{component_index}"].set_visibility(show_basic or show_conditional_basic)
     scenario_row[f"special_attribute_{component_index}"].set_visibility(show_special)
-    scenario_row[f"tag_{component_index}"].set_visibility(show_special)
+    scenario_row[f"tag_{component_index}"].set_visibility(show_special or show_conditional_basic)
 
 
 def update_scenario_row_visibility(tool: Any, scenario_row: dict[str, Any]) -> None:
@@ -210,7 +225,11 @@ def create_scenario_row(
                     options={
                         "initial_stats": "Initial Stats",
                         "additive_modifiers": "Additive Modifiers (Basic)",
+                        "multiplicative_modifiers": "Multiplicative Modifiers (Basic)",
                         "additive_special_attributes": "Additive Modifiers (Special)",
+                        "multiplicative_special_attributes": "Multiplicative Modifiers (Special)",
+                        "additive_conditional_basic_attributes": "Additive Modifiers (Basic Conditional)",
+                        "multiplicative_conditional_basic_attributes": "Multiplicative Modifiers (Basic Conditional)",
                     },
                     value=component_1["source"],
                     label="Source",
@@ -255,7 +274,11 @@ def create_scenario_row(
                     options={
                         "initial_stats": "Initial Stats",
                         "additive_modifiers": "Additive Modifiers (Basic)",
+                        "multiplicative_modifiers": "Multiplicative Modifiers (Basic)",
                         "additive_special_attributes": "Additive Modifiers (Special)",
+                        "multiplicative_special_attributes": "Multiplicative Modifiers (Special)",
+                        "additive_conditional_basic_attributes": "Additive Modifiers (Basic Conditional)",
+                        "multiplicative_conditional_basic_attributes": "Multiplicative Modifiers (Basic Conditional)",
                     },
                     value=component_2["source"],
                     label="Source",
@@ -300,7 +323,11 @@ def create_scenario_row(
                     options={
                         "initial_stats": "Initial Stats",
                         "additive_modifiers": "Additive Modifiers (Basic)",
+                        "multiplicative_modifiers": "Multiplicative Modifiers (Basic)",
                         "additive_special_attributes": "Additive Modifiers (Special)",
+                        "multiplicative_special_attributes": "Multiplicative Modifiers (Special)",
+                        "additive_conditional_basic_attributes": "Additive Modifiers (Basic Conditional)",
+                        "multiplicative_conditional_basic_attributes": "Multiplicative Modifiers (Basic Conditional)",
                     },
                     value=component_3["source"],
                     label="Source",

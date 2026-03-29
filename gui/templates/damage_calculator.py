@@ -93,6 +93,9 @@ class DamageCalculator:
         self.delta_multi_initial_stats_selector: ui.select
         self.delta_multi_additive_stats_selector: ui.select
         self.delta_multi_additive_special_selector: ui.select
+        self.delta_multi_additive_conditional_basic_stats_selector: ui.select
+        self.delta_multi_multiplicative_stats_selector: ui.select
+        self.delta_multi_multiplicative_conditional_basic_stats_selector: ui.select
         self.delta_basic_controls_container: ui.column
         self.delta_single_special_controls_container: ui.column
         self.delta_multi_controls_container: ui.column
@@ -103,6 +106,16 @@ class DamageCalculator:
         self.delta_special_combo_options: dict[str, str] = {
             f"{attribute.value}::{tag.value}": f"{attribute.value} [{tag.value}]"
             for attribute in SpecialAttribute
+            for tag in self.relevant_damage_tags
+        }
+
+        conditional_basic_stats_to_show: tuple[StatType, ...] = (
+            StatType.ATTACK,
+            StatType.CRIT_RATE,
+        )
+        self.delta_conditional_basic_combo_options: dict[str, str] = {
+            f"{stat.value}::{tag.value}": f"{stat.value} [{tag.value}]"
+            for stat in conditional_basic_stats_to_show
             for tag in self.relevant_damage_tags
         }
 
@@ -689,6 +702,51 @@ class DamageCalculator:
                     )
                     .classes("w-full")
                     .on("update:model-value", self._update_expected_damage_delta_chart)
+                )
+
+                self.delta_multi_additive_conditional_basic_stats_selector = (
+                    ui.select(
+                        options=self.delta_conditional_basic_combo_options,
+                        value=[],
+                        multiple=True,
+                        with_input=False,
+                        label="Additive modifiers (basic conditional) (multi-series)",
+                    )
+                    .classes("w-full")
+                    .on(
+                        "update:model-value",
+                        self._update_expected_damage_delta_chart,
+                    )
+                )
+
+                self.delta_multi_multiplicative_stats_selector = (
+                    ui.select(
+                        options=[stat for stat in StatType],
+                        value=[],
+                        multiple=True,
+                        with_input=False,
+                        label="Multiplicative modifiers (basic) (multi-series)",
+                    )
+                    .classes("w-full")
+                    .on(
+                        "update:model-value",
+                        self._update_expected_damage_delta_chart,
+                    )
+                )
+
+                self.delta_multi_multiplicative_conditional_basic_stats_selector = (
+                    ui.select(
+                        options=self.delta_conditional_basic_combo_options,
+                        value=[],
+                        multiple=True,
+                        with_input=False,
+                        label="Multiplicative modifiers (basic conditional) (multi-series)",
+                    )
+                    .classes("w-full")
+                    .on(
+                        "update:model-value",
+                        self._update_expected_damage_delta_chart,
+                    )
                 )
 
             self.delta_chart_plot = ui.plotly(self.delta_chart).classes("w-full h-90")
