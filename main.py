@@ -133,39 +133,46 @@ each stat and observing the resulting change in expected damage.
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
                     ui.timeline_entry(
-                        "Implemented Yoohee",
+                        "Implemented Yoohee and Vepley; added support for conditional modifiers to Attack and Critical Rate",
                         title="",
                         subtitle="March 28, 2026",
+                        icon="person_add",
                     )
                     ui.timeline_entry(
                         "Trying to decide which attachment or growth data to use? See which stat change combination increases damage more.",
                         title="Added Scenario Comparison to Damage Calculator",
                         subtitle="March 28, 2026",
+                        icon="analytics",
                     )
                     ui.timeline_entry(
                         "Analyze relative change in expected damage by marginal changes in stats",
                         title="Added Stat Increment Analysis to Damage Calculator",
                         subtitle="March 28, 2026",
+                        icon="analytics",
                     )
                     ui.timeline_entry(
                         "Implemented preview of Lainie (why does her scaling look insane?)",
                         title="",
                         subtitle="March 27, 2026",
+                        icon="person_add",
                     )
                     ui.timeline_entry(
                         "Added feature to save/load Doll stats as JSON files",
                         title="Added save/load feature",
                         subtitle="March 26, 2026",
+                        icon="save",
                     )
                     ui.timeline_entry(
                         "Implemented Nikketa; made backend changes to support summons",
                         title="",
                         subtitle="March 26, 2026",
+                        icon="person_add",
                     )
                     ui.timeline_entry(
                         "Implemented Makiatto",
                         title="",
                         subtitle="March 23, 2026",
+                        icon="person_add",
                     )
                     ui.timeline_entry(
                         "First deployment as a web app",

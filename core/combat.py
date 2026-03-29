@@ -165,6 +165,9 @@ class DamageCalculationStrategy(ABC):
         damage_instance.tags.add(DamageTag.STABILITY_BROKEN)
         damage_instance.tags.add(DamageTag.BOSS)
         damage_instance.tags.add(DamageTag.HAS_MOVEMENT_DEBUFF)
+        damage_instance.tags.add(DamageTag.ONLY_HIT_ONE_TARGET)
+        damage_instance.tags.add(DamageTag.NEAR)
+        damage_instance.tags.add(DamageTag.FAR)
 
     def resolve_buffs(
         self,

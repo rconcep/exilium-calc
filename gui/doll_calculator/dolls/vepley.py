@@ -12,7 +12,29 @@ from core.types import (
 from core.dolls import vepley
 
 
-sample_rotation: dict[int, list[dict]] = {}
+sample_rotation: dict[int, list[dict]] = {
+    1: [
+        {"name": "Infectious Enthusiasm"},
+    ],
+    2: [
+        {"name": "Exclusive Stage"},
+    ],
+    3: [
+        {"name": "All Out Performance"},
+    ],
+    4: [
+        {"name": "Infectious Enthusiasm"},
+    ],
+    5: [
+        {"name": "Exclusive Stage"},
+    ],
+    6: [
+        {"name": "Infectious Enthusiasm"},
+    ],
+    7: [
+        {"name": "Exclusive Stage"},
+    ],
+}
 
 
 class Vepley(DollCalculatorPage):
@@ -126,9 +148,7 @@ class Vepley(DollCalculatorPage):
         # imagoform: 8
         # attack boost: 3.6
         # Yoohee imagoform: 3
-        doll.multiplicative_modifiers.basic_attributes[StatType.ATTACK] = (
-            8 + 3.6 + 3
-        )
+        doll.multiplicative_modifiers.basic_attributes[StatType.ATTACK] = 8 + 3.6 + 3
 
     @override
     def revision_history(self) -> None:

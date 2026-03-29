@@ -233,7 +233,7 @@ class Vepley(Doll):
         the passive bonuses at all fortification levels.
         """
         self.set_to_v2()
-        
+
         # V3 upgrade: Infectious Enthusiasm applies Overzealous before the attack
         self.infectious_enthusiasm = InfectiousEnthusiasmV3()
 
@@ -258,4 +258,12 @@ class Vepley(Doll):
 
     def get_sample_data(self) -> list[DamageInstance]:
         """Returns a sample single target rotation."""
-        return []
+        return [
+            self.infectious_enthusiasm.execute(),
+            self.exclusive_stage.execute(),
+            self.all_out_performance.execute(),
+            self.infectious_enthusiasm.execute(),
+            self.exclusive_stage.execute(),
+            self.infectious_enthusiasm.execute(),
+            self.exclusive_stage.execute(),
+        ]
