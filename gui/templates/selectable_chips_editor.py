@@ -22,7 +22,7 @@ class SelectableChipsEditor:
         clear_button_text: str = "",
         button_icon: str = "add_circle",
         clear_button_icon: str = "delete_sweep",
-        chip_icon: str = "",
+        # chip_icon: str = "",
         chip_color: str = "primary",
         container_classes: str = "w-full gap-2 wrap q-mt-md",
     ):
@@ -32,7 +32,7 @@ class SelectableChipsEditor:
         self.clear_button_text = clear_button_text
         self.button_icon = button_icon
         self.clear_button_icon = clear_button_icon
-        self.chip_icon = chip_icon
+        # self.chip_icon = chip_icon
         self.chip_color = chip_color
 
         self.options = options
@@ -140,7 +140,7 @@ class SelectableChipsEditor:
             for item in self.selected_items:
                 chip = ui.chip(
                     text=item["name"],
-                    icon=self.chip_icon,
+                    # icon=self.chip_icon,
                     color=self.chip_color,
                     removable=True,
                 ).props("dense clickable")

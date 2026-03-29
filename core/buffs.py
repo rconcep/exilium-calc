@@ -762,7 +762,7 @@ class ParapluiesPenetration(Debuff):
         stacks -- the number of stacks of this buff
         lainie_fortification_level -- the Fortification Level of the Lainie applying this debuff
         """
-        # Expansion Key: Superimposed Algorithm - Additional 6%
+        # Expansion Key: Algorithmic Stack - Additional 6%
         reduction_per_stack: int = -(15 + 6)
         max_stacks: int = 3
 
