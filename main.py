@@ -151,6 +151,12 @@ each stat and observing the resulting change in expected damage.
                         icon="palette",
                     )
                     ui.timeline_entry(
+                        "Fixed an issue where conditional %DEF down was not being applied correctly for ignoring defense calculations.",
+                        title="",
+                        subtitle="March 28, 2026",
+                        icon="bug_report",
+                    )
+                    ui.timeline_entry(
                         "Implemented Yoohee and Vepley; added support for conditional modifiers to Attack and Critical Rate",
                         title="",
                         subtitle="March 28, 2026",

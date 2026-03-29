@@ -455,6 +455,9 @@ class StandardDamageCalculationStrategy(DamageCalculationStrategy):
         ignore_def: float = (
             total_defense_ignore_multipliers.get_total_multiplier(damage_instance.tags)
             - target.multiplicative_modifiers.basic_attributes[StatType.DEFENSE]
+            - target.multiplicative_modifiers.conditional_basic_attributes[
+                StatType.DEFENSE
+            ].get_total_multiplier(damage_instance.tags)
         )  # defense down is additive with ignore defense
         negative_def: float = max(0, ignore_def - 100)
         effective_def: float = max(0, effective_def * (1 - ignore_def / 100))
