@@ -1,6 +1,6 @@
 from nicegui import ui
 
-from gui.templates.doll_calculator_page import DollCalculatorPage
+from gui.templates.doll_calculator_page import DollCalculatorPage, ModelAssumption
 from gui.templates.rotation_planner import RotationPlanner
 from typing import Any, override
 from core.types import (
@@ -27,7 +27,6 @@ sample_rotation: dict[int, list[dict]] = {
     ],
     2: [
         {"name": "Howling Cyclone", "sense_weakness_stacks": 6},
-        {"name": "Unity: Enhanced"},
         {"name": "Unity: Enhanced"},
         {"name": "Unity: Enhanced"},
         {"name": "Unity: Enhanced"},
@@ -260,9 +259,13 @@ class Robella(DollCalculatorPage):
         )
 
     @override
-    def revision_history(self) -> None:
-        with ui.timeline(side="right"):
-            ui.timeline_entry("", title="Initial version", subtitle="March 03, 2026")
+    def get_model_assumptions(self) -> list[ModelAssumption]:
+        return [
+            ModelAssumption(
+                icon="ac_unit",
+                description="Sample rotation assumes Alva is V2+ (for confectance index gain) and is the Light of Bond recipient, performing an active attack or interception to proc each Unity: Enhanced instance.",
+            ),
+        ]
 
     @override
     def get_rotation_planner(self) -> None:

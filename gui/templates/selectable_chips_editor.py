@@ -73,7 +73,7 @@ class SelectableChipsEditor:
         with ui.dialog(value=True).props("persistent") as dialog, ui.card().classes(
             "w-96 max-w-full exilium-panel"
         ):
-            ui.label(f'Edit {item["name"]}').classes("text-h6")
+            ui.label(f'{item["name"]}').classes("text-h6")
             ui.separator()
 
             field_elements = {}

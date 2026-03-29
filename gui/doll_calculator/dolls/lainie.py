@@ -1,6 +1,6 @@
 from nicegui import ui
 
-from gui.templates.doll_calculator_page import DollCalculatorPage
+from gui.templates.doll_calculator_page import DollCalculatorPage, ModelAssumption
 from gui.templates.rotation_planner import RotationPlanner
 from typing import Any, override
 from core.types import FortificationLevel, StatType, Unit, SpecialAttribute, DamageTag
@@ -233,9 +233,27 @@ class Lainie(DollCalculatorPage):
         super().stats_update_callback(update)
 
     @override
-    def revision_history(self) -> None:
-        with ui.timeline(side="right"):
-            ui.timeline_entry("", title="Initial version", subtitle="March 27, 2026")
+    def get_model_assumptions(self) -> list[ModelAssumption]:
+        return [
+            ModelAssumption(
+                icon="group_add",
+                description="Simulacrum is modeled as a live snapshot of Lainie's current stats and is refreshed on stat updates.",
+            ),
+            ModelAssumption(
+                icon="key",
+                description="Expansion Key - Algorithmic Stack is active.",
+                link_label="Dandegate",
+                link_target="https://www.dandegate.net/dolls/lainie/keys/expansion-key-superimposed-algorithm",
+            ),
+            ModelAssumption(
+                icon="group_work",
+                description="Combat Algorithm: Checking the Defense <= 0 condition implies it was triggered by Offense Simulation.",
+            ),
+            ModelAssumption(
+                icon="group_work",
+                description="Offense Simulation: Unchecking the 'hit same target...' condition implies it was triggered by Combat Algorithm.",
+            ),
+        ]
 
     @override
     def get_rotation_planner(self) -> None:

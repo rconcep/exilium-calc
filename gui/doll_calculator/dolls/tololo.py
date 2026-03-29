@@ -1,6 +1,6 @@
 from nicegui import ui
 
-from gui.templates.doll_calculator_page import DollCalculatorPage
+from gui.templates.doll_calculator_page import DollCalculatorPage, ModelAssumption
 from gui.templates.rotation_planner import RotationPlanner
 from typing import Any, override
 from core.types import StatType, FortificationLevel
@@ -99,9 +99,13 @@ class Tololo(DollCalculatorPage):
         self.doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 156.9
 
     @override
-    def revision_history(self) -> None:
-        with ui.timeline(side="right"):
-            ui.timeline_entry("", title="Initial version", subtitle="March 03, 2026")
+    def get_model_assumptions(self) -> list[ModelAssumption]:
+        return [
+            ModelAssumption(
+                icon="water_drop",
+                description="Sample rotation assumes Springfield support with Shared Telepathy and that a phase weakness is exploited for Black Hole Inversion.",
+            ),
+        ]
 
     @override
     def get_rotation_planner(self) -> None:

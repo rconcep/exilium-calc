@@ -68,7 +68,17 @@ def root():
     )
 
     with ui.footer(bordered=True, fixed=False).classes("exilium-footer"):
-        ui.label("Exilium-Calc © 2026").classes("text-center w-full")
+        with ui.column().classes("w-full items-center q-py-sm"):
+            with ui.row().classes("w-full justify-center items-center gap-1"):
+                ui.label("Exilium-Calc © 2026 | ").classes("text-center")
+                ui.link(
+                    "Discord",
+                    target="https://discord.com/users/132232400687071233",
+                    new_tab=True,
+                ).classes("text-center")
+            ui.label(
+                "Exilium-Calc is an unofficial fan-made project for Girls' Frontline 2: Exilium. Not affiliated with, endorsed by, or sponsored by MICA Team or Sunborn Network Technology Co., Ltd."
+            ).classes("text-center text-caption exilium-subtle")
 
 
 def mainpage() -> None:
@@ -134,6 +144,12 @@ each stat and observing the resulting change in expected damage.
             ui.separator()
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
+                    ui.timeline_entry(
+                        "Implemented theming inspired by GFL2. Replaced revision history on each Doll page with modeling assumptions.",
+                        title="Implemented Theme",
+                        subtitle="March 29, 2026",
+                        icon="palette",
+                    )
                     ui.timeline_entry(
                         "Implemented Yoohee and Vepley; added support for conditional modifiers to Attack and Critical Rate",
                         title="",

@@ -1,6 +1,6 @@
 from nicegui import ui
 
-from gui.templates.doll_calculator_page import DollCalculatorPage
+from gui.templates.doll_calculator_page import DollCalculatorPage, ModelAssumption
 from gui.templates.rotation_planner import RotationPlanner
 from typing import Any, cast, override
 from core.types import (
@@ -45,7 +45,7 @@ class Vepley(DollCalculatorPage):
 
         self.doll = vepley.Vepley()
         self.doll.set_fortification_level(FortificationLevel.SEGMENT06)
-        self.doll_subtitle: str = """Physical Damage / Defense Ignore / Movement Debuffs
+        self.doll_subtitle: str = """Mixed Damage / Debuff / Displacement
 
             Vanguard / Physical"""
         self.dandegate_link: str = "https://www.dandegate.net/dolls/vepley"
@@ -151,9 +151,15 @@ class Vepley(DollCalculatorPage):
         doll.multiplicative_modifiers.basic_attributes[StatType.ATTACK] = 8 + 3.6 + 3
 
     @override
-    def revision_history(self) -> None:
-        with ui.timeline(side="right"):
-            ui.timeline_entry("", title="Initial version", subtitle="March 28, 2026")
+    def get_model_assumptions(self) -> list[ModelAssumption]:
+        return [
+            ModelAssumption(
+                icon="key",
+                description="Expansion Key - Idol Steps is active.",
+                link_label="Dandegate",
+                link_target="https://www.dandegate.net/dolls/Vepley/keys/expansion-key-idol-steps",
+            ),
+        ]
 
     @override
     def get_rotation_planner(self) -> None:

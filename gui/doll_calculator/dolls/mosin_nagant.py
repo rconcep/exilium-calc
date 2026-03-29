@@ -1,6 +1,6 @@
 from nicegui import ui
 
-from gui.templates.doll_calculator_page import DollCalculatorPage
+from gui.templates.doll_calculator_page import DollCalculatorPage, ModelAssumption
 from gui.templates.rotation_planner import RotationPlanner
 from typing import Any, override
 from core.types import DamageTag, SpecialAttribute, StatType, FortificationLevel
@@ -152,9 +152,8 @@ class MosinNagant(DollCalculatorPage):
         ].set_multiplier(DamageTag.TARGETED, 3)
 
     @override
-    def revision_history(self) -> None:
-        with ui.timeline(side="right"):
-            ui.timeline_entry("", title="Initial version", subtitle="March 03, 2026")
+    def get_model_assumptions(self) -> list[ModelAssumption]:
+        return []
 
     @override
     def get_rotation_planner(self) -> None:

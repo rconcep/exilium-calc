@@ -1,6 +1,6 @@
 from nicegui import ui
 
-from gui.templates.doll_calculator_page import DollCalculatorPage
+from gui.templates.doll_calculator_page import DollCalculatorPage, ModelAssumption
 from gui.templates.rotation_planner import RotationPlanner
 from typing import Any, override
 from core.types import DamageTag, SpecialAttribute, StatType, FortificationLevel
@@ -228,9 +228,17 @@ class Lewis(DollCalculatorPage):
         )
 
     @override
-    def revision_history(self) -> None:
-        with ui.timeline(side="right"):
-            ui.timeline_entry("", title="Initial version", subtitle="March 03, 2026")
+    def get_model_assumptions(self) -> list[ModelAssumption]:
+        return [
+            ModelAssumption(
+                icon="whatshot",
+                description="Sample rotation assumes Tin Soldier holders are triggering Volley Fire.",
+            ),
+            ModelAssumption(
+                icon="warning",
+                description="Overburn triggers and fixed damage instances are not yet modeled.",
+            ),
+        ]
 
     @override
     def get_rotation_planner(self) -> None:

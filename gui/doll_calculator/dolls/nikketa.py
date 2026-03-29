@@ -1,6 +1,6 @@
 from nicegui import ui
 
-from gui.templates.doll_calculator_page import DollCalculatorPage
+from gui.templates.doll_calculator_page import DollCalculatorPage, ModelAssumption
 from gui.templates.rotation_planner import RotationPlanner
 from typing import Any, override
 from core.types import (
@@ -333,9 +333,29 @@ class Nikketa(DollCalculatorPage):
         super().stats_update_callback(update)
 
     @override
-    def revision_history(self) -> None:
-        with ui.timeline(side="right"):
-            ui.timeline_entry("", title="Initial version", subtitle="March 25, 2026")
+    def get_model_assumptions(self) -> list[ModelAssumption]:
+        return [
+            ModelAssumption(
+                icon="pets",
+                description="Kulich is modeled as a summoned snapshot and refreshed when Nikketa stats change.",
+            ),
+            ModelAssumption(
+                icon="balance",
+                description="Kulich snapshot uses core stat ratios (Health 80%, ATK 80%, DEF 100%).",
+            ),
+            ModelAssumption(
+                icon="key",
+                description="Expansion Key - Justice is Always With You is active.",
+                link_label="Dandegate",
+                link_target="https://www.dandegate.net/dolls/nikketa/keys/expansion-key-justice-is-always-with-you",
+            ),
+            ModelAssumption(
+                icon="key",
+                description="Sample rotation assumes Fixed Key 1 - Righteous Doll is active.",
+                link_label="Dandegate",
+                link_target="https://www.dandegate.net/dolls/nikketa/keys/fixed-key-1-righteous-doll",
+            ),
+        ]
 
     @override
     def get_rotation_planner(self) -> None:

@@ -62,7 +62,7 @@ class CombatAlgorithm(CombatAction):
 
         buffs_before: list[Buff] = []
 
-        # Expansion Key - Superimposed Algorithm
+        # Expansion Key - Algorithmic Stack
         buffs_before.append(
             Buff(
                 value=15,
@@ -111,7 +111,7 @@ class CombatAlgorithmV2(CombatAction):
 
         buffs_before: list[Buff] = []
 
-        # Expansion Key - Superimposed Algorithm
+        # Expansion Key - Algorithmic Stack
         buffs_before.append(
             Buff(
                 value=15,
@@ -169,7 +169,7 @@ class CombatAlgorithmV6(CombatAction):
 
         buffs_before: list[Buff] = []
 
-        # Expansion Key - Superimposed Algorithm
+        # Expansion Key - Algorithmic Stack
         buffs_before.append(
             Buff(
                 value=15,
@@ -226,7 +226,7 @@ class ComputationalCrush(CombatAction):
 
         buffs_before: list[Buff] = []
 
-        # Expansion Key - Superimposed Algorithm
+        # Expansion Key - Algorithmic Stack
         buffs_before.append(
             Buff(
                 value=15,
@@ -294,7 +294,7 @@ class OffenseSimulation(CombatAction):
 
         buffs_before: list[Buff] = []
 
-        # Expansion Key - Superimposed Algorithm
+        # Expansion Key - Algorithmic Stack
         buffs_before.append(
             Buff(
                 value=15,
@@ -348,7 +348,7 @@ class OffenseSimulationV2(CombatAction):
 
         buffs_before: list[Buff] = []
 
-        # Expansion Key - Superimposed Algorithm
+        # Expansion Key - Algorithmic Stack
         buffs_before.append(
             Buff(
                 value=15,
@@ -402,7 +402,7 @@ class OffenseSimulationV6(CombatAction):
 
         buffs_before: list[Buff] = []
 
-        # Expansion Key - Superimposed Algorithm
+        # Expansion Key - Algorithmic Stack
         buffs_before.append(
             Buff(
                 value=15,
@@ -451,7 +451,7 @@ class HashrateOverclock(CombatAction):
 
         buffs_before: list[Buff] = []
 
-        # Expansion Key - Superimposed Algorithm
+        # Expansion Key - Algorithmic Stack
         buffs_before.append(
             Buff(
                 value=15,

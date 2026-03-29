@@ -1,6 +1,6 @@
 from nicegui import ui
 
-from gui.templates.doll_calculator_page import DollCalculatorPage
+from gui.templates.doll_calculator_page import DollCalculatorPage, ModelAssumption
 from gui.templates.rotation_planner import RotationPlanner
 from typing import Any, override
 from core.types import (
@@ -224,9 +224,23 @@ class Makiatto(DollCalculatorPage):
         )
 
     @override
-    def revision_history(self) -> None:
-        with ui.timeline(side="right"):
-            ui.timeline_entry("", title="Initial version", subtitle="March 23, 2026")
+    def get_model_assumptions(self) -> list[ModelAssumption]:
+        return [
+            ModelAssumption(
+                icon="ac_unit",
+                description="Target is assumed to be Frigid for Battlefield Insight.",
+            ),
+            ModelAssumption(
+                icon="track_changes",
+                description="Cold Precision Shot second hit (for V1+) is calculated separately.",
+            ),
+            ModelAssumption(
+                icon="key",
+                description="Expansion Key - Sniper's Lock is active.",
+                link_label="Dandegate",
+                link_target="https://www.dandegate.net/dolls/makiatto/keys/expansion-key-sniper-s-lock",
+            ),
+        ]
 
     @override
     def get_rotation_planner(self) -> None:

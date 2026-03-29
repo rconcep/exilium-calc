@@ -1,6 +1,6 @@
 from nicegui import ui
 
-from gui.templates.doll_calculator_page import DollCalculatorPage
+from gui.templates.doll_calculator_page import DollCalculatorPage, ModelAssumption
 from gui.templates.rotation_planner import RotationPlanner
 from typing import Any, override
 from core.types import (
@@ -220,9 +220,19 @@ class Leva(DollCalculatorPage):
         self.doll.multiplicative_modifiers.basic_attributes[StatType.ATTACK] = 11.6
 
     @override
-    def revision_history(self) -> None:
-        with ui.timeline(side="right"):
-            ui.timeline_entry("", title="Initial version", subtitle="March 21, 2026")
+    def get_model_assumptions(self) -> list[ModelAssumption]:
+        return [
+            ModelAssumption(
+                icon="bolt",
+                description="Leva is assumed to have Positive Charge for the purpose of her passive. At V6, she is also assumed to have reached 4 stacks of Superconductive Code.",
+            ),
+            ModelAssumption(
+                icon="key",
+                description="Expansion Key - Electric Espionage is active. It is assumed that there are 5 Electric Dolls on the field and that she is attacking a target with Negative Charge in Stability Break.",
+                link_label="Dandegate",
+                link_target="https://www.dandegate.net/dolls/leva/keys/expansion-key-phantom-electric-spy",
+            ),
+        ]
 
     @override
     def get_rotation_planner(self) -> None:

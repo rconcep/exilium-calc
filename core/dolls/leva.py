@@ -424,7 +424,7 @@ class Leva(Doll):
             SpecialAttribute.DAMAGE_BOOST
         ].set_multiplier(
             DamageTag.ELECTRIC,
-            20,
+            10,
         )
 
         # When attacking targets with Negative Charge, critical

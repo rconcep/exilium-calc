@@ -6,6 +6,7 @@ from typing import final, Any
 from abc import ABC, abstractmethod
 from dataclasses import asdict
 from decimal import Decimal, ROUND_DOWN
+from pydantic import BaseModel
 
 from core.types import *
 from core.stat_serializer import SerializationError, StatsSerializer
@@ -13,6 +14,15 @@ from core.combat import DamageInstance, sum_damage_instances
 from gui.templates.rotation_planner import RotationPlanner
 from gui.styles.descriptions import get_tag_description, get_stat_description
 from gui.styles.graphs import get_bar_chart_template, get_donut_chart_template
+
+
+class ModelAssumption(BaseModel):
+    """Typed model for the assumptions list shown in each Doll page."""
+
+    icon: str = "info"
+    description: str
+    link_label: str | None = None
+    link_target: str | None = None
 
 
 class DollCalculatorPage(ABC):
@@ -120,14 +130,51 @@ class DollCalculatorPage(ABC):
         ).classes("exilium-character-copy")
 
     @abstractmethod
-    def revision_history(self) -> None:
-        """Generates the revision history information."""
-        pass
+    def get_model_assumptions(self) -> list[ModelAssumption]:
+        """Returns model assumptions shown in the left panel.
+
+        Each item may provide:
+        - icon: icon name for the avatar section
+        - description: short assumption description
+        - link_label: optional link text
+        - link_target: optional external URL
+        """
+        ...
+
+    def render_model_assumptions(self) -> None:
+        """Renders model assumptions as a list with icon, description, and optional link."""
+        assumptions = self.get_model_assumptions()
+
+        with ui.list().props("bordered dense separator").classes("w-full"):
+            ui.item_label("Model Assumptions").props("header").classes("text-bold")
+            ui.separator()
+
+            if not assumptions:
+                with ui.item():
+                    with ui.item_section().props("avatar"):
+                        ui.icon("block")
+                    with ui.item_section():
+                        ui.item_label("None").props("no-wrap")
+                return
+
+            for assumption in assumptions:
+                with ui.item():
+                    with ui.item_section().props("avatar"):
+                        ui.icon(assumption.icon)
+                    with ui.item_section():
+                        ui.item_label(assumption.description).props("no-wrap")
+                    if assumption.link_target:
+                        with ui.item_section().props("side"):
+                            ui.link(
+                                assumption.link_label or "Link",
+                                target=assumption.link_target,
+                                new_tab=True,
+                            )
 
     @abstractmethod
     def get_rotation_planner(self) -> None:
         """Generates the Rotation Planner section."""
-        pass
+        ...
 
     def get_rotation_analysis(self) -> None:
         """Generates the Rotation Analysis section."""
@@ -173,7 +220,7 @@ class DollCalculatorPage(ABC):
     @abstractmethod
     def update_doll_abilities(self) -> None:
         """Update self.option_config references to Doll ability functions."""
-        pass
+        ...
 
     def doll_fortification_callback(self, update: ui.select) -> None:
         """Updates Doll abilities upon changing Fortification level."""
@@ -525,7 +572,7 @@ class DollCalculatorPage(ABC):
             with ui.card().classes("w-100 h-150 exilium-panel"):
                 self.doll_header()
                 with ui.scroll_area().classes("w-full h-full"):
-                    self.revision_history()
+                    self.render_model_assumptions()
 
                 with ui.grid(columns="75% auto").classes("w-full gap-0"):
                     ui.select(
@@ -592,6 +639,7 @@ class DollCalculatorPage(ABC):
                         with ui.scroll_area().classes("w-full h-full"):
                             with ui.expansion(
                                 text="Help",
+                                icon="info",
                             ).classes("w-full"):
                                 ui.label(
                                     """Put additive modifiers from innate abilities here.
@@ -723,18 +771,19 @@ class DollCalculatorPage(ABC):
                         with ui.scroll_area().classes("w-full h-full"):
                             with ui.expansion(
                                 text="Help",
+                                icon="info",
                             ).classes("w-full"):
                                 ui.label(
                                     """Put additive modifiers from keys, attachment set 
                                         bonuses, remolding core, and in-combat buffs here."""
                                 )
                                 ui.label(
-                                    """Note: Since these mods are additive with the 'Special' tab,
+                                    """Note: Since these mods are additive with the Special tab,
                                         it technically doesn't matter if they are put here or 
-                                        in the 'Special' tab, but the values in the 'Special'
-                                        tab are liable to dynamically change (e.g., when changing
+                                        in the Special tab, but the values in the Special
+                                        tab are subject to dynamically change (e.g., when changing
                                         Fortification Level)."""
-                                ).classes("italic")
+                                ).classes("text-caption exilium-subtle")
                                 with ui.list().props("bordered dense separator"):
                                     ui.item_label("Examples").props("header").classes(
                                         "text-bold"
@@ -959,6 +1008,7 @@ class DollCalculatorPage(ABC):
                         with ui.scroll_area().classes("w-full h-full"):
                             with ui.expansion(
                                 text="Help",
+                                icon="info",
                             ).classes("w-full"):
                                 ui.label(
                                     """Put multiplicative modifiers from remolding core 
@@ -1208,7 +1258,7 @@ class DollCalculatorPage(ABC):
                                         try:
                                             await _maybe_await(source.seek(0))
                                         except Exception:
-                                            pass
+                                            ...
 
                                     if hasattr(source, "text"):
                                         try:
@@ -1225,9 +1275,9 @@ class DollCalculatorPage(ABC):
                                                 if isinstance(text_val, str):
                                                     return text_val
                                             except Exception:
-                                                pass
+                                                ...
                                         except Exception:
-                                            pass
+                                            ...
 
                                     if hasattr(source, "read"):
                                         raw = await _maybe_await(source.read())
