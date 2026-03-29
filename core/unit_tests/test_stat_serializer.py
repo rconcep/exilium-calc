@@ -46,6 +46,9 @@ class TestStatsSerializer(TestCase):
         # Set additive modifiers
         self.unit.additive_modifiers.basic_attributes[StatType.ATTACK] = 20.0
         self.unit.additive_modifiers.basic_attributes[StatType.CRIT_RATE] = 15.0
+        self.unit.additive_modifiers.conditional_basic_attributes[
+            StatType.ATTACK
+        ].set_multiplier(DamageTag.FREEZE, 7.0)
         self.unit.additive_modifiers.special_attributes[
             SpecialAttribute.CRITICAL_DAMAGE
         ].set_multiplier(DamageTag.MELEE, 25.0)
@@ -107,6 +110,14 @@ class TestStatsSerializer(TestCase):
             self.unit.initial_stats.special_attributes[
                 SpecialAttribute.DAMAGE_BOOST
             ].get_multiplier(DamageTag.PHYSICAL),
+        )
+        self.assertEqual(
+            loaded_unit.additive_modifiers.conditional_basic_attributes[
+                StatType.ATTACK
+            ].get_multiplier(DamageTag.FREEZE),
+            self.unit.additive_modifiers.conditional_basic_attributes[
+                StatType.ATTACK
+            ].get_multiplier(DamageTag.FREEZE),
         )
 
         # Verify metadata

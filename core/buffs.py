@@ -1000,6 +1000,20 @@ class DefenseDownII(Debuff):
         self.stat_type = StatType.DEFENSE
 
 
+class Overzealous(Debuff):
+    """Increase damage taken by 30% from Vepley."""
+
+    display_name = "Overzealous (Vepley)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        self.value = 30
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.ALL
+
+
 def _generate_field(param_name, annotation, default, cls):
     label = param_name.replace("_", " ").title()
     if annotation == FortificationLevel:

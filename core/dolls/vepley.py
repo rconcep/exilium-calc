@@ -10,7 +10,7 @@ from core.types import (
     FortificationLevel,
     SummonedUnit,
 )
-from core.buffs import Buff, Debuff, VulnerableII
+from core.buffs import Buff, Debuff, VulnerableII, Overzealous
 from core.combat import DamageInstance, CombatAction
 
 
@@ -87,11 +87,7 @@ class ExclusiveStage(CombatAction):
 
 
 class ExclusiveStageV2(CombatAction):
-    """Vepley S2 (V2): critical rate +100%.
-
-    Since combat assumes HAS_MOVEMENT_DEBUFF is always present, the crit rate
-    bonus is applied unconditionally.
-    """
+    """Vepley S2 (V2): critical rate +100% vs movement-debuffed targets."""
 
     @override
     def execute(self) -> DamageInstance:
@@ -113,17 +109,17 @@ class ExclusiveStageV2(CombatAction):
                     value=100,
                     modifier_type=ModifierType.ADDITIVE,
                     stat_type=StatType.CRIT_RATE,
+                    tag=DamageTag.HAS_MOVEMENT_DEBUFF,
                 )
             ],
         )
 
 
 class InfectiousEnthusiasm(CombatAction):
-    """Vepley Ultimate.
+    """Vepley Ultimate (V0-V2).
 
     At V3+, Overzealous is applied before the attack (applied after at V0–V2).
-    The Idol Talent passive (+20% damage) and Expansion Key conditional defense
-    ignore (+15%) are applied via HAS_MOVEMENT_DEBUFF in Vepley's initial_stats.
+    This version is used for V0-V2 and does not apply debuffs before.
     """
 
     @override
@@ -142,6 +138,32 @@ class InfectiousEnthusiasm(CombatAction):
             base_potency=base_potency,
             tags=tags,
             group_name="Infectious Enthusiasm",
+        )
+
+
+class InfectiousEnthusiasmV3(CombatAction):
+    """Vepley Ultimate (V3+).
+
+    V3 upgrade: Overzealous is applied before the attack.
+    """
+
+    @override
+    def execute(self) -> DamageInstance:
+        label: str = "Infectious Enthusiasm"
+        base_potency: int = 100
+        tags: set[DamageTag] = {
+            DamageTag.ACTIVE,
+            DamageTag.AREA_OF_EFFECT,
+            DamageTag.ULTIMATE,
+            DamageTag.PHYSICAL,
+        }
+
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Infectious Enthusiasm",
+            debuffs_before=[Overzealous()],
         )
 
 
@@ -211,6 +233,9 @@ class Vepley(Doll):
         the passive bonuses at all fortification levels.
         """
         self.set_to_v2()
+        
+        # V3 upgrade: Infectious Enthusiasm applies Overzealous before the attack
+        self.infectious_enthusiasm = InfectiousEnthusiasmV3()
 
     @override
     def set_fortification_level(self, level: FortificationLevel) -> None:

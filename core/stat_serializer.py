@@ -107,6 +107,12 @@ class StatsSerializer:
                 StatsSerializer._enum_to_dict(stat): value
                 for stat, value in sheet.basic_attributes.items()
             },
+            "conditional_basic_attributes": {
+                StatsSerializer._enum_to_dict(
+                    stat
+                ): StatsSerializer.serialize_damage_tag_multipliers(multipliers)
+                for stat, multipliers in sheet.conditional_basic_attributes.items()
+            },
             "special_attributes": {
                 StatsSerializer._enum_to_dict(
                     attr
@@ -120,6 +126,7 @@ class StatsSerializer:
         """Deserialize StatSheet from dict, skipping unknown enums gracefully."""
         sheet = StatSheet()
         sheet.basic_attributes = {}
+        sheet.conditional_basic_attributes = {}
         sheet.special_attributes = {}
 
         # Deserialize basic attributes
@@ -128,6 +135,19 @@ class StatsSerializer:
                 stat = StatsSerializer._dict_to_enum(StatType, stat_name)
                 if stat is not None:
                     sheet.basic_attributes[stat] = value
+
+        # Deserialize conditional basic attributes
+        if "conditional_basic_attributes" in data:
+            for stat_name, multipliers_data in data[
+                "conditional_basic_attributes"
+            ].items():
+                stat = StatsSerializer._dict_to_enum(StatType, stat_name)
+                if stat is not None:
+                    sheet.conditional_basic_attributes[stat] = (
+                        StatsSerializer.deserialize_damage_tag_multipliers(
+                            multipliers_data
+                        )
+                    )
 
         # Deserialize special attributes
         if "special_attributes" in data:
@@ -144,6 +164,11 @@ class StatsSerializer:
         for stat in StatType:
             if stat not in sheet.basic_attributes:
                 sheet.basic_attributes[stat] = 0
+            if stat not in sheet.conditional_basic_attributes:
+                sheet.conditional_basic_attributes[stat] = DamageTagMultipliers()
+                sheet.conditional_basic_attributes[stat].multipliers = {
+                    tag: 0 for tag in DamageTag
+                }
 
         for attr in SpecialAttribute:
             if attr not in sheet.special_attributes:

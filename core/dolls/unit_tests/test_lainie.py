@@ -104,7 +104,7 @@ class TestLainieSkills:
 
     def test_offense_simulation_floor_and_no_bonus(self):
         os: DamageInstance = OffenseSimulation().execute(
-            number_of_targets=6,
+            number_of_additional_targets=6,
             hit_same_target_as_combat_algorithm=True,
         )
 
@@ -119,7 +119,7 @@ class TestLainieSkills:
 
     def test_offense_simulation_defense_ignore_bonus(self):
         os: DamageInstance = OffenseSimulation().execute(
-            number_of_targets=2,
+            number_of_additional_targets=2,
             hit_same_target_as_combat_algorithm=False,
         )
 
@@ -133,7 +133,7 @@ class TestLainieSkills:
 
     def test_offense_simulation_v2_bonus(self):
         os: DamageInstance = OffenseSimulationV2().execute(
-            number_of_targets=2,
+            number_of_additional_targets=2,
             hit_same_target_as_combat_algorithm=False,
         )
 
@@ -147,7 +147,7 @@ class TestLainieSkills:
 
     def test_offense_simulation_v6_floor(self):
         os: DamageInstance = OffenseSimulationV6().execute(
-            number_of_targets=8,
+            number_of_additional_targets=8,
             hit_same_target_as_combat_algorithm=True,
         )
 

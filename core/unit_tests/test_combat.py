@@ -290,6 +290,85 @@ class TestDamageCalculationStrategy:
 
         assert term == pytest.approx(3765.199)
 
+    def test_standard_base_damage_uses_conditional_attack_modifiers(self):
+        g = TestDamageCalculationStrategy.construct_attacker()
+        t = TestDamageCalculationStrategy.construct_defender()
+        g.initial_stats.conditional_basic_attributes[StatType.ATTACK].set_multiplier(
+            DamageTag.FREEZE, 200
+        )
+
+        freeze_di = DamageInstance(
+            label="",
+            base_potency=100,
+            tags={DamageTag.PHYSICAL, DamageTag.FREEZE},
+        )
+        burn_di = DamageInstance(
+            label="",
+            base_potency=100,
+            tags={DamageTag.PHYSICAL, DamageTag.BURN},
+        )
+
+        freeze_atk, _, _, _ = StandardDamageCalculationStrategy().calculate_base_damage(
+            g, t, freeze_di
+        )
+        burn_atk, _, _, _ = StandardDamageCalculationStrategy().calculate_base_damage(
+            g, t, burn_di
+        )
+
+        assert freeze_atk == pytest.approx(burn_atk + 200)
+
+    def test_resolve_buffs_supports_tagged_basic_stat_buffs(self):
+        g = TestDamageCalculationStrategy.construct_attacker()
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.FREEZE})
+
+        buff = Buff(
+            value=12,
+            modifier_type=ModifierType.MULTIPLICATIVE,
+            stat_type=StatType.ATTACK,
+            tag=DamageTag.FREEZE,
+        )
+
+        StandardDamageCalculationStrategy().resolve_buffs(
+            g,
+            t,
+            di,
+            buffs_before=[buff],
+        )
+
+        assert g.multiplicative_modifiers.basic_attributes[StatType.ATTACK] == 0
+        assert (
+            g.multiplicative_modifiers.conditional_basic_attributes[
+                StatType.ATTACK
+            ].get_multiplier(DamageTag.FREEZE)
+            == pytest.approx(12)
+        )
+
+    def test_calculate_damage_uses_conditional_crit_rate(self):
+        g = TestDamageCalculationStrategy.construct_attacker()
+        t = TestDamageCalculationStrategy.construct_defender()
+
+        g.initial_stats.basic_attributes[StatType.CRIT_RATE] = 0
+        g.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 200
+        g.initial_stats.conditional_basic_attributes[StatType.CRIT_RATE].set_multiplier(
+            DamageTag.HAS_MOVEMENT_DEBUFF, 100
+        )
+
+        di = DamageInstance(
+            label="",
+            base_potency=100,
+            tags={DamageTag.PHYSICAL},
+        )
+
+        summary = StandardDamageCalculationStrategy().calculate_damage(
+            attacker=g,
+            target=t,
+            damage_instance=di,
+        )
+
+        assert summary.effective_critical_rate == pytest.approx(1.0)
+        assert summary.expected_damage == pytest.approx(summary.critical_damage)
+
     def test_resolve_defense_shredding(self):
         di: DamageInstance = DamageInstance(
             label="", base_potency=100, tags={DamageTag.FREEZE}

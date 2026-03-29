@@ -135,6 +135,9 @@ class StatSheet(BaseModel):
     """Contains all attributes."""
 
     basic_attributes: Dict[StatType, float] = Field(default_factory=dict)
+    conditional_basic_attributes: Dict[StatType, DamageTagMultipliers] = Field(
+        default_factory=dict
+    )
     special_attributes: Dict[SpecialAttribute, DamageTagMultipliers] = Field(
         default_factory=dict
     )
@@ -143,6 +146,12 @@ class StatSheet(BaseModel):
     def initialize_defaults(self):
         if not self.basic_attributes:
             self.basic_attributes = {stat: 0 for stat in StatType}
+        if not self.conditional_basic_attributes:
+            for stat in StatType:
+                self.conditional_basic_attributes[stat] = DamageTagMultipliers()
+                self.conditional_basic_attributes[stat].multipliers = {
+                    tag: 0 for tag in DamageTag
+                }
         if not self.special_attributes:
             for sp in SpecialAttribute:
                 self.special_attributes[sp] = DamageTagMultipliers()
@@ -160,6 +169,12 @@ class FinalStatModifiers(StatSheet):
     def initialize_defaults(self):
         if not self.basic_attributes:
             self.basic_attributes = {stat: 0 for stat in StatType}
+        if not self.conditional_basic_attributes:
+            for stat in StatType:
+                self.conditional_basic_attributes[stat] = DamageTagMultipliers()
+                self.conditional_basic_attributes[stat].multipliers = {
+                    tag: 0 for tag in DamageTag
+                }
         if not self.special_attributes:
             for sp in SpecialAttribute:
                 self.special_attributes[sp] = DamageTagMultipliers()
@@ -193,15 +208,39 @@ class Unit(BaseModel):
                 return unit
         return None
 
-    def get_basic_attribute(self, stat: StatType) -> float:
-        """Returns the final value of stat."""
+    def get_basic_attribute(
+        self, stat: StatType, tags: list[DamageTag] | set[DamageTag] | None = None
+    ) -> float:
+        """Returns the final value of stat.
+
+        `tags` can be provided to include any conditional basic-stat modifiers
+        keyed by DamageTag.
+        """
+        resolved_tags: list[DamageTag] | set[DamageTag] = tags or []
+
         initial_value: float = self.initial_stats.basic_attributes[stat]
         additive_modifier: float = self.additive_modifiers.basic_attributes[stat]
         multiplicative_modifier: float = self.multiplicative_modifiers.basic_attributes[
             stat
         ]
 
-        return (initial_value + additive_modifier) * (1 + multiplicative_modifier / 100)
+        conditional_additive_modifier: float = self.initial_stats.conditional_basic_attributes[
+            stat
+        ].get_total_multiplier(resolved_tags) + self.additive_modifiers.conditional_basic_attributes[
+            stat
+        ].get_total_multiplier(
+            resolved_tags
+        )
+        conditional_multiplicative_modifier: float = self.multiplicative_modifiers.conditional_basic_attributes[
+            stat
+        ].get_total_multiplier(
+            resolved_tags
+        )
+
+        return (initial_value + additive_modifier + conditional_additive_modifier) * (
+            1
+            + (multiplicative_modifier + conditional_multiplicative_modifier) / 100
+        )
 
     def get_special_attribute(
         self, special_attribute: SpecialAttribute, tag: DamageTag

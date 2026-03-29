@@ -109,3 +109,20 @@ class TestUnitClass:
             )
             == 188.9
         )
+
+    def test_get_basic_attribute_with_conditional_damage_tags(self):
+        g = TestUnitClass.construct_attacker()
+        g.initial_stats.conditional_basic_attributes[StatType.ATTACK].set_multiplier(
+            DamageTag.FREEZE, 200
+        )
+        g.additive_modifiers.conditional_basic_attributes[StatType.ATTACK].set_multiplier(
+            DamageTag.FREEZE, 50
+        )
+        g.multiplicative_modifiers.conditional_basic_attributes[
+            StatType.ATTACK
+        ].set_multiplier(DamageTag.FREEZE, 10)
+
+        # (5429 + 11 + 200 + 50) * (1 + (15 + 10)/100)
+        assert g.get_basic_attribute(
+            StatType.ATTACK, tags={DamageTag.FREEZE}
+        ) == pytest.approx(7112.5)

@@ -52,6 +52,11 @@ class DollCalculatorPage(ABC):
         {"name": "share", "label": "%", "field": "share", "sortable": False},
     ]
 
+    conditional_basic_stats_to_show: tuple[StatType, ...] = (
+        StatType.ATTACK,
+        StatType.CRIT_RATE,
+    )
+
     def __init__(self):
         # Basic Tab
         self.initial_stats_number_inputs: dict[StatType, ui.number] = {}
@@ -63,12 +68,18 @@ class DollCalculatorPage(ABC):
 
         # Additive Modifier Tab
         self.additive_stat_modifier_number_inputs: dict[StatType, ui.number] = {}
+        self.additive_conditional_stat_modifier_number_inputs: dict[
+            StatType, dict[DamageTag, ui.number]
+        ] = {stat: {} for stat in StatType}
         self.additive_mod_damage_boost_number_inputs: dict[DamageTag, ui.number] = {}
         self.additive_mod_critical_damage_number_inputs: dict[DamageTag, ui.number] = {}
         self.additive_mod_defense_ignore_number_inputs: dict[DamageTag, ui.number] = {}
 
         # Multiplicative Modifier Tab
         self.multiplicative_stat_modifier_number_inputs: dict[StatType, ui.number] = {}
+        self.multiplicative_conditional_stat_modifier_number_inputs: dict[
+            StatType, dict[DamageTag, ui.number]
+        ] = {stat: {} for stat in StatType}
         self.multiplicative_mod_damage_boost_number_inputs: dict[
             DamageTag, ui.number
         ] = {}
@@ -218,6 +229,29 @@ class DollCalculatorPage(ABC):
                 loaded.multiplicative_modifiers.basic_attributes.get(stat, 0)
             )
 
+            for tag in DamageTag:
+                self.doll.initial_stats.conditional_basic_attributes[stat].multipliers[
+                    tag
+                ] = loaded.initial_stats.conditional_basic_attributes[
+                    stat
+                ].multipliers.get(
+                    tag, 0
+                )
+                self.doll.additive_modifiers.conditional_basic_attributes[stat].multipliers[
+                    tag
+                ] = loaded.additive_modifiers.conditional_basic_attributes[
+                    stat
+                ].multipliers.get(
+                    tag, 0
+                )
+                self.doll.multiplicative_modifiers.conditional_basic_attributes[
+                    stat
+                ].multipliers[tag] = loaded.multiplicative_modifiers.conditional_basic_attributes[
+                    stat
+                ].multipliers.get(
+                    tag, 0
+                )
+
         # Special attributes (all tags)
         for attr in SpecialAttribute:
             for tag in DamageTag:
@@ -262,6 +296,33 @@ class DollCalculatorPage(ABC):
             self.multiplicative_stat_modifier_number_inputs[stat].on(
                 "change", self.stats_update_callback
             )
+
+        for stat in self.conditional_basic_stats_to_show:
+            for tag in self.relevant_damage_tags:
+                self.additive_conditional_stat_modifier_number_inputs[stat][
+                    tag
+                ].bind_value(
+                    self.doll.additive_modifiers.conditional_basic_attributes[
+                        stat
+                    ].multipliers,
+                    tag,
+                )
+                self.additive_conditional_stat_modifier_number_inputs[stat][tag].on(
+                    "change", self.stats_update_callback
+                )
+
+                self.multiplicative_conditional_stat_modifier_number_inputs[stat][
+                    tag
+                ].bind_value(
+                    self.doll.multiplicative_modifiers.conditional_basic_attributes[
+                        stat
+                    ].multipliers,
+                    tag,
+                )
+                self.multiplicative_conditional_stat_modifier_number_inputs[stat][
+                    tag
+                ].on("change", self.stats_update_callback)
+
         for tag in self.relevant_damage_tags:
             self.damage_boost_number_inputs[tag].bind_value(
                 self.doll.initial_stats.special_attributes[
@@ -783,6 +844,39 @@ class DollCalculatorPage(ABC):
                                                     format="%.1f",
                                                 )
                             with ui.expansion(
+                                text="Basic (Conditional)",
+                                group="additive_mods",
+                            ).classes("w-full"):
+                                for stat in self.conditional_basic_stats_to_show:
+                                    with ui.expansion(
+                                        text=str(stat),
+                                        group="additive_conditional_basic_mods",
+                                    ).classes("w-full"):
+                                        with ui.list().props(
+                                            "bordered dense separator"
+                                        ).classes("w-full"):
+                                            for tag in self.relevant_damage_tags:
+                                                with ui.item():
+                                                    with ui.item_section().props(
+                                                        "no-wrap"
+                                                    ):
+                                                        ui.item_label(tag)
+                                                        ui.item_label(
+                                                            get_tag_description(tag)
+                                                        ).props("caption")
+                                                    with ui.item_section().props(
+                                                        "side"
+                                                    ):
+                                                        self.additive_conditional_stat_modifier_number_inputs[
+                                                            stat
+                                                        ][tag] = ui.number(
+                                                            value=0,
+                                                            min=0,
+                                                            precision=1,
+                                                            format="%.1f",
+                                                        )
+
+                            with ui.expansion(
                                 text="Damage Boost (Increased Damage)",
                                 group="additive_mods",
                             ).classes("w-full"):
@@ -933,6 +1027,40 @@ class DollCalculatorPage(ABC):
                                                     precision=1,
                                                     format="%.1f",
                                                 )
+                            with ui.expansion(
+                                text="Basic (Conditional)",
+                                group="multiplicative_mods",
+                            ).classes("w-full"):
+                                for stat in self.conditional_basic_stats_to_show:
+                                    with ui.expansion(
+                                        text=str(stat),
+                                        group="multiplicative_conditional_basic_mods",
+                                    ).classes("w-full"):
+                                        with ui.list().props(
+                                            "bordered dense separator"
+                                        ).classes("w-full"):
+                                            for tag in self.relevant_damage_tags:
+                                                with ui.item():
+                                                    with ui.item_section().props(
+                                                        "no-wrap"
+                                                    ):
+                                                        ui.item_label(tag)
+                                                        ui.item_label(
+                                                            get_tag_description(tag)
+                                                        ).props("caption")
+                                                    with ui.item_section().props(
+                                                        "side"
+                                                    ):
+                                                        self.multiplicative_conditional_stat_modifier_number_inputs[
+                                                            stat
+                                                        ][tag] = ui.number(
+                                                            value=0,
+                                                            min=0,
+                                                            suffix="%",
+                                                            precision=1,
+                                                            format="%.1f",
+                                                        )
+
                             with ui.expansion(
                                 text="Damage Boost (Increased Damage)",
                                 group="multiplicative_mods",

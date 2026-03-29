@@ -1,6 +1,6 @@
 from core.dolls.vepley import *
 from core.types import DamageTag, ModifierType, SpecialAttribute, StatType
-from core.buffs import Buff, Debuff, VulnerableII
+from core.buffs import Buff, Debuff, VulnerableII, Overzealous
 from core.combat import DamageInstance
 
 
@@ -46,6 +46,7 @@ class TestVepleySkills:
             value=100,
             modifier_type=ModifierType.ADDITIVE,
             stat_type=StatType.CRIT_RATE,
+            tag=DamageTag.HAS_MOVEMENT_DEBUFF,
         )
 
     def test_infectious_enthusiasm(self):
@@ -57,6 +58,19 @@ class TestVepleySkills:
         assert DamageTag.ULTIMATE in ie.tags
         assert DamageTag.ACTIVE in ie.tags
         assert ie.buffs_before == []
+        assert ie.debuffs_before == []
+
+    def test_infectious_enthusiasm_v3(self):
+        ie: DamageInstance = InfectiousEnthusiasmV3().execute()
+
+        assert ie.base_potency == 100
+        assert DamageTag.PHYSICAL in ie.tags
+        assert DamageTag.AREA_OF_EFFECT in ie.tags
+        assert DamageTag.ULTIMATE in ie.tags
+        assert DamageTag.ACTIVE in ie.tags
+        assert ie.buffs_before == []
+        assert len(ie.debuffs_before) == 1
+        assert ie.debuffs_before[0] == Overzealous()
 
 
 class TestVepley:
@@ -102,7 +116,7 @@ class TestVepley:
         vp.set_to_v3()
 
         assert isinstance(vp.exclusive_stage, ExclusiveStageV2)
-        assert isinstance(vp.infectious_enthusiasm, InfectiousEnthusiasm)
+        assert isinstance(vp.infectious_enthusiasm, InfectiousEnthusiasmV3)
 
     def test_set_fortification_level_v1_unchanged(self):
         vp: Vepley = Vepley()
@@ -123,11 +137,11 @@ class TestVepley:
         vp.set_fortification_level(FortificationLevel.SEGMENT03)
 
         assert isinstance(vp.exclusive_stage, ExclusiveStageV2)
-        assert isinstance(vp.infectious_enthusiasm, InfectiousEnthusiasm)
+        assert isinstance(vp.infectious_enthusiasm, InfectiousEnthusiasmV3)
 
     def test_set_fortification_level_v6(self):
         vp: Vepley = Vepley()
         vp.set_fortification_level(FortificationLevel.SEGMENT06)
 
         assert isinstance(vp.exclusive_stage, ExclusiveStageV2)
-        assert isinstance(vp.infectious_enthusiasm, InfectiousEnthusiasm)
+        assert isinstance(vp.infectious_enthusiasm, InfectiousEnthusiasmV3)

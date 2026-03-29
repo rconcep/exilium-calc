@@ -59,6 +59,10 @@ class DamageCalculationStrategy(ABC):
         buffs_before -- Buffs to apply to attacker before the action
         debuffs_before -- Debuffs to apply to target before the action
         """
+        # Ensure assumed target-state tags are available to all downstream math,
+        # including attack/crit-rate and defense-ignore calculations.
+        self.apply_assumed_target_state_tags(damage_instance)
+
         # Apply buffs and debuffs before
         self.resolve_buffs(
             attacker, target, damage_instance, buffs_before, debuffs_before
@@ -80,13 +84,6 @@ class DamageCalculationStrategy(ABC):
             effective_unit.additive_modifiers.special_attributes[
                 SpecialAttribute.DAMAGE_BOOST
             ].add_to_multiplier(DamageTag.PHYSICAL, bonus_increased_damage)
-
-        # TODO: check conditional modifiers before adding: exposed, in stability break,
-        # close proximity, distance, has overburn, etc.
-        damage_instance.tags.add(DamageTag.EXPOSED)
-        damage_instance.tags.add(DamageTag.STABILITY_BROKEN)
-        damage_instance.tags.add(DamageTag.BOSS)
-        damage_instance.tags.add(DamageTag.HAS_MOVEMENT_DEBUFF)
 
         # Get the effective damage multiplier
         effective_dmg_multiplier: float = self.get_effective_multiplier(
@@ -126,7 +123,10 @@ class DamageCalculationStrategy(ABC):
         )
 
         # Account for critical hit
-        crit_rate: float = effective_unit.get_basic_attribute(StatType.CRIT_RATE) / 100
+        crit_rate: float = (
+            effective_unit.get_basic_attribute(StatType.CRIT_RATE, damage_instance.tags)
+            / 100
+        )
         crit_dmg_multiplier: float = (
             effective_unit.get_effective_critical_damage_multiplier(
                 damage_instance.tags
@@ -157,6 +157,15 @@ class DamageCalculationStrategy(ABC):
 
         return combat_summary
 
+    @final
+    def apply_assumed_target_state_tags(self, damage_instance: DamageInstance) -> None:
+        """Adds currently-assumed target state tags for conditional calculations."""
+        # TODO: replace with real combat state checks (exposed, stability broken, etc.)
+        damage_instance.tags.add(DamageTag.EXPOSED)
+        damage_instance.tags.add(DamageTag.STABILITY_BROKEN)
+        damage_instance.tags.add(DamageTag.BOSS)
+        damage_instance.tags.add(DamageTag.HAS_MOVEMENT_DEBUFF)
+
     def resolve_buffs(
         self,
         attacker: Unit,
@@ -178,13 +187,23 @@ class DamageCalculationStrategy(ABC):
         for buff in buffs_before + damage_instance.buffs_before:
             if isinstance(buff.stat_type, StatType):
                 if buff.modifier_type == ModifierType.ADDITIVE:
-                    attacker.additive_modifiers.basic_attributes[
-                        buff.stat_type
-                    ] += buff.value
+                    if buff.tag == DamageTag.ALL:
+                        attacker.additive_modifiers.basic_attributes[
+                            buff.stat_type
+                        ] += buff.value
+                    else:
+                        attacker.additive_modifiers.conditional_basic_attributes[
+                            buff.stat_type
+                        ].add_to_multiplier(buff.tag, buff.value)
                 elif buff.modifier_type == ModifierType.MULTIPLICATIVE:
-                    attacker.multiplicative_modifiers.basic_attributes[
-                        buff.stat_type
-                    ] += buff.value
+                    if buff.tag == DamageTag.ALL:
+                        attacker.multiplicative_modifiers.basic_attributes[
+                            buff.stat_type
+                        ] += buff.value
+                    else:
+                        attacker.multiplicative_modifiers.conditional_basic_attributes[
+                            buff.stat_type
+                        ].add_to_multiplier(buff.tag, buff.value)
                 else:
                     TypeError("Unexpected modifier type")
             elif isinstance(buff.stat_type, SpecialAttribute):
@@ -202,13 +221,23 @@ class DamageCalculationStrategy(ABC):
         for debuff in debuffs_before + damage_instance.debuffs_before:
             if isinstance(debuff.stat_type, StatType):
                 if debuff.modifier_type == ModifierType.ADDITIVE:
-                    target.additive_modifiers.basic_attributes[
-                        debuff.stat_type
-                    ] += debuff.value
+                    if debuff.tag == DamageTag.ALL:
+                        target.additive_modifiers.basic_attributes[
+                            debuff.stat_type
+                        ] += debuff.value
+                    else:
+                        target.additive_modifiers.conditional_basic_attributes[
+                            debuff.stat_type
+                        ].add_to_multiplier(debuff.tag, debuff.value)
                 elif debuff.modifier_type == ModifierType.MULTIPLICATIVE:
-                    target.multiplicative_modifiers.basic_attributes[
-                        debuff.stat_type
-                    ] += debuff.value
+                    if debuff.tag == DamageTag.ALL:
+                        target.multiplicative_modifiers.basic_attributes[
+                            debuff.stat_type
+                        ] += debuff.value
+                    else:
+                        target.multiplicative_modifiers.conditional_basic_attributes[
+                            debuff.stat_type
+                        ].add_to_multiplier(debuff.tag, debuff.value)
                 else:
                     TypeError("Unexpected modifier type")
             elif isinstance(debuff.stat_type, SpecialAttribute):
@@ -412,7 +441,9 @@ class StandardDamageCalculationStrategy(DamageCalculationStrategy):
             ]
         )
 
-        effective_atk: float = attacker.get_basic_attribute(StatType.ATTACK)
+        effective_atk: float = attacker.get_basic_attribute(
+            StatType.ATTACK, damage_instance.tags
+        )
         effective_def: float = (
             target.initial_stats.basic_attributes[StatType.DEFENSE]
             + target.additive_modifiers.basic_attributes[StatType.DEFENSE]
@@ -488,7 +519,9 @@ class KulichDamageCalculationStrategy(DamageCalculationStrategy):
 
         summon: SummonedUnit = self._require_kulich_summon(attacker)
 
-        effective_atk: float = summon.get_basic_attribute(StatType.ATTACK)
+        effective_atk: float = summon.get_basic_attribute(
+            StatType.ATTACK, damage_instance.tags
+        )
         effective_def: float = (
             target.initial_stats.basic_attributes[StatType.DEFENSE]
             + target.additive_modifiers.basic_attributes[StatType.DEFENSE]

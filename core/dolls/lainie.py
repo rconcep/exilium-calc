@@ -277,10 +277,12 @@ class OffenseSimulation(CombatAction):
 
     @override
     def execute(
-        self, number_of_targets: int, hit_same_target_as_combat_algorithm: bool
+        self,
+        number_of_additional_targets: int,
+        hit_same_target_as_combat_algorithm: bool,
     ) -> DamageInstance:
         label: str = "Offense Simulation"
-        base_potency: int = max(140 - 20 * number_of_targets, 80)
+        base_potency: int = max(140 - 20 * number_of_additional_targets, 80)
 
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -329,10 +331,12 @@ class OffenseSimulationV2(CombatAction):
 
     @override
     def execute(
-        self, number_of_targets: int, hit_same_target_as_combat_algorithm: bool
+        self,
+        number_of_additional_targets: int,
+        hit_same_target_as_combat_algorithm: bool,
     ) -> DamageInstance:
         label: str = "Offense Simulation"
-        base_potency: int = max(140 - 20 * number_of_targets, 80)
+        base_potency: int = max(140 - 20 * number_of_additional_targets, 80)
 
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -381,10 +385,12 @@ class OffenseSimulationV6(CombatAction):
 
     @override
     def execute(
-        self, number_of_targets: int, hit_same_target_as_combat_algorithm: bool
+        self,
+        number_of_additional_targets: int,
+        hit_same_target_as_combat_algorithm: bool,
     ) -> DamageInstance:
         label: str = "Offense Simulation"
-        base_potency: int = max(160 - 20 * number_of_targets, 100)
+        base_potency: int = max(160 - 20 * number_of_additional_targets, 100)
 
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,

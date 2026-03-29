@@ -11,6 +11,7 @@ def get_tag_description(tag: DamageTag) -> str:
         DamageTag.EXPOSED: "Not protected by cover",
         DamageTag.STABILITY_BROKEN: "In stability break",
         DamageTag.BOSS: "Target is a boss",
+        DamageTag.HAS_MOVEMENT_DEBUFF: "Target has a movement debuff",
     }
 
     return descriptions.get(tag, "")

@@ -12,7 +12,7 @@ sample_rotation: dict[int, list[dict]] = {
         # Summon Simulacrum
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_targets": 1,
+            "number_of_additional_targets": 1,
             "hit_same_target_as_combat_algorithm": True,
         },
         {
@@ -23,7 +23,7 @@ sample_rotation: dict[int, list[dict]] = {
     2: [
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_targets": 1,
+            "number_of_additional_targets": 1,
             "hit_same_target_as_combat_algorithm": True,
         },
         {
@@ -34,7 +34,7 @@ sample_rotation: dict[int, list[dict]] = {
     3: [
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_targets": 1,
+            "number_of_additional_targets": 1,
             "hit_same_target_as_combat_algorithm": True,
         },
         {
@@ -45,7 +45,7 @@ sample_rotation: dict[int, list[dict]] = {
     4: [
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_targets": 1,
+            "number_of_additional_targets": 1,
             "hit_same_target_as_combat_algorithm": True,
         },
         {
@@ -56,7 +56,7 @@ sample_rotation: dict[int, list[dict]] = {
     5: [
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_targets": 1,
+            "number_of_additional_targets": 1,
             "hit_same_target_as_combat_algorithm": True,
         },
         {
@@ -67,7 +67,7 @@ sample_rotation: dict[int, list[dict]] = {
     6: [
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_targets": 1,
+            "number_of_additional_targets": 1,
             "hit_same_target_as_combat_algorithm": True,
         },
         {
@@ -78,7 +78,7 @@ sample_rotation: dict[int, list[dict]] = {
     7: [
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_targets": 1,
+            "number_of_additional_targets": 1,
             "hit_same_target_as_combat_algorithm": True,
         },
         {
@@ -133,9 +133,9 @@ class Lainie(DollCalculatorPage):
             "Offense Simulation (Simulacrum)": {
                 "fields": [
                     {
-                        "key": "number_of_targets",
+                        "key": "number_of_additional_targets",
                         "type": "number",
-                        "label": "Number of targets",
+                        "label": "Number of additional targets (beyond the first)",
                         "default": 1,
                     },
                     {
