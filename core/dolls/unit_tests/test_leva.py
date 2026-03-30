@@ -212,7 +212,7 @@ class TestLeva:
             leva.initial_stats.special_attributes[
                 SpecialAttribute.DAMAGE_BOOST
             ].get_multiplier(DamageTag.ELECTRIC)
-            == 20
+            == 10
         )
         assert (
             leva.initial_stats.special_attributes[

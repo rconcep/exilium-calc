@@ -72,6 +72,9 @@ class DollCalculatorPage(ABC):
         self.initial_stats_number_inputs: dict[StatType, ui.number] = {}
 
         # Special Tab
+        self.initial_conditional_stat_number_inputs: dict[
+            StatType, dict[DamageTag, ui.number]
+        ] = {stat: {} for stat in StatType}
         self.damage_boost_number_inputs: dict[DamageTag, ui.number] = {}
         self.critical_damage_number_inputs: dict[DamageTag, ui.number] = {}
         self.defense_ignore_number_inputs: dict[DamageTag, ui.number] = {}
@@ -350,6 +353,16 @@ class DollCalculatorPage(ABC):
 
         for stat in self.conditional_basic_stats_to_show:
             for tag in self.relevant_damage_tags:
+                self.initial_conditional_stat_number_inputs[stat][tag].bind_value(
+                    self.doll.initial_stats.conditional_basic_attributes[
+                        stat
+                    ].multipliers,
+                    tag,
+                )
+                self.initial_conditional_stat_number_inputs[stat][tag].on(
+                    "change", self.stats_update_callback
+                )
+
                 self.additive_conditional_stat_modifier_number_inputs[stat][
                     tag
                 ].bind_value(
@@ -693,6 +706,42 @@ class DollCalculatorPage(ABC):
                                             ).props("caption")
 
                             ui.separator()
+
+                            with ui.expansion(
+                                text="Basic (Conditional)",
+                                group="doll_stats",
+                            ).classes("w-full"):
+                                for stat in self.conditional_basic_stats_to_show:
+                                    with ui.expansion(
+                                        text=str(stat),
+                                        group="initial_conditional_basic_stats",
+                                    ).classes("w-full"):
+                                        with ui.list().props(
+                                            "bordered dense separator"
+                                        ).classes("w-full"):
+                                            for tag in self.relevant_damage_tags:
+                                                with ui.item():
+                                                    with ui.item_section().props(
+                                                        "no-wrap"
+                                                    ):
+                                                        ui.item_label(tag)
+                                                        ui.item_label(
+                                                            get_tag_description(tag)
+                                                        ).props("caption")
+                                                    with ui.item_section().props(
+                                                        "side"
+                                                    ):
+                                                        self.initial_conditional_stat_number_inputs[
+                                                            stat
+                                                        ][
+                                                            tag
+                                                        ] = ui.number(
+                                                            value=0,
+                                                            min=0,
+                                                            suffix="%",
+                                                            precision=1,
+                                                            format="%.1f",
+                                                        )
 
                             with ui.expansion(
                                 text="Damage Boost (Increased Damage)",

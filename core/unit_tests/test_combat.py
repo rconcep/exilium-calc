@@ -337,12 +337,9 @@ class TestDamageCalculationStrategy:
         )
 
         assert g.multiplicative_modifiers.basic_attributes[StatType.ATTACK] == 0
-        assert (
-            g.multiplicative_modifiers.conditional_basic_attributes[
-                StatType.ATTACK
-            ].get_multiplier(DamageTag.FREEZE)
-            == pytest.approx(12)
-        )
+        assert g.multiplicative_modifiers.conditional_basic_attributes[
+            StatType.ATTACK
+        ].get_multiplier(DamageTag.FREEZE) == pytest.approx(12)
 
     def test_calculate_damage_uses_conditional_crit_rate(self):
         g = TestDamageCalculationStrategy.construct_attacker()
@@ -738,6 +735,63 @@ class TestDamageCalculationStrategy:
         assert p0 == pytest.approx(200)
         assert p3 == pytest.approx(300)
         assert p5 == pytest.approx(400)
+
+    def test_qiuhua_resolve_buffs_converts_crit_rate_overflow_at_v2(self):
+        g = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT02
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        g.initial_stats.basic_attributes[StatType.CRIT_RATE] = 135
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.BURN})
+
+        QiuhuaDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        assert g.additive_modifiers.special_attributes[
+            SpecialAttribute.CRITICAL_DAMAGE
+        ].get_multiplier(DamageTag.ALL) == pytest.approx(35)
+
+    def test_qiuhua_resolve_buffs_no_overflow_at_v2(self):
+        g = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT02
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        g.initial_stats.basic_attributes[StatType.CRIT_RATE] = 100
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.BURN})
+
+        QiuhuaDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        assert g.additive_modifiers.special_attributes[
+            SpecialAttribute.CRITICAL_DAMAGE
+        ].get_multiplier(DamageTag.ALL) == pytest.approx(0)
+
+    def test_qiuhua_resolve_buffs_adds_burn_attack_boost_at_v3(self):
+        g = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT03
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        g.initial_stats.basic_attributes[StatType.CRIT_RATE] = 100
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.BURN})
+
+        QiuhuaDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        assert g.multiplicative_modifiers.conditional_basic_attributes[
+            StatType.ATTACK
+        ].get_multiplier(DamageTag.BURN) == pytest.approx(30)
+
+    def test_qiuhua_resolve_buffs_ignores_non_doll_attackers(self):
+        g = Unit()
+        t = TestDamageCalculationStrategy.construct_defender()
+        g.initial_stats.basic_attributes[StatType.CRIT_RATE] = 135
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.BURN})
+
+        QiuhuaDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        assert g.additive_modifiers.special_attributes[
+            SpecialAttribute.CRITICAL_DAMAGE
+        ].get_multiplier(DamageTag.ALL) == pytest.approx(0)
+        assert g.multiplicative_modifiers.conditional_basic_attributes[
+            StatType.ATTACK
+        ].get_multiplier(DamageTag.BURN) == pytest.approx(0)
 
     def test_simulacrum_strategy_raises_when_summon_missing(self):
         g = TestDamageCalculationStrategy.construct_doll_attacker(

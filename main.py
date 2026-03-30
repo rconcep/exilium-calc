@@ -9,6 +9,7 @@ from gui.doll_calculator.dolls import (
     Leva,
     Makiatto,
     Nikketa,
+    Qiuhua,
     Lainie,
     Yoohee,
     Vepley,
@@ -29,6 +30,7 @@ def root():
         "Makiatto": "/makiatto",
         "Mosin-Nagant": "/mosin-nagant",
         "Nikketa": "/nikketa",
+        "Qiuhua": "/qiuhua",
         "Robella": "/robella",
         "Voymastina": "/voymastina",
         "Tololo": "/tololo",
@@ -62,6 +64,7 @@ def root():
             "/leva": Leva().get_page,
             "/makiatto": Makiatto().get_page,
             "/nikketa": Nikketa().get_page,
+            "/qiuhua": Qiuhua().get_page,
             "/yoohee": Yoohee().get_page,
             "/vepley": Vepley().get_page,
         }
@@ -144,6 +147,12 @@ each stat and observing the resulting change in expected damage.
             ui.separator()
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
+                    ui.timeline_entry(
+                        "Implemented Qiuhua; added missing controls for initial, conditional basic stat modifiers.",
+                        title="",
+                        subtitle="March 29, 2026",
+                        icon="person_add",
+                    )
                     ui.timeline_entry(
                         "Implemented theming inspired by GFL2. Replaced revision history on each Doll page with modeling assumptions.",
                         title="Implemented Theme",

@@ -240,18 +240,18 @@ class Makiatto(Doll):
         self.interception: CombatAction = Interception()
 
         # Passive: Battlefield Insight
-        self.additive_modifiers.basic_attributes[StatType.CRIT_RATE] = 40
-        self.additive_modifiers.special_attributes[
+        self.initial_stats.basic_attributes[StatType.CRIT_RATE] = 40
+        self.initial_stats.special_attributes[
             SpecialAttribute.CRITICAL_DAMAGE
         ].set_multiplier(DamageTag.ALL, -10)
 
         # When attacking a target with Frigid
-        self.additive_modifiers.special_attributes[
+        self.initial_stats.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
         ].set_multiplier(DamageTag.ALL, 30)
 
         # Expansion Key: Sniper's Lock
-        self.additive_modifiers.special_attributes[
+        self.initial_stats.special_attributes[
             SpecialAttribute.CRITICAL_DAMAGE
         ].set_multiplier(DamageTag.INTERCEPTION, 30)
 
@@ -268,11 +268,11 @@ class Makiatto(Doll):
 
         # When dealing Freeze damage to an enemy target with Frozen or Frigid, increases ... damage dealt by 30%.
         # Does not stack with the Lvl 1 effect.
-        self.additive_modifiers.special_attributes[
+        self.initial_stats.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
         ].set_multiplier(DamageTag.ALL, 0)
 
-        self.additive_modifiers.special_attributes[
+        self.initial_stats.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
         ].set_multiplier(DamageTag.FREEZE, 30)
 

@@ -95,21 +95,21 @@ class TestMakiatto:
         assert isinstance(makiatto.cold_precision_shot_second, ColdPrecisionShotSecond)
         assert isinstance(makiatto.interception, Interception)
 
-        assert makiatto.additive_modifiers.basic_attributes[StatType.CRIT_RATE] == 40
+        assert makiatto.initial_stats.basic_attributes[StatType.CRIT_RATE] == 40
         assert (
-            makiatto.additive_modifiers.special_attributes[
+            makiatto.initial_stats.special_attributes[
                 SpecialAttribute.CRITICAL_DAMAGE
             ].get_multiplier(DamageTag.ALL)
             == -10
         )
         assert (
-            makiatto.additive_modifiers.special_attributes[
+            makiatto.initial_stats.special_attributes[
                 SpecialAttribute.DAMAGE_BOOST
             ].get_multiplier(DamageTag.ALL)
             == 30
         )
         assert (
-            makiatto.additive_modifiers.special_attributes[
+            makiatto.initial_stats.special_attributes[
                 SpecialAttribute.CRITICAL_DAMAGE
             ].get_multiplier(DamageTag.INTERCEPTION)
             == 30
@@ -129,13 +129,13 @@ class TestMakiatto:
         makiatto.set_to_v5()
 
         assert (
-            makiatto.additive_modifiers.special_attributes[
+            makiatto.initial_stats.special_attributes[
                 SpecialAttribute.DAMAGE_BOOST
             ].get_multiplier(DamageTag.ALL)
             == 0
         )
         assert (
-            makiatto.additive_modifiers.special_attributes[
+            makiatto.initial_stats.special_attributes[
                 SpecialAttribute.DAMAGE_BOOST
             ].get_multiplier(DamageTag.FREEZE)
             == 30

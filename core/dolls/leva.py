@@ -375,7 +375,7 @@ class Leva(Doll):
             DamageTag.SHOTGUN_AMMO,
             DamageTag.INTERCEPTION,
             DamageTag.COUNTERATTACK,
-            DamageTag.AREA_OF_EFFECT,
+            DamageTag.PHYSICAL_SUMMON,
         ]
     )
 

@@ -10,6 +10,7 @@ from .lewis import Lewis
 from .makiatto import Makiatto
 from .mosin_nagant import MosinNagant
 from .nikketa import Nikketa
+from .qiuhua import Qiuhua
 from .robella import Robella
 from .tololo import Tololo
 from .vepley import Vepley
@@ -23,6 +24,7 @@ __all__ = [
     "Makiatto",
     "MosinNagant",
     "Nikketa",
+    "Qiuhua",
     "Robella",
     "Tololo",
     "Vepley",

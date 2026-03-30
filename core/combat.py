@@ -827,6 +827,57 @@ class YooheeDamageCalculationStrategy(StandardDamageCalculationStrategy):
         )
 
 
+class QiuhuaDamageCalculationStrategy(StandardDamageCalculationStrategy):
+    """Damage calculation strategy for Qiuhua, implementing her V2 passive."""
+
+    @override
+    def resolve_buffs(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> None:
+        """Implement Qiuhua's V2 and V3 passive: Zao Jun's Rule"""
+        super().resolve_buffs(
+            attacker, target, damage_instance, buffs_before, debuffs_before
+        )
+
+        # Only expecting to run this for Qiuhua (V2)
+        if _is_doll_attacker(attacker) and (
+            attacker.fortification_level >= FortificationLevel.SEGMENT02
+        ):
+            # When dealing damage, if critical rate of this attack exceeds 100%, every 1% of overflow
+            # critical rate is converted to 1% critical damage.
+            overflow_crit_rate: float = (
+                attacker.get_basic_attribute(StatType.CRIT_RATE, damage_instance.tags)
+                - 100
+            )
+
+            if overflow_crit_rate > 0:
+                bonus_crit_dmg_multiplier: float = overflow_crit_rate
+                attacker.additive_modifiers.special_attributes[
+                    SpecialAttribute.CRITICAL_DAMAGE
+                ].add_to_multiplier(DamageTag.ALL, bonus_crit_dmg_multiplier)
+
+        # Only expecting to run this for Qiuhua (V3)
+        if _is_doll_attacker(attacker) and (
+            attacker.fortification_level >= FortificationLevel.SEGMENT03
+        ):
+            # A new effect is added when dealing Burn damage to enemy targets with Scorch Mark:
+            # if the target holds more than 10 stacks of Scorch Mark, for each excess stack
+            # Qiuhua's attack is increased by 1%.
+            # TODO: Would inspect target's debuffs to see if this applies, but for now just assume 30 excess stacks
+            excess_scorch_stacks: int = 30
+            attack_boost_per_excess_stack: float = 1
+            attacker.multiplicative_modifiers.conditional_basic_attributes[
+                StatType.ATTACK
+            ].add_to_multiplier(
+                DamageTag.BURN, excess_scorch_stacks * attack_boost_per_excess_stack
+            )
+
+
 class DamageInstance(BaseModel):
     """An instance of damage."""
 
