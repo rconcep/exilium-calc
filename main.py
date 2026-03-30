@@ -10,6 +10,7 @@ from gui.doll_calculator.dolls import (
     Makiatto,
     Nikketa,
     Qiuhua,
+    Qiongjiu,
     Lainie,
     Yoohee,
     Vepley,
@@ -31,6 +32,7 @@ def root():
         "Mosin-Nagant": "/mosin-nagant",
         "Nikketa": "/nikketa",
         "Qiuhua": "/qiuhua",
+        "Qiongjiu": "/qiongjiu",
         "Robella": "/robella",
         "Voymastina": "/voymastina",
         "Tololo": "/tololo",
@@ -65,6 +67,7 @@ def root():
             "/makiatto": Makiatto().get_page,
             "/nikketa": Nikketa().get_page,
             "/qiuhua": Qiuhua().get_page,
+            "/qiongjiu": Qiongjiu().get_page,
             "/yoohee": Yoohee().get_page,
             "/vepley": Vepley().get_page,
         }
@@ -148,7 +151,7 @@ each stat and observing the resulting change in expected damage.
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
                     ui.timeline_entry(
-                        "Implemented Qiuhua; added missing controls for initial, conditional basic stat modifiers.",
+                        "Implemented Qiuhua and Qiongjiu; added missing controls for initial, conditional basic stat modifiers.",
                         title="",
                         subtitle="March 29, 2026",
                         icon="person_add",

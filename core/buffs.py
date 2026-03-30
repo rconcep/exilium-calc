@@ -558,6 +558,68 @@ class Justice(Buff):
         return ret
 
 
+class SupportBoostI(Buff):
+    """Increases damage dealt with Support Action by 15%. Damage against exposed units is increased by 10%."""
+
+    display_name = "Support Boost I"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self):
+        self.value = 15
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.SUPPORT_ACTION
+
+        ret: list[Buff] = [
+            self,
+        ]
+
+        ret.append(
+            Buff(
+                value=10,
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=SpecialAttribute.DAMAGE_BOOST,
+                tag=DamageTag.EXPOSED,
+            ),
+        )
+
+        return ret
+
+
+class SupportBoostII(Buff):
+    """Increases damage dealt with Support Action by 30%. Damage against exposed units is increased by 10%."""
+
+    display_name = "Support Boost II"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self):
+        self.value = 30
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.SUPPORT_ACTION
+
+        ret: list[Buff] = [
+            self,
+        ]
+
+        ret.append(
+            Buff(
+                value=10,
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=SpecialAttribute.DAMAGE_BOOST,
+                tag=DamageTag.EXPOSED,
+            ),
+        )
+
+        return ret
+
+
 class AttackUpI(Buff):
     """Attack is increased by 10%. Considered a buff."""
 

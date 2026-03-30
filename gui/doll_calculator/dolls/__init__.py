@@ -11,6 +11,7 @@ from .makiatto import Makiatto
 from .mosin_nagant import MosinNagant
 from .nikketa import Nikketa
 from .qiuhua import Qiuhua
+from .qiongjiu import Qiongjiu
 from .robella import Robella
 from .tololo import Tololo
 from .vepley import Vepley
@@ -25,6 +26,7 @@ __all__ = [
     "MosinNagant",
     "Nikketa",
     "Qiuhua",
+    "Qiongjiu",
     "Robella",
     "Tololo",
     "Vepley",
