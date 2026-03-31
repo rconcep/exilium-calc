@@ -63,6 +63,8 @@ class DamageCalculationStrategy(ABC):
         # including attack/crit-rate and defense-ignore calculations.
         self.apply_assumed_target_state_tags(damage_instance)
 
+        is_fixed_damage: bool = DamageTag.FIXED in damage_instance.tags
+
         # Apply buffs and debuffs before
         self.resolve_buffs(
             attacker, target, damage_instance, buffs_before, debuffs_before
@@ -72,6 +74,12 @@ class DamageCalculationStrategy(ABC):
         effective_atk, effective_def, negative_def, term1 = self.calculate_base_damage(
             attacker, target, damage_instance
         )
+
+        if is_fixed_damage:
+            # For fixed damage, defense is treated as zero.
+            effective_def = 0
+            negative_def = 0
+            term1 = effective_atk
 
         # Resolve the unit whose stats should receive/be read for combat modifiers.
         # For summon-based strategies this is the summon, not the Doll owner.
@@ -94,8 +102,8 @@ class DamageCalculationStrategy(ABC):
             debuffs_before=debuffs_before,
         )
 
-        # Resolve "increased damage taken" effects
-        increased_damage_taken: float = self.resolve_increased_damage_taken(
+        # Resolve "increased damage taken" effects (disregard for fixed damage)
+        increased_damage_taken: float = 0 if is_fixed_damage else self.resolve_increased_damage_taken(
             target, damage_instance
         )
 
@@ -103,8 +111,8 @@ class DamageCalculationStrategy(ABC):
             effective_dmg_multiplier * term1 * (1 + increased_damage_taken / 100)
         )
 
-        # Apply stability damage reduction
-        if not is_stability_broken:
+        # Apply stability damage reduction (disregard for fixed damage)
+        if not is_stability_broken and not is_fixed_damage:
             non_critical_damage = non_critical_damage * (
                 1
                 - target.initial_stats.basic_attributes[
@@ -116,31 +124,22 @@ class DamageCalculationStrategy(ABC):
         # Apply multiplier from phase weaknesses exploited
         MORE_DAMAGE_PER_WEAKNESS_EXPLOITED: float = 0.10
         MAX_PHASE_WEAKNESSES_EXPLOITABLE: int = 2
-        non_critical_damage = non_critical_damage * (
-            1
-            + MORE_DAMAGE_PER_WEAKNESS_EXPLOITED
-            * min(phase_weaknesses_exploited, MAX_PHASE_WEAKNESSES_EXPLOITABLE)
-        )
+
+        if not is_fixed_damage:
+            non_critical_damage = non_critical_damage * (
+                1
+                + MORE_DAMAGE_PER_WEAKNESS_EXPLOITED
+                * min(phase_weaknesses_exploited, MAX_PHASE_WEAKNESSES_EXPLOITABLE)
+            )
 
         # Account for critical hit
-        crit_rate: float = (
-            effective_unit.get_basic_attribute(StatType.CRIT_RATE, damage_instance.tags)
-            / 100
-        )
-        crit_dmg_multiplier: float = (
-            effective_unit.get_effective_critical_damage_multiplier(
-                damage_instance.tags
-            )
-            / 100
-        )
-
-        critical_damage: float = crit_dmg_multiplier * non_critical_damage
-
-        effective_crit_rate: float = min(1.0, crit_rate)
-
-        expected_damage: float = (
-            effective_crit_rate * critical_damage
-            + (1 - effective_crit_rate) * non_critical_damage
+        (
+            crit_rate,
+            crit_dmg_multiplier,
+            critical_damage,
+            expected_damage,
+        ) = self.calculate_crit_and_expected_damage(
+            effective_unit, damage_instance, non_critical_damage
         )
 
         combat_summary: CombatSummary = CombatSummary(
@@ -148,7 +147,7 @@ class DamageCalculationStrategy(ABC):
             critical_damage=critical_damage,
             expected_damage=expected_damage,
             effective_damage_multiplier=effective_dmg_multiplier,
-            effective_critical_rate=crit_rate,
+            critical_rate=crit_rate,
             effective_critical_damage_multiplier=crit_dmg_multiplier,
             effective_attack=effective_atk,
             effective_defense=effective_def,
@@ -160,14 +159,21 @@ class DamageCalculationStrategy(ABC):
     @final
     def apply_assumed_target_state_tags(self, damage_instance: DamageInstance) -> None:
         """Adds currently-assumed target state tags for conditional calculations."""
-        # TODO: replace with real combat state checks (exposed, stability broken, etc.)
-        damage_instance.tags.add(DamageTag.EXPOSED)
-        damage_instance.tags.add(DamageTag.STABILITY_BROKEN)
-        damage_instance.tags.add(DamageTag.BOSS)
-        damage_instance.tags.add(DamageTag.HAS_MOVEMENT_DEBUFF)
-        damage_instance.tags.add(DamageTag.ONLY_HIT_ONE_TARGET)
-        damage_instance.tags.add(DamageTag.NEAR)
-        damage_instance.tags.add(DamageTag.FAR)
+        if DamageTag.FIXED in damage_instance.tags:
+            # Fixed damage should not be affected by any conditional modifiers,
+            # so we add a tag to short-circuit all conditional calculations downstream.
+            damage_instance.tags = set([DamageTag.FIXED])
+        else:
+            damage_instance.tags.add(DamageTag.ALL)
+
+            # TODO: replace with real combat state checks (exposed, stability broken, etc.)
+            damage_instance.tags.add(DamageTag.EXPOSED)
+            damage_instance.tags.add(DamageTag.STABILITY_BROKEN)
+            damage_instance.tags.add(DamageTag.BOSS)
+            damage_instance.tags.add(DamageTag.HAS_MOVEMENT_DEBUFF)
+            damage_instance.tags.add(DamageTag.ONLY_HIT_ONE_TARGET)
+            damage_instance.tags.add(DamageTag.NEAR)
+            damage_instance.tags.add(DamageTag.FAR)
 
     def resolve_buffs(
         self,
@@ -329,6 +335,9 @@ class DamageCalculationStrategy(ABC):
         buffs_before -- Buffs to apply to attacker before the action
         debuffs_before -- Debuffs to apply to target before the action
         """
+        # Ensure assumed target-state tags are accounted for.
+        self.apply_assumed_target_state_tags(damage_instance)
+
         self.resolve_buffs(
             attacker=attacker,
             target=target,
@@ -351,6 +360,7 @@ class DamageCalculationStrategy(ABC):
     ) -> float:
         """
         Returns the adjusted potency for damage_instance, accounting for attacker and target.
+        For fixed damage, returns base potency without damage boost modifiers.
 
         Arguments:
         attacker -- the attacking Unit
@@ -359,13 +369,19 @@ class DamageCalculationStrategy(ABC):
         buffs_before -- Buffs to apply to attacker before the action
         debuffs_before -- Debuffs to apply to target before the action
         """
-        adjusted_potency: float = damage_instance.base_potency * (
-            1
-            + attacker.get_effective_special_attribute(
-                SpecialAttribute.DAMAGE_BOOST
-            ).get_total_multiplier(damage_instance.tags)
-            / 100
-        )
+        is_fixed_damage: bool = DamageTag.FIXED in damage_instance.tags
+        
+        if is_fixed_damage:
+            # Fixed damage does not benefit from damage boost modifiers
+            adjusted_potency: float = damage_instance.base_potency
+        else:
+            adjusted_potency: float = damage_instance.base_potency * (
+                1
+                + attacker.get_effective_special_attribute(
+                    SpecialAttribute.DAMAGE_BOOST
+                ).get_total_multiplier(damage_instance.tags)
+                / 100
+            )
 
         damage_instance.adjusted_potency = adjusted_potency
 
@@ -396,6 +412,62 @@ class DamageCalculationStrategy(ABC):
         )
 
         return adjusted_potency / 100
+
+    @final
+    def calculate_crit_and_expected_damage(
+        self,
+        effective_unit: Unit,
+        damage_instance: DamageInstance,
+        non_critical_damage: float,
+    ) -> tuple[
+        float,
+        float,
+        float,
+        float,
+    ]:
+        """Returns crit_rate, crit_dmg_multiplier, critical_damage, and expected_damage.
+
+        Arguments:
+        effective_unit -- the Unit whose stats should be read for crit calculations (attacker for most strategies,
+        but may be the summon for summon-based strategies)
+        damage_instance -- describes the action
+        non_critical_damage -- the damage dealt if the attack does not crit
+        """
+        crit_rate: float = (
+            effective_unit.get_basic_attribute(StatType.CRIT_RATE, damage_instance.tags)
+            / 100
+        )
+
+        crit_dmg_multiplier: float = (
+            effective_unit.get_effective_critical_damage_multiplier(
+                damage_instance.tags
+            )
+            / 100
+        )
+
+        if DamageTag.FIXED in damage_instance.tags:
+            # Fixed damage should not be affected by critical hits, so we set the crit multiplier to 1 to neutralize crits.
+            crit_rate: float = 0
+            crit_dmg_multiplier = 1
+            critical_damage: float = non_critical_damage
+            effective_crit_rate: float = 0
+            expected_damage: float = non_critical_damage
+        else:
+            critical_damage: float = crit_dmg_multiplier * non_critical_damage
+
+            effective_crit_rate: float = min(1.0, crit_rate)
+
+            expected_damage: float = (
+                effective_crit_rate * critical_damage
+                + (1 - effective_crit_rate) * non_critical_damage
+            )
+
+        return (
+            crit_rate,
+            crit_dmg_multiplier,
+            critical_damage,
+            expected_damage,
+        )
 
     @final
     def resolve_increased_damage_taken(
@@ -468,6 +540,94 @@ class StandardDamageCalculationStrategy(DamageCalculationStrategy):
             negative_def,
             effective_atk / (1 + effective_def / effective_atk),
         )
+
+
+class DamageInstance(BaseModel):
+    """An instance of damage."""
+
+    model_config = {"arbitrary_types_allowed": True}
+
+    label: str
+    base_potency: float
+    tags: set[DamageTag] = Field(default_factory=set)
+    adjusted_potency: float = 0
+    group_name: str = ""
+    buffs_before: list[Buff] = Field(default_factory=list)
+    debuffs_before: list[Debuff] = Field(default_factory=list)
+    damage_calculation_strategy: DamageCalculationStrategy = Field(
+        default_factory=StandardDamageCalculationStrategy
+    )
+
+
+class CombatAction(ABC, BaseModel):
+    """Represents an action in combat (i.e., skill usage or event)."""
+
+    @abstractmethod
+    def execute(self, *args, **kwargs) -> DamageInstance:
+        """Use/execute this action."""
+        pass
+
+
+class CombatSummary(BaseModel):
+    """Summarizes the result of a combat action."""
+
+    non_critical_damage: float = 0
+    critical_damage: float = 0
+    expected_damage: float = 0
+    effective_damage_multiplier: float = 0
+    critical_rate: float = 0
+    effective_critical_damage_multiplier: float = 0
+    effective_attack: float = 0
+    effective_defense: float = 0
+    negative_defense: float = 0
+
+
+def sum_damage_instances(
+    damage_instances: list[DamageInstance],
+    tag: DamageTag,
+    do_exclude: bool = False,
+) -> DamageInstance:
+    """
+    Returns a DamageInstance with the combined potencies of all DamageInstances in
+    damage_instances that have the DamageTag tag. If do_exclude is True, filter out
+    DamageInstances by tag instead.
+
+    Arguments:
+    damage_instances -- the DamageInstance instances to be combined
+    tag -- the DamageTag to filter by
+    do_exclude -- True if the tag filter means 'exclude' this tag
+    """
+    combined_base_potency: float = 0
+    combined_adjusted_potency: float = 0
+    for damage_instance in damage_instances:
+        do_add: bool = False
+
+        if do_exclude and tag not in damage_instance.tags:
+            do_add = True
+        elif not do_exclude and tag in damage_instance.tags:
+            do_add = True
+
+        if do_add:
+            combined_base_potency += damage_instance.base_potency
+            combined_adjusted_potency += damage_instance.adjusted_potency
+
+    return DamageInstance(
+        label="Combined",
+        base_potency=combined_base_potency,
+        tags={tag},
+        adjusted_potency=combined_adjusted_potency,
+    )
+
+
+class FixedDamageInstance(DamageInstance):
+    """A DamageInstance that represents fixed damage, which only scales with the source's Attack and does not critically hit."""
+
+    label: str = "Fixed Damage"
+    tags: set[DamageTag] = Field(default_factory=lambda: {DamageTag.FIXED})
+    group_name: str = "Fixed Damage"
+    damage_calculation_strategy: DamageCalculationStrategy = Field(
+        default_factory=StandardDamageCalculationStrategy
+    )
 
 
 class KulichDamageCalculationStrategy(DamageCalculationStrategy):
@@ -878,78 +1038,49 @@ class QiuhuaDamageCalculationStrategy(StandardDamageCalculationStrategy):
             )
 
 
-class DamageInstance(BaseModel):
-    """An instance of damage."""
+class FayeDamageCalculationStrategy(StandardDamageCalculationStrategy):
+    """Damage calculation strategy for Faye, implementing her passive and Expansion Key."""
 
-    model_config = {"arbitrary_types_allowed": True}
+    @override
+    def resolve_buffs(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> None:
+        """Apply Faye's passive defense-ignore effects and Expansion Key assumptions."""
+        super().resolve_buffs(
+            attacker, target, damage_instance, buffs_before, debuffs_before
+        )
 
-    label: str
-    base_potency: float
-    tags: set[DamageTag] = Field(default_factory=set)
-    adjusted_potency: float = 0
-    group_name: str = ""
-    buffs_before: list[Buff] = Field(default_factory=list)
-    debuffs_before: list[Debuff] = Field(default_factory=list)
-    damage_calculation_strategy: DamageCalculationStrategy = Field(
-        default_factory=StandardDamageCalculationStrategy
-    )
+        # Only expecting to run this for Faye
+        if _is_doll_attacker(attacker):
+            # Expansion Key - Unstoppable Fighting Spirit: When dealing damage to an enemy with Gash,
+            # ignore 50% of the target's defense and increase attack by 15%.
+            # TODO: Would inspect target's debuffs to see if this applies, but for now just assume target has Gash
+            target_has_gash: bool = True
 
+            if target_has_gash:
+                attacker.multiplicative_modifiers.basic_attributes[
+                    StatType.ATTACK
+                ] += 15
+                attacker.additive_modifiers.special_attributes[
+                    SpecialAttribute.DEFENSE_IGNORE
+                ].add_to_multiplier(DamageTag.ALL, 50)
 
-class CombatAction(ABC, BaseModel):
-    """Represents an action in combat (i.e., skill usage or event)."""
+            # When attacking, Faye ignores an amount of the target's defense equal to (2%x number of Rend stacks)
+            # TODO: Would inspect target's debuffs to see how many Rend stacks they have, but for now just assume 8 stacks for 16% defense ignore
+            rend_stacks: int = 8
 
-    @abstractmethod
-    def execute(self, *args, **kwargs) -> DamageInstance:
-        """Use/execute this action."""
-        pass
+            if attacker.fortification_level >= FortificationLevel.SEGMENT01:
+                defense_ignore_per_rend_stack: float = 4
+            else:
+                defense_ignore_per_rend_stack: float = 2
 
-
-class CombatSummary(BaseModel):
-    """Summarizes the result of a combat action."""
-
-    non_critical_damage: float = 0
-    critical_damage: float = 0
-    expected_damage: float = 0
-    effective_damage_multiplier: float = 0
-    effective_critical_rate: float = 0
-    effective_critical_damage_multiplier: float = 0
-    effective_attack: float = 0
-    effective_defense: float = 0
-    negative_defense: float = 0
-
-
-def sum_damage_instances(
-    damage_instances: list[DamageInstance],
-    tag: DamageTag,
-    do_exclude: bool = False,
-) -> DamageInstance:
-    """
-    Returns a DamageInstance with the combined potencies of all DamageInstances in
-    damage_instances that have the DamageTag tag. If do_exclude is True, filter out
-    DamageInstances by tag instead.
-
-    Arguments:
-    damage_instances -- the DamageInstance instances to be combined
-    tag -- the DamageTag to filter by
-    do_exclude -- True if the tag filter means 'exclude' this tag
-    """
-    combined_base_potency: float = 0
-    combined_adjusted_potency: float = 0
-    for damage_instance in damage_instances:
-        do_add: bool = False
-
-        if do_exclude and tag not in damage_instance.tags:
-            do_add = True
-        elif not do_exclude and tag in damage_instance.tags:
-            do_add = True
-
-        if do_add:
-            combined_base_potency += damage_instance.base_potency
-            combined_adjusted_potency += damage_instance.adjusted_potency
-
-    return DamageInstance(
-        label="Combined",
-        base_potency=combined_base_potency,
-        tags={tag},
-        adjusted_potency=combined_adjusted_potency,
-    )
+            attacker.additive_modifiers.special_attributes[
+                SpecialAttribute.DEFENSE_IGNORE
+            ].add_to_multiplier(
+                DamageTag.ALL, rend_stacks * defense_ignore_per_rend_stack
+            )

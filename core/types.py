@@ -49,6 +49,8 @@ class DamageTag(StrEnum, boundary=STRICT):
     NEAR = "CQC"
     FAR = "Headhunter"
 
+    FIXED = "Fixed"
+
 
 class DamageTagMultipliers(BaseModel):
     """Contains multipliers for each DamageTag expressed
@@ -72,9 +74,7 @@ class DamageTagMultipliers(BaseModel):
 
     def get_total_multiplier(self, tags: list[DamageTag] | set[DamageTag]) -> float:
         """Returns the combined multiplier of tags."""
-        return sum(
-            [self.multipliers[tag] for tag in tags] + [self.multipliers[DamageTag.ALL]]
-        )
+        return sum([self.multipliers[tag] for tag in tags])
 
     def __add__(self, other):
         if not isinstance(other, DamageTagMultipliers):
