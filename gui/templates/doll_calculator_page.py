@@ -542,6 +542,18 @@ class DollCalculatorPage(ABC):
 
     def update_damage_type_breakdown_table(self) -> None:
         """Updates the table breaking down damage by tag."""
+        # Disregard tags that are scenario-specific and not descriptive of the Doll's kit
+        blacklist_tags: list[DamageTag] = [
+            DamageTag.ALL,
+            DamageTag.EXPOSED,
+            DamageTag.STABILITY_BROKEN,
+            DamageTag.BOSS,
+            DamageTag.HAS_MOVEMENT_DEBUFF,
+            DamageTag.ONLY_HIT_ONE_TARGET,
+            DamageTag.NEAR,
+            DamageTag.FAR,
+        ]
+
         new_rows: list[dict[str, Any]] = [
             {
                 "label": sum_damage_instances(self.damage_instances, tag).label,
@@ -554,6 +566,7 @@ class DollCalculatorPage(ABC):
                 "tags": sum_damage_instances(self.damage_instances, tag).tags,
             }
             for tag in DamageTag
+            if tag not in blacklist_tags
         ]
 
         total_adjusted_potency: float = sum(

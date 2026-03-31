@@ -1,6 +1,7 @@
 from nicegui import app, ui
 
 from gui.doll_calculator.dolls import (
+    Faye,
     Robella,
     Voymastina,
     Lewis,
@@ -25,6 +26,7 @@ def root():
     ui.page_title("Exilium-Calc")
 
     pages: dict[str, str] = {
+        "Faye": "/faye",
         "Lainie": "/lainie",
         "Leva": "/leva",
         "Lewis": "/lewis",
@@ -57,6 +59,7 @@ def root():
     ui.sub_pages(
         {
             "/": mainpage,
+            "/faye": Faye().get_page,
             "/lainie": Lainie().get_page,
             "/robella": Robella().get_page,
             "/voymastina": Voymastina().get_page,
@@ -150,6 +153,12 @@ each stat and observing the resulting change in expected damage.
             ui.separator()
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
+                    ui.timeline_entry(
+                        "Implemented Faye; implemented Fixed damage; removed low-value tags from the damage type breakdown in Rotation Analysis.",
+                        title="",
+                        subtitle="March 30, 2026",
+                        icon="person_add",
+                    )
                     ui.timeline_entry(
                         "Implemented Qiuhua and Qiongjiu; added missing controls for initial, conditional basic stat modifiers.",
                         title="",

@@ -207,7 +207,7 @@ class DamageCalculator:
         ).quantize(Decimal("0.01"), rounding=ROUND_DOWN)
         self.results_labels["critical_rate"].text = (
             str(
-                Decimal(self.combat_summary.effective_critical_rate * 100).quantize(
+                Decimal(self.combat_summary.critical_rate * 100).quantize(
                     Decimal("0.01"), rounding=ROUND_DOWN
                 )
             )

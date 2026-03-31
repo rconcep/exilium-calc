@@ -363,7 +363,7 @@ class TestDamageCalculationStrategy:
             damage_instance=di,
         )
 
-        assert summary.effective_critical_rate == pytest.approx(1.0)
+        assert summary.critical_rate == pytest.approx(1.0)
         assert summary.expected_damage == pytest.approx(summary.critical_damage)
 
     def test_resolve_defense_shredding(self):
@@ -547,6 +547,7 @@ class TestDamageCalculationStrategy:
         g = TestDamageCalculationStrategy.construct_attacker()
         t = TestDamageCalculationStrategy.construct_defender()
         di = DamageInstance(label="", base_potency=80, tags={DamageTag.PHYSICAL})
+        di.tags.add(DamageTag.ALL)
 
         t.initial_stats.special_attributes[
             SpecialAttribute.INCREASE_DAMAGE_TAKEN
@@ -890,7 +891,7 @@ class TestDamageCalculationStrategy:
         )
 
         # Effective crit rate must come from the summon (50%), not the owner (0%)
-        assert summary.effective_critical_rate == pytest.approx(0.50)
+        assert summary.critical_rate == pytest.approx(0.50)
         # With 200% crit_damage and 50% crit_rate: expected = 1.5 * non_critical
         assert summary.expected_damage == pytest.approx(
             1.5 * summary.non_critical_damage
@@ -924,7 +925,7 @@ class TestDamageCalculationStrategy:
         )
 
         # Summon has 0 crit rate, so effective crit rate must be 0
-        assert summary.effective_critical_rate == pytest.approx(0.0)
+        assert summary.critical_rate == pytest.approx(0.0)
         assert summary.expected_damage == pytest.approx(summary.non_critical_damage)
 
     def test_yoohee_resolve_buffs_applies_v6_passive_and_super_resolution(self):
@@ -992,3 +993,357 @@ class TestDamageCalculationStrategy:
         assert g.multiplicative_modifiers.basic_attributes[StatType.ATTACK] == (
             pytest.approx(0)
         )
+
+
+class TestFixedDamageInstance:
+    """Tests for FixedDamageInstance and fixed damage calculation behavior."""
+
+    def test_fixed_damage_instance_has_fixed_tag_by_default(self):
+        """FixedDamageInstance should automatically include the FIXED tag."""
+        fdi = FixedDamageInstance(label="Test Fixed", base_potency=100)
+
+        assert DamageTag.FIXED in fdi.tags
+        assert fdi.label == "Test Fixed"
+        assert fdi.base_potency == 100
+        assert fdi.group_name == "Fixed Damage"
+
+    def test_fixed_damage_ignores_target_defense(self):
+        """Fixed damage should deal full damage regardless of target defense."""
+        attacker = TestDamageCalculationStrategy.construct_attacker()
+        target_no_def = Unit()
+        target_no_def.initial_stats.basic_attributes[StatType.ATTACK] = 5429
+        target_high_def = Unit()
+        target_high_def.initial_stats.basic_attributes[StatType.DEFENSE] = 10000
+
+        di = FixedDamageInstance(label="Fixed Damage", base_potency=100)
+        strat = StandardDamageCalculationStrategy()
+
+        damage_no_def = strat.calculate_damage(
+            attacker, target_no_def, di
+        ).non_critical_damage
+        damage_high_def = strat.calculate_damage(
+            attacker, target_high_def, di
+        ).non_critical_damage
+
+        assert damage_no_def == pytest.approx(damage_high_def)
+
+    def test_fixed_damage_scales_with_attacker_attack(self):
+        """Fixed damage should scale with attacker's Attack stat."""
+        target = TestDamageCalculationStrategy.construct_defender()
+        di = FixedDamageInstance(label="Fixed Damage", base_potency=100)
+        strat = StandardDamageCalculationStrategy()
+
+        # Attacker with 1000 Attack
+        attacker_low = Unit()
+        attacker_low.initial_stats.basic_attributes[StatType.ATTACK] = 1000
+
+        # Attacker with 5000 Attack
+        attacker_high = Unit()
+        attacker_high.initial_stats.basic_attributes[StatType.ATTACK] = 5000
+
+        damage_low = strat.calculate_damage(
+            attacker_low, target, di
+        ).non_critical_damage
+        damage_high = strat.calculate_damage(
+            attacker_high, target, di
+        ).non_critical_damage
+
+        assert damage_low < damage_high
+        assert damage_low == pytest.approx(1000)
+        assert damage_high == pytest.approx(5000)
+
+    def test_fixed_damage_cannot_critically_hit(self):
+        """Fixed damage should never critical hit."""
+        attacker = TestDamageCalculationStrategy.construct_attacker()
+        attacker.initial_stats.basic_attributes[StatType.CRIT_RATE] = (
+            100  # Guaranteed crit
+        )
+        target = TestDamageCalculationStrategy.construct_defender()
+
+        di = FixedDamageInstance(label="Fixed Damage", base_potency=100)
+        strat = StandardDamageCalculationStrategy()
+
+        summary = strat.calculate_damage(attacker, target, di)
+
+        assert summary.critical_rate == pytest.approx(0)
+        assert summary.critical_damage == pytest.approx(summary.non_critical_damage)
+        assert summary.expected_damage == pytest.approx(summary.non_critical_damage)
+
+    def test_fixed_damage_ignores_stability_damage_reduction(self):
+        """Fixed damage should not be reduced by target's stability damage reduction."""
+        attacker = TestDamageCalculationStrategy.construct_attacker()
+        target = TestDamageCalculationStrategy.construct_defender()
+        target.initial_stats.basic_attributes[StatType.STABILITY_DAMAGE_REDUCTION] = 60
+
+        di = FixedDamageInstance(label="Fixed Damage", base_potency=100)
+        strat = StandardDamageCalculationStrategy()
+
+        # Fixed damage with stability broken
+        damage_broken = strat.calculate_damage(
+            attacker, target, di, is_stability_broken=True
+        ).non_critical_damage
+        # Fixed damage with stability not broken
+        damage_not_broken = strat.calculate_damage(
+            attacker, target, di, is_stability_broken=False
+        ).non_critical_damage
+
+        assert damage_broken == pytest.approx(damage_not_broken)
+
+    def test_fixed_damage_ignores_phase_weaknesses(self):
+        """Fixed damage should not benefit from phase weakness multipliers."""
+        attacker = TestDamageCalculationStrategy.construct_attacker()
+        target = TestDamageCalculationStrategy.construct_defender()
+
+        di = FixedDamageInstance(label="Fixed Damage", base_potency=100)
+        strat = StandardDamageCalculationStrategy()
+
+        # Fixed damage with no phase weaknesses
+        damage_no_weakness = strat.calculate_damage(
+            attacker, target, di, phase_weaknesses_exploited=0
+        ).non_critical_damage
+        # Fixed damage with max phase weaknesses
+        damage_with_weakness = strat.calculate_damage(
+            attacker, target, di, phase_weaknesses_exploited=2
+        ).non_critical_damage
+
+        assert damage_no_weakness == pytest.approx(damage_with_weakness)
+
+    def test_fixed_damage_ignores_damage_boost_modifiers(self):
+        """Fixed damage should not be affected by damage boost modifiers."""
+        attacker = TestDamageCalculationStrategy.construct_attacker()
+        target = TestDamageCalculationStrategy.construct_defender()
+
+        # Create fixed damage instance with ALL tag to make sure boosts would apply if not ignored
+        di = FixedDamageInstance(label="Fixed Damage", base_potency=100)
+        di.tags.add(DamageTag.ALL)
+
+        strat = StandardDamageCalculationStrategy()
+
+        # Calculate base damage
+        damage_before = strat.calculate_damage(attacker, target, di).non_critical_damage
+
+        # Add massive damage boost modifiers
+        attacker.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.ALL, 500)
+
+        damage_after = strat.calculate_damage(attacker, target, di).non_critical_damage
+
+        # Damage should remain the same (damage boosts ignored for fixed damage)
+        assert damage_before == pytest.approx(damage_after)
+
+    def test_fixed_damage_ignores_increased_damage_taken(self):
+        """Fixed damage should not be affected by target's increased damage taken."""
+        attacker = TestDamageCalculationStrategy.construct_attacker()
+        target = TestDamageCalculationStrategy.construct_defender()
+
+        di = FixedDamageInstance(label="Fixed Damage", base_potency=100)
+        strat = StandardDamageCalculationStrategy()
+
+        damage_before = strat.calculate_damage(attacker, target, di).non_critical_damage
+
+        # Add massive increased damage taken
+        target.initial_stats.special_attributes[
+            SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        ].set_multiplier(DamageTag.ALL, 200)
+
+        damage_after = strat.calculate_damage(attacker, target, di).non_critical_damage
+
+        # Damage should remain the same
+        assert damage_before == pytest.approx(damage_after)
+
+    def test_fixed_damage_with_buffs_and_debuffs(self):
+        """Fixed damage should scale with Attack buffs, but not with damage boost modifiers."""
+        attacker = TestDamageCalculationStrategy.construct_attacker()
+        target = TestDamageCalculationStrategy.construct_defender()
+
+        di = FixedDamageInstance(label="Fixed Damage", base_potency=100)
+        strat = StandardDamageCalculationStrategy()
+
+        buff = Buff(
+            value=50,
+            modifier_type=ModifierType.ADDITIVE,
+            stat_type=StatType.ATTACK,
+        )
+        debuff = Debuff(
+            value=-30,
+            modifier_type=ModifierType.MULTIPLICATIVE,
+            stat_type=StatType.DEFENSE,
+        )
+
+        damage = strat.calculate_damage(
+            attacker, target, di, buffs_before=[buff], debuffs_before=[debuff]
+        ).non_critical_damage
+
+        # Buffs and debuffs should be applied
+        assert attacker.additive_modifiers.basic_attributes[StatType.ATTACK] == 50
+        assert target.multiplicative_modifiers.basic_attributes[StatType.DEFENSE] == -30
+
+        # Fixed damage scales with Attack buffs (5429 + 50 attack buff = 5479 damage)
+        assert damage == pytest.approx(5479)
+
+
+class TestFayeDamageCalculationStrategy:
+    """Tests for FayeDamageCalculationStrategy and Faye's passive/Expansion Key effects."""
+
+    def test_faye_non_doll_attacker_no_bonuses(self):
+        """Non-Doll attackers should not receive Faye's passive bonuses."""
+        attacker = TestDamageCalculationStrategy.construct_attacker()
+        target = TestDamageCalculationStrategy.construct_defender()
+
+        di = DamageInstance(label="Test", base_potency=100, tags={DamageTag.PHYSICAL})
+        strat = FayeDamageCalculationStrategy()
+
+        strat.resolve_buffs(attacker, target, di)
+
+        # No modifiers should be applied to non-Doll attacker
+        assert attacker.multiplicative_modifiers.basic_attributes[StatType.ATTACK] == 0
+        assert (
+            attacker.additive_modifiers.special_attributes[
+                SpecialAttribute.DEFENSE_IGNORE
+            ].get_total_multiplier({DamageTag.PHYSICAL})
+            == 0
+        )
+
+    def test_faye_doll_v0_applies_rend_and_gash_bonuses(self):
+        """Faye V0 should apply Rend defense ignore (16%) and Gash bonuses (50% defense ignore + 15% Attack)."""
+        attacker = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT00
+        )
+        target = TestDamageCalculationStrategy.construct_defender()
+
+        di = DamageInstance(label="Test", base_potency=100, tags={DamageTag.ALL})
+        strat = FayeDamageCalculationStrategy()
+
+        strat.resolve_buffs(attacker, target, di)
+
+        # Rend stacks: 8 stacks * 2% per stack = 16%
+        # Gash: 50%
+        # Total: 66% defense ignore
+        total_defense_ignore = attacker.additive_modifiers.special_attributes[
+            SpecialAttribute.DEFENSE_IGNORE
+        ].get_total_multiplier({DamageTag.ALL})
+        assert total_defense_ignore == pytest.approx(66)
+
+        # Attack multiplier from Gash
+        assert attacker.multiplicative_modifiers.basic_attributes[
+            StatType.ATTACK
+        ] == pytest.approx(15)
+
+    def test_faye_doll_v1_increases_rend_per_stack(self):
+        """Faye V1+ should use 4% defense ignore per Rend stack instead of 2%."""
+        attacker = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT01
+        )
+        target = TestDamageCalculationStrategy.construct_defender()
+
+        di = DamageInstance(label="Test", base_potency=100, tags={DamageTag.ALL})
+        strat = FayeDamageCalculationStrategy()
+
+        strat.resolve_buffs(attacker, target, di)
+
+        # Rend stacks: 8 stacks * 4% per stack = 32%
+        # Gash: 50%
+        # Total: 82% defense ignore
+        total_defense_ignore = attacker.additive_modifiers.special_attributes[
+            SpecialAttribute.DEFENSE_IGNORE
+        ].get_total_multiplier({DamageTag.ALL})
+        assert total_defense_ignore == pytest.approx(82)
+
+    def test_faye_doll_v3_increases_rend_per_stack(self):
+        """Faye V3+ should still use 4% defense ignore per Rend stack."""
+        attacker = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT03
+        )
+        target = TestDamageCalculationStrategy.construct_defender()
+
+        di = DamageInstance(label="Test", base_potency=100, tags={DamageTag.ALL})
+        strat = FayeDamageCalculationStrategy()
+
+        strat.resolve_buffs(attacker, target, di)
+
+        # Rend stacks: 8 stacks * 4% per stack = 32%
+        # Gash: 50%
+        # Total: 82% defense ignore
+        total_defense_ignore = attacker.additive_modifiers.special_attributes[
+            SpecialAttribute.DEFENSE_IGNORE
+        ].get_total_multiplier({DamageTag.ALL})
+        assert total_defense_ignore == pytest.approx(82)
+
+    def test_faye_damage_with_full_bonuses_v0(self):
+        """Verify Faye V0 damage calculation includes all bonuses."""
+        attacker = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT00
+        )
+        target = TestDamageCalculationStrategy.construct_defender()
+
+        di = DamageInstance(
+            label="Test",
+            base_potency=100,
+            tags={DamageTag.PHYSICAL, DamageTag.ALL},
+        )
+        strat = FayeDamageCalculationStrategy()
+
+        summary = strat.calculate_damage(attacker, target, di)
+
+        # Damage should reflect the 66% defense ignore and 15% attack boost
+        # Original attack: 5429
+        # With 15% multiplier: 5429 * 1.15 = 6243.35
+        # Defense: 5000, Attack: 6243.35
+        # With 66% defense ignore: effective_def = max(0, 5000 * (1 - 0.66)) = 1700
+        # term1 = 6243.35 / (1 + 1700/6243.35) = ~2677.47
+        # potency multiplier: 1 + 0 = 1
+        # damage: 1 * 2677.47 = 2677.47
+
+        assert summary.non_critical_damage > 0
+        assert summary.effective_attack == pytest.approx(6243.35)
+
+    def test_faye_damage_with_full_bonuses_v1(self):
+        """Verify Faye V1+ damage calculation uses increased rend defense ignore."""
+        attacker = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT01
+        )
+        target = TestDamageCalculationStrategy.construct_defender()
+
+        di = DamageInstance(
+            label="Test",
+            base_potency=100,
+            tags={DamageTag.PHYSICAL, DamageTag.ALL},
+        )
+        strat = FayeDamageCalculationStrategy()
+
+        summary = strat.calculate_damage(attacker, target, di)
+
+        # Damage should reflect the 82% defense ignore (higher than V0)
+        # With 82% defense ignore: effective_def = max(0, 5000 * (1 - 0.82)) = 900
+        assert summary.effective_defense == pytest.approx(900)
+
+    def test_faye_defense_ignore_stacks_with_tags(self):
+        """Faye's defense ignore should apply to ALL damage types."""
+        attacker = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT00
+        )
+        target = TestDamageCalculationStrategy.construct_defender()
+
+        di_physical = DamageInstance(
+            label="Test", base_potency=100, tags={DamageTag.PHYSICAL, DamageTag.ALL}
+        )
+        di_melee = DamageInstance(
+            label="Test", base_potency=100, tags={DamageTag.MELEE, DamageTag.ALL}
+        )
+
+        strat = FayeDamageCalculationStrategy()
+
+        strat.resolve_buffs(attacker, target, di_physical)
+
+        # Both physical and melee should get the ALL tag defense ignore
+        physical_ignore = attacker.additive_modifiers.special_attributes[
+            SpecialAttribute.DEFENSE_IGNORE
+        ].get_total_multiplier({DamageTag.PHYSICAL, DamageTag.ALL})
+
+        melee_ignore = attacker.additive_modifiers.special_attributes[
+            SpecialAttribute.DEFENSE_IGNORE
+        ].get_total_multiplier({DamageTag.MELEE, DamageTag.ALL})
+
+        assert physical_ignore == pytest.approx(66)
+        assert melee_ignore == pytest.approx(66)
