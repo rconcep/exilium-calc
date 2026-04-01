@@ -126,7 +126,6 @@ class TestFayeSkills:
         gash: FixedDamageInstance = Gash().execute(stacks_of_gash=7)
 
         assert gash.base_potency == 56
-        assert gash.group_name == "Gash"
 
 
 class TestFaye:

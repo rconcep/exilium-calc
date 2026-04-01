@@ -59,9 +59,7 @@ class TestLewisSkills:
 
         assert da.base_potency == 275
         assert da.buffs_before[0] == Buff(25, ModifierType.ADDITIVE, StatType.CRIT_RATE)
-        assert da.buffs_before[1] == Buff(
-            20, ModifierType.ADDITIVE, SpecialAttribute.DAMAGE_BOOST, DamageTag.ALL
-        )
+        assert da.buffs_before[1] == DamageUpII()
 
     def test_surprising_funball_v3(self):
         da: DamageInstance = SurprisingFunballV3().execute()

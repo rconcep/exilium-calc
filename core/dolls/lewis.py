@@ -10,8 +10,8 @@ from core.types import (
     FortificationLevel,
     SummonedUnit,
 )
-from core.buffs import Buff
-from core.combat import DamageInstance, CombatAction
+from core.buffs import Buff, DamageUpII
+from core.combat import DamageInstance, CombatAction, FixedDamageInstance
 
 
 class Playtime(CombatAction):
@@ -46,8 +46,6 @@ class BadGuyCleanup(CombatAction):
             DamageTag.AREA_OF_EFFECT,
             DamageTag.BURN,
         }
-
-        # TODO: Overburn 10%
 
         return DamageInstance(
             label=label,
@@ -94,13 +92,26 @@ class SurprisingFunball(CombatAction):
             DamageTag.HEAVY_AMMO,
         }
 
-        # TODO: 30% fixed damage, 2 stacks Tin Soldier's order
-
         return DamageInstance(
             label=label,
             base_potency=base_potency,
             tags=tags,
             group_name="Surprising Funball",
+        )
+
+
+class SurprisingFunballFixed(CombatAction):
+    """Lewis S2 Fixed damage component."""
+
+    @override
+    def execute(self) -> DamageInstance:
+        label: str = "Surprising Funball (Fixed)"
+        base_potency: int = 30
+
+        return FixedDamageInstance(
+            label=label,
+            base_potency=base_potency,
+            group_name="Surprising Funball (Fixed)",
         )
 
 
@@ -123,6 +134,21 @@ class SurprisingFunballV3(CombatAction):
             base_potency=base_potency,
             tags=tags,
             group_name="Surprising Funball",
+        )
+
+
+class SurprisingFunballFixedV3(CombatAction):
+    """Lewis S2 Fixed damage component (V3)."""
+
+    @override
+    def execute(self) -> DamageInstance:
+        label: str = "Surprising Funball (Fixed)"
+        base_potency: int = 50
+
+        return FixedDamageInstance(
+            label=label,
+            base_potency=base_potency,
+            group_name="Surprising Funball (Fixed)",
         )
 
 
@@ -196,14 +222,7 @@ class ToyCarnivalV2(CombatAction):
         )
 
         if highest_rank_tin_soldier >= 1:
-            buffs_before.append(
-                Buff(
-                    20,
-                    ModifierType.ADDITIVE,
-                    SpecialAttribute.DAMAGE_BOOST,
-                    DamageTag.ALL,
-                )
-            )
+            buffs_before.append(DamageUpII())
 
         return DamageInstance(
             label=label,
@@ -360,6 +379,9 @@ class Lewis(Doll):
     playtime: CombatAction = Field(default_factory=Playtime)
     bad_guy_cleanup: CombatAction = Field(default_factory=BadGuyCleanup)
     surprising_funball: CombatAction = Field(default_factory=SurprisingFunball)
+    surprising_funball_fixed: CombatAction = Field(
+        default_factory=SurprisingFunballFixed
+    )
     toy_carnival: CombatAction = Field(default_factory=ToyCarnival)
     volley_fire: CombatAction = Field(default_factory=VolleyFire)
 
@@ -368,6 +390,8 @@ class Lewis(Doll):
         self.playtime: CombatAction = Playtime()
         self.bad_guy_cleanup: CombatAction = BadGuyCleanup()
         self.surprising_funball: CombatAction = SurprisingFunball()
+        self.surprising_funball_fixed: CombatAction = SurprisingFunballFixed()
+
         self.toy_carnival: CombatAction = ToyCarnival()
         self.volley_fire: CombatAction = VolleyFire()
 
@@ -388,6 +412,7 @@ class Lewis(Doll):
         self.set_to_v2()
 
         self.surprising_funball: CombatAction = SurprisingFunballV3()
+        self.surprising_funball_fixed: CombatAction = SurprisingFunballFixedV3()
         self.volley_fire: CombatAction = VolleyFireV3()
 
     def set_to_v4(self) -> None:
@@ -420,61 +445,3 @@ class Lewis(Doll):
                 self.set_to_v5()
             case FortificationLevel.SEGMENT06:
                 self.set_to_v5()
-
-    def get_sample_data(self) -> list[DamageInstance]:
-        """Returns a sample single target rotation."""
-        rotation_data: list[DamageInstance] = [
-            # Turn 1
-            self.surprising_funball.execute(),
-            self.volley_fire.execute(tin_soldier_rank=2, has_tin_soldiers_order=True),
-            self.volley_fire.execute(tin_soldier_rank=2, has_tin_soldiers_order=True),
-            self.volley_fire.execute(tin_soldier_rank=2, has_tin_soldiers_order=False),
-            self.volley_fire.execute(tin_soldier_rank=2, has_tin_soldiers_order=False),
-            # Turn 2
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-            self.toy_carnival.execute(
-                cumulative_tin_soldier_ranks=6, highest_rank_tin_soldier=3
-            ),
-            # Turn 3
-            self.surprising_funball.execute(),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=True),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=True),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-            # Turn 4
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-            self.toy_carnival.execute(
-                cumulative_tin_soldier_ranks=6, highest_rank_tin_soldier=3
-            ),
-            # Turn 5
-            self.surprising_funball.execute(),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=True),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=True),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-            # Turn 6
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-            self.toy_carnival.execute(
-                cumulative_tin_soldier_ranks=6, highest_rank_tin_soldier=3
-            ),
-            # Turn 7
-            self.surprising_funball.execute(),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=True),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=True),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-            self.volley_fire.execute(tin_soldier_rank=3, has_tin_soldiers_order=False),
-        ]
-
-        return rotation_data

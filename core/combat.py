@@ -103,8 +103,10 @@ class DamageCalculationStrategy(ABC):
         )
 
         # Resolve "increased damage taken" effects (disregard for fixed damage)
-        increased_damage_taken: float = 0 if is_fixed_damage else self.resolve_increased_damage_taken(
-            target, damage_instance
+        increased_damage_taken: float = (
+            0
+            if is_fixed_damage
+            else self.resolve_increased_damage_taken(target, damage_instance)
         )
 
         non_critical_damage: float = (
@@ -370,7 +372,7 @@ class DamageCalculationStrategy(ABC):
         debuffs_before -- Debuffs to apply to target before the action
         """
         is_fixed_damage: bool = DamageTag.FIXED in damage_instance.tags
-        
+
         if is_fixed_damage:
             # Fixed damage does not benefit from damage boost modifiers
             adjusted_potency: float = damage_instance.base_potency
@@ -628,6 +630,19 @@ class FixedDamageInstance(DamageInstance):
     damage_calculation_strategy: DamageCalculationStrategy = Field(
         default_factory=StandardDamageCalculationStrategy
     )
+
+
+class Overburn(CombatAction):
+    """Represents the fixed damage from Overburn (10% of applier's Attack)."""
+
+    def execute(self) -> DamageInstance:
+        base_potency: float = 10
+        return FixedDamageInstance(
+            label="Overburn",
+            base_potency=base_potency,
+            adjusted_potency=base_potency,
+            group_name="Overburn",
+        )
 
 
 class KulichDamageCalculationStrategy(DamageCalculationStrategy):
