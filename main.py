@@ -2,6 +2,7 @@ from nicegui import app, ui
 
 from gui.doll_calculator.dolls import (
     Faye,
+    Klukai,
     Robella,
     Voymastina,
     Lewis,
@@ -30,6 +31,7 @@ def root():
         "Lainie": "/lainie",
         "Leva": "/leva",
         "Lewis": "/lewis",
+        "Klukai": "/klukai",
         "Makiatto": "/makiatto",
         "Mosin-Nagant": "/mosin-nagant",
         "Nikketa": "/nikketa",
@@ -60,6 +62,7 @@ def root():
         {
             "/": mainpage,
             "/faye": Faye().get_page,
+            "/klukai": Klukai().get_page,
             "/lainie": Lainie().get_page,
             "/robella": Robella().get_page,
             "/voymastina": Voymastina().get_page,
@@ -154,9 +157,9 @@ each stat and observing the resulting change in expected damage.
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
                     ui.timeline_entry(
-                        "Implemented Faye; implemented Fixed damage; removed low-value tags from the damage type breakdown in Rotation Analysis.",
+                        "Implemented Faye and Klukai; implemented Fixed damage; removed low-value tags from the damage type breakdown in Rotation Analysis.",
                         title="",
-                        subtitle="March 30, 2026",
+                        subtitle="April 1, 2026",
                         icon="person_add",
                     )
                     ui.timeline_entry(

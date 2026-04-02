@@ -558,6 +558,27 @@ class Justice(Buff):
         return ret
 
 
+class CompetitiveSpirit(Buff):
+    """Klukai buff"""
+
+    display_name = "Competitive Spirit (Klukai)"
+    max_stack_count = 12
+    stack_input_type = "select"
+
+    def __init__(self, stacks: int, klukai_fortification_level: FortificationLevel):
+        value_per_stack: int = 5
+
+        if klukai_fortification_level >= FortificationLevel.SEGMENT02:
+            max_stacks: int = CompetitiveSpirit.max_stack_count
+        else:
+            max_stacks: int = 8
+
+        self.value = value_per_stack * min(max_stacks, stacks)
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.CORROSION
+
+
 class SupportBoostI(Buff):
     """Increases damage dealt with Support Action by 15%. Damage against exposed units is increased by 10%."""
 
@@ -1073,6 +1094,28 @@ class Overzealous(Debuff):
         self.value = 30
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.ALL
+
+
+class CorrosiveInfusion(Debuff):
+    """Debuff from Klukai. Triggers at the end of the holder's turn. At V2+, reduces the holder's defense."""
+
+    display_name = "Corrosive Infusion (Klukai)"
+    max_stack_count = 15
+    stack_input_type = "select"
+
+    def __init__(self, stacks: int, klukai_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        klukai_fortification_level -- the Fortification Level of the Klukai applying this debuff
+        """
+        if klukai_fortification_level >= FortificationLevel.SEGMENT02:
+            self.value = -1 * min(15, stacks)
+        else:
+            self.value = 0
+
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.DEFENSE
         self.tag = DamageTag.ALL
 
 

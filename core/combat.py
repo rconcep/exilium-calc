@@ -1099,3 +1099,32 @@ class FayeDamageCalculationStrategy(StandardDamageCalculationStrategy):
             ].add_to_multiplier(
                 DamageTag.ALL, rend_stacks * defense_ignore_per_rend_stack
             )
+
+
+class KlukaiDamageCalculationStrategy(StandardDamageCalculationStrategy):
+    """Damage calculation strategy for Klukai, implementing her Toxic Infiltration effect."""
+
+    @override
+    def resolve_buffs(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> None:
+        """Apply effect of Toxic Infiltration."""
+        super().resolve_buffs(
+            attacker, target, damage_instance, buffs_before, debuffs_before
+        )
+
+        # Only expecting to run this for Klukai
+        if _is_doll_attacker(attacker):
+            # TODO: Would inspect target's debuffs to see if this applies, but for now just assume target has Toxic Infiltration
+            target_has_toxic_infiltration: bool = True
+
+            if attacker.fortification_level >= FortificationLevel.SEGMENT05:
+                # When receiving an active attack from Klukai, damage taken is increased by 30%.
+                attacker.additive_modifiers.special_attributes[
+                    SpecialAttribute.DAMAGE_BOOST
+                ].add_to_multiplier(DamageTag.ACTIVE, 30)
