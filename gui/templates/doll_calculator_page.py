@@ -144,6 +144,27 @@ class DollCalculatorPage(ABC):
         """
         ...
 
+    def get_default_damage_calculator_buffs(self) -> list[dict[str, Any]]:
+        """Returns curated buff selections used to pre-populate the Damage Calculator."""
+        return [
+            {"name": "Attack Up II"},
+        ]
+
+    def get_default_damage_calculator_debuffs(self) -> list[dict[str, Any]]:
+        """Returns curated debuff selections used to pre-populate the Damage Calculator."""
+        return [
+            {"name": "Defense Down II"},
+        ]
+
+    def apply_default_damage_calculator_selections(self) -> None:
+        """Applies the page's curated Damage Calculator buff and debuff selections."""
+        self.damage_calculator.buffs_selector.set_data(
+            copy.deepcopy(self.get_default_damage_calculator_buffs())
+        )
+        self.damage_calculator.debuffs_selector.set_data(
+            copy.deepcopy(self.get_default_damage_calculator_debuffs())
+        )
+
     def render_model_assumptions(self) -> None:
         """Renders model assumptions as a list with icon, description, and optional link."""
         assumptions = self.get_model_assumptions()
@@ -1441,3 +1462,6 @@ class DollCalculatorPage(ABC):
 
         self.damage_instances = self.rotation_planner.get_all_actions()
         self.stats_update_callback(None)
+
+        # Pre-populate Damage Calculator with buffs/debuffs that are relevant to Doll's damage output and commonly toggled in the UI.
+        self.apply_default_damage_calculator_selections()

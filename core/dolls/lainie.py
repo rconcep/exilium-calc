@@ -20,11 +20,23 @@ from core.combat import (
 )
 
 
+def _get_algorithmic_stack_buff(confectance_index: int) -> Buff:
+    if confectance_index < 0 or confectance_index > 6:
+        raise ValueError("confectance_index must be between 0 and 6, inclusive.")
+
+    return Buff(
+        value=confectance_index * 15,
+        modifier_type=ModifierType.ADDITIVE,
+        stat_type=SpecialAttribute.CRITICAL_DAMAGE,
+        tag=DamageTag.ALL,
+    )
+
+
 class VictoryProtocol(CombatAction):
     """Lainie Basic Attack."""
 
     @override
-    def execute(self) -> DamageInstance:
+    def execute(self, confectance_index: int) -> DamageInstance:
         label: str = "Victory Protocol"
         base_potency: int = 80
 
@@ -36,11 +48,17 @@ class VictoryProtocol(CombatAction):
             DamageTag.PHYSICAL,
         }
 
+        buffs_before: list[Buff] = []
+
+        # Expansion Key - Algorithmic Stack
+        buffs_before.append(_get_algorithmic_stack_buff(confectance_index))
+
         return DamageInstance(
             label=label,
             base_potency=base_potency,
             tags=tags,
             group_name="Victory Protocol",
+            buffs_before=buffs_before,
             damage_calculation_strategy=LainieDamageCalculationStrategy(),
         )
 
@@ -49,7 +67,9 @@ class CombatAlgorithm(CombatAction):
     """Lainie S1."""
 
     @override
-    def execute(self, target_has_nonpositive_defense: bool) -> DamageInstance:
+    def execute(
+        self, target_has_nonpositive_defense: bool, confectance_index: int
+    ) -> DamageInstance:
         label: str = "Combat Algorithm"
         base_potency: int = 140
 
@@ -63,14 +83,7 @@ class CombatAlgorithm(CombatAction):
         buffs_before: list[Buff] = []
 
         # Expansion Key - Algorithmic Stack
-        buffs_before.append(
-            Buff(
-                value=15,
-                modifier_type=ModifierType.ADDITIVE,
-                stat_type=SpecialAttribute.CRITICAL_DAMAGE,
-                tag=DamageTag.ALL,
-            )
-        )
+        buffs_before.append(_get_algorithmic_stack_buff(confectance_index))
 
         # If triggered by Simulacrum's Offense Simulation, if the selected target has 0 or less defense,
         # Combat Algorithm will ignore an additional 30% of the target's defense for this attack.
@@ -98,7 +111,9 @@ class CombatAlgorithmV2(CombatAction):
     """Lainie S1 (V2)."""
 
     @override
-    def execute(self, target_has_nonpositive_defense: bool) -> DamageInstance:
+    def execute(
+        self, target_has_nonpositive_defense: bool, confectance_index: int
+    ) -> DamageInstance:
         label: str = "Combat Algorithm"
         base_potency: int = 140
 
@@ -112,14 +127,7 @@ class CombatAlgorithmV2(CombatAction):
         buffs_before: list[Buff] = []
 
         # Expansion Key - Algorithmic Stack
-        buffs_before.append(
-            Buff(
-                value=15,
-                modifier_type=ModifierType.ADDITIVE,
-                stat_type=SpecialAttribute.CRITICAL_DAMAGE,
-                tag=DamageTag.ALL,
-            )
-        )
+        buffs_before.append(_get_algorithmic_stack_buff(confectance_index))
 
         # If triggered by Simulacrum's Offense Simulation, if the selected target has 0 or less defense,
         # Combat Algorithm will ignore an additional 50% of the target's defense for this attack.
@@ -156,7 +164,9 @@ class CombatAlgorithmV6(CombatAction):
     """Lainie S1 (V6)."""
 
     @override
-    def execute(self, target_has_nonpositive_defense: bool) -> DamageInstance:
+    def execute(
+        self, target_has_nonpositive_defense: bool, confectance_index: int
+    ) -> DamageInstance:
         label: str = "Combat Algorithm"
         base_potency: int = 160
 
@@ -170,14 +180,7 @@ class CombatAlgorithmV6(CombatAction):
         buffs_before: list[Buff] = []
 
         # Expansion Key - Algorithmic Stack
-        buffs_before.append(
-            Buff(
-                value=15,
-                modifier_type=ModifierType.ADDITIVE,
-                stat_type=SpecialAttribute.CRITICAL_DAMAGE,
-                tag=DamageTag.ALL,
-            )
-        )
+        buffs_before.append(_get_algorithmic_stack_buff(confectance_index))
 
         # If triggered by Simulacrum's Offense Simulation, if the selected target has 0 or less defense,
         # Combat Algorithm will ignore an additional 50% of the target's defense for this attack.
@@ -214,9 +217,9 @@ class ComputationalCrush(CombatAction):
     """Lainie S2."""
 
     @override
-    def execute(self) -> DamageInstance:
+    def execute(self, confectance_index: int) -> DamageInstance:
         label: str = "Computational Crush"
-        base_potency: int = 200
+        base_potency: int = 120
 
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -227,14 +230,7 @@ class ComputationalCrush(CombatAction):
         buffs_before: list[Buff] = []
 
         # Expansion Key - Algorithmic Stack
-        buffs_before.append(
-            Buff(
-                value=15,
-                modifier_type=ModifierType.ADDITIVE,
-                stat_type=SpecialAttribute.CRITICAL_DAMAGE,
-                tag=DamageTag.ALL,
-            )
-        )
+        buffs_before.append(_get_algorithmic_stack_buff(confectance_index))
 
         return DamageInstance(
             label=label,
@@ -250,7 +246,7 @@ class PerplexedReflex(CombatAction):
     """Simulacrum Basic Attack."""
 
     @override
-    def execute(self) -> DamageInstance:
+    def execute(self, confectance_index: int) -> DamageInstance:
         label: str = "Perplexed Reflex"
         base_potency: int = 80
 
@@ -263,11 +259,17 @@ class PerplexedReflex(CombatAction):
             DamageTag.PHYSICAL_SUMMON,
         }
 
+        buffs_before: list[Buff] = []
+
+        # Expansion Key - Algorithmic Stack
+        buffs_before.append(_get_algorithmic_stack_buff(confectance_index))
+
         return DamageInstance(
             label=label,
             base_potency=base_potency,
             tags=tags,
             group_name="Perplexed Reflex",
+            buffs_before=buffs_before,
             damage_calculation_strategy=SimulacrumDamageCalculationStrategy(),
         )
 
@@ -280,6 +282,7 @@ class OffenseSimulation(CombatAction):
         self,
         number_of_additional_targets: int,
         hit_same_target_as_combat_algorithm: bool,
+        confectance_index: int,
     ) -> DamageInstance:
         label: str = "Offense Simulation"
         base_potency: int = max(140 - 20 * number_of_additional_targets, 80)
@@ -295,14 +298,7 @@ class OffenseSimulation(CombatAction):
         buffs_before: list[Buff] = []
 
         # Expansion Key - Algorithmic Stack
-        buffs_before.append(
-            Buff(
-                value=15,
-                modifier_type=ModifierType.ADDITIVE,
-                stat_type=SpecialAttribute.CRITICAL_DAMAGE,
-                tag=DamageTag.ALL,
-            )
-        )
+        buffs_before.append(_get_algorithmic_stack_buff(confectance_index))
 
         # If triggered by Lainie's Combat Algorithm, if it does not hit the same target as Combat Algorithm,
         # Offense Simulation will ignore 30% of the target's defense for this attack.
@@ -334,6 +330,7 @@ class OffenseSimulationV2(CombatAction):
         self,
         number_of_additional_targets: int,
         hit_same_target_as_combat_algorithm: bool,
+        confectance_index: int,
     ) -> DamageInstance:
         label: str = "Offense Simulation"
         base_potency: int = max(140 - 20 * number_of_additional_targets, 80)
@@ -349,14 +346,7 @@ class OffenseSimulationV2(CombatAction):
         buffs_before: list[Buff] = []
 
         # Expansion Key - Algorithmic Stack
-        buffs_before.append(
-            Buff(
-                value=15,
-                modifier_type=ModifierType.ADDITIVE,
-                stat_type=SpecialAttribute.CRITICAL_DAMAGE,
-                tag=DamageTag.ALL,
-            )
-        )
+        buffs_before.append(_get_algorithmic_stack_buff(confectance_index))
 
         # If triggered by Lainie's Combat Algorithm, if it does not hit the same target as Combat Algorithm,
         # Offense Simulation will ignore 50% of the target's defense for this attack.
@@ -388,6 +378,7 @@ class OffenseSimulationV6(CombatAction):
         self,
         number_of_additional_targets: int,
         hit_same_target_as_combat_algorithm: bool,
+        confectance_index: int,
     ) -> DamageInstance:
         label: str = "Offense Simulation"
         base_potency: int = max(160 - 20 * number_of_additional_targets, 100)
@@ -403,14 +394,7 @@ class OffenseSimulationV6(CombatAction):
         buffs_before: list[Buff] = []
 
         # Expansion Key - Algorithmic Stack
-        buffs_before.append(
-            Buff(
-                value=15,
-                modifier_type=ModifierType.ADDITIVE,
-                stat_type=SpecialAttribute.CRITICAL_DAMAGE,
-                tag=DamageTag.ALL,
-            )
-        )
+        buffs_before.append(_get_algorithmic_stack_buff(confectance_index))
 
         # If triggered by Lainie's Combat Algorithm, if it does not hit the same target as Combat Algorithm,
         # Offense Simulation will ignore 50% of the target's defense for this attack.
@@ -438,7 +422,7 @@ class HashrateOverclock(CombatAction):
     """Simulacrum S2."""
 
     @override
-    def execute(self) -> DamageInstance:
+    def execute(self, confectance_index: int) -> DamageInstance:
         label: str = "Hashrate Overclock"
         base_potency: int = 120
 
@@ -452,14 +436,7 @@ class HashrateOverclock(CombatAction):
         buffs_before: list[Buff] = []
 
         # Expansion Key - Algorithmic Stack
-        buffs_before.append(
-            Buff(
-                value=15,
-                modifier_type=ModifierType.ADDITIVE,
-                stat_type=SpecialAttribute.CRITICAL_DAMAGE,
-                tag=DamageTag.ALL,
-            )
-        )
+        buffs_before.append(_get_algorithmic_stack_buff(confectance_index))
 
         return DamageInstance(
             label=label,
@@ -578,12 +555,3 @@ class Lainie(Doll):
                 self.set_to_v2()
             case FortificationLevel.SEGMENT06:
                 self.set_to_v6()
-
-    def get_sample_rotation(self) -> list[DamageInstance]:
-        """Returns a sample single target rotation."""
-        rotation_data: list[DamageInstance] = [
-            # Turn 1
-            # Summon Simulacrum with Simulated Partner
-        ]
-
-        return rotation_data

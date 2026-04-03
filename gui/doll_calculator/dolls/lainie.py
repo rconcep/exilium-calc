@@ -12,78 +12,92 @@ sample_rotation: dict[int, list[dict]] = {
         # Summon Simulacrum
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_additional_targets": 0,
+            "number_of_additional_targets": 1,
             "hit_same_target_as_combat_algorithm": True,
+            "confectance_index": 4,
         },
         {
             "name": "Combat Algorithm",
             "target_has_nonpositive_defense": True,
+            "confectance_index": 4,
         },
     ],
     2: [
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_additional_targets": 0,
+            "number_of_additional_targets": 1,
             "hit_same_target_as_combat_algorithm": True,
+            "confectance_index": 4,
         },
         {
             "name": "Combat Algorithm",
             "target_has_nonpositive_defense": True,
+            "confectance_index": 4,
         },
     ],
     3: [
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_additional_targets": 0,
+            "number_of_additional_targets": 1,
             "hit_same_target_as_combat_algorithm": True,
+            "confectance_index": 4,
         },
         {
             "name": "Combat Algorithm",
             "target_has_nonpositive_defense": True,
+            "confectance_index": 4,
         },
     ],
     4: [
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_additional_targets": 0,
+            "number_of_additional_targets": 1,
             "hit_same_target_as_combat_algorithm": True,
+            "confectance_index": 4,
         },
         {
             "name": "Combat Algorithm",
             "target_has_nonpositive_defense": True,
+            "confectance_index": 4,
         },
     ],
     5: [
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_additional_targets": 0,
+            "number_of_additional_targets": 1,
             "hit_same_target_as_combat_algorithm": True,
+            "confectance_index": 4,
         },
         {
             "name": "Combat Algorithm",
             "target_has_nonpositive_defense": True,
+            "confectance_index": 4,
         },
     ],
     6: [
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_additional_targets": 0,
+            "number_of_additional_targets": 1,
             "hit_same_target_as_combat_algorithm": True,
+            "confectance_index": 4,
         },
         {
             "name": "Combat Algorithm",
             "target_has_nonpositive_defense": True,
+            "confectance_index": 4,
         },
     ],
     7: [
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_additional_targets": 0,
+            "number_of_additional_targets": 1,
             "hit_same_target_as_combat_algorithm": True,
+            "confectance_index": 4,
         },
         {
             "name": "Combat Algorithm",
             "target_has_nonpositive_defense": True,
+            "confectance_index": 4,
         },
     ],
 }
@@ -108,7 +122,15 @@ class Lainie(DollCalculatorPage):
     def update_doll_abilities(self) -> None:
         self.option_config: dict[str, dict[str, Any]] = {
             "Victory Protocol": {
-                "fields": [],
+                "fields": [
+                    {
+                        "key": "confectance_index",
+                        "type": "select",
+                        "options": [n for n in range(0, 7)],
+                        "label": "Confectance Index",
+                        "default": 4,
+                    },
+                ],
                 "function": self._lainie.victory_protocol.execute,
             },
             "Combat Algorithm": {
@@ -119,15 +141,38 @@ class Lainie(DollCalculatorPage):
                         "label": "Target Defense ≤ 0",
                         "default": True,
                     },
+                    {
+                        "key": "confectance_index",
+                        "type": "select",
+                        "options": [n for n in range(0, 7)],
+                        "label": "Confectance Index",
+                        "default": 4,
+                    },
                 ],
                 "function": self._lainie.combat_algorithm.execute,
             },
             "Computational Crush": {
-                "fields": [],
+                "fields": [
+                    {
+                        "key": "confectance_index",
+                        "type": "select",
+                        "options": [n for n in range(0, 7)],
+                        "label": "Confectance Index",
+                        "default": 4,
+                    },
+                ],
                 "function": self._lainie.computational_crush.execute,
             },
             "Perplexed Reflex (Simulacrum)": {
-                "fields": [],
+                "fields": [
+                    {
+                        "key": "confectance_index",
+                        "type": "select",
+                        "options": [n for n in range(0, 7)],
+                        "label": "Confectance Index",
+                        "default": 4,
+                    },
+                ],
                 "function": self._lainie.perplexed_reflex.execute,
             },
             "Offense Simulation (Simulacrum)": {
@@ -135,7 +180,7 @@ class Lainie(DollCalculatorPage):
                     {
                         "key": "number_of_additional_targets",
                         "type": "number",
-                        "label": "Number of additional targets (beyond the first)",
+                        "label": "Number of targets",
                         "default": 1,
                     },
                     {
@@ -144,11 +189,26 @@ class Lainie(DollCalculatorPage):
                         "label": "Hit same target as Combat Algorithm",
                         "default": True,
                     },
+                    {
+                        "key": "confectance_index",
+                        "type": "select",
+                        "options": [n for n in range(0, 7)],
+                        "label": "Confectance Index",
+                        "default": 4,
+                    },
                 ],
                 "function": self._lainie.offense_simulation.execute,
             },
             "Hashrate Overclock (Simulacrum)": {
-                "fields": [],
+                "fields": [
+                    {
+                        "key": "confectance_index",
+                        "type": "select",
+                        "options": [n for n in range(0, 7)],
+                        "label": "Confectance Index",
+                        "default": 4,
+                    },
+                ],
                 "function": self._lainie.hashrate_overclock.execute,
             },
         }
@@ -224,6 +284,32 @@ class Lainie(DollCalculatorPage):
 
         # Sync the Simulacrum now that real stats are in place.
         self._lainie.refresh_simulacrum()
+
+    def get_default_damage_calculator_buffs(self) -> list[dict[str, Any]]:
+        return [
+            {"name": "Attack Up II"},
+            {"name": "Never Give Up (Yoohee)", "stacks": 4},
+            {"name": "Graceful Spin (Yoohee)"},
+            {"name": "Preshow Warmup (Yoohee)"},
+        ]
+
+    def get_default_damage_calculator_debuffs(self) -> list[dict[str, Any]]:
+        return [
+            {"name": "Defense Down II"},
+            {
+                "name": "Parapluie's Penetration (Lainie)",
+                "stacks": 6,
+                "lainie_fortification_level": FortificationLevel.SEGMENT01,
+            },
+            {
+                "name": "Precognition Foresight (Lainie)",
+                "lainie_fortification_level": FortificationLevel.SEGMENT01,
+            },
+            {
+                "name": "Precognition Awareness (Simulacrum)",
+                "lainie_fortification_level": FortificationLevel.SEGMENT01,
+            },
+        ]
 
     @override
     def stats_update_callback(self, update: ui.number) -> None:  # type: ignore[override]

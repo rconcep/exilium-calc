@@ -723,6 +723,23 @@ class KulichDamageCalculationStrategy(DamageCalculationStrategy):
         )
 
 
+# The following function is an approximation of the health-to-potency conversion from Lainie's passive,
+# based on regression from in-game values and is only effective for high bonuses from Reversed Assault (>= 133% negative defense).
+def f_health_advanced(
+    health: float, inc_dmg: float, rev_assault: float, crit_mult: float
+) -> float:
+    """
+    Slightly more responsive version that gives a tiny boost when REV_ASSAULT is very high.
+    """
+    if inc_dmg <= 0.15 and crit_mult <= 1.5:
+        # Low stacking - linear
+        return 0.000064 * health + 1.305
+    else:
+        # High stacking - base constant + very small REV bonus
+        rev_bonus = max(0.0, (rev_assault - 0.998) * 0.08)  # small effect
+        return 1.253 + rev_bonus
+
+
 class LainieDamageCalculationStrategy(DamageCalculationStrategy):
     """Damage calculation strategy for Lainie, implementing her passive."""
 
@@ -803,21 +820,45 @@ class LainieDamageCalculationStrategy(DamageCalculationStrategy):
         """
         bonus_potency_from_passive: float = 0
 
-        _, effective_def, _, _ = self.calculate_base_damage(
+        _, effective_def, negative_def, _ = self.calculate_base_damage(
             attacker, target, damage_instance
         )
 
+        reversed_assault_bonus: float = self.resolve_reversed_assault(
+            damage_instance, negative_def
+        )
+
         if _is_doll_attacker(attacker) and effective_def <= 0:
-            health_to_potency_conversion_rate: float = 0.1
+            # health_to_potency_conversion_rate: float = 0.1
 
-            if attacker.fortification_level >= FortificationLevel.SEGMENT05:
-                health_to_potency_conversion_rate = 0.3
-            elif attacker.fortification_level >= FortificationLevel.SEGMENT03:
-                health_to_potency_conversion_rate = 0.2
+            # if attacker.fortification_level >= FortificationLevel.SEGMENT05:
+            #     health_to_potency_conversion_rate = 0.3
+            # elif attacker.fortification_level >= FortificationLevel.SEGMENT03:
+            #     health_to_potency_conversion_rate = 0.2
 
-            bonus_potency_from_passive: float = (
-                attacker.initial_stats.basic_attributes[StatType.HEALTH]
-                * health_to_potency_conversion_rate
+            # bonus_potency_from_passive: float = (
+            #     attacker.initial_stats.basic_attributes[StatType.HEALTH]
+            #     * health_to_potency_conversion_rate
+            # )
+
+            # Reversed engineering from in-game + AI regression suggests that the bonus is not linear at all
+            # This approximation is only effective for high bonuses from Reversed Assault (>= 133% negative defense))
+            effective_crit_multiplier: float = (
+                attacker.get_effective_critical_damage_multiplier(damage_instance.tags)
+                / 100
+            )
+            effective_damage_boost: float = (
+                attacker.get_effective_special_attribute(
+                    SpecialAttribute.DAMAGE_BOOST
+                ).get_total_multiplier(damage_instance.tags)
+                / 100
+            )
+
+            bonus_potency_from_passive = f_health_advanced(
+                attacker.initial_stats.basic_attributes[StatType.HEALTH],
+                effective_damage_boost,
+                reversed_assault_bonus,
+                effective_crit_multiplier,
             )
 
         adjusted_potency: float = (
@@ -938,21 +979,45 @@ class SimulacrumDamageCalculationStrategy(DamageCalculationStrategy):
         if summon is None:
             raise ValueError("Simulacrum summon is required for this strategy")
 
-        _, effective_def, _, _ = self.calculate_base_damage(
+        _, effective_def, negative_def, _ = self.calculate_base_damage(
             attacker, target, damage_instance
         )
 
+        reversed_assault_bonus: float = self.resolve_reversed_assault(
+            damage_instance, negative_def
+        )
+
         if isinstance(summon, PhysicalSummonedUnit) and effective_def <= 0:
-            health_to_potency_conversion_rate: float = 0.1
+            # health_to_potency_conversion_rate: float = 0.1
 
-            if owner.fortification_level >= FortificationLevel.SEGMENT05:
-                health_to_potency_conversion_rate = 0.3
-            elif owner.fortification_level >= FortificationLevel.SEGMENT03:
-                health_to_potency_conversion_rate = 0.2
+            # if owner.fortification_level >= FortificationLevel.SEGMENT05:
+            #     health_to_potency_conversion_rate = 0.3
+            # elif owner.fortification_level >= FortificationLevel.SEGMENT03:
+            #     health_to_potency_conversion_rate = 0.2
 
-            bonus_potency_from_passive: float = (
-                summon.initial_stats.basic_attributes[StatType.HEALTH]
-                * health_to_potency_conversion_rate
+            # bonus_potency_from_passive: float = (
+            #     summon.initial_stats.basic_attributes[StatType.HEALTH]
+            #     * health_to_potency_conversion_rate
+            # )
+
+            # Reversed engineering from in-game + AI regression suggests that the bonus is not linear at all
+            # This approximation is only effective for high bonuses from Reversed Assault (>= 133% negative defense))
+            effective_crit_multiplier: float = (
+                attacker.get_effective_critical_damage_multiplier(damage_instance.tags)
+                / 100
+            )
+            effective_damage_boost: float = (
+                attacker.get_effective_special_attribute(
+                    SpecialAttribute.DAMAGE_BOOST
+                ).get_total_multiplier(damage_instance.tags)
+                / 100
+            )
+
+            bonus_potency_from_passive = f_health_advanced(
+                attacker.initial_stats.basic_attributes[StatType.HEALTH],
+                effective_damage_boost,
+                reversed_assault_bonus,
+                effective_crit_multiplier,
             )
 
         adjusted_potency: float = (
@@ -1128,3 +1193,43 @@ class KlukaiDamageCalculationStrategy(StandardDamageCalculationStrategy):
                 attacker.additive_modifiers.special_attributes[
                     SpecialAttribute.DAMAGE_BOOST
                 ].add_to_multiplier(DamageTag.ACTIVE, 30)
+
+
+class LindDamageCalculationStrategy(StandardDamageCalculationStrategy):
+    """Damage calculation strategy for Lind, implementing her effects such as Ketoacidemia."""
+
+    @override
+    def resolve_buffs(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> None:
+        """Apply effect of Lind's abilities."""
+        super().resolve_buffs(
+            attacker, target, damage_instance, buffs_before, debuffs_before
+        )
+
+        # Only expecting to run this for Lind
+        if _is_doll_attacker(attacker):
+            # TODO: Would inspect target's debuffs to see if this applies, but for now just assume target has Ketoacidemia
+            target_has_ketoacidemia: bool = True
+            number_of_debuffs_on_target: int = (
+                6  # Assume max number of debuffs for maximum bonus
+            )
+            max_debuffs_for_bonus: int = 6
+
+            if attacker.fortification_level >= FortificationLevel.SEGMENT02:
+                damage_boost_per_debuff: float = 12
+            else:
+                damage_boost_per_debuff: float = 5
+
+            attacker.additive_modifiers.special_attributes[
+                SpecialAttribute.DAMAGE_BOOST
+            ].add_to_multiplier(
+                DamageTag.CORROSION,
+                min(number_of_debuffs_on_target, max_debuffs_for_bonus)
+                * damage_boost_per_debuff,
+            )

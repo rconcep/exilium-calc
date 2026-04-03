@@ -157,6 +157,16 @@ each stat and observing the resulting change in expected damage.
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
                     ui.timeline_entry(
+                        """Revised Lainie's Health-based scaling after in-game testing. The skill multiplier is 
+                        definitely not increased by 10% of Health and, based on linear regression analysis, exhibits severe diminishing returns when
+                        damage increases (including Reversed Assault) and critical damage multipliers are high. I've only tested up to V1 Lainie so
+                        for now the scaling isn't updated at higher fortification levels.
+                        """,
+                        title="Revised Lainie's Health-based scaling",
+                        subtitle="April 3, 2026",
+                        icon="bug_report",
+                    )
+                    ui.timeline_entry(
                         "Implemented Faye and Klukai; implemented Fixed damage; removed low-value tags from the damage type breakdown in Rotation Analysis.",
                         title="",
                         subtitle="April 1, 2026",

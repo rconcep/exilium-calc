@@ -1,3 +1,5 @@
+import pytest
+
 from core.dolls.lainie import *
 from core.types import DamageTag, SpecialAttribute, FortificationLevel, ModifierType
 from core.buffs import Buff
@@ -10,24 +12,33 @@ from core.combat import (
 
 class TestLainieSkills:
     def test_victory_protocol(self):
-        vp: DamageInstance = VictoryProtocol().execute()
+        vp: DamageInstance = VictoryProtocol().execute(confectance_index=4)
 
         assert vp.base_potency == 80
         assert DamageTag.BASIC in vp.tags
         assert DamageTag.PHYSICAL in vp.tags
+        assert vp.buffs_before == [
+            Buff(
+                value=60,
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=SpecialAttribute.CRITICAL_DAMAGE,
+                tag=DamageTag.ALL,
+            )
+        ]
         assert isinstance(
             vp.damage_calculation_strategy, LainieDamageCalculationStrategy
         )
 
     def test_combat_algorithm(self):
         ca: DamageInstance = CombatAlgorithm().execute(
-            target_has_nonpositive_defense=False
+            target_has_nonpositive_defense=False,
+            confectance_index=4,
         )
 
         assert ca.base_potency == 140
         assert ca.buffs_before == [
             Buff(
-                value=15,
+                value=60,
                 modifier_type=ModifierType.ADDITIVE,
                 stat_type=SpecialAttribute.CRITICAL_DAMAGE,
                 tag=DamageTag.ALL,
@@ -36,12 +47,13 @@ class TestLainieSkills:
 
     def test_combat_algorithm_with_nonpositive_defense(self):
         ca: DamageInstance = CombatAlgorithm().execute(
-            target_has_nonpositive_defense=True
+            target_has_nonpositive_defense=True,
+            confectance_index=4,
         )
 
         assert ca.base_potency == 140
         assert ca.buffs_before[0] == Buff(
-            value=15,
+            value=60,
             modifier_type=ModifierType.ADDITIVE,
             stat_type=SpecialAttribute.CRITICAL_DAMAGE,
             tag=DamageTag.ALL,
@@ -55,7 +67,8 @@ class TestLainieSkills:
 
     def test_combat_algorithm_v2_with_nonpositive_defense(self):
         ca: DamageInstance = CombatAlgorithmV2().execute(
-            target_has_nonpositive_defense=True
+            target_has_nonpositive_defense=True,
+            confectance_index=4,
         )
 
         assert ca.base_potency == 140
@@ -74,30 +87,31 @@ class TestLainieSkills:
 
     def test_combat_algorithm_v6(self):
         ca: DamageInstance = CombatAlgorithmV6().execute(
-            target_has_nonpositive_defense=False
+            target_has_nonpositive_defense=False,
+            confectance_index=4,
         )
 
         assert ca.base_potency == 160
 
     def test_computational_crush(self):
-        cc: DamageInstance = ComputationalCrush().execute()
+        cc: DamageInstance = ComputationalCrush().execute(confectance_index=4)
 
-        assert cc.base_potency == 200
+        assert cc.base_potency == 120
         assert DamageTag.AREA_OF_EFFECT in cc.tags
-        assert cc.buffs_before == [
+
+    def test_phantom_barrage(self):
+        pb: DamageInstance = PerplexedReflex().execute(confectance_index=4)
+
+        assert pb.base_potency == 80
+        assert DamageTag.PHYSICAL_SUMMON in pb.tags
+        assert pb.buffs_before == [
             Buff(
-                value=15,
+                value=60,
                 modifier_type=ModifierType.ADDITIVE,
                 stat_type=SpecialAttribute.CRITICAL_DAMAGE,
                 tag=DamageTag.ALL,
             )
         ]
-
-    def test_phantom_barrage(self):
-        pb: DamageInstance = PerplexedReflex().execute()
-
-        assert pb.base_potency == 80
-        assert DamageTag.PHYSICAL_SUMMON in pb.tags
         assert isinstance(
             pb.damage_calculation_strategy, SimulacrumDamageCalculationStrategy
         )
@@ -106,12 +120,13 @@ class TestLainieSkills:
         os: DamageInstance = OffenseSimulation().execute(
             number_of_additional_targets=6,
             hit_same_target_as_combat_algorithm=True,
+            confectance_index=4,
         )
 
         assert os.base_potency == 80
         assert len(os.buffs_before) == 1
         assert os.buffs_before[0] == Buff(
-            value=15,
+            value=60,
             modifier_type=ModifierType.ADDITIVE,
             stat_type=SpecialAttribute.CRITICAL_DAMAGE,
             tag=DamageTag.ALL,
@@ -121,6 +136,7 @@ class TestLainieSkills:
         os: DamageInstance = OffenseSimulation().execute(
             number_of_additional_targets=2,
             hit_same_target_as_combat_algorithm=False,
+            confectance_index=4,
         )
 
         assert os.base_potency == 100
@@ -135,6 +151,7 @@ class TestLainieSkills:
         os: DamageInstance = OffenseSimulationV2().execute(
             number_of_additional_targets=2,
             hit_same_target_as_combat_algorithm=False,
+            confectance_index=4,
         )
 
         assert os.base_potency == 100
@@ -149,21 +166,29 @@ class TestLainieSkills:
         os: DamageInstance = OffenseSimulationV6().execute(
             number_of_additional_targets=8,
             hit_same_target_as_combat_algorithm=True,
+            confectance_index=4,
         )
 
         assert os.base_potency == 100
 
     def test_cognition_overclock(self):
-        co: DamageInstance = HashrateOverclock().execute()
+        co: DamageInstance = HashrateOverclock().execute(confectance_index=4)
 
         assert co.base_potency == 120
         assert DamageTag.PHYSICAL_SUMMON in co.tags
         assert co.buffs_before[0] == Buff(
-            value=15,
+            value=60,
             modifier_type=ModifierType.ADDITIVE,
             stat_type=SpecialAttribute.CRITICAL_DAMAGE,
             tag=DamageTag.ALL,
         )
+
+    def test_confectance_index_out_of_range_raises(self):
+        with pytest.raises(ValueError):
+            CombatAlgorithm().execute(
+                target_has_nonpositive_defense=False,
+                confectance_index=7,
+            )
 
 
 class TestLainie:
