@@ -9,6 +9,7 @@ from .faye import Faye
 from .klukai import Klukai
 from .leva import Leva
 from .lewis import Lewis
+from .lind import Lind
 from .makiatto import Makiatto
 from .mosin_nagant import MosinNagant
 from .nikketa import Nikketa
@@ -26,6 +27,7 @@ __all__ = [
     "Lainie",
     "Leva",
     "Lewis",
+    "Lind",
     "Makiatto",
     "MosinNagant",
     "Nikketa",

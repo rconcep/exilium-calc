@@ -9,6 +9,7 @@ from gui.doll_calculator.dolls import (
     MosinNagant,
     Tololo,
     Leva,
+    Lind,
     Makiatto,
     Nikketa,
     Qiuhua,
@@ -31,6 +32,7 @@ def root():
         "Lainie": "/lainie",
         "Leva": "/leva",
         "Lewis": "/lewis",
+        "Lind": "/lind",
         "Klukai": "/klukai",
         "Makiatto": "/makiatto",
         "Mosin-Nagant": "/mosin-nagant",
@@ -67,6 +69,7 @@ def root():
             "/robella": Robella().get_page,
             "/voymastina": Voymastina().get_page,
             "/lewis": Lewis().get_page,
+            "/lind": Lind().get_page,
             "/mosin-nagant": MosinNagant().get_page,
             "/tololo": Tololo().get_page,
             "/leva": Leva().get_page,
@@ -165,6 +168,12 @@ each stat and observing the resulting change in expected damage.
                         title="Revised Lainie's Health-based scaling",
                         subtitle="April 3, 2026",
                         icon="bug_report",
+                    )
+                    ui.timeline_entry(
+                        "Implemented Lind.",
+                        title="",
+                        subtitle="April 3, 2026",
+                        icon="person_add",
                     )
                     ui.timeline_entry(
                         "Implemented Faye and Klukai; implemented Fixed damage; removed low-value tags from the damage type breakdown in Rotation Analysis.",

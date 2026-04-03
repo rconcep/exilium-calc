@@ -579,6 +579,27 @@ class CompetitiveSpirit(Buff):
         self.tag = DamageTag.CORROSION
 
 
+class Candyglaze(Buff):
+    """Lind buff"""
+
+    display_name = "Candyglaze (Lind)"
+    max_stack_count = 30
+    stack_input_type = "select"
+
+    def __init__(self, stacks: int, lind_fortification_level: FortificationLevel):
+        if lind_fortification_level >= FortificationLevel.SEGMENT01:
+            max_stacks: int = Candyglaze.max_stack_count
+            value_per_stack: int = 2
+        else:
+            max_stacks: int = 10
+            value_per_stack: int = 1
+
+        self.value = value_per_stack * min(max_stacks, stacks)
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.CORROSION
+
+
 class SupportBoostI(Buff):
     """Increases damage dealt with Support Action by 15%. Damage against exposed units is increased by 10%."""
 
