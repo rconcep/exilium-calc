@@ -171,7 +171,7 @@ class Klukai(DollCalculatorPage):
 
         self.doll = klukai.Klukai()
         self.doll.set_fortification_level(FortificationLevel.SEGMENT06)
-        self.doll_subtitle: str = """Burst Damage / Corrosion
+        self.doll_subtitle: str = """Wide Area / Debuff / Stack
 
             Sentinel / Corrosion"""
         self.dandegate_link: str = "https://www.dandegate.net/dolls/klukai"
@@ -292,6 +292,26 @@ class Klukai(DollCalculatorPage):
         ].set_multiplier(DamageTag.ALL, 3)
 
         self.doll.multiplicative_modifiers.basic_attributes[StatType.ATTACK] = 11
+
+    def get_default_damage_calculator_buffs(self) -> list[dict[str, Any]]:
+        return [
+            {"name": "Attack Up II"},
+            {
+                "name": "Competitive Spirit (Klukai)",
+                "stacks": 12,
+                "klukai_fortification_level": FortificationLevel.SEGMENT06,
+            },
+        ]
+
+    def get_default_damage_calculator_debuffs(self) -> list[dict[str, Any]]:
+        return [
+            {"name": "Defense Down II"},
+            {
+                "name": "Corrosive Infusion (Klukai)",
+                "stacks": 15,
+                "klukai_fortification_level": FortificationLevel.SEGMENT06,
+            },
+        ]
 
     @override
     def get_model_assumptions(self) -> list[ModelAssumption]:

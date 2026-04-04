@@ -112,7 +112,7 @@ class Lainie(DollCalculatorPage):
         self._lainie: lainie.Lainie = lainie.Lainie()
         self.doll = self._lainie
         self.doll.set_fortification_level(FortificationLevel.SEGMENT06)
-        self.doll_subtitle: str = """Summon Damage / Defense Ignore
+        self.doll_subtitle: str = """Mixed Damage / Clone
 
             Sentinel / Physical"""
         self.dandegate_link: str = "https://www.dandegate.net/dolls/lainie"

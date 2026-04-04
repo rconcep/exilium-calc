@@ -684,7 +684,9 @@ class DamageCalculator:
                             with_input=False,
                             label="Initial stats (multi-series)",
                         )
-                        .props("use-chips options-selected-class=exilium-multiselect-selected")
+                        .props(
+                            "use-chips options-selected-class=exilium-multiselect-selected"
+                        )
                         .classes("w-full")
                         .on(
                             "update:model-value",
@@ -699,7 +701,9 @@ class DamageCalculator:
                             with_input=False,
                             label="Additive modifiers (basic) (multi-series)",
                         )
-                        .props("use-chips options-selected-class=exilium-multiselect-selected")
+                        .props(
+                            "use-chips options-selected-class=exilium-multiselect-selected"
+                        )
                         .classes("w-full")
                         .on(
                             "update:model-value",
@@ -719,7 +723,9 @@ class DamageCalculator:
                         with_input=True,
                         label="Additive modifiers (special) (multi-series)",
                     )
-                    .props("use-chips options-selected-class=exilium-multiselect-selected")
+                    .props(
+                        "use-chips options-selected-class=exilium-multiselect-selected"
+                    )
                     .classes("w-full")
                     .on("update:model-value", self._update_expected_damage_delta_chart)
                 )
@@ -732,7 +738,9 @@ class DamageCalculator:
                         with_input=False,
                         label="Additive modifiers (basic conditional) (multi-series)",
                     )
-                    .props("use-chips options-selected-class=exilium-multiselect-selected")
+                    .props(
+                        "use-chips options-selected-class=exilium-multiselect-selected"
+                    )
                     .classes("w-full")
                     .on(
                         "update:model-value",
@@ -748,7 +756,9 @@ class DamageCalculator:
                         with_input=False,
                         label="Multiplicative modifiers (basic) (multi-series)",
                     )
-                    .props("use-chips options-selected-class=exilium-multiselect-selected")
+                    .props(
+                        "use-chips options-selected-class=exilium-multiselect-selected"
+                    )
                     .classes("w-full")
                     .on(
                         "update:model-value",
@@ -764,7 +774,9 @@ class DamageCalculator:
                         with_input=False,
                         label="Multiplicative modifiers (basic conditional) (multi-series)",
                     )
-                    .props("use-chips options-selected-class=exilium-multiselect-selected")
+                    .props(
+                        "use-chips options-selected-class=exilium-multiselect-selected"
+                    )
                     .classes("w-full")
                     .on(
                         "update:model-value",

@@ -101,7 +101,7 @@ class Lind(DollCalculatorPage):
 
         self.doll: lind.Lind = lind.Lind()
         self.doll.set_fortification_level(FortificationLevel.SEGMENT05)
-        self.doll_subtitle: str = """Corrosion / Confectance / Area of Effect
+        self.doll_subtitle: str = """AoE Damage / Debuff / Trigger / Stack
 
             Supporter / Shotgun"""
         self.dandegate_link: str = "https://www.dandegate.net/dolls/lind"
