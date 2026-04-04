@@ -1,6 +1,7 @@
 import pytest
 
 from core.combat import *
+from core.combat import _calculate_effective_and_negative_defense
 
 
 class TestDamageInstance:
@@ -371,34 +372,22 @@ class TestDamageCalculationStrategy:
             label="", base_potency=100, tags={DamageTag.FREEZE}
         )
         negative_def: float = 25
-        assert StandardDamageCalculationStrategy().resolve_reversed_assault(
-            di, negative_def
-        ) == pytest.approx(0)
+        assert resolve_reversed_assault(di, negative_def) == pytest.approx(0)
 
         di.tags = {DamageTag.PHYSICAL}
-        assert StandardDamageCalculationStrategy().resolve_reversed_assault(
-            di, negative_def
-        ) == pytest.approx(25 * 0.5)
+        assert resolve_reversed_assault(di, negative_def) == pytest.approx(25 * 0.5)
 
         negative_def: float = -25
-        assert StandardDamageCalculationStrategy().resolve_reversed_assault(
-            di, negative_def
-        ) == pytest.approx(0)
+        assert resolve_reversed_assault(di, negative_def) == pytest.approx(0)
 
         negative_def: float = 125
-        assert StandardDamageCalculationStrategy().resolve_reversed_assault(
-            di, negative_def
-        ) == pytest.approx(125 * 0.75)
+        assert resolve_reversed_assault(di, negative_def) == pytest.approx(125 * 0.75)
 
         negative_def: float = 255
-        assert StandardDamageCalculationStrategy().resolve_reversed_assault(
-            di, negative_def
-        ) == pytest.approx(255 * 1)
+        assert resolve_reversed_assault(di, negative_def) == pytest.approx(255 * 1)
 
         negative_def: float = 302
-        assert StandardDamageCalculationStrategy().resolve_reversed_assault(
-            di, negative_def
-        ) == pytest.approx(302 * 1.5)
+        assert resolve_reversed_assault(di, negative_def) == pytest.approx(302 * 1.5)
 
     def test_buffs_before(self):
         g = TestDamageCalculationStrategy.construct_attacker()
@@ -646,33 +635,6 @@ class TestDamageCalculationStrategy:
             StatType.CRIT_RATE
         ] == pytest.approx(50)
 
-    def test_lainie_adjusted_potency_scales_with_fortification_when_defense_zero(self):
-        t: Unit = Unit()
-        t.initial_stats.basic_attributes[StatType.DEFENSE] = 0
-        di = DamageInstance(label="", base_potency=100, tags={DamageTag.PHYSICAL})
-
-        g_v0 = TestDamageCalculationStrategy.construct_doll_attacker(
-            FortificationLevel.SEGMENT00
-        )
-        g_v3 = TestDamageCalculationStrategy.construct_doll_attacker(
-            FortificationLevel.SEGMENT03
-        )
-        g_v5 = TestDamageCalculationStrategy.construct_doll_attacker(
-            FortificationLevel.SEGMENT05
-        )
-        g_v0.initial_stats.basic_attributes[StatType.HEALTH] = 1000
-        g_v3.initial_stats.basic_attributes[StatType.HEALTH] = 1000
-        g_v5.initial_stats.basic_attributes[StatType.HEALTH] = 1000
-
-        strat = LainieDamageCalculationStrategy()
-        p0 = strat.calculate_adjusted_potency(g_v0, t, di)
-        p3 = strat.calculate_adjusted_potency(g_v3, t, di)
-        p5 = strat.calculate_adjusted_potency(g_v5, t, di)
-
-        assert p0 == pytest.approx(200)
-        assert p3 == pytest.approx(300)
-        assert p5 == pytest.approx(400)
-
     def test_simulacrum_base_damage_uses_simulacrum_attack(self):
         g = TestDamageCalculationStrategy.construct_doll_with_simulacrum(
             FortificationLevel.SEGMENT00,
@@ -708,34 +670,6 @@ class TestDamageCalculationStrategy:
         assert g.additive_modifiers.basic_attributes[
             StatType.CRIT_RATE
         ] == pytest.approx(0)
-
-    def test_simulacrum_adjusted_potency_scales_with_fortification_when_defense_zero(
-        self,
-    ):
-        g_v0 = TestDamageCalculationStrategy.construct_doll_with_simulacrum(
-            FortificationLevel.SEGMENT00,
-            summon_health=1000,
-        )
-        g_v3 = TestDamageCalculationStrategy.construct_doll_with_simulacrum(
-            FortificationLevel.SEGMENT03,
-            summon_health=1000,
-        )
-        g_v5 = TestDamageCalculationStrategy.construct_doll_with_simulacrum(
-            FortificationLevel.SEGMENT05,
-            summon_health=1000,
-        )
-        t: Unit = Unit()
-        t.initial_stats.basic_attributes[StatType.DEFENSE] = 0
-        di = DamageInstance(label="", base_potency=100, tags={DamageTag.PHYSICAL})
-
-        strat = SimulacrumDamageCalculationStrategy()
-        p0 = strat.calculate_adjusted_potency(g_v0, t, di)
-        p3 = strat.calculate_adjusted_potency(g_v3, t, di)
-        p5 = strat.calculate_adjusted_potency(g_v5, t, di)
-
-        assert p0 == pytest.approx(200)
-        assert p3 == pytest.approx(300)
-        assert p5 == pytest.approx(400)
 
     def test_qiuhua_resolve_buffs_converts_crit_rate_overflow_at_v2(self):
         g = TestDamageCalculationStrategy.construct_doll_attacker(
@@ -808,7 +742,7 @@ class TestDamageCalculationStrategy:
             SimulacrumDamageCalculationStrategy().resolve_buffs(g, t, di)
 
         with pytest.raises(ValueError, match="Simulacrum summon is required"):
-            SimulacrumDamageCalculationStrategy().calculate_adjusted_potency(g, t, di)
+            SimulacrumDamageCalculationStrategy().get_bonus_damage(g, t, di)
 
     def test_kulich_base_damage_uses_kulich_attack(self):
         g = TestDamageCalculationStrategy.construct_doll_with_named_summon(
@@ -993,6 +927,149 @@ class TestDamageCalculationStrategy:
         assert g.multiplicative_modifiers.basic_attributes[StatType.ATTACK] == (
             pytest.approx(0)
         )
+
+
+class TestLainieBonusDamageCalculations:
+    @staticmethod
+    def construct_unit_for_bonus_damage(
+        *,
+        health: float,
+        damage_boost_physical: float = 0,
+        defense_ignore_physical: float = 0,
+    ) -> Unit:
+        u = Unit()
+        u.initial_stats.basic_attributes[StatType.HEALTH] = health
+        u.initial_stats.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.PHYSICAL, damage_boost_physical)
+        u.initial_stats.special_attributes[
+            SpecialAttribute.DEFENSE_IGNORE
+        ].set_multiplier(DamageTag.PHYSICAL, defense_ignore_physical)
+
+        return u
+
+    def test_get_health_conversion_rate_by_fortification(self):
+        assert LainieBonusDamageCalculations.get_health_conversion_rate(
+            FortificationLevel.SEGMENT00
+        ) == pytest.approx(0.1)
+        assert LainieBonusDamageCalculations.get_health_conversion_rate(
+            FortificationLevel.SEGMENT03
+        ) == pytest.approx(0.2)
+        assert LainieBonusDamageCalculations.get_health_conversion_rate(
+            FortificationLevel.SEGMENT05
+        ) == pytest.approx(0.3)
+
+    @pytest.mark.parametrize(
+        "health,fortification_level,damage_boost_physical,defense_ignore_physical,tags,expected_bonus_damage",
+        [
+            # Baseline: no damage boost, no reversed-assault bias
+            (
+                4611,
+                FortificationLevel.SEGMENT00,
+                2.5,
+                99.9,
+                {DamageTag.PHYSICAL},
+                472.6,
+            ),
+            (
+                4990,
+                FortificationLevel.SEGMENT00,
+                2.5,
+                99.9,
+                {DamageTag.PHYSICAL},
+                511.5,
+            ),
+            # High defense ignore intended to trigger reversed-assault bias path
+            (
+                3775,
+                FortificationLevel.SEGMENT00,
+                7.5,
+                233,
+                {DamageTag.PHYSICAL},
+                1508.1,
+            ),
+            (
+                4217,
+                FortificationLevel.SEGMENT00,
+                7.5,
+                233,
+                {DamageTag.PHYSICAL},
+                1599.7,
+            ),
+            (
+                4606,
+                FortificationLevel.SEGMENT00,
+                7.5,
+                233,
+                {DamageTag.PHYSICAL},
+                1680.4,
+            ),
+            # More increased damage
+            (
+                4650,
+                FortificationLevel.SEGMENT00,
+                42.4,
+                233,
+                {DamageTag.PHYSICAL},
+                1973.9,
+            ),
+            (
+                4813,
+                FortificationLevel.SEGMENT00,
+                42.4,
+                233,
+                {DamageTag.PHYSICAL},
+                2013.4,
+            ),
+            (
+                5077,
+                FortificationLevel.SEGMENT00,
+                42.4,
+                233,
+                {DamageTag.PHYSICAL},
+                2077.4,
+            ),
+        ],
+    )
+    def test_get_bonus_damage_from_unit_reference_cases(
+        self,
+        health: float,
+        fortification_level: FortificationLevel,
+        damage_boost_physical: float,
+        defense_ignore_physical: float,
+        tags: set[DamageTag],
+        expected_bonus_damage: float | None,
+    ):
+        if expected_bonus_damage is None:
+            pytest.skip("Populate expected_bonus_damage from your validated test data")
+
+        unit = self.construct_unit_for_bonus_damage(
+            health=health,
+            damage_boost_physical=damage_boost_physical,
+            defense_ignore_physical=defense_ignore_physical,
+        )
+        target = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags=tags)
+
+        _, negative_def = _calculate_effective_and_negative_defense(
+            attacker=unit,
+            target=target,
+            damage_instance=di,
+        )
+
+        bonus_increased_damage = resolve_reversed_assault(di, negative_def)
+        unit.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].add_to_multiplier(DamageTag.PHYSICAL, bonus_increased_damage)
+
+        actual = LainieBonusDamageCalculations.get_bonus_damage_from_unit(
+            unit=unit,
+            fortification_level=fortification_level,
+            target=target,
+            damage_instance=di,
+        )
+
+        assert actual == pytest.approx(expected_bonus_damage, rel=1e-3)
 
 
 class TestFixedDamageInstance:

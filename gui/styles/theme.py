@@ -392,6 +392,13 @@ def apply_exilium_theme() -> None:
             border: 1px solid rgba(143, 214, 208, 0.18);
           }
 
+          .exilium-multiselect-selected {
+            background: linear-gradient(180deg, rgba(213, 163, 79, 0.28), rgba(143, 214, 208, 0.2)) !important;
+            border-left: 3px solid var(--ex-gold);
+            color: #f8f9f3 !important;
+            font-weight: 600;
+          }
+
           .q-scrollarea__thumb {
             background: linear-gradient(180deg, rgba(143, 214, 208, 0.55), rgba(213, 163, 79, 0.6));
             border-radius: 999px;

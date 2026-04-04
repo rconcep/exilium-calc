@@ -35,6 +35,63 @@ def _require_summon_owning_attacker(attacker: Unit) -> SummonOwningAttacker:
     return attacker
 
 
+def _calculate_effective_and_negative_defense(
+    attacker: Unit,
+    target: Unit,
+    damage_instance: DamageInstance,
+    include_conditional_defense_modifiers: bool = True,
+) -> tuple[float, float]:
+    """Returns effective defense after ignore/defense-down and any overflow past zero defense."""
+    total_defense_ignore_multipliers: DefenseIgnoreMultipliers = (
+        attacker.initial_stats.special_attributes[SpecialAttribute.DEFENSE_IGNORE]
+        + attacker.additive_modifiers.special_attributes[
+            SpecialAttribute.DEFENSE_IGNORE
+        ]
+    )
+
+    effective_def: float = (
+        target.initial_stats.basic_attributes[StatType.DEFENSE]
+        + target.additive_modifiers.basic_attributes[StatType.DEFENSE]
+    )
+
+    ignore_def: float = (
+        total_defense_ignore_multipliers.get_total_multiplier(damage_instance.tags)
+        - target.multiplicative_modifiers.basic_attributes[StatType.DEFENSE]
+    )
+
+    if include_conditional_defense_modifiers:
+        ignore_def -= target.multiplicative_modifiers.conditional_basic_attributes[
+            StatType.DEFENSE
+        ].get_total_multiplier(damage_instance.tags)
+
+    negative_def: float = max(0, ignore_def - 100)
+    effective_def = max(0, effective_def * (1 - ignore_def / 100))
+
+    return effective_def, negative_def
+
+
+def resolve_reversed_assault(
+    damage_instance: DamageInstance, negative_def: float
+) -> float:
+    """Returns the increased damage bonus as a result of the Reversed Assault buff."""
+    bonus_increased_damage: float = 0
+    bonus_damage_per_negative_def: float = 0
+
+    if DamageTag.PHYSICAL in damage_instance.tags:
+        if 0 < negative_def and negative_def < 100:
+            bonus_damage_per_negative_def = 0.5
+        elif 100 <= negative_def and negative_def < 200:
+            bonus_damage_per_negative_def = 0.75
+        elif 200 <= negative_def and negative_def < 300:
+            bonus_damage_per_negative_def = 1
+        elif 300 <= negative_def:
+            bonus_damage_per_negative_def = 1.5
+
+        bonus_increased_damage = negative_def * bonus_damage_per_negative_def
+
+    return bonus_increased_damage
+
+
 class DamageCalculationStrategy(ABC):
     """Strategy pattern for damage calculation. This allows for different versions of the damage formula to be used"""
 
@@ -86,7 +143,7 @@ class DamageCalculationStrategy(ABC):
         effective_unit: Unit = self.get_effective_attacker(attacker)
 
         if True:  # TODO: check if have reversed assault
-            bonus_increased_damage = self.resolve_reversed_assault(
+            bonus_increased_damage = resolve_reversed_assault(
                 damage_instance, negative_def
             )
             effective_unit.additive_modifiers.special_attributes[
@@ -109,9 +166,11 @@ class DamageCalculationStrategy(ABC):
             else self.resolve_increased_damage_taken(target, damage_instance)
         )
 
+        bonus_damage: float = self.get_bonus_damage(attacker, target, damage_instance)
+
         non_critical_damage: float = (
-            effective_dmg_multiplier * term1 * (1 + increased_damage_taken / 100)
-        )
+            effective_dmg_multiplier * term1 + bonus_damage
+        ) * (1 + increased_damage_taken / 100)
 
         # Apply stability damage reduction (disregard for fixed damage)
         if not is_stability_broken and not is_fixed_damage:
@@ -286,35 +345,14 @@ class DamageCalculationStrategy(ABC):
         """
         ...
 
-    @final
-    def resolve_reversed_assault(
-        self, damage_instance: DamageInstance, negative_def: float
+    def get_bonus_damage(
+        self, attacker: Unit, target: Unit, damage_instance: DamageInstance
     ) -> float:
-        """Returns the increased damage bonus as a result of the Reversed Assault
-        (formerly, Defense Shredding) buff.
-
-        Arguments:
-        damage_instance -- describes the action
-        negative_def -- the % of defense ignored/reduced beyond 0
+        """Returns the bonus damage that isn't multiplicative with Attack (i.e., doesn't fit in the "potency" framework).
+        This will still be multiplied alongside the effective damage multiplier and increased damage taken, but is added
+        after the base damage calculation rather than being a part of the base potency.
         """
-        bonus_increased_damage: float = 0
-        bonus_damage_per_negative_def: float = 0
-
-        if DamageTag.PHYSICAL in damage_instance.tags:
-            if 0 < negative_def and negative_def < 100:
-                bonus_damage_per_negative_def = 0.5
-            elif 100 <= negative_def and negative_def < 200:
-                bonus_damage_per_negative_def = 0.75
-            elif 200 <= negative_def and negative_def < 300:
-                bonus_damage_per_negative_def = 1
-            elif 300 <= negative_def:
-                bonus_damage_per_negative_def = 1.5
-            else:
-                pass
-
-            bonus_increased_damage = negative_def * bonus_damage_per_negative_def
-
-        return bonus_increased_damage
+        return 0
 
     @final
     def do_adjust_potency(
@@ -511,30 +549,14 @@ class StandardDamageCalculationStrategy(DamageCalculationStrategy):
         target -- the target of the attack
         damage_instance -- describes the action
         """
-        total_defense_ignore_multipliers: DefenseIgnoreMultipliers = (
-            attacker.initial_stats.special_attributes[SpecialAttribute.DEFENSE_IGNORE]
-            + attacker.additive_modifiers.special_attributes[
-                SpecialAttribute.DEFENSE_IGNORE
-            ]
-        )
-
         effective_atk: float = attacker.get_basic_attribute(
             StatType.ATTACK, damage_instance.tags
         )
-        effective_def: float = (
-            target.initial_stats.basic_attributes[StatType.DEFENSE]
-            + target.additive_modifiers.basic_attributes[StatType.DEFENSE]
+        effective_def, negative_def = _calculate_effective_and_negative_defense(
+            attacker=attacker,
+            target=target,
+            damage_instance=damage_instance,
         )
-
-        ignore_def: float = (
-            total_defense_ignore_multipliers.get_total_multiplier(damage_instance.tags)
-            - target.multiplicative_modifiers.basic_attributes[StatType.DEFENSE]
-            - target.multiplicative_modifiers.conditional_basic_attributes[
-                StatType.DEFENSE
-            ].get_total_multiplier(damage_instance.tags)
-        )  # defense down is additive with ignore defense
-        negative_def: float = max(0, ignore_def - 100)
-        effective_def: float = max(0, effective_def * (1 - ignore_def / 100))
 
         return (
             effective_atk,
@@ -691,29 +713,17 @@ class KulichDamageCalculationStrategy(DamageCalculationStrategy):
         target -- the target of the attack
         damage_instance -- describes the action
         """
-        total_defense_ignore_multipliers: DefenseIgnoreMultipliers = (
-            attacker.initial_stats.special_attributes[SpecialAttribute.DEFENSE_IGNORE]
-            + attacker.additive_modifiers.special_attributes[
-                SpecialAttribute.DEFENSE_IGNORE
-            ]
-        )
-
         summon: SummonedUnit = self._require_kulich_summon(attacker)
 
         effective_atk: float = summon.get_basic_attribute(
             StatType.ATTACK, damage_instance.tags
         )
-        effective_def: float = (
-            target.initial_stats.basic_attributes[StatType.DEFENSE]
-            + target.additive_modifiers.basic_attributes[StatType.DEFENSE]
+        effective_def, negative_def = _calculate_effective_and_negative_defense(
+            attacker=attacker,
+            target=target,
+            damage_instance=damage_instance,
+            include_conditional_defense_modifiers=False,
         )
-
-        ignore_def: float = (
-            total_defense_ignore_multipliers.get_total_multiplier(damage_instance.tags)
-            - target.multiplicative_modifiers.basic_attributes[StatType.DEFENSE]
-        )  # defense down is additive with ignore defense
-        negative_def: float = max(0, ignore_def - 100)
-        effective_def: float = max(0, effective_def * (1 - ignore_def / 100))
 
         return (
             effective_atk,
@@ -723,21 +733,65 @@ class KulichDamageCalculationStrategy(DamageCalculationStrategy):
         )
 
 
-# The following function is an approximation of the health-to-potency conversion from Lainie's passive,
-# based on regression from in-game values and is only effective for high bonuses from Reversed Assault (>= 133% negative defense).
-def f_health_advanced(
-    health: float, inc_dmg: float, rev_assault: float, crit_mult: float
-) -> float:
+class LainieBonusDamageCalculations:
+    """Contains bonus damage calculations for Lainie that don't fit in the base damage calculation strategy framework,
+    particularly her % of Initial Health added as "damage multiplier."
     """
-    Slightly more responsive version that gives a tiny boost when REV_ASSAULT is very high.
-    """
-    if inc_dmg <= 0.15 and crit_mult <= 1.5:
-        # Low stacking - linear
-        return 0.000064 * health + 1.305
-    else:
-        # High stacking - base constant + very small REV bonus
-        rev_bonus = max(0.0, (rev_assault - 0.998) * 0.08)  # small effect
-        return 1.253 + rev_bonus
+
+    @staticmethod
+    def get_health_conversion_rate(fortification_level: FortificationLevel) -> float:
+        """Returns the health-to-damage conversion rate based on Lainie's fortification level."""
+        if fortification_level >= FortificationLevel.SEGMENT05:
+            return 0.3
+        elif fortification_level >= FortificationLevel.SEGMENT03:
+            return 0.2
+        return 0.1
+
+    @staticmethod
+    def get_bonus_damage_from_unit(
+        unit: Unit,
+        fortification_level: FortificationLevel,
+        target: Unit,
+        damage_instance: DamageInstance,
+    ) -> float:
+        """Returns Lainie-style health-conversion bonus damage for the provided unit."""
+        initial_max_health: float = unit.initial_stats.basic_attributes[StatType.HEALTH]
+        health_conversion_rate: float = (
+            LainieBonusDamageCalculations.get_health_conversion_rate(
+                fortification_level
+            )
+        )
+
+        bias: float = 0
+
+        if True:  # TODO: check if have reversed assault
+            _, negative_def = _calculate_effective_and_negative_defense(
+                attacker=unit,
+                target=target,
+                damage_instance=damage_instance,
+            )
+
+            reversed_assault_bonus: float = (
+                resolve_reversed_assault(damage_instance, negative_def) / 100
+            )
+
+            # Reversed Assault bonus should've been added already, no need to apply it again here. Just need to check if it was applied and if so, apply the same bonus to the health conversion.
+            if reversed_assault_bonus >= 0.9:  # Empirically derived from test data
+                bias = 350
+
+        health_contribution_base: float = (
+            initial_max_health * health_conversion_rate + bias
+        )
+
+        health_contribution: float = health_contribution_base * (
+            1
+            + unit.get_effective_special_attribute(
+                SpecialAttribute.DAMAGE_BOOST
+            ).get_total_multiplier(damage_instance.tags)
+            / 100
+        )
+
+        return health_contribution
 
 
 class LainieDamageCalculationStrategy(DamageCalculationStrategy):
@@ -802,78 +856,21 @@ class LainieDamageCalculationStrategy(DamageCalculationStrategy):
                 ].add_to_multiplier(DamageTag.ALL, 5)
 
     @override
-    def calculate_adjusted_potency(
-        self,
-        attacker: Unit,
-        target: Unit,
-        damage_instance: DamageInstance,
+    def get_bonus_damage(
+        self, attacker: Unit, target: Unit, damage_instance: DamageInstance
     ) -> float:
-        """
-        Implements Lainie's passive.
-
-        Arguments:
-        attacker -- the attacking Unit
-        target -- the target of the attack
-        damage_instance -- describes the action
-        buffs_before -- Buffs to apply to attacker before the action
-        debuffs_before -- Debuffs to apply to target before the action
-        """
-        bonus_potency_from_passive: float = 0
-
-        _, effective_def, negative_def, _ = self.calculate_base_damage(
-            attacker, target, damage_instance
-        )
-
-        reversed_assault_bonus: float = self.resolve_reversed_assault(
-            damage_instance, negative_def
-        )
-
-        if _is_doll_attacker(attacker) and effective_def <= 0:
-            # health_to_potency_conversion_rate: float = 0.1
-
-            # if attacker.fortification_level >= FortificationLevel.SEGMENT05:
-            #     health_to_potency_conversion_rate = 0.3
-            # elif attacker.fortification_level >= FortificationLevel.SEGMENT03:
-            #     health_to_potency_conversion_rate = 0.2
-
-            # bonus_potency_from_passive: float = (
-            #     attacker.initial_stats.basic_attributes[StatType.HEALTH]
-            #     * health_to_potency_conversion_rate
-            # )
-
-            # Reversed engineering from in-game + AI regression suggests that the bonus is not linear at all
-            # This approximation is only effective for high bonuses from Reversed Assault (>= 133% negative defense))
-            effective_crit_multiplier: float = (
-                attacker.get_effective_critical_damage_multiplier(damage_instance.tags)
-                / 100
-            )
-            effective_damage_boost: float = (
-                attacker.get_effective_special_attribute(
-                    SpecialAttribute.DAMAGE_BOOST
-                ).get_total_multiplier(damage_instance.tags)
-                / 100
+        """Implement Lainie's % of Initial Health added as "damage multiplier" bonus damage."""
+        if not _is_doll_attacker(attacker):
+            raise TypeError(
+                "Attacker must be a Doll for Lainie bonus damage calculations"
             )
 
-            bonus_potency_from_passive = f_health_advanced(
-                attacker.initial_stats.basic_attributes[StatType.HEALTH],
-                effective_damage_boost,
-                reversed_assault_bonus,
-                effective_crit_multiplier,
-            )
-
-        adjusted_potency: float = (
-            damage_instance.base_potency + bonus_potency_from_passive
-        ) * (
-            1
-            + attacker.get_effective_special_attribute(
-                SpecialAttribute.DAMAGE_BOOST
-            ).get_total_multiplier(damage_instance.tags)
-            / 100
+        return LainieBonusDamageCalculations.get_bonus_damage_from_unit(
+            unit=attacker,
+            fortification_level=attacker.fortification_level,
+            target=target,
+            damage_instance=damage_instance,
         )
-
-        damage_instance.adjusted_potency = adjusted_potency
-
-        return adjusted_potency
 
 
 class SimulacrumDamageCalculationStrategy(DamageCalculationStrategy):
@@ -957,82 +954,21 @@ class SimulacrumDamageCalculationStrategy(DamageCalculationStrategy):
                 ].add_to_multiplier(DamageTag.ALL, 5)
 
     @override
-    def calculate_adjusted_potency(
-        self,
-        attacker: Unit,
-        target: Unit,
-        damage_instance: DamageInstance,
+    def get_bonus_damage(
+        self, attacker: Unit, target: Unit, damage_instance: DamageInstance
     ) -> float:
-        """
-        Implements Lainie's Simulacrum's passive.
-
-        Arguments:
-        attacker -- the attacking Unit
-        target -- the target of the attack
-        damage_instance -- describes the action
-        buffs_before -- Buffs to apply to attacker before the action
-        debuffs_before -- Debuffs to apply to target before the action
-        """
-        bonus_potency_from_passive: float = 0
+        """Implement Lainie's Simulacrum's % of Initial Health added as "damage multiplier" bonus damage."""
         owner: SummonOwningAttacker = _require_summon_owning_attacker(attacker)
         summon: SummonedUnit | None = owner.get_summoned_unit("Simulacrum")
         if summon is None:
             raise ValueError("Simulacrum summon is required for this strategy")
 
-        _, effective_def, negative_def, _ = self.calculate_base_damage(
-            attacker, target, damage_instance
+        return LainieBonusDamageCalculations.get_bonus_damage_from_unit(
+            unit=summon,
+            fortification_level=owner.fortification_level,
+            target=target,
+            damage_instance=damage_instance,
         )
-
-        reversed_assault_bonus: float = self.resolve_reversed_assault(
-            damage_instance, negative_def
-        )
-
-        if isinstance(summon, PhysicalSummonedUnit) and effective_def <= 0:
-            # health_to_potency_conversion_rate: float = 0.1
-
-            # if owner.fortification_level >= FortificationLevel.SEGMENT05:
-            #     health_to_potency_conversion_rate = 0.3
-            # elif owner.fortification_level >= FortificationLevel.SEGMENT03:
-            #     health_to_potency_conversion_rate = 0.2
-
-            # bonus_potency_from_passive: float = (
-            #     summon.initial_stats.basic_attributes[StatType.HEALTH]
-            #     * health_to_potency_conversion_rate
-            # )
-
-            # Reversed engineering from in-game + AI regression suggests that the bonus is not linear at all
-            # This approximation is only effective for high bonuses from Reversed Assault (>= 133% negative defense))
-            effective_crit_multiplier: float = (
-                attacker.get_effective_critical_damage_multiplier(damage_instance.tags)
-                / 100
-            )
-            effective_damage_boost: float = (
-                attacker.get_effective_special_attribute(
-                    SpecialAttribute.DAMAGE_BOOST
-                ).get_total_multiplier(damage_instance.tags)
-                / 100
-            )
-
-            bonus_potency_from_passive = f_health_advanced(
-                attacker.initial_stats.basic_attributes[StatType.HEALTH],
-                effective_damage_boost,
-                reversed_assault_bonus,
-                effective_crit_multiplier,
-            )
-
-        adjusted_potency: float = (
-            damage_instance.base_potency + bonus_potency_from_passive
-        ) * (
-            1
-            + summon.get_effective_special_attribute(
-                SpecialAttribute.DAMAGE_BOOST
-            ).get_total_multiplier(damage_instance.tags)
-            / 100
-        )
-
-        damage_instance.adjusted_potency = adjusted_potency
-
-        return adjusted_potency
 
 
 class YooheeDamageCalculationStrategy(StandardDamageCalculationStrategy):

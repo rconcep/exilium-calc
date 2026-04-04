@@ -160,6 +160,16 @@ each stat and observing the resulting change in expected damage.
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
                     ui.timeline_entry(
+                        """Finally determined that the "damage multiplier" is a more like flat bonus damage and it does not interact with Attack at all.
+                        This explains why its scaling is so weak. I was able to recover the 10% of Health scaling although some "slack" exists in the
+                        regression analysis especially for high damage modifiers... so there's still a compensation bias term in the model. I may test
+                        with V3 Lainie to see if the model holds up.
+                        """,
+                        title="Revised Lainie's Health-based scaling (for good?)",
+                        subtitle="April 4, 2026",
+                        icon="bug_report",
+                    )
+                    ui.timeline_entry(
                         """Revised Lainie's Health-based scaling after in-game testing. The skill multiplier is 
                         definitely not increased by 10% of Health and, based on linear regression analysis, exhibits severe diminishing returns when
                         damage increases (including Reversed Assault) and critical damage multipliers are high. I've only tested up to V1 Lainie so
