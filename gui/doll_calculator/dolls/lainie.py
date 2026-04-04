@@ -332,6 +332,12 @@ class Lainie(DollCalculatorPage):
                 link_target="https://www.dandegate.net/dolls/lainie/keys/expansion-key-superimposed-algorithm",
             ),
             ModelAssumption(
+                icon="notification_important",
+                description="The damage multiplier from initial max HP is modeled separately as bonus damage because it does not interact with Attack. Therefore, it is not reflected in potency calculations.",
+                link_label="Dandegate",
+                link_target="https://www.dandegate.net/dolls/lainie/skills/precognition-foresight",
+            ),
+            ModelAssumption(
                 icon="group_work",
                 description="Combat Algorithm: Checking the Defense <= 0 condition implies it was triggered by Offense Simulation.",
             ),
