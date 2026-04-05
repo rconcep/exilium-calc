@@ -1,4 +1,5 @@
 from nicegui import app, ui
+from typing import Callable
 
 from gui.doll_calculator.dolls import (
     Faye,
@@ -21,30 +22,33 @@ from gui.doll_calculator.dolls import (
 from gui.styles.theme import apply_exilium_theme
 
 
+DOLL_PAGES: list[tuple[str, str, Callable[[], object]]] = [
+    ("Faye", "/faye", Faye),
+    ("Lainie", "/lainie", Lainie),
+    ("Leva", "/leva", Leva),
+    ("Lewis", "/lewis", Lewis),
+    ("Lind", "/lind", Lind),
+    ("Klukai", "/klukai", Klukai),
+    ("Makiatto", "/makiatto", Makiatto),
+    ("Mosin-Nagant", "/mosin-nagant", MosinNagant),
+    ("Nikketa", "/nikketa", Nikketa),
+    ("Qiuhua", "/qiuhua", Qiuhua),
+    ("Qiongjiu", "/qiongjiu", Qiongjiu),
+    ("Robella", "/robella", Robella),
+    ("Voymastina", "/voymastina", Voymastina),
+    ("Tololo", "/tololo", Tololo),
+    ("Yoohee", "/yoohee", Yoohee),
+    ("Vepley", "/vepley", Vepley),
+]
+
+
 def root():
     dark = ui.dark_mode()
     dark.enable()
     apply_exilium_theme()
     ui.page_title("Exilium-Calc")
 
-    pages: dict[str, str] = {
-        "Faye": "/faye",
-        "Lainie": "/lainie",
-        "Leva": "/leva",
-        "Lewis": "/lewis",
-        "Lind": "/lind",
-        "Klukai": "/klukai",
-        "Makiatto": "/makiatto",
-        "Mosin-Nagant": "/mosin-nagant",
-        "Nikketa": "/nikketa",
-        "Qiuhua": "/qiuhua",
-        "Qiongjiu": "/qiongjiu",
-        "Robella": "/robella",
-        "Voymastina": "/voymastina",
-        "Tololo": "/tololo",
-        "Yoohee": "/yoohee",
-        "Vepley": "/vepley",
-    }
+    pages: dict[str, str] = {label: route for label, route, _factory in DOLL_PAGES}
     with ui.header(fixed=True, bordered=True).classes("exilium-topbar"):
         with ui.row().classes("w-full items-center gap-3 exilium-shell"):
             ui.button("", icon="home", on_click=lambda: ui.navigate.to("/")).props(
@@ -60,27 +64,24 @@ def root():
 
             ui.switch("Dark mode").bind_value(dark).props("color=white")
 
-    ui.sub_pages(
-        {
-            "/": mainpage,
-            "/faye": Faye().get_page,
-            "/klukai": Klukai().get_page,
-            "/lainie": Lainie().get_page,
-            "/robella": Robella().get_page,
-            "/voymastina": Voymastina().get_page,
-            "/lewis": Lewis().get_page,
-            "/lind": Lind().get_page,
-            "/mosin-nagant": MosinNagant().get_page,
-            "/tololo": Tololo().get_page,
-            "/leva": Leva().get_page,
-            "/makiatto": Makiatto().get_page,
-            "/nikketa": Nikketa().get_page,
-            "/qiuhua": Qiuhua().get_page,
-            "/qiongjiu": Qiongjiu().get_page,
-            "/yoohee": Yoohee().get_page,
-            "/vepley": Vepley().get_page,
-        }
+    doll_page_cache: dict[str, object] = {}
+
+    def lazy_doll_page(route: str, factory: Callable[[], object]) -> Callable[[], None]:
+        """Create the Doll page on first navigation and reuse it afterwards."""
+
+        def render() -> None:
+            if route not in doll_page_cache:
+                doll_page_cache[route] = factory()
+            doll_page_cache[route].get_page()  # type: ignore[attr-defined]
+
+        return render
+
+    sub_page_routes: dict[str, Callable[[], None]] = {"/": mainpage}
+    sub_page_routes.update(
+        {route: lazy_doll_page(route, factory) for _label, route, factory in DOLL_PAGES}
     )
+
+    ui.sub_pages(sub_page_routes)
 
     with ui.footer(bordered=True, fixed=False).classes("exilium-footer"):
         with ui.column().classes("w-full items-center q-py-sm"):

@@ -12,7 +12,7 @@ sample_rotation: dict[int, list[dict]] = {
         # Summon Simulacrum
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_additional_targets": 1,
+            "number_of_additional_targets": 0,
             "hit_same_target_as_combat_algorithm": True,
             "confectance_index": 4,
         },
@@ -25,7 +25,7 @@ sample_rotation: dict[int, list[dict]] = {
     2: [
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_additional_targets": 1,
+            "number_of_additional_targets": 0,
             "hit_same_target_as_combat_algorithm": True,
             "confectance_index": 4,
         },
@@ -38,7 +38,7 @@ sample_rotation: dict[int, list[dict]] = {
     3: [
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_additional_targets": 1,
+            "number_of_additional_targets": 0,
             "hit_same_target_as_combat_algorithm": True,
             "confectance_index": 4,
         },
@@ -51,7 +51,7 @@ sample_rotation: dict[int, list[dict]] = {
     4: [
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_additional_targets": 1,
+            "number_of_additional_targets": 0,
             "hit_same_target_as_combat_algorithm": True,
             "confectance_index": 4,
         },
@@ -64,7 +64,7 @@ sample_rotation: dict[int, list[dict]] = {
     5: [
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_additional_targets": 1,
+            "number_of_additional_targets": 0,
             "hit_same_target_as_combat_algorithm": True,
             "confectance_index": 4,
         },
@@ -77,7 +77,7 @@ sample_rotation: dict[int, list[dict]] = {
     6: [
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_additional_targets": 1,
+            "number_of_additional_targets": 0,
             "hit_same_target_as_combat_algorithm": True,
             "confectance_index": 4,
         },
@@ -90,7 +90,7 @@ sample_rotation: dict[int, list[dict]] = {
     7: [
         {
             "name": "Offense Simulation (Simulacrum)",
-            "number_of_additional_targets": 1,
+            "number_of_additional_targets": 0,
             "hit_same_target_as_combat_algorithm": True,
             "confectance_index": 4,
         },
@@ -299,15 +299,15 @@ class Lainie(DollCalculatorPage):
             {
                 "name": "Parapluie's Penetration (Lainie)",
                 "stacks": 6,
-                "lainie_fortification_level": FortificationLevel.SEGMENT01,
+                "lainie_fortification_level": FortificationLevel.SEGMENT03,
             },
             {
                 "name": "Precognition Foresight (Lainie)",
-                "lainie_fortification_level": FortificationLevel.SEGMENT01,
+                "lainie_fortification_level": FortificationLevel.SEGMENT03,
             },
             {
                 "name": "Precognition Awareness (Simulacrum)",
-                "lainie_fortification_level": FortificationLevel.SEGMENT01,
+                "lainie_fortification_level": FortificationLevel.SEGMENT03,
             },
         ]
 
