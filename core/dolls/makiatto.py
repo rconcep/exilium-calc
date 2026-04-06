@@ -18,7 +18,7 @@ class LoneWolfTerritory(CombatAction):
     """Makiatto basic attack."""
 
     @override
-    def execute(self, has_active_engagement: bool = False) -> DamageInstance:
+    def execute(self) -> DamageInstance:
         label: str = "Lone Wolf Territory"
         base_potency: int = 80
         tags: set[DamageTag] = {

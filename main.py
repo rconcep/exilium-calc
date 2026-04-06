@@ -2,6 +2,7 @@ from nicegui import app, ui
 from typing import Callable
 
 from gui.doll_calculator.dolls import (
+    Alva,
     Faye,
     Klukai,
     Robella,
@@ -23,6 +24,7 @@ from gui.styles.theme import apply_exilium_theme
 
 
 DOLL_PAGES: list[tuple[str, str, Callable[[], object]]] = [
+    ("Alva", "/alva", Alva),
     ("Faye", "/faye", Faye),
     ("Lainie", "/lainie", Lainie),
     ("Leva", "/leva", Leva),

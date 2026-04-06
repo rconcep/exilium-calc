@@ -49,6 +49,94 @@ class Debuff(BuffBase):
     ...
 
 
+class LateBloomer(Buff):
+    """Alva buff granted by her Fixed Key 4 - Late Bloomer."""
+
+    display_name = "Late Bloomer (Alva)"
+    max_stack_count = 6
+    stack_input_type = "select"
+
+    def __init__(self, stacks_of_battle_prep_consumed: int):
+        """
+        Arguments:
+        stacks_of_battle_prep_consumed -- the number of stacks of this buff, up to 6
+        """
+        self.value = 3 * min(
+            LateBloomer.max_stack_count, stacks_of_battle_prep_consumed
+        )
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.ATTACK
+
+
+class BrumalBarrier(Buff):
+    """Buff granted by Alva, provided by her passive, Freezing Touch."""
+
+    display_name = "Brumal Barrier (Alva)"
+    max_stack_count = 1
+    stack_input_type = "number"
+
+    def __init__(self): ...
+
+    def get_buffs(self, alva_fortification_level: FortificationLevel, shield_size: int):
+        """
+        Arguments:
+        alva_fortification_level -- the Fortification Level of the Alva granting this buff
+        shield_size -- the size of the shield provided by Alva
+        """
+        ret: list[Buff] = []
+
+        freeze_damage_boost_per_shield: float = (
+            1.5 / 1000
+        )  # 2% for every 1000 points of Shield HP
+        critical_damage_per_shield: float = (
+            0 / 1000
+        )  # 1% for every 1000 points of Shield HP
+
+        if alva_fortification_level >= FortificationLevel.SEGMENT05:
+            freeze_damage_boost_per_shield = (
+                3 / 1000
+            )  # 3% for every 1000 points of Shield HP
+            critical_damage_per_shield = (
+                2 / 1000
+            )  # 2% for every 1000 points of Shield HP
+        elif alva_fortification_level >= FortificationLevel.SEGMENT03:
+            critical_damage_per_shield = (
+                1 / 1000
+            )  # 1% for every 1000 points of Shield HP
+
+        self.value = freeze_damage_boost_per_shield * shield_size
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.FREEZE
+        ret.append(self)
+
+        if critical_damage_per_shield > 0:
+            ret.append(
+                Buff(
+                    value=critical_damage_per_shield * shield_size,
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=SpecialAttribute.CRITICAL_DAMAGE,
+                    tag=DamageTag.FREEZE,
+                )
+            )
+
+        return ret
+
+
+class CoveringMode(Buff):
+    """Buff granted by Alva. This is the Freeze damage boost component."""
+
+    display_name = "Covering Mode (Alva)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        self.value = 20
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.FREEZE  # This assumes the target has a shield.
+
+
 class RadiantRise(Buff):
     """Buff granted to Robella by her S2, Radiant Memory."""
 

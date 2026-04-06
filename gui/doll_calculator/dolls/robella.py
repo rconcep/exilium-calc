@@ -258,6 +258,42 @@ class Robella(DollCalculatorPage):
             8 + 3.6 + 3
         )
 
+    def get_default_damage_calculator_buffs(self) -> list[dict[str, Any]]:
+        return [
+            {"name": "Attack Up II"},
+            {
+                "name": "Brumal Barrier (Alva)",
+                "alva_fortification_level": FortificationLevel.SEGMENT05,
+                "shield_size": 9000,
+            },
+            {
+                "name": "Radiant Rise (Robella)",
+                "fortification_level": FortificationLevel.SEGMENT06,
+            },
+            {
+                "name": "Light of Bond",
+                "target_ally_initial_attack": 4000,
+            },
+            {
+                "name": "Sense Weakness (Robella)",
+                "stacks": 6,
+            },
+            {"name": "Covering Mode (Alva)"},
+            {"name": "Unity: Enhanced", "robella_initial_attack": 4800},
+        ]
+
+    def get_default_damage_calculator_debuffs(self) -> list[dict[str, Any]]:
+        return [
+            {"name": "Defense Down II"},
+            {
+                "name": "Hypothermia",
+                "alva_fortification_level": FortificationLevel.SEGMENT05,
+            },
+            {
+                "name": "Frostbite",
+            },
+        ]
+
     @override
     def get_model_assumptions(self) -> list[ModelAssumption]:
         return [
