@@ -91,9 +91,9 @@ class Jiangyu(DollCalculatorPage):
 
         self.doll = jiangyu.Jiangyu()
         self.doll.set_fortification_level(FortificationLevel.SEGMENT06)
-        self.doll_subtitle: str = """Burst Damage / Support Action
+        self.doll_subtitle: str = """Stability DMG / Mapwide Buffs / Assist
 
-            Guard / Electric"""
+            Support / Electric"""
         self.dandegate_link: str = "https://www.dandegate.net/dolls/jiangyu"
         self.doll_portrait: str = "resources/jiangyu.webp"
 
