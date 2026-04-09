@@ -122,6 +122,9 @@ class DamageCalculationStrategy(ABC):
 
         is_fixed_damage: bool = DamageTag.FIXED in damage_instance.tags
 
+        if is_stability_broken:
+            damage_instance.tags.add(DamageTag.STABILITY_BROKEN)
+
         # Apply buffs and debuffs before
         self.resolve_buffs(
             attacker, target, damage_instance, buffs_before, debuffs_before
@@ -229,7 +232,6 @@ class DamageCalculationStrategy(ABC):
 
             # TODO: replace with real combat state checks (exposed, stability broken, etc.)
             damage_instance.tags.add(DamageTag.EXPOSED)
-            damage_instance.tags.add(DamageTag.STABILITY_BROKEN)
             damage_instance.tags.add(DamageTag.BOSS)
             damage_instance.tags.add(DamageTag.HAS_MOVEMENT_DEBUFF)
             damage_instance.tags.add(DamageTag.ONLY_HIT_ONE_TARGET)

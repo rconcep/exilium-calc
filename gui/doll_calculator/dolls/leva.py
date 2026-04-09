@@ -219,6 +219,29 @@ class Leva(DollCalculatorPage):
         # Imagoform
         self.doll.multiplicative_modifiers.basic_attributes[StatType.ATTACK] = 11.6
 
+    def get_default_damage_calculator_buffs(self) -> list[dict[str, Any]]:
+        return [
+            {"name": "Attack Up II"},
+            {"name": "Superconductive Chain (Leva)"},
+            {"name": "Superconductive Code (Leva)", "stacks": 4},
+            {
+                "name": "Power Surge",
+                "stacks": 3,
+                "jiangyu_fortification_level": FortificationLevel.SEGMENT06,
+                "target_voltage_sag_stacks": 3,
+            },
+        ]
+
+    def get_default_damage_calculator_debuffs(self) -> list[dict[str, Any]]:
+        return [
+            {"name": "Defense Down II"},
+            {
+                "name": "Voltage Sag",
+                "stacks": 3,
+                "jiangyu_fortification_level": FortificationLevel.SEGMENT06,
+            },
+        ]
+
     @override
     def get_model_assumptions(self) -> list[ModelAssumption]:
         return [

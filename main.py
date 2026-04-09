@@ -4,6 +4,7 @@ from typing import Callable
 from gui.doll_calculator.dolls import (
     Alva,
     Faye,
+    Jiangyu,
     Klukai,
     Robella,
     Voymastina,
@@ -26,6 +27,7 @@ from gui.styles.theme import apply_exilium_theme
 DOLL_PAGES: list[tuple[str, str, Callable[[], object]]] = [
     ("Alva", "/alva", Alva),
     ("Faye", "/faye", Faye),
+    ("Jiangyu", "/jiangyu", Jiangyu),
     ("Lainie", "/lainie", Lainie),
     ("Leva", "/leva", Leva),
     ("Lewis", "/lewis", Lewis),
@@ -162,6 +164,12 @@ each stat and observing the resulting change in expected damage.
             ui.separator()
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
+                    ui.timeline_entry(
+                        "Implemented Alva and Lind. Tied stability broken modifiers to the actual Target state in Damage Calculator instead of assuming it's always True.",
+                        title="",
+                        subtitle="April 9, 2026",
+                        icon="person_add",
+                    )
                     ui.timeline_entry(
                         """Finally determined that the "damage multiplier" is a more like flat bonus damage and it does not interact with Attack at all.
                         This explains why its scaling is so weak. I was able to recover the 10% of Health scaling although some "slack" exists in the

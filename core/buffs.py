@@ -460,26 +460,85 @@ class UnshakableConfidence(Buff):
         return ret
 
 
+class Chi(Buff):
+    """Jiangyu buff."""
+
+    display_name = "Chi (Jiangyu)"
+    max_stack_count = 3
+    stack_input_type = "select"
+
+    def __init__(self, jiangyu_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        jiangyu_fortification_level -- the Fortification Level of the Jiangyu with this buff
+        """
+        if jiangyu_fortification_level == FortificationLevel.SEGMENT06:
+            self.value = 15
+            self.modifier_type = ModifierType.ADDITIVE
+            self.stat_type = SpecialAttribute.DAMAGE_BOOST
+            self.tag = DamageTag.ELECTRIC
+
+
 class PowerSurge(Buff):
     """Jiangyu buff."""
 
     display_name = "Power Surge"
-    max_stack_count = 3
+    max_stack_count = 6
     stack_input_type = "select"
 
-    def __init__(self, stacks: int, jiangyu_fortification_level: FortificationLevel):
+    def __init__(self): ...
+
+    def get_buffs(
+        self,
+        stacks: int,
+        jiangyu_fortification_level: FortificationLevel,
+        target_voltage_sag_stacks: int,
+    ):
         """
         Arguments:
         stacks -- the number of stacks of this buff, up to 3
         jiangyu_fortification_level -- the Fortification Level of the Jiangyu granting this buff
+        target_voltage_sag_stacks -- the number of stacks of Voltage Sag on the target, up to 6
         """
-        self.value = 5 * min(3, stacks)
+        # the class attr max_stack_count is 6 for code-gen to support Voltage Sag's maximum of 6
+        max_power_surge_stacks: int = 3
+
+        self.value = 5 * min(max_power_surge_stacks, stacks)
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = SpecialAttribute.DEFENSE_IGNORE
         self.tag = DamageTag.ELECTRIC
 
         if jiangyu_fortification_level == FortificationLevel.SEGMENT06:
             self.value = 2 * self.value
+
+        ret: list[Buff] = []
+        ret.append(self)
+
+        # Jiangyu Expansion Key - Urge to Perform:
+        # When an allied unit with 3 stacks of Power Surge deals damage, for each stack of
+        # Voltage Sag on the enemy unit, the allied unit's critical rate is increased by 2%
+        # and its critical damage is increased by 3%.
+        if stacks == 3 and target_voltage_sag_stacks > 0:
+            ret.append(
+                Buff(
+                    value=2
+                    * min(VoltageSag.max_stack_count, target_voltage_sag_stacks),
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=StatType.CRIT_RATE,
+                    tag=DamageTag.ALL,
+                )
+            )
+            ret.append(
+                Buff(
+                    value=3
+                    * min(VoltageSag.max_stack_count, target_voltage_sag_stacks),
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=StatType.CRIT_DAMAGE,
+                    tag=DamageTag.ALL,
+                )
+            )
+
+        return ret
 
 
 class Lightspike(Buff):
