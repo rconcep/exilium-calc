@@ -18,6 +18,7 @@ from .nikketa import Nikketa
 from .qiuhua import Qiuhua
 from .qiongjiu import Qiongjiu
 from .robella import Robella
+from .sakura import Sakura
 from .tololo import Tololo
 from .vepley import Vepley
 from .voymastina import Voymastina
@@ -38,6 +39,7 @@ __all__ = [
     "Qiuhua",
     "Qiongjiu",
     "Robella",
+    "Sakura",
     "Tololo",
     "Vepley",
     "Voymastina",

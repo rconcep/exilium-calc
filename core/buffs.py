@@ -49,6 +49,87 @@ class Debuff(BuffBase):
     ...
 
 
+class GoodLuck(Buff):
+    """Buff granted to Sakura."""
+
+    display_name = "Good Luck (Sakura)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self, sakura_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        sakura_fortification_level -- the Fortification Level of the Sakura granting this buff
+        """
+        ret: list[Buff] = []
+
+        if sakura_fortification_level < FortificationLevel.SEGMENT03:
+            # V0-V2: If Sakura has Good Luck, damage dealt is increased by 20%.
+            self.value = 20
+        else:
+            # V3: If Sakura has Good Luck, damage dealt is increased by 50%.
+            self.value = 50
+            self.modifier_type = ModifierType.ADDITIVE
+            self.stat_type = SpecialAttribute.DAMAGE_BOOST
+            self.tag = DamageTag.ALL
+
+        ret.append(self)
+
+        if sakura_fortification_level >= FortificationLevel.SEGMENT03:
+            # V3: If Sakura has Good Luck, critical damage is increased by 25%.
+            ret.append(
+                Buff(
+                    value=25,
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=SpecialAttribute.CRITICAL_DAMAGE,
+                    tag=DamageTag.ALL,
+                )
+            )
+
+        return ret
+
+
+class Embers(Buff):
+    """Buff granted by fully charging Thermal Conduction."""
+
+    display_name = "Embers"
+    max_stack_count = 6  # Theoretically infinite, but no battle lasts long enough.
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self, stack: int):
+        """
+        Arguments:
+        stack -- the number of stacks of this buff, up to 6
+        """
+        ret: list[Buff] = []
+
+        # Burn damage dealt is increased by 30%. (For two turns while active.)
+        self.value = 30
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.BURN
+
+        ret.append(self)
+
+        # Critical damage is permanently increased by 5% (per stack).
+        critical_damage_increase_per_stack: int = 5
+        ret.append(
+            Buff(
+                value=critical_damage_increase_per_stack
+                * min(Embers.max_stack_count, stack),
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=SpecialAttribute.CRITICAL_DAMAGE,
+                tag=DamageTag.ALL,
+            )
+        )
+
+        return ret
+
+
 class LateBloomer(Buff):
     """Alva buff granted by her Fixed Key 4 - Late Bloomer."""
 

@@ -279,7 +279,6 @@ class Robella(DollCalculatorPage):
                 "stacks": 6,
             },
             {"name": "Covering Mode (Alva)"},
-            {"name": "Unity: Enhanced", "robella_initial_attack": 4800},
         ]
 
     def get_default_damage_calculator_debuffs(self) -> list[dict[str, Any]]:

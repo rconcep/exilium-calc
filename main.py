@@ -18,6 +18,7 @@ from gui.doll_calculator.dolls import (
     Qiuhua,
     Qiongjiu,
     Lainie,
+    Sakura,
     Yoohee,
     Vepley,
 )
@@ -39,6 +40,7 @@ DOLL_PAGES: list[tuple[str, str, Callable[[], object]]] = [
     ("Qiuhua", "/qiuhua", Qiuhua),
     ("Qiongjiu", "/qiongjiu", Qiongjiu),
     ("Robella", "/robella", Robella),
+    ("Sakura", "/sakura", Sakura),
     ("Voymastina", "/voymastina", Voymastina),
     ("Tololo", "/tololo", Tololo),
     ("Yoohee", "/yoohee", Yoohee),
