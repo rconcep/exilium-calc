@@ -20,6 +20,7 @@ from gui.doll_calculator.dolls import (
     Lainie,
     Sakura,
     Yoohee,
+    Vector,
     Vepley,
 )
 from gui.styles.theme import apply_exilium_theme
@@ -43,6 +44,7 @@ DOLL_PAGES: list[tuple[str, str, Callable[[], object]]] = [
     ("Sakura", "/sakura", Sakura),
     ("Voymastina", "/voymastina", Voymastina),
     ("Tololo", "/tololo", Tololo),
+    ("Vector", "/vector", Vector),
     ("Yoohee", "/yoohee", Yoohee),
     ("Vepley", "/vepley", Vepley),
 ]

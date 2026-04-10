@@ -49,6 +49,19 @@ class Debuff(BuffBase):
     ...
 
 
+class BlazingAssaultII(Buff):
+    """Attack is increased by 15%. Considered a buff."""
+
+    display_name = "Blazing Assault II"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        self.value = 15
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.ATTACK
+
+
 class GoodLuck(Buff):
     """Buff granted to Sakura."""
 
@@ -89,6 +102,81 @@ class GoodLuck(Buff):
             )
 
         return ret
+
+
+class Accelerant(Buff):
+    """Buff granted by Vector's Ultimate."""
+
+    display_name = "Accelerant (Vector)"
+    max_stack_count = 7
+    stack_input_type = "number"
+
+    def __init__(self): ...
+
+    def get_buffs(
+        self, vector_fortification_level: FortificationLevel, number_of_burn_buffs: int
+    ):
+        """
+        Arguments:
+        vector_fortification_level -- the Fortification Level of the Vector granting this buff
+        """
+        ret: list[Buff] = []
+
+        # Damage dealt when dealing Burn damage
+        if vector_fortification_level >= FortificationLevel.SEGMENT02:
+            self.value = 30
+        else:
+            self.value = 10
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.BURN
+
+        ret.append(self)
+
+        # V6: Every Burn buff increases damage dealt by 5%
+        if (
+            vector_fortification_level >= FortificationLevel.SEGMENT06
+            and number_of_burn_buffs > 0
+        ):
+            ret.append(
+                Buff(
+                    value=5 * max(0, number_of_burn_buffs),
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=SpecialAttribute.DAMAGE_BOOST,
+                    tag=DamageTag.ALL,
+                )
+            )
+
+            # Critical damage is increased by 15%
+            ret.append(
+                Buff(
+                    value=15,
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=SpecialAttribute.CRITICAL_DAMAGE,
+                    tag=DamageTag.ALL,
+                )
+            )
+
+        return ret
+
+
+class ApatheticResistance(Buff):
+    """Buff granted to Vector by her Ultimate (V6)."""
+
+    display_name = "Apathetic Resistance (Vector)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, vector_fortification_level: FortificationLevel):
+        if vector_fortification_level >= FortificationLevel.SEGMENT06:
+            self.value = 25
+        else:
+            self.value = 0
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.CRITICAL_DAMAGE
+        self.tag = DamageTag.ALL
 
 
 class Embers(Buff):
@@ -1217,6 +1305,74 @@ class VoltageSag(Debuff):
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
         self.tag = DamageTag.ELECTRIC
+
+
+class OverheatCombustion(Debuff):
+    """Vector debuff"""
+
+    display_name = "Overheat Combustion"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, vector_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        vector_fortification_level -- the Fortification Level of the Vector applying this debuff
+        """
+        if vector_fortification_level >= FortificationLevel.SEGMENT01:
+            self.value = 30
+        else:
+            self.value = 0
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.BURN
+
+
+class Conflagration(Debuff):
+    """Debuff from Incineration tiles. Increases burn damage taken by 20%. Considered a Burn debuff."""
+
+    display_name = "Conflagration"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        """ """
+        self.value = 20
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.BURN
+
+
+class Smolder(Debuff):
+    """Vector debuff"""
+
+    display_name = "Smolder"
+    max_stack_count = 3
+    stack_input_type = "number"
+
+    def __init__(
+        self,
+        vector_fortification_level: FortificationLevel,
+        number_of_burn_debuffs: int,
+    ):
+        """
+        Arguments:
+        stacks -- the number of stacks of this buff
+        vector_fortification_level -- the Fortification Level of the Vector applying this debuff
+        """
+        if vector_fortification_level >= FortificationLevel.SEGMENT04:
+            increased_damage_taken_per_stack: int = 3
+            self.value = increased_damage_taken_per_stack * max(
+                0, number_of_burn_debuffs
+            )
+        else:
+            self.value = 0
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.ALL
 
 
 class Hypothermia(Debuff):
