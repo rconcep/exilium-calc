@@ -19,6 +19,7 @@ from .qiuhua import Qiuhua
 from .qiongjiu import Qiongjiu
 from .robella import Robella
 from .sakura import Sakura
+from .springfield import Springfield
 from .tololo import Tololo
 from .vector import Vector
 from .vepley import Vepley
@@ -41,6 +42,7 @@ __all__ = [
     "Qiongjiu",
     "Robella",
     "Sakura",
+    "Springfield",
     "Tololo",
     "Vector",
     "Vepley",

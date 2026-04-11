@@ -98,6 +98,42 @@ class Tololo(DollCalculatorPage):
         self.doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 78.9
         self.doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 156.9
 
+    def get_default_damage_calculator_buffs(self) -> list[dict[str, Any]]:
+        return [
+            {"name": "Attack Up II"},
+            {
+                "name": "Overflowing Care",
+                "springfield_fortification_level": FortificationLevel.SEGMENT06,
+                "percent_excess_healing": 105,
+            },
+            {
+                "name": "Deep-Rooted Bonds",
+            },
+            {
+                "name": "Lightspike (Tololo)",
+                "stacks": 8,
+                "tololo_fortification_level": FortificationLevel.SEGMENT06,
+            },
+        ]
+
+    def get_default_damage_calculator_debuffs(self) -> list[dict[str, Any]]:
+        return [
+            {"name": "Defense Down II"},
+            {
+                "name": "False Intelligence",
+                "springfield_fortification_level": FortificationLevel.SEGMENT06,
+            },
+            {
+                "name": "Taryz",
+                "springfield_fortification_level": FortificationLevel.SEGMENT06,
+            },
+            {
+                "name": "Vulnerability Analysis",
+                "springfield_fortification_level": FortificationLevel.SEGMENT06,
+                "stacks": 3,
+            },
+        ]
+
     @override
     def get_model_assumptions(self) -> list[ModelAssumption]:
         return [

@@ -1171,3 +1171,56 @@ class LindDamageCalculationStrategy(StandardDamageCalculationStrategy):
                 min(number_of_debuffs_on_target, max_debuffs_for_bonus)
                 * damage_boost_per_debuff,
             )
+
+
+class HealthScalingDamageCalculationStrategy(DamageCalculationStrategy):
+    """Implements the damage formula where base damage is a function of health, attack, and defense."""
+
+    health_scalar: float = Field(default=0.2)  # 20%
+
+    def __init__(self, health_scalar: float = 0.2):
+        """
+        Arguments:
+        health_scalar -- the fraction of current Health to use as the surrogate Attack stat in the damage formula
+        """
+        self.health_scalar = health_scalar
+
+    @final
+    @override
+    def calculate_base_damage(
+        self, attacker: Unit, target: Unit, damage_instance: DamageInstance
+    ) -> tuple[float, float, float, float]:
+        """Returns the term in the damage formula that is a function of attacker attack
+        and target defense. In addition, returns the effective attack, effective defense,
+        and any defense reduced/ignored beyond 0.
+
+        Arguments:
+        attacker -- the attacking Unit
+        target -- the target of the attack
+        damage_instance -- describes the action
+        """
+        effective_atk: float = attacker.get_basic_attribute(
+            StatType.ATTACK, damage_instance.tags
+        )
+
+        effective_health: float = (
+            attacker.get_basic_attribute(StatType.HEALTH, damage_instance.tags)
+            * self.health_scalar
+        )
+
+        effective_def, negative_def = _calculate_effective_and_negative_defense(
+            attacker=attacker,
+            target=target,
+            damage_instance=damage_instance,
+        )
+
+        # For "Term 1" (base damage), use \frac{Health}{1 + \frac{Defense}{Attack}} instead of
+        # \frac{Attack}{1 + \frac{Defense}{Attack}}
+        # Note the Attack/Defense term in the denominator is unchanged from the standard formula.
+
+        return (
+            effective_health,
+            effective_def,
+            negative_def,
+            effective_health / (1 + effective_def / effective_atk),
+        )

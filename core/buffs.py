@@ -816,6 +816,77 @@ class PositiveCharge(Buff):
         self.tag = DamageTag.ELECTRIC
 
 
+class OverflowingCare(Buff):
+    """Springfield buff"""
+
+    display_name = "Overflowing Care"
+    max_stack_count = 105
+    stack_input_type = "number"
+
+    def __init__(
+        self,
+        springfield_fortification_level: FortificationLevel,
+        percent_excess_healing: float,
+    ):
+        """
+        Arguments:
+        springfield_fortification_level -- the Fortification Level of the Springfield applying this buff
+        percent_excess_healing -- the percent of healing that exceeded the target's max health
+        """
+        # Increased Hydro damage dealt by 1% for every 1.5% excess healing, up to a maximum of 35% (V0) or 70% (V1)
+        damage_boost_per_percent_excess_healing: float = (
+            1 / 1.5
+        )  # 1% damage boost for every 1.5% excess healing
+
+        if springfield_fortification_level >= FortificationLevel.SEGMENT01:
+            max_damage_boost = 70
+        else:
+            max_damage_boost = 35
+
+        self.value = damage_boost_per_percent_excess_healing * max(
+            0, percent_excess_healing
+        )
+        self.value = min(self.value, max_damage_boost)
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.HYDRO
+
+
+class DeepRootedBonds(Buff):
+    """Springfield buff"""
+
+    display_name = "Deep-Rooted Bonds"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        # Max HP is increased by 100% of the buff holder's Max HP.
+        self.value = 100
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.HEALTH
+
+
+class EaglesVigilance(Buff):
+    """Buff granted to all allies when Taryz is on the field (from Springfield's passive, V3+)."""
+
+    display_name = "Eagle's Vigilance (Taryz)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, springfield_fortification_level: FortificationLevel):
+        # When Taryz is on the field, Hydro damage dealt by all allied units' out-of-turn attacks
+        # is increased by 40%.
+        # Supposed to only apply to Hydro damage, but will assume that the user will only apply this buff
+        # to Dolls that deal Hydro damage with their out-of-turn attacks.
+        if springfield_fortification_level >= FortificationLevel.SEGMENT03:
+            self.value = 40
+        else:
+            self.value = 0
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.PASSIVE
+
+
 class Clue(Buff):
     """Nikketa buff"""
 
@@ -1410,6 +1481,81 @@ class Frostbite(Debuff):
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
         self.tag = DamageTag.FREEZE
+
+
+class FalseIntelligence(Debuff):
+    """Springfield debuff. Increased Hydro damage taken when in Stability Break."""
+
+    display_name = "False Intelligence"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, springfield_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        springfield_fortification_level -- the Fortification Level of the Springfield applying this debuff
+        """
+        # Assume the user will only apply this debuff when the target is in Stability Break,
+        # since that's when it's supposed to apply.
+        # At V4, increases Hydro damage taken by 20% at Segment 4 and above, and 10% otherwise.
+        if springfield_fortification_level >= FortificationLevel.SEGMENT04:
+            self.value = 20
+        else:
+            self.value = 10
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.HYDRO
+
+
+class Taryz(Debuff):
+    """The target that Taryz is following. At V3+, increased Hydro damage taken by 10%."""
+
+    display_name = "Taryz"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, springfield_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        springfield_fortification_level -- the Fortification Level of the Springfield applying this debuff
+        """
+        if springfield_fortification_level >= FortificationLevel.SEGMENT03:
+            self.value = 10
+        else:
+            self.value = 0
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.HYDRO
+
+
+class VulnerabilityAnalysis(Debuff):
+    """Applied by Assault Taryz before attacking. Hydro damage taken
+    is increased by 5% per stack, stacking up to 3 times."""
+
+    display_name = "Vulnerability Analysis"
+    max_stack_count = 3
+    stack_input_type = "select"
+
+    def __init__(
+        self, springfield_fortification_level: FortificationLevel, stacks: int
+    ):
+        """
+        Arguments:
+        springfield_fortification_level -- the Fortification Level of the Springfield applying this debuff
+        stacks -- the number of stacks of this debuff, up to 3
+        """
+        if springfield_fortification_level >= FortificationLevel.SEGMENT06:
+            increased_damage_taken_per_stack: int = 5
+        else:
+            # Only available with V6 Springfield.
+            increased_damage_taken_per_stack: int = 0
+
+        self.value = increased_damage_taken_per_stack * stacks
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.HYDRO
 
 
 class Guilt(Debuff):

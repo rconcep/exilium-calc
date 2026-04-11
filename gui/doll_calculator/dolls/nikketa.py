@@ -325,6 +325,54 @@ class Nikketa(DollCalculatorPage):
         # Sync Kulich's snapshot now that real stats are in place.
         self.doll.refresh_kulich()
 
+    def get_default_damage_calculator_buffs(self) -> list[dict[str, Any]]:
+        return [
+            {"name": "Attack Up II"},
+            {
+                "name": "Overflowing Care",
+                "springfield_fortification_level": FortificationLevel.SEGMENT06,
+                "percent_excess_healing": 105,
+            },
+            {
+                "name": "Deep-Rooted Bonds",
+            },
+            {
+                "name": "Eagle's Vigilance (Taryz)",
+                "springfield_fortification_level": FortificationLevel.SEGMENT06,
+            },
+            {
+                "name": "Clue",
+                "stacks": 10,
+                "nikketa_fortification_level": FortificationLevel.SEGMENT06,
+            },
+            {
+                "name": "Justice",
+                "stacks": 5,
+            },
+        ]
+
+    def get_default_damage_calculator_debuffs(self) -> list[dict[str, Any]]:
+        return [
+            {"name": "Defense Down II"},
+            {
+                "name": "False Intelligence",
+                "springfield_fortification_level": FortificationLevel.SEGMENT06,
+            },
+            {
+                "name": "Taryz",
+                "springfield_fortification_level": FortificationLevel.SEGMENT06,
+            },
+            {
+                "name": "Vulnerability Analysis",
+                "springfield_fortification_level": FortificationLevel.SEGMENT06,
+                "stacks": 3,
+            },
+            {
+                "name": "Guilt",
+                "nikketa_fortification_level": FortificationLevel.SEGMENT06,
+            },
+        ]
+
     @override
     def stats_update_callback(self, update: ui.number) -> None:  # type: ignore[override]
         # Keep Kulich's snapshot current before deepcopy is taken
