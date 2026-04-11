@@ -329,6 +329,31 @@ class Lewis(DollCalculatorPage):
             8 + 3.6 + 3 + 1
         )
 
+    def get_default_damage_calculator_buffs(self) -> list[dict[str, Any]]:
+        return [
+            {"name": "Blazing Assault II"},
+            {
+                "name": "Accelerant (Vector)",
+                "vector_fortification_level": FortificationLevel.SEGMENT06,
+                "number_of_burn_buffs": 3,
+            },
+        ]
+
+    def get_default_damage_calculator_debuffs(self) -> list[dict[str, Any]]:
+        return [
+            {"name": "Defense Down II"},
+            {
+                "name": "Overheat Combustion",
+                "vector_fortification_level": FortificationLevel.SEGMENT06,
+            },
+            {"name": "Conflagration"},
+            {
+                "name": "Smolder",
+                "vector_fortification_level": FortificationLevel.SEGMENT06,
+                "number_of_burn_debuffs": 4,
+            },
+        ]
+
     @override
     def get_model_assumptions(self) -> list[ModelAssumption]:
         return [

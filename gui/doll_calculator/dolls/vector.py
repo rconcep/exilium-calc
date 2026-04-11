@@ -150,35 +150,62 @@ class Vector(DollCalculatorPage):
         doll = cast(vector.Vector, self.doll)
 
         doll.initial_stats.basic_attributes[StatType.ATTACK] = 3895
+        doll.initial_stats.basic_attributes[StatType.HEALTH] = 4390
         doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 73.6
         doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 135
 
-        # Attachments, common keys, imagoform, specialized traits
+        # Banshee's Whisper: 10 + 2.5
+        # Key: 7
+        # Key: 7
+        # Imagoform Shoot: 4
         doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
-        ].set_multiplier(DamageTag.ALL, 7)
+        ].set_multiplier(DamageTag.ALL, 30.5)
 
+        # Banshee's Whisper: 10
+        # Imagoform Embryo: 3
+        # Imagoform Sprout: 5
+        # Burn Unity: 0.9
+        # Burn Boost: 0.8
         doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
-        ].set_multiplier(DamageTag.BURN, 20)
+        ].set_multiplier(DamageTag.BURN, 19.7)
 
+        # Attachment: 15
         doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
         ].set_multiplier(DamageTag.PHASE, 15)
 
+        # Pinpoint Specialization: 2.5
         doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
-        ].set_multiplier(DamageTag.PASSIVE, 10)
+        ].set_multiplier(DamageTag.TARGETED, 2.5)
 
+        # Banshee's Whisper: 5
         doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
-        ].set_multiplier(DamageTag.SUPPORT_ACTION, 10)
+        ].set_multiplier(DamageTag.SUPPORT_ACTION, 5)
 
+        # Follow-up Strike: 0.5
+        doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.STABILITY_BROKEN, 0.5)
+
+        # Burning Smite: 0.6
         doll.additive_modifiers.special_attributes[
             SpecialAttribute.CRITICAL_DAMAGE
-        ].set_multiplier(DamageTag.ALL, 3)
+        ].set_multiplier(DamageTag.BURN, 0.6)
 
-        doll.multiplicative_modifiers.basic_attributes[StatType.ATTACK] = 7
+        # Imagoform Bud: 4
+        # Attack Unity: 1
+        # Fighting Spirit: 1.8
+        # Attack Boost: 2
+        doll.multiplicative_modifiers.basic_attributes[StatType.ATTACK] = 6.8
+
+        # Ichor Conversion: 0.4%
+        doll.additive_modifiers.basic_attributes[StatType.ATTACK] = (
+            0.004 * doll.initial_stats.basic_attributes[StatType.HEALTH]
+        )
 
     def get_default_damage_calculator_buffs(self) -> list[dict[str, Any]]:
         return [

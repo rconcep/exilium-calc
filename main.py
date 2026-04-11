@@ -169,6 +169,12 @@ each stat and observing the resulting change in expected damage.
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
                     ui.timeline_entry(
+                        "Implemented Sakura and Vector.",
+                        title="",
+                        subtitle="April 10, 2026",
+                        icon="person_add",
+                    )
+                    ui.timeline_entry(
                         "Implemented Alva and Lind. Tied stability broken modifiers to the actual Target state in Damage Calculator instead of assuming it's always True.",
                         title="",
                         subtitle="April 9, 2026",

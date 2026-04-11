@@ -227,7 +227,12 @@ class Sakura(DollCalculatorPage):
 
     def get_default_damage_calculator_buffs(self) -> list[dict[str, Any]]:
         return [
-            {"name": "Attack Up II"},
+            {"name": "Blazing Assault II"},
+            {
+                "name": "Accelerant (Vector)",
+                "vector_fortification_level": FortificationLevel.SEGMENT06,
+                "number_of_burn_buffs": 3,
+            },
             {
                 "name": "Good Luck (Sakura)",
                 "sakura_fortification_level": FortificationLevel.SEGMENT06,
@@ -237,6 +242,17 @@ class Sakura(DollCalculatorPage):
     def get_default_damage_calculator_debuffs(self) -> list[dict[str, Any]]:
         return [
             {"name": "Defense Down II"},
+            {"name": "Vulnerable II"},
+            {
+                "name": "Overheat Combustion",
+                "vector_fortification_level": FortificationLevel.SEGMENT06,
+            },
+            {"name": "Conflagration"},
+            {
+                "name": "Smolder",
+                "vector_fortification_level": FortificationLevel.SEGMENT06,
+                "number_of_burn_debuffs": 4,
+            },
         ]
 
     @override
