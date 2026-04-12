@@ -1224,3 +1224,62 @@ class HealthScalingDamageCalculationStrategy(DamageCalculationStrategy):
             negative_def,
             effective_health / (1 + effective_def / effective_atk),
         )
+
+
+class UllridDamageCalculationStrategy(StandardDamageCalculationStrategy):
+    """Damage calculation strategy for Ullrid, implementing her passive effects, in particular Hunter's Talent upgraded
+    with Expansion Key - Determined Pursuit Tier 2."""
+
+    @override
+    def resolve_buffs(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> None:
+        """Apply effect of Lind's abilities."""
+        super().resolve_buffs(
+            attacker, target, damage_instance, buffs_before, debuffs_before
+        )
+
+        # Only expecting to run this for Ullrid
+        if _is_doll_attacker(attacker):
+            # TODO: This effect is tied to having Hunter's Talent, which is effectively all the time because
+            # it's gained after every active attack, even when being consumed for Hidden Pursuit. For simplicity, just assume this is always active.
+            has_hunters_talent: bool = True
+
+            if has_hunters_talent:
+                # If Ullrid's critical rate is greater than 100%, for every 1% of critical rate overflow, her critical damage is increased
+                # by 0.3%.
+                critical_damage_per_overflow_crit_rate: float = 0.3
+                overflow_crit_rate: float = (
+                    attacker.get_basic_attribute(
+                        StatType.CRIT_RATE, damage_instance.tags
+                    )
+                    - 100
+                )
+
+                attacker.additive_modifiers.special_attributes[
+                    SpecialAttribute.CRITICAL_DAMAGE
+                ].add_to_multiplier(
+                    DamageTag.ALL,
+                    max(0, overflow_crit_rate * critical_damage_per_overflow_crit_rate),
+                )
+
+                # All allied units' melee damage is increased by 10%.
+                attacker.additive_modifiers.special_attributes[
+                    SpecialAttribute.DAMAGE_BOOST
+                ].add_to_multiplier(
+                    DamageTag.MELEE,
+                    10,
+                )
+
+            # Optical Camouflage passive V5+: Before attacking, if this unit has moved 2 tiles or more, increase
+            # attack by 20%. This is an easy condition to satisfy at V5+ because of the additional opportunities
+            # to move during Ullrid's combos, so let's just assume this is always active for simplicity.
+            if attacker.fortification_level >= FortificationLevel.SEGMENT05:
+                attacker.multiplicative_modifiers.basic_attributes[
+                    StatType.ATTACK
+                ] += 20

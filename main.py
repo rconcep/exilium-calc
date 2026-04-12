@@ -21,6 +21,7 @@ from gui.doll_calculator.dolls import (
     Lainie,
     Sakura,
     Springfield,
+    Ullrid,
     Yoohee,
     Vector,
     Vepley,
@@ -48,6 +49,7 @@ DOLL_PAGES: list[tuple[str, str, Callable[[], object]]] = [
     ("Springfield", "/springfield", Springfield),
     ("Voymastina", "/voymastina", Voymastina),
     ("Tololo", "/tololo", Tololo),
+    ("Ullrid", "/ullrid", Ullrid),
     ("Vector", "/vector", Vector),
     ("Yoohee", "/yoohee", Yoohee),
     ("Vepley", "/vepley", Vepley),
@@ -172,6 +174,12 @@ each stat and observing the resulting change in expected damage.
             ui.separator()
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
+                    ui.timeline_entry(
+                        "Implemented Daiyan and Ullrid.",
+                        title="",
+                        subtitle="April 11, 2026",
+                        icon="person_add",
+                    )
                     ui.timeline_entry(
                         "Implemented Springfield.",
                         title="",

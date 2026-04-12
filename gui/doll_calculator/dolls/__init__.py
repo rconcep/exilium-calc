@@ -22,6 +22,7 @@ from .robella import Robella
 from .sakura import Sakura
 from .springfield import Springfield
 from .tololo import Tololo
+from .ullrid import Ullrid
 from .vector import Vector
 from .vepley import Vepley
 from .voymastina import Voymastina
@@ -46,6 +47,7 @@ __all__ = [
     "Sakura",
     "Springfield",
     "Tololo",
+    "Ullrid",
     "Vector",
     "Vepley",
     "Voymastina",
