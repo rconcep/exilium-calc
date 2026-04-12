@@ -435,6 +435,95 @@ class Rapture(Buff):
         self.tag = DamageTag.ALL
 
 
+class Tuning(Buff):
+    """Daiyan buff. This is for the non-permanent Tuning stacks."""
+
+    display_name = "Tuning (Daiyan)"
+    max_stack_count = 10
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self, stacks: int):
+        """
+        Arguments:
+        stacks -- the number of stacks of this buff, up to 10
+        """
+        crit_chance_per_stack: int = 3
+        crit_damage_per_stack: int = 3
+
+        ret: list[Buff] = []
+        if stacks > 0:
+            self.value = crit_chance_per_stack * min(Tuning.max_stack_count, stacks)
+            self.modifier_type = ModifierType.ADDITIVE
+            self.stat_type = StatType.CRIT_RATE
+            ret.append(self)
+
+            ret.append(
+                Buff(
+                    crit_damage_per_stack * min(stacks, Tuning.max_stack_count),
+                    ModifierType.ADDITIVE,
+                    StatType.CRIT_DAMAGE,
+                    DamageTag.ALL,
+                )
+            )
+
+        return ret
+
+
+class PermanentTuning(Buff):
+    """Daiyan buff. This is for the permanent Tuning stacks."""
+
+    display_name = "Permanent Tuning (Daiyan)"
+    max_stack_count = 6
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self, stacks: int):
+        """
+        Arguments:
+        stacks -- the number of stacks of this buff, up to 6
+        """
+        crit_chance_per_stack: int = 3
+        crit_damage_per_stack: int = 3
+
+        # Expansion Key - Flowing Melody of the Clouds: For each stack of permanent Tuning Daiyan
+        # possesses, ignores 10% of enemy target's defense when attacking.
+        defense_ignore_per_stack: int = 10
+
+        ret: list[Buff] = []
+        if stacks > 0:
+            self.value = crit_chance_per_stack * min(
+                PermanentTuning.max_stack_count, stacks
+            )
+            self.modifier_type = ModifierType.ADDITIVE
+            self.stat_type = StatType.CRIT_RATE
+            ret.append(self)
+
+            ret.append(
+                Buff(
+                    crit_damage_per_stack
+                    * min(stacks, PermanentTuning.max_stack_count),
+                    ModifierType.ADDITIVE,
+                    StatType.CRIT_DAMAGE,
+                    DamageTag.ALL,
+                )
+            )
+
+            ret.append(
+                Buff(
+                    defense_ignore_per_stack
+                    * min(stacks, PermanentTuning.max_stack_count),
+                    ModifierType.ADDITIVE,
+                    SpecialAttribute.DEFENSE_IGNORE,
+                    DamageTag.ALL,
+                )
+            )
+
+        return ret
+
+
 class PredatorsPrinciple(Buff):
     """Buff granted to Voymastina when Confectance Index is full."""
 

@@ -3,6 +3,7 @@ from typing import Callable
 
 from gui.doll_calculator.dolls import (
     Alva,
+    Daiyan,
     Faye,
     Jiangyu,
     Klukai,
@@ -29,6 +30,7 @@ from gui.styles.theme import apply_exilium_theme
 
 DOLL_PAGES: list[tuple[str, str, Callable[[], object]]] = [
     ("Alva", "/alva", Alva),
+    ("Daiyan", "/daiyan", Daiyan),
     ("Faye", "/faye", Faye),
     ("Jiangyu", "/jiangyu", Jiangyu),
     ("Lainie", "/lainie", Lainie),

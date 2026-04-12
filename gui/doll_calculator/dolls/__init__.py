@@ -4,6 +4,7 @@ This package re-exports doll page classes for convenient imports:
         from gui.doll_calculator.dolls import Leva, Robella
 """
 
+from .daiyan import Daiyan
 from .lainie import Lainie
 from .alva import Alva
 from .faye import Faye
@@ -28,6 +29,7 @@ from .yoohee import Yoohee
 
 __all__ = [
     "Alva",
+    "Daiyan",
     "Faye",
     "Jiangyu",
     "Klukai",
