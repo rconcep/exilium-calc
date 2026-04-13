@@ -1239,7 +1239,7 @@ class UllridDamageCalculationStrategy(StandardDamageCalculationStrategy):
         buffs_before: list[Buff] = [],
         debuffs_before: list[Debuff] = [],
     ) -> None:
-        """Apply effect of Lind's abilities."""
+        """Apply effect of Ullrid's abilities."""
         super().resolve_buffs(
             attacker, target, damage_instance, buffs_before, debuffs_before
         )
@@ -1283,3 +1283,46 @@ class UllridDamageCalculationStrategy(StandardDamageCalculationStrategy):
                 attacker.multiplicative_modifiers.basic_attributes[
                     StatType.ATTACK
                 ] += 20
+
+
+class BelkaDamageCalculationStrategy(StandardDamageCalculationStrategy):
+    """Damage calculation strategy for Belka, implementing her passive effects, in particular the effects related to Negative Charge application."""
+
+    @override
+    def resolve_buffs(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> None:
+        """Apply effect of Belka's abilities."""
+        super().resolve_buffs(
+            attacker, target, damage_instance, buffs_before, debuffs_before
+        )
+
+        # Only expecting to run this for Belka
+        if _is_doll_attacker(attacker):
+            # TODO: Need to keep track of Negative Charge application and if the target has Negative Charge.
+            # For now, assume the maximum bonus for having applied 6 stacks of Negative Charge and the target having Negative Charge is always active.
+            negative_charge_stacks_applied: int = 6
+            critical_rate_per_negative_charge_stack: float = 5
+            max_crit_rate_from_negative_charge: float = 30
+            target_has_negative_charge: bool = True
+
+            if negative_charge_stacks_applied > 0:
+                attacker.additive_modifiers.basic_attributes[StatType.CRIT_RATE] += min(
+                    negative_charge_stacks_applied
+                    * critical_rate_per_negative_charge_stack,
+                    max_crit_rate_from_negative_charge,
+                )
+
+            # V3: If the target has Negative Charge, ignores 10% of its defense.
+            if (
+                attacker.fortification_level >= FortificationLevel.SEGMENT03
+                and target_has_negative_charge
+            ):
+                attacker.additive_modifiers.special_attributes[
+                    SpecialAttribute.DEFENSE_IGNORE
+                ].add_to_multiplier(DamageTag.ALL, 10)

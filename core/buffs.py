@@ -799,6 +799,29 @@ class PowerSurge(Buff):
         return ret
 
 
+class StoredCharge(Buff):
+    """Belka buff."""
+
+    display_name = "Stored Charge (Belka)"
+    max_stack_count = 10
+    stack_input_type = "select"
+
+    def __init__(self, belka_fortification_level: FortificationLevel, stacks: int):
+        """
+        Arguments:
+        belka_fortification_level -- the Fortification Level of Belka with this buff
+        """
+        max_stacks: int = 6
+        electric_damage_boost_per_stack: int = 5
+        if belka_fortification_level >= FortificationLevel.SEGMENT04:
+            max_stacks = StoredCharge.max_stack_count
+
+        self.value = electric_damage_boost_per_stack * min(max_stacks, stacks)
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.ELECTRIC
+
+
 class Lightspike(Buff):
     """Tololo buff."""
 

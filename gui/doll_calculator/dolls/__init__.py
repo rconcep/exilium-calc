@@ -5,6 +5,7 @@ This package re-exports doll page classes for convenient imports:
 """
 
 from .daiyan import Daiyan
+from .belka import Belka
 from .lainie import Lainie
 from .alva import Alva
 from .faye import Faye
@@ -13,6 +14,7 @@ from .klukai import Klukai
 from .leva import Leva
 from .lewis import Lewis
 from .lind import Lind
+from .lenna import Lenna
 from .makiatto import Makiatto
 from .mosin_nagant import MosinNagant
 from .nikketa import Nikketa
@@ -30,6 +32,7 @@ from .yoohee import Yoohee
 
 __all__ = [
     "Alva",
+    "Belka",
     "Daiyan",
     "Faye",
     "Jiangyu",
@@ -37,6 +40,7 @@ __all__ = [
     "Lainie",
     "Leva",
     "Lewis",
+    "Lenna",
     "Lind",
     "Makiatto",
     "MosinNagant",
