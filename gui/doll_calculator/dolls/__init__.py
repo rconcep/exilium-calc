@@ -9,6 +9,7 @@ from .belka import Belka
 from .lainie import Lainie
 from .alva import Alva
 from .faye import Faye
+from .dushevnaya import Dushevnaya
 from .jiangyu import Jiangyu
 from .klukai import Klukai
 from .leva import Leva
@@ -34,6 +35,7 @@ __all__ = [
     "Alva",
     "Belka",
     "Daiyan",
+    "Dushevnaya",
     "Faye",
     "Jiangyu",
     "Klukai",

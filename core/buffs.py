@@ -218,6 +218,51 @@ class Embers(Buff):
         return ret
 
 
+class GlacialDomain(Buff):
+    """Dushevnaya buff, granted by her Ultimate."""
+
+    display_name = "Glacial Domain (Dushevnaya)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, dushevnaya_fortification_level: int):
+        """
+        Arguments:
+        dushevnaya_fortification_level -- the Fortification Level of Dushevnaya
+        """
+        # V5: While Glacial Domain is active, ignores 30% of the target's defense.
+        if dushevnaya_fortification_level >= FortificationLevel.SEGMENT05:
+            self.value = 30
+        else:
+            self.value = 0
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DEFENSE_IGNORE
+        self.tag = DamageTag.ALL
+
+
+class ArcticBenediction(Buff):
+    """Dushevnaya buff, granted by her Ultimate."""
+
+    display_name = "Arctic Benediction"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, dushevnaya_fortification_level: int):
+        """
+        Arguments:
+        dushevnaya_fortification_level -- the Fortification Level of Dushevnaya
+        """
+        if dushevnaya_fortification_level >= FortificationLevel.SEGMENT01:
+            self.value = 20
+        else:
+            self.value = 10
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.ALL
+
+
 class LateBloomer(Buff):
     """Alva buff granted by her Fixed Key 4 - Late Bloomer."""
 

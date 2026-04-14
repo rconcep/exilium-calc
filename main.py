@@ -4,6 +4,7 @@ from typing import Callable
 from gui.doll_calculator.dolls import (
     Alva,
     Daiyan,
+    Dushevnaya,
     Faye,
     Belka,
     Jiangyu,
@@ -35,6 +36,7 @@ DOLL_PAGES: list[tuple[str, str, Callable[[], object]]] = [
     ("Alva", "/alva", Alva),
     ("Belka", "/belka", Belka),
     ("Daiyan", "/daiyan", Daiyan),
+    ("Dushevnaya", "/dushevnaya", Dushevnaya),
     ("Faye", "/faye", Faye),
     ("Jiangyu", "/jiangyu", Jiangyu),
     ("Lainie", "/lainie", Lainie),
