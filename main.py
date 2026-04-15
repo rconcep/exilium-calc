@@ -181,6 +181,12 @@ each stat and observing the resulting change in expected damage.
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
                     ui.timeline_entry(
+                        "Implemented Dushevnaya.",
+                        title="",
+                        subtitle="April 14, 2026",
+                        icon="person_add",
+                    )
+                    ui.timeline_entry(
                         "Implemented Lenna and Belka.",
                         title="",
                         subtitle="April 13, 2026",
