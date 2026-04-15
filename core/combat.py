@@ -1326,3 +1326,46 @@ class BelkaDamageCalculationStrategy(StandardDamageCalculationStrategy):
                 attacker.additive_modifiers.special_attributes[
                     SpecialAttribute.DEFENSE_IGNORE
                 ].add_to_multiplier(DamageTag.ALL, 10)
+
+
+class HelenDamageCalculationStrategy(StandardDamageCalculationStrategy):
+    """Damage calculation strategy for Helen, implementing her passive effects, in particular the effects related to Defense conversion to Attack."""
+
+    @override
+    def resolve_buffs(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> None:
+        """Apply effect of Helen's abilities."""
+        super().resolve_buffs(
+            attacker, target, damage_instance, buffs_before, debuffs_before
+        )
+
+        # Only expecting to run this for Helen
+        if _is_doll_attacker(attacker):
+            # At the start of battle, increase defense and maximum HP by 30%.
+            attacker.multiplicative_modifiers.basic_attributes[StatType.DEFENSE] += 30
+            attacker.multiplicative_modifiers.basic_attributes[StatType.HEALTH] += 30
+
+            # Before performing a basic attack, Helen gains attack equal to x% of her defense. Helena only performs basic attacks.
+            defense_to_attack_conversion_rate: float = 0.15
+
+            if attacker.fortification_level >= FortificationLevel.SEGMENT06:
+                defense_to_attack_conversion_rate = 0.70
+            elif attacker.fortification_level >= FortificationLevel.SEGMENT02:
+                defense_to_attack_conversion_rate = 0.30
+
+            # Conditional Defense modifiers should not be included in this calculation since the conversion is based on Helen's defense
+            # outside the context of receiving damage.
+            attack_from_defense_conversion: float = (
+                attacker.get_basic_attribute(StatType.DEFENSE, set([DamageTag.ALL]))
+                * defense_to_attack_conversion_rate
+            )
+
+            attacker.additive_modifiers.basic_attributes[
+                StatType.ATTACK
+            ] += attack_from_defense_conversion

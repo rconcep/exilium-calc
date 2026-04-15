@@ -480,6 +480,54 @@ class Rapture(Buff):
         self.tag = DamageTag.ALL
 
 
+class DivineProtection(Buff):
+    """Helen buff."""
+
+    display_name = "Divine Protection"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, helen_fortification_level: int):
+        """
+        Arguments:
+        helen_fortification_level -- the Fortification Level of Helen
+        """
+        if helen_fortification_level >= FortificationLevel.SEGMENT04:
+            self.value = 30
+        else:
+            self.value = 0
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.FREEZE
+
+
+class FrostchillDrive(Buff):
+    """Helen buff."""
+
+    display_name = "Frostchill Drive (Helen)"
+    max_stack_count = 3
+    stack_input_type = "number"
+
+    def __init__(self, helen_fortification_level: int, stacks: int):
+        """
+        Arguments:
+        helen_fortification_level -- the Fortification Level of Helen
+        stacks -- the number of stacks of this buff
+        """
+        damage_boost_per_stack: int = 0
+
+        if helen_fortification_level >= FortificationLevel.SEGMENT05:
+            damage_boost_per_stack = 20
+
+        self.value = damage_boost_per_stack * min(
+            FrostchillDrive.max_stack_count, stacks
+        )
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.FREEZE
+
+
 class Tuning(Buff):
     """Daiyan buff. This is for the non-permanent Tuning stacks."""
 
@@ -1232,6 +1280,33 @@ class AttackUpII(Buff):
         self.stat_type = StatType.ATTACK
 
 
+class AttackUpIII(Buff):
+    """Attack is increased by 20%. Considered a buff."""
+
+    display_name = "Attack Up III"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        self.value = 20
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.ATTACK
+
+
+class CriticalDamageUpII(Buff):
+    """Critical damage is increased by 20%."""
+
+    display_name = "Critical Damage Up II"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        self.value = 20
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = StatType.CRIT_DAMAGE
+        self.tag = DamageTag.ALL
+
+
 class CriticalRateBoostI(Buff):
     """Increases critical rate by 10%."""
 
@@ -1284,6 +1359,19 @@ class DamageUpII(Buff):
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = SpecialAttribute.DAMAGE_BOOST
         self.tag = DamageTag.ALL
+
+
+class DefenseUpIII(Buff):
+    """Defense is increased by 40%. Considered a buff."""
+
+    display_name = "Defense Up III"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        self.value = 40
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.DEFENSE
 
 
 class TargetedAttackBoostI(Buff):

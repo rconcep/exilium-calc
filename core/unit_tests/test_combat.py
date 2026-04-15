@@ -1424,3 +1424,193 @@ class TestFayeDamageCalculationStrategy:
 
         assert physical_ignore == pytest.approx(66)
         assert melee_ignore == pytest.approx(66)
+
+
+class TestHelenDamageCalculationStrategy:
+    """Tests for HelenDamageCalculationStrategy."""
+
+    @staticmethod
+    def construct_helen_attacker(
+        level: FortificationLevel,
+        initial_defense: float = 2000,
+        initial_attack: float = 3000,
+    ) -> Doll:
+        class DummyDoll(Doll):
+            def set_fortification_level(self, level: FortificationLevel) -> None:
+                self.fortification_level = level
+
+        d: Doll = DummyDoll()
+        d.initial_stats.basic_attributes[StatType.ATTACK] = initial_attack
+        d.initial_stats.basic_attributes[StatType.DEFENSE] = initial_defense
+        d.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 150
+        d.set_fortification_level(level)
+        return d
+
+    def test_resolve_buffs_applies_30_percent_defense_boost(self):
+        g = self.construct_helen_attacker(FortificationLevel.SEGMENT00)
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.FREEZE})
+
+        HelenDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        assert g.multiplicative_modifiers.basic_attributes[
+            StatType.DEFENSE
+        ] == pytest.approx(30)
+
+    def test_resolve_buffs_applies_30_percent_health_boost(self):
+        g = self.construct_helen_attacker(FortificationLevel.SEGMENT00)
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.FREEZE})
+
+        HelenDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        assert g.multiplicative_modifiers.basic_attributes[
+            StatType.HEALTH
+        ] == pytest.approx(30)
+
+    def test_resolve_buffs_v0_adds_attack_from_defense_at_15_percent(self):
+        # effective defense = 2000 * (1 + 30/100) = 2600
+        # attack from defense = 2600 * 0.15 = 390
+        g = self.construct_helen_attacker(
+            FortificationLevel.SEGMENT00, initial_defense=2000
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.FREEZE})
+
+        HelenDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        assert g.additive_modifiers.basic_attributes[StatType.ATTACK] == pytest.approx(
+            390
+        )
+
+    def test_resolve_buffs_v1_adds_attack_from_defense_at_15_percent(self):
+        # Same rate as V0
+        g = self.construct_helen_attacker(
+            FortificationLevel.SEGMENT01, initial_defense=2000
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.FREEZE})
+
+        HelenDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        assert g.additive_modifiers.basic_attributes[StatType.ATTACK] == pytest.approx(
+            390
+        )
+
+    def test_resolve_buffs_v2_adds_attack_from_defense_at_30_percent(self):
+        # effective defense = 2000 * 1.3 = 2600
+        # attack from defense = 2600 * 0.30 = 780
+        g = self.construct_helen_attacker(
+            FortificationLevel.SEGMENT02, initial_defense=2000
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.FREEZE})
+
+        HelenDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        assert g.additive_modifiers.basic_attributes[StatType.ATTACK] == pytest.approx(
+            780
+        )
+
+    def test_resolve_buffs_v5_adds_attack_from_defense_at_30_percent(self):
+        # Same rate as V2
+        g = self.construct_helen_attacker(
+            FortificationLevel.SEGMENT05, initial_defense=2000
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.FREEZE})
+
+        HelenDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        assert g.additive_modifiers.basic_attributes[StatType.ATTACK] == pytest.approx(
+            780
+        )
+
+    def test_resolve_buffs_v6_adds_attack_from_defense_at_70_percent(self):
+        # effective defense = 2000 * 1.3 = 2600
+        # attack from defense = 2600 * 0.70 = 1820
+        g = self.construct_helen_attacker(
+            FortificationLevel.SEGMENT06, initial_defense=2000
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.FREEZE})
+
+        HelenDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        assert g.additive_modifiers.basic_attributes[StatType.ATTACK] == pytest.approx(
+            1820
+        )
+
+    def test_resolve_buffs_conversion_includes_30_percent_defense_buff(self):
+        """Defense conversion is calculated after applying the 30% defense boost."""
+        # initial_defense=1000: effective = 1000 * 1.3 = 1300, V6 conversion = 1300 * 0.70 = 910
+        g = self.construct_helen_attacker(
+            FortificationLevel.SEGMENT06, initial_defense=1000
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.FREEZE})
+
+        HelenDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        assert g.additive_modifiers.basic_attributes[StatType.ATTACK] == pytest.approx(
+            910
+        )
+
+    def test_resolve_buffs_ignores_non_doll_attacker(self):
+        g = TestDamageCalculationStrategy.construct_attacker()
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.FREEZE})
+
+        HelenDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        assert g.multiplicative_modifiers.basic_attributes[
+            StatType.DEFENSE
+        ] == pytest.approx(0)
+        assert g.multiplicative_modifiers.basic_attributes[
+            StatType.HEALTH
+        ] == pytest.approx(0)
+        assert g.additive_modifiers.basic_attributes[StatType.ATTACK] == pytest.approx(
+            0
+        )
+
+    def test_calculate_damage_v0_effective_attack_includes_defense_conversion(self):
+        """Full calculate_damage: effective attack must reflect 15% of (defense * 1.3)."""
+        import copy
+
+        g = self.construct_helen_attacker(
+            FortificationLevel.SEGMENT00,
+            initial_attack=3000,
+            initial_defense=2000,
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.FREEZE})
+
+        summary = HelenDamageCalculationStrategy().calculate_damage(
+            attacker=copy.deepcopy(g),
+            target=copy.deepcopy(t),
+            damage_instance=di,
+        )
+
+        # effective attack = initial_attack + attack_from_defense = 3000 + 390 = 3390
+        assert summary.effective_attack == pytest.approx(3390)
+
+    def test_calculate_damage_v6_effective_attack_includes_defense_conversion(self):
+        """Full calculate_damage V6: effective attack must reflect 70% of (defense * 1.3)."""
+        import copy
+
+        g = self.construct_helen_attacker(
+            FortificationLevel.SEGMENT06,
+            initial_attack=3000,
+            initial_defense=2000,
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.FREEZE})
+
+        summary = HelenDamageCalculationStrategy().calculate_damage(
+            attacker=copy.deepcopy(g),
+            target=copy.deepcopy(t),
+            damage_instance=di,
+        )
+
+        # effective attack = 3000 + 1820 = 4820
+        assert summary.effective_attack == pytest.approx(4820)

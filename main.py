@@ -7,6 +7,7 @@ from gui.doll_calculator.dolls import (
     Dushevnaya,
     Faye,
     Belka,
+    Helen,
     Jiangyu,
     Klukai,
     Robella,
@@ -38,6 +39,7 @@ DOLL_PAGES: list[tuple[str, str, Callable[[], object]]] = [
     ("Daiyan", "/daiyan", Daiyan),
     ("Dushevnaya", "/dushevnaya", Dushevnaya),
     ("Faye", "/faye", Faye),
+    ("Helen", "/helen", Helen),
     ("Jiangyu", "/jiangyu", Jiangyu),
     ("Lainie", "/lainie", Lainie),
     ("Leva", "/leva", Leva),
@@ -180,6 +182,12 @@ each stat and observing the resulting change in expected damage.
             ui.separator()
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
+                    ui.timeline_entry(
+                        "Implemented Helen (preview).",
+                        title="",
+                        subtitle="April 15, 2026",
+                        icon="person_add",
+                    )
                     ui.timeline_entry(
                         "Implemented Dushevnaya.",
                         title="",
