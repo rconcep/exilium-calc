@@ -18,6 +18,7 @@ from .lewis import Lewis
 from .lind import Lind
 from .lenna import Lenna
 from .makiatto import Makiatto
+from .mechty import Mechty
 from .mosin_nagant import MosinNagant
 from .nikketa import Nikketa
 from .phaetusa import Phaetusa
@@ -48,6 +49,7 @@ __all__ = [
     "Lenna",
     "Lind",
     "Makiatto",
+    "Mechty",
     "MosinNagant",
     "Nikketa",
     "Phaetusa",

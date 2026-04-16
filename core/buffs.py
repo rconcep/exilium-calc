@@ -1192,6 +1192,145 @@ class Candyglaze(Buff):
         self.tag = DamageTag.CORROSION
 
 
+class PatchMode(Buff):
+    """Mechty buff"""
+
+    display_name = "Patch Mode (Mechty)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self, mechty_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        mechty_fortification_level -- the Fortification Level of the Mechty granting this buff
+        """
+        ret: list[Buff] = []
+
+        if mechty_fortification_level >= FortificationLevel.SEGMENT06:
+            # Corrosion damage dealt by all allied units is increased by 25%
+            ret.append(
+                Buff(
+                    value=25,
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=SpecialAttribute.DAMAGE_BOOST,
+                    tag=DamageTag.CORROSION,
+                )
+            )
+
+            # Basic attacks deal 50% more damage
+            ret.append(
+                Buff(
+                    value=50,
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=SpecialAttribute.DAMAGE_BOOST,
+                    tag=DamageTag.BASIC,
+                )
+            )
+
+            # Basic attack critical damage is increased by 80%
+            ret.append(
+                Buff(
+                    value=80,
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=SpecialAttribute.CRITICAL_DAMAGE,
+                    tag=DamageTag.BASIC,
+                )
+            )
+        elif mechty_fortification_level >= FortificationLevel.SEGMENT02:
+            # Basic attacks deal 50% more damage
+            ret.append(
+                Buff(
+                    value=50,
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=SpecialAttribute.DAMAGE_BOOST,
+                    tag=DamageTag.BASIC,
+                )
+            )
+
+        return ret
+
+
+class TurboMode(Buff):
+    """Mechty buff"""
+
+    display_name = "Turbo Mode (Mechty)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self, mechty_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        mechty_fortification_level -- the Fortification Level of the Mechty granting this buff
+        """
+        ret: list[Buff] = []
+
+        # Attack and Defense are increased by 30%
+        ret.append(
+            Buff(
+                value=30,
+                modifier_type=ModifierType.MULTIPLICATIVE,
+                stat_type=StatType.ATTACK,
+                tag=DamageTag.ALL,
+            )
+        )
+
+        ret.append(
+            Buff(
+                value=30,
+                modifier_type=ModifierType.MULTIPLICATIVE,
+                stat_type=StatType.DEFENSE,
+                tag=DamageTag.ALL,
+            )
+        )
+
+        if mechty_fortification_level >= FortificationLevel.SEGMENT05:
+            # Critical rate is increased by 30%
+            ret.append(
+                Buff(
+                    value=30,
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=StatType.CRIT_RATE,
+                    tag=DamageTag.ALL,
+                )
+            )
+        elif mechty_fortification_level >= FortificationLevel.SEGMENT01:
+            # Critical rate of basic attacks is increased by 30%
+            ret.append(
+                Buff(
+                    value=30,
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=StatType.CRIT_RATE,
+                    tag=DamageTag.BASIC,
+                )
+            )
+
+        return ret
+
+
+class SleepAidKit(Buff):
+    """Mechty buff."""
+
+    display_name = "Sleep Aid Kit (Mechty)"
+    max_stack_count = 3
+    stack_input_type = "select"
+
+    def __init__(self, mechty_fortification_level: FortificationLevel, stacks: int):
+        if mechty_fortification_level >= FortificationLevel.SEGMENT02:
+            max_stacks: int = 3
+        else:
+            max_stacks: int = 2
+
+        damage_boost_per_stack: int = 10
+        self.value = damage_boost_per_stack * min(stacks, max_stacks)
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.ALL
+
+
 class DreamGuardian(Buff):
     """Buff from Mechty. AoE damage dealt by Support Attacks is increased by 30%."""
 
@@ -1254,6 +1393,22 @@ class NightmareForm(Buff):
         )
 
         return ret
+
+
+class DreamscapeExhilaration(Buff):
+    """Buff from Mechty in Sleepwalking state."""
+
+    display_name = "Dreamscape Exhilaration (Mechty)"
+    max_stack_count = 6
+    stack_input_type = "select"
+
+    def __init__(self, stacks: int):
+        damage_boost_per_stack: int = 5
+
+        self.value = damage_boost_per_stack * min(stacks, self.max_stack_count)
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.CORROSION
 
 
 class ReturnForm(Buff):
