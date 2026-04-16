@@ -20,6 +20,7 @@ from .lenna import Lenna
 from .makiatto import Makiatto
 from .mosin_nagant import MosinNagant
 from .nikketa import Nikketa
+from .phaetusa import Phaetusa
 from .qiuhua import Qiuhua
 from .qiongjiu import Qiongjiu
 from .robella import Robella
@@ -49,6 +50,7 @@ __all__ = [
     "Makiatto",
     "MosinNagant",
     "Nikketa",
+    "Phaetusa",
     "Qiuhua",
     "Qiongjiu",
     "Robella",

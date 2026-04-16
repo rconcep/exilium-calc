@@ -1192,6 +1192,110 @@ class Candyglaze(Buff):
         self.tag = DamageTag.CORROSION
 
 
+class DreamGuardian(Buff):
+    """Buff from Mechty. AoE damage dealt by Support Attacks is increased by 30%."""
+
+    display_name = "Dream Guardian"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        self.value = 30
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = (
+            DamageTag.SUPPORT_ACTION
+        )  # This assumes the user will only apply this buff to Dolls that deal damage with AOE Support Actions.
+
+
+class NightmareForm(Buff):
+    """Buff from Mechty. AoE damage dealt is increased and AoE damage dealt by Support Attacks is also increased.  Additionally
+    changes the damage type of AoE Support Attacks to Corrosion.
+    """
+
+    display_name = "Nightmare Form"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self, mechty_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        mechty_fortification_level -- the Fortification Level of the Mechty granting this buff
+        """
+        aoe_damage_boost: int = 10
+        aoe_support_damage_boost: int = 50
+
+        if mechty_fortification_level >= FortificationLevel.SEGMENT06:
+            aoe_damage_boost: int = 20
+            aoe_support_damage_boost: int = 80
+
+        ret: list[Buff] = []
+
+        self.value = aoe_damage_boost
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.AREA_OF_EFFECT
+
+        ret.append(
+            self,
+        )
+
+        # This assumes the user will only apply this buff to Dolls that deal damage with AoE Support Actions,
+        # and that the change of damage type to Corrosion is handled elsewhere in the code.
+        ret.append(
+            Buff(
+                value=aoe_support_damage_boost,
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=SpecialAttribute.DAMAGE_BOOST,
+                tag=DamageTag.SUPPORT_ACTION,
+            )
+        )
+
+        return ret
+
+
+class ReturnForm(Buff):
+    """Effect of V3+ Phaetusa after using Return Form (increase attack by 50% for 1 round)."""
+
+    display_name = "Return Form (Phaetusa)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, phaetusa_fortification_level: FortificationLevel):
+        if phaetusa_fortification_level >= FortificationLevel.SEGMENT03:
+            self.value = 50
+        else:
+            self.value = 0
+
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.ATTACK
+        self.tag = DamageTag.ALL
+
+
+class ReplicationTrap(Buff):
+    """Permanent effect of V1+ Phaetusa - gain 15% critical damage for every 2 uses of Replication Trap."""
+
+    display_name = "Replication Trap (Phaetusa)"
+    max_stack_count = 6
+    stack_input_type = "input"
+
+    def __init__(
+        self,
+        uses_of_replication_trap: int,
+        phaetusa_fortification_level: FortificationLevel,
+    ):
+        critical_damage_per_two_uses: int = 0
+        if phaetusa_fortification_level >= FortificationLevel.SEGMENT03:
+            critical_damage_per_two_uses = 15
+
+        self.value = critical_damage_per_two_uses * (uses_of_replication_trap // 2)
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.CRITICAL_DAMAGE
+        self.tag = DamageTag.ALL
+
+
 class SupportBoostI(Buff):
     """Increases damage dealt with Support Action by 15%. Damage against exposed units is increased by 10%."""
 
@@ -1913,6 +2017,34 @@ class CorrosiveInfusion(Debuff):
         self.modifier_type = ModifierType.MULTIPLICATIVE
         self.stat_type = StatType.DEFENSE
         self.tag = DamageTag.ALL
+
+
+class ToxinInundation(Debuff):
+    """Corrosion damage taken is increased by 25%. Considered a Corrosion defense debuff."""
+
+    display_name = "Toxin Inundation"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        self.value = 25
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.CORROSION
+
+
+class AcidCorrosionII(Debuff):
+    """Reduces defense by 30%. Considered a Corrosion defense debuff."""
+
+    display_name = "Acid Corrosion II"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        self.value = -30
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.DEFENSE
+        self.tag = DamageTag.CORROSION
 
 
 def _generate_field(param_name, annotation, default, cls):
