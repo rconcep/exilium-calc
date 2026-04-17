@@ -14,12 +14,12 @@ from core.buffs import Buff
 from core.combat import DamageInstance, CombatAction, HelenDamageCalculationStrategy
 
 
-class Condensation(CombatAction):
+class Guardian(CombatAction):
     """Helen Basic Attack."""
 
     @override
-    def execute(self, stacks_sharpened_edge: int) -> DamageInstance:
-        label: str = f"Condensation ({stacks_sharpened_edge} Sharpened Edge)"
+    def execute(self, stacks_icy_edge: int) -> DamageInstance:
+        label: str = f"Guardian ({stacks_icy_edge} Icy Edge)"
         base_potency: int = 80
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -30,21 +30,20 @@ class Condensation(CombatAction):
             DamageTag.PHASE,
         }
 
-        critical_rate_increase_per_stack_sharpened_edge: int = 10
-        freeze_damage_increase_per_stack_sharpened_edge: int = 10
+        critical_rate_increase_per_stack_icy_edge: int = 10
+        freeze_damage_increase_per_stack_icy_edge: int = 10
 
         buffs_before: list[Buff] = []
 
-        if stacks_sharpened_edge > 0:
+        if stacks_icy_edge > 0:
             # Passive: Fearless Valkyrie
-            # While Helen has [Sharpened Edge], the damage multiplier of her basic attack is increased to 180%.
+            # While Helen has [Icy Edge], the damage multiplier of her basic attack is increased to 180%.
             base_potency = 180
 
-            # For every 1 stack of [Sharpened Edge], increases own critical rate and Freeze damage dealt by basic attack by 10%.
+            # For every 1 stack of [Icy Edge], increases own critical rate and Freeze damage dealt by basic attack by 10%.
             buffs_before.append(
                 Buff(
-                    value=stacks_sharpened_edge
-                    * critical_rate_increase_per_stack_sharpened_edge,
+                    value=stacks_icy_edge * critical_rate_increase_per_stack_icy_edge,
                     modifier_type=ModifierType.ADDITIVE,
                     stat_type=StatType.CRIT_RATE,
                     tag=DamageTag.BASIC,
@@ -53,8 +52,7 @@ class Condensation(CombatAction):
 
             buffs_before.append(
                 Buff(
-                    value=stacks_sharpened_edge
-                    * freeze_damage_increase_per_stack_sharpened_edge,
+                    value=stacks_icy_edge * freeze_damage_increase_per_stack_icy_edge,
                     modifier_type=ModifierType.ADDITIVE,
                     stat_type=SpecialAttribute.DAMAGE_BOOST,
                     tag=DamageTag.BASIC,
@@ -65,18 +63,18 @@ class Condensation(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Condensation",
+            group_name="Guardian",
             buffs_before=buffs_before,
             damage_calculation_strategy=HelenDamageCalculationStrategy(),
         )
 
 
-class CondensationV6(CombatAction):
+class GuardianV6(CombatAction):
     """Helen Basic Attack (V6)."""
 
     @override
-    def execute(self, stacks_sharpened_edge: int) -> DamageInstance:
-        label: str = f"Condensation ({stacks_sharpened_edge} Sharpened Edge)"
+    def execute(self, stacks_icy_edge: int) -> DamageInstance:
+        label: str = f"Guardian ({stacks_icy_edge} Icy Edge)"
         base_potency: int = 80
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -87,21 +85,20 @@ class CondensationV6(CombatAction):
             DamageTag.PHASE,
         }
 
-        critical_rate_increase_per_stack_sharpened_edge: int = 10
-        freeze_damage_increase_per_stack_sharpened_edge: int = 10
+        critical_rate_increase_per_stack_icy_edge: int = 10
+        freeze_damage_increase_per_stack_icy_edge: int = 10
 
         buffs_before: list[Buff] = []
 
-        if stacks_sharpened_edge > 0:
+        if stacks_icy_edge > 0:
             # Passive: Fearless Valkyrie
-            # While Helen has [Sharpened Edge], the damage multiplier of her basic attack is increased to 300%.
+            # While Helen has [Icy Edge], the damage multiplier of her basic attack is increased to 300%.
             base_potency = 300
 
-            # For every 1 stack of [Sharpened Edge], increases own critical rate and Freeze damage dealt by basic attack by 10%.
+            # For every 1 stack of [Icy Edge], increases own critical rate and Freeze damage dealt by basic attack by 10%.
             buffs_before.append(
                 Buff(
-                    value=stacks_sharpened_edge
-                    * critical_rate_increase_per_stack_sharpened_edge,
+                    value=stacks_icy_edge * critical_rate_increase_per_stack_icy_edge,
                     modifier_type=ModifierType.ADDITIVE,
                     stat_type=StatType.CRIT_RATE,
                     tag=DamageTag.BASIC,
@@ -110,8 +107,7 @@ class CondensationV6(CombatAction):
 
             buffs_before.append(
                 Buff(
-                    value=stacks_sharpened_edge
-                    * freeze_damage_increase_per_stack_sharpened_edge,
+                    value=stacks_icy_edge * freeze_damage_increase_per_stack_icy_edge,
                     modifier_type=ModifierType.ADDITIVE,
                     stat_type=SpecialAttribute.DAMAGE_BOOST,
                     tag=DamageTag.BASIC,
@@ -122,7 +118,7 @@ class CondensationV6(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Condensation",
+            group_name="Guardian",
             buffs_before=buffs_before,
             damage_calculation_strategy=HelenDamageCalculationStrategy(),
         )
@@ -154,17 +150,17 @@ class Helen(Doll):
         ]
     )
 
-    condensation: CombatAction = Field(default_factory=Condensation)
+    guardian: CombatAction = Field(default_factory=Guardian)
 
     def set_to_v0(self) -> None:
         """Sets Fortification Level to Segment00."""
-        self.condensation = Condensation()
+        self.guardian = Guardian()
 
     def set_to_v6(self) -> None:
         """Sets Fortification Level to Segment06."""
         self.set_to_v0()
 
-        self.condensation = CondensationV6()
+        self.guardian = GuardianV6()
 
     @override
     def set_fortification_level(self, level: FortificationLevel):

@@ -8,13 +8,13 @@ from core.dolls import helen
 
 
 sample_rotation: dict[int, list[dict]] = {
-    1: [{"name": "Condensation", "stacks_sharpened_edge": 20}],
-    2: [{"name": "Condensation", "stacks_sharpened_edge": 20}],
-    3: [{"name": "Condensation", "stacks_sharpened_edge": 20}],
-    4: [{"name": "Condensation", "stacks_sharpened_edge": 20}],
-    5: [{"name": "Condensation", "stacks_sharpened_edge": 20}],
-    6: [{"name": "Condensation", "stacks_sharpened_edge": 20}],
-    7: [{"name": "Condensation", "stacks_sharpened_edge": 20}],
+    1: [{"name": "Guardian", "stacks_icy_edge": 20}],
+    2: [{"name": "Guardian", "stacks_icy_edge": 20}],
+    3: [{"name": "Guardian", "stacks_icy_edge": 20}],
+    4: [{"name": "Guardian", "stacks_icy_edge": 20}],
+    5: [{"name": "Guardian", "stacks_icy_edge": 20}],
+    6: [{"name": "Guardian", "stacks_icy_edge": 20}],
+    7: [{"name": "Guardian", "stacks_icy_edge": 20}],
 }
 
 
@@ -36,16 +36,16 @@ class Helen(DollCalculatorPage):
     def update_doll_abilities(self) -> None:
         doll = cast(helen.Helen, self.doll)
         self.option_config: dict[str, dict[str, Any]] = {
-            "Condensation": {
+            "Guardian": {
                 "fields": [
                     {
-                        "key": "stacks_sharpened_edge",
+                        "key": "stacks_icy_edge",
                         "type": "number",
-                        "label": "Sharpened Edge stacks",
+                        "label": "Icy Edge stacks",
                         "default": 20,
                     },
                 ],
-                "function": doll.condensation.execute,
+                "function": doll.guardian.execute,
             },
         }
 

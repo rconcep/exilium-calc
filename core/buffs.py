@@ -480,10 +480,10 @@ class Rapture(Buff):
         self.tag = DamageTag.ALL
 
 
-class DivineProtection(Buff):
+class Succor(Buff):
     """Helen buff."""
 
-    display_name = "Divine Protection"
+    display_name = "Succor"
     max_stack_count = 1
     stack_input_type = "select"
 
