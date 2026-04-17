@@ -1103,7 +1103,7 @@ class Clue(Buff):
         """
         Arguments:
         stacks -- the number of stacks
-        alva_fortification_level -- the Fortification Level of the Alva applying this debuff
+        nikketa_fortification_level -- the Fortification Level of the Nikketa applying this debuff
         """
         if nikketa_fortification_level >= FortificationLevel.SEGMENT03:
             max_stacks = 10
@@ -1148,6 +1148,51 @@ class Justice(Buff):
         )
 
         return ret
+
+
+class CoordinatedCombat(Buff):
+    """Pegasus buff. At V4+, increases critical damage of both Liushih and Pegasus."""
+
+    display_name = "Coordinated Combat (Liushih)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, liushih_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        liushih_fortification_level -- the Fortification Level of the Liushih granting this buff
+        """
+        if liushih_fortification_level >= FortificationLevel.SEGMENT04:
+            self.value = 30
+        else:
+            self.value = 0
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.CRITICAL_DAMAGE
+        self.tag = DamageTag.ALL
+
+
+class Sharpness(Buff):
+    """Buff from Liushih (V5+). Damage dealt is increased by 5%."""
+
+    display_name = "Sharpness"
+    max_stack_count = 10
+    stack_input_type = "select"
+
+    def __init__(self, stacks: int, liushih_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        stacks -- the number of stacks
+        liushih_fortification_level -- the Fortification Level of the Liushih applying this debuff
+        """
+        damage_boost_per_stack: int = 0
+        if liushih_fortification_level >= FortificationLevel.SEGMENT05:
+            damage_boost_per_stack = 5
+
+        self.value = damage_boost_per_stack * stacks
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.ALL
 
 
 class CompetitiveSpirit(Buff):
@@ -2082,6 +2127,19 @@ class Guilt(Debuff):
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
         self.tag = DamageTag.HYDRO
+
+
+class Lockdown(Debuff):
+    """Liushih debuff. When damaged by Liushih or enemy Physical Summon, defense is reduced by 30%."""
+
+    display_name = "Lockdown (Liushih)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        self.value = -30
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.DEFENSE
 
 
 class VulnerableI(Debuff):

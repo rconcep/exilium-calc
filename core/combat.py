@@ -1369,3 +1369,189 @@ class HelenDamageCalculationStrategy(StandardDamageCalculationStrategy):
             attacker.additive_modifiers.basic_attributes[
                 StatType.ATTACK
             ] += attack_from_defense_conversion
+
+
+class LiushihDamageCalculationStrategy(DamageCalculationStrategy):
+    """Damage calculation strategy for Lainie, implementing her passive."""
+
+    @final
+    @override
+    def calculate_base_damage(
+        self, attacker: Unit, target: Unit, damage_instance: DamageInstance
+    ) -> tuple[float, float, float, float]:
+        loaded_attack_health_ratio: float = 0.20
+        return HealthScalingDamageCalculationStrategy(
+            loaded_attack_health_ratio
+        ).calculate_base_damage(
+            attacker=attacker,
+            target=target,
+            damage_instance=damage_instance,
+        )
+
+    @override
+    def calculate_adjusted_potency(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+    ) -> float:
+        """
+        Returns the adjusted potency for damage_instance, accounting for attacker and target.
+        For fixed damage, returns base potency without damage boost modifiers.
+
+        Arguments:
+        attacker -- the attacking Unit
+        target -- the target of the attack
+        damage_instance -- describes the action
+        buffs_before -- Buffs to apply to attacker before the action
+        debuffs_before -- Debuffs to apply to target before the action
+        """
+        is_fixed_damage: bool = DamageTag.FIXED in damage_instance.tags
+
+        if is_fixed_damage:
+            # Fixed damage does not benefit from damage boost modifiers
+            adjusted_potency: float = damage_instance.base_potency
+        elif DamageTag.BASIC in damage_instance.tags:
+            # Liushih Passive - We Fight As One:
+            # For every 60 points of Liushih's initial attack, increase the basic attack damage multiplier of both herself
+            # and Pegasus by 5%, up to a maximum of 50%.
+
+            # Modify the base potency directly
+            maximum_bonus_from_passive: float = 50
+            attack_per_5_percent_bonus: float = 60
+            bonus_potency_from_passive: float = min(
+                (
+                    attacker.initial_stats.basic_attributes[StatType.ATTACK]
+                    // attack_per_5_percent_bonus
+                )
+                * 5,
+                maximum_bonus_from_passive,
+            )
+
+            damage_instance.base_potency += bonus_potency_from_passive
+
+        adjusted_potency: float = damage_instance.base_potency * (
+            1
+            + attacker.get_effective_special_attribute(
+                SpecialAttribute.DAMAGE_BOOST
+            ).get_total_multiplier(damage_instance.tags)
+            / 100
+        )
+
+        damage_instance.adjusted_potency = adjusted_potency
+
+        return adjusted_potency
+
+
+class PegasusDamageCalculationStrategy(DamageCalculationStrategy):
+    """Implements the base damage for Liushih's Pegasus."""
+
+    @final
+    def _require_pegasus_summon(self, attacker: Unit) -> SummonedUnit:
+        owner: SummonOwningAttacker = _require_summon_owning_attacker(attacker)
+        summon: SummonedUnit | None = owner.get_summoned_unit("Pegasus")
+        if summon is None:
+            raise ValueError("Pegasus summon is required for this strategy")
+
+        return summon
+
+    @final
+    @override
+    def get_effective_attacker(self, attacker: Unit) -> Unit:
+        return self._require_pegasus_summon(attacker)
+
+    @final
+    @override
+    def resolve_buffs(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> None:
+        summon: SummonedUnit = self._require_pegasus_summon(attacker)
+        return super().resolve_buffs(
+            summon, target, damage_instance, buffs_before, debuffs_before
+        )
+
+    @final
+    @override
+    def calculate_base_damage(
+        self, attacker: Unit, target: Unit, damage_instance: DamageInstance
+    ) -> tuple[float, float, float, float]:
+        """Returns the term in the damage formula that is a function of attacker attack
+        and target defense. In addition, returns the effective attack, effective defense,
+        and any defense reduced/ignored beyond 0.
+
+        Arguments:
+        attacker -- the attacking Unit
+        target -- the target of the attack
+        damage_instance -- describes the action
+        """
+        summon: SummonedUnit = self._require_pegasus_summon(attacker)
+
+        loaded_attack_health_ratio: float = 0.20
+        return HealthScalingDamageCalculationStrategy(
+            loaded_attack_health_ratio
+        ).calculate_base_damage(
+            attacker=summon,
+            target=target,
+            damage_instance=damage_instance,
+        )
+
+    @override
+    def calculate_adjusted_potency(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+    ) -> float:
+        """
+        Returns the adjusted potency for damage_instance, accounting for attacker and target.
+        For fixed damage, returns base potency without damage boost modifiers.
+
+        Arguments:
+        attacker -- the attacking Unit
+        target -- the target of the attack
+        damage_instance -- describes the action
+        buffs_before -- Buffs to apply to attacker before the action
+        debuffs_before -- Debuffs to apply to target before the action
+        """
+        summon: SummonedUnit = self._require_pegasus_summon(attacker)
+
+        is_fixed_damage: bool = DamageTag.FIXED in damage_instance.tags
+
+        if is_fixed_damage:
+            # Fixed damage does not benefit from damage boost modifiers
+            adjusted_potency: float = damage_instance.base_potency
+        elif DamageTag.BASIC in damage_instance.tags:
+            # Liushih Passive - We Fight As One:
+            # For every 60 points of Liushih's initial attack, increase the basic attack damage multiplier of both herself
+            # and Pegasus by 5%, up to a maximum of 50%.
+
+            # Modify the base potency directly
+            maximum_bonus_from_passive: float = 50
+            attack_per_5_percent_bonus: float = 60
+            bonus_potency_from_passive: float = min(
+                (
+                    summon.initial_stats.basic_attributes[StatType.ATTACK]
+                    // attack_per_5_percent_bonus
+                )
+                * 5,
+                maximum_bonus_from_passive,
+            )
+
+            damage_instance.base_potency += bonus_potency_from_passive
+
+        adjusted_potency: float = damage_instance.base_potency * (
+            1
+            + summon.get_effective_special_attribute(
+                SpecialAttribute.DAMAGE_BOOST
+            ).get_total_multiplier(damage_instance.tags)
+            / 100
+        )
+
+        damage_instance.adjusted_potency = adjusted_potency
+
+        return adjusted_potency

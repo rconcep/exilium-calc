@@ -8,6 +8,7 @@ from .daiyan import Daiyan
 from .belka import Belka
 from .helen import Helen
 from .lainie import Lainie
+from .liushih import Liushih
 from .alva import Alva
 from .faye import Faye
 from .dushevnaya import Dushevnaya
@@ -44,6 +45,7 @@ __all__ = [
     "Jiangyu",
     "Klukai",
     "Lainie",
+    "Liushih",
     "Leva",
     "Lewis",
     "Lenna",
