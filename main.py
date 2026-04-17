@@ -189,6 +189,12 @@ each stat and observing the resulting change in expected damage.
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
                     ui.timeline_entry(
+                        "Implemented Liushih (preview) and updated Helen's actions and buffs to GL translations.",
+                        title="",
+                        subtitle="April 17, 2026",
+                        icon="person_add",
+                    )
+                    ui.timeline_entry(
                         "Implemented Phaetusa (preview) and Mechty.",
                         title="",
                         subtitle="April 16, 2026",
