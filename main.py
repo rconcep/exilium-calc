@@ -7,6 +7,7 @@ from gui.doll_calculator.dolls import (
     Dushevnaya,
     Faye,
     Belka,
+    Cheyanne,
     Helen,
     Jiangyu,
     Klukai,
@@ -39,6 +40,7 @@ from gui.styles.theme import apply_exilium_theme
 DOLL_PAGES: list[tuple[str, str, Callable[[], object]]] = [
     ("Alva", "/alva", Alva),
     ("Belka", "/belka", Belka),
+    ("Cheyanne", "/cheyanne", Cheyanne),
     ("Daiyan", "/daiyan", Daiyan),
     ("Dushevnaya", "/dushevnaya", Dushevnaya),
     ("Faye", "/faye", Faye),

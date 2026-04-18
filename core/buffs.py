@@ -785,6 +785,55 @@ class PreshowWarmup(Buff):
         self.tag = DamageTag.PHYSICAL
 
 
+class SepalOfShyness(Buff):
+    """Cheyanne buff."""
+
+    display_name = "Sepal of Shyness (Cheyanne)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self):
+        # Increase attack by 50% and critical rate by 20%.
+        self.value = 50
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.ATTACK
+        self.tag = DamageTag.ALL
+
+        ret: list[Buff] = []
+        ret.append(self)
+
+        ret.append(Buff(20, ModifierType.ADDITIVE, StatType.CRIT_RATE, DamageTag.ALL))
+
+        return ret
+
+
+class SenseOfSecurity(Buff):
+    """Buff granted to Cheyanne (V4+) for each turn Sepal of Shyness is active, stacking up to 3 times."""
+
+    display_name = "Sense of Security (Cheyanne)"
+    max_stack_count = 3
+    stack_input_type = "select"
+
+    def __init__(self, stacks: int, cheyanne_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        stacks -- the number of stacks of this buff, up to 3
+        cheyanne_fortification_level -- the Fortification Level of Cheyanne granting this buff
+        """
+        attack_boost_per_stack: int = 0
+        if cheyanne_fortification_level >= FortificationLevel.SEGMENT05:
+            attack_boost_per_stack = 20
+
+        self.value = attack_boost_per_stack * min(
+            SenseOfSecurity.max_stack_count, stacks
+        )
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.ATTACK
+        self.tag = DamageTag.ALL
+
+
 class UnshakableConfidence(Buff):
     """Buff granted to Mosin-Nagant after support actions."""
 
@@ -1853,6 +1902,28 @@ class PrecognitionAwareness(Debuff):
             self.value = -20
         else:
             self.value = -10
+
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.DEFENSE
+        self.tag = DamageTag.PHYSICAL
+
+
+class Bullseye(Debuff):
+    """Debuff applied by Cheyanne's S2. When attacked by Cheyanne, defense is decreased."""
+
+    display_name = "Bullseye (Cheyanne)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, cheyanne_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        cheyanne_fortification_level -- the Fortification Level of the Cheyanne applying this debuff
+        """
+        if cheyanne_fortification_level >= FortificationLevel.SEGMENT03:
+            self.value = -100
+        else:
+            self.value = -50
 
         self.modifier_type = ModifierType.MULTIPLICATIVE
         self.stat_type = StatType.DEFENSE
