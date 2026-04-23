@@ -1555,3 +1555,70 @@ class PegasusDamageCalculationStrategy(DamageCalculationStrategy):
         damage_instance.adjusted_potency = adjusted_potency
 
         return adjusted_potency
+
+
+class LoreleyDamageCalculationStrategy(StandardDamageCalculationStrategy):
+    """Damage calculation strategy for Loreley, implementing her passive effects."""
+
+    @override
+    def resolve_buffs(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> None:
+        """Apply effect of Loreley's abilities."""
+        super().resolve_buffs(
+            attacker, target, damage_instance, buffs_before, debuffs_before
+        )
+
+        # Only expecting to run this for Loreley
+        if _is_doll_attacker(attacker):
+            # Passive - Queen's Gift
+            # All allied dolls wielding a rifle deals 10% increased damage
+            attacker.additive_modifiers.special_attributes[
+                SpecialAttribute.DAMAGE_BOOST
+            ].add_to_multiplier(DamageTag.ALL, 10)
+
+            # V3: Phosphor Pulse: for each Phosphor Pulse triggered, Loreley's damage is increased by 10%,
+            # up to a maximum of 60% and critical damage is increased by 2%, up to a maximum of 12%. Assume max 6 Phosphor Pulse triggers for max bonus.
+            if attacker.fortification_level >= FortificationLevel.SEGMENT03:
+                phosphor_pulse_triggers: int = 6
+                damage_boost_per_trigger: int = 10
+                crit_dmg_boost_per_trigger: int = 2
+                maximum_damage_boost_from_passive: int = 60
+                maximum_crit_dmg_boost_from_passive: int = 12
+
+                attacker.additive_modifiers.special_attributes[
+                    SpecialAttribute.DAMAGE_BOOST
+                ].add_to_multiplier(
+                    DamageTag.ALL,
+                    min(
+                        phosphor_pulse_triggers * damage_boost_per_trigger,
+                        maximum_damage_boost_from_passive,
+                    ),
+                )
+
+                attacker.additive_modifiers.special_attributes[
+                    SpecialAttribute.CRITICAL_DAMAGE
+                ].add_to_multiplier(
+                    DamageTag.ALL,
+                    min(
+                        phosphor_pulse_triggers * crit_dmg_boost_per_trigger,
+                        maximum_crit_dmg_boost_from_passive,
+                    ),
+                )
+
+            # V6: For each Burn type doll present, increase attack of self by 6%, up to a maximum of 30%. Assume max 5 Burn type dolls for max bonus.
+            if attacker.fortification_level >= FortificationLevel.SEGMENT06:
+                burn_type_dolls_present: int = 5
+                attack_boost_per_burn_type_doll: float = 6
+                maximum_attack_boost_from_passive: float = 30
+                attacker.multiplicative_modifiers.basic_attributes[
+                    StatType.ATTACK
+                ] += min(
+                    burn_type_dolls_present * attack_boost_per_burn_type_doll,
+                    maximum_attack_boost_from_passive,
+                )

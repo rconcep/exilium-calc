@@ -218,6 +218,87 @@ class Embers(Buff):
         return ret
 
 
+class BlazingEmbers(Buff):
+    """Enhanced version of Embers, granted by fully charging Thermal Conduction with Loreley on the field."""
+
+    display_name = "Blazing Embers"
+    max_stack_count = 6  # Theoretically infinite, but no battle lasts long enough.
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self, loreley_fortification_level: FortificationLevel, stack: int):
+        """
+        Arguments:
+        loreley_fortification_level -- the Fortification Level of the Loreley granting this buff
+        stack -- the number of stacks of this buff, up to 6
+        """
+        ret: list[Buff] = []
+
+        if loreley_fortification_level >= FortificationLevel.SEGMENT02:
+            # Increases damage dealt by 45%.
+            self.value = 45
+            self.modifier_type = ModifierType.ADDITIVE
+            self.stat_type = SpecialAttribute.DAMAGE_BOOST
+            self.tag = DamageTag.ALL
+
+            ret.append(self)
+        else:
+            # Burn damage dealt is increased by 30%. (Baseline effect of Embers.)
+            self.value = 30
+            self.modifier_type = ModifierType.ADDITIVE
+            self.stat_type = SpecialAttribute.DAMAGE_BOOST
+            self.tag = DamageTag.BURN
+
+            ret.append(self)
+
+            # Increase damage dealt by 15%. (Additional effect from Blazing Embers)
+            ret.append(
+                Buff(
+                    value=15,
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=SpecialAttribute.DAMAGE_BOOST,
+                    tag=DamageTag.ALL,
+                )
+            )
+
+        # Critical damage is permanently increased by 5% (per stack).
+        critical_damage_increase_per_stack: int = 5
+        ret.append(
+            Buff(
+                value=critical_damage_increase_per_stack
+                * min(Embers.max_stack_count, stack),
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=SpecialAttribute.CRITICAL_DAMAGE,
+                tag=DamageTag.ALL,
+            )
+        )
+
+        return ret
+
+
+class Scorchflame(Buff):
+    """Buff from Loreley's Hunter-Type II."""
+
+    display_name = "Scorchflame (Loreley)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, loreley_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        loreley_fortification_level -- the Fortification Level of the Loreley granting this buff
+        """
+        if loreley_fortification_level >= FortificationLevel.SEGMENT06:
+            self.value = 12
+        else:
+            self.value = 6
+
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.ATTACK
+        self.tag = DamageTag.ALL
+
+
 class GlacialDomain(Buff):
     """Dushevnaya buff, granted by her Ultimate."""
 
@@ -2064,6 +2145,22 @@ class Smolder(Debuff):
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
         self.tag = DamageTag.ALL
+
+
+class HunterTypeII(Debuff):
+    """All enemy units within a 5-tile radius of Hunter-Type II take 15% increased Burn damage."""
+
+    display_name = "Hunter-Type II"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        """ """
+        self.value = 15
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.BURN
 
 
 class Hypothermia(Debuff):

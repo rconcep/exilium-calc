@@ -10,6 +10,7 @@ from .cheyanne import Cheyanne
 from .helen import Helen
 from .lainie import Lainie
 from .liushih import Liushih
+from .loreley import Loreley
 from .alva import Alva
 from .faye import Faye
 from .dushevnaya import Dushevnaya
@@ -48,6 +49,7 @@ __all__ = [
     "Klukai",
     "Lainie",
     "Liushih",
+    "Loreley",
     "Leva",
     "Lewis",
     "Lenna",

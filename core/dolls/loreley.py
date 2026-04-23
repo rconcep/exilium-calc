@@ -1,0 +1,347 @@
+from typing import override, ClassVar
+from pydantic import Field
+
+from core.types import (
+    DamageTag,
+    StatType,
+    SpecialAttribute,
+    ModifierType,
+    FortificationLevel,
+    Doll,
+    SummonedUnit,
+)
+from core.buffs import Buff, Debuff
+from core.combat import DamageInstance, CombatAction, LoreleyDamageCalculationStrategy
+
+
+class PunishmentPrelude(CombatAction):
+    """Loreley Basic Attack."""
+
+    @override
+    def execute(self) -> DamageInstance:
+        label: str = "Punishment Prelude"
+        base_potency: int = 80
+
+        tags: set[DamageTag] = {
+            DamageTag.ACTIVE,
+            DamageTag.BASIC,
+            DamageTag.HEAVY_AMMO,
+            DamageTag.TARGETED,
+            DamageTag.PHYSICAL,
+        }
+
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Punishment Prelude",
+            damage_calculation_strategy=LoreleyDamageCalculationStrategy(),
+        )
+
+
+class ScorchingBrand(CombatAction):
+    """Loreley S1."""
+
+    @override
+    def execute(
+        self, has_blazing_embers: bool, target_on_burn_tile: bool
+    ) -> DamageInstance:
+        label: str = "Scorching Brand"
+        base_potency: int = 130
+        tags: set[DamageTag] = {
+            DamageTag.ACTIVE,
+            DamageTag.BURN,
+            DamageTag.PHASE,
+            DamageTag.TARGETED,
+            DamageTag.HEAVY_AMMO,
+        }
+
+        # If user has Blazing Embers, double the damage multiplier
+        if has_blazing_embers:
+            base_potency *= 2
+
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Scorching Brand",
+            damage_calculation_strategy=LoreleyDamageCalculationStrategy(),
+        )
+
+
+class ScorchingBrandV5(CombatAction):
+    """Loreley S1 (V5)."""
+
+    @override
+    def execute(
+        self, has_blazing_embers: bool, target_on_burn_tile: bool
+    ) -> DamageInstance:
+        label: str = "Scorching Brand"
+        base_potency: int = 130
+        tags: set[DamageTag] = {
+            DamageTag.ACTIVE,
+            DamageTag.BURN,
+            DamageTag.PHASE,
+            DamageTag.TARGETED,
+            DamageTag.HEAVY_AMMO,
+        }
+        buffs_before: list[Buff] = []
+
+        # If user has Blazing Embers, double the damage multiplier
+        if has_blazing_embers:
+            base_potency *= 2
+
+        # Ignores 30% of defense
+        buffs_before.append(
+            Buff(
+                value=30,
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=SpecialAttribute.DEFENSE_IGNORE,
+                tag=DamageTag.ALL,
+            )
+        )
+
+        # If target is on a burn tile, increase damage dealt by 60%
+        if target_on_burn_tile:
+            buffs_before.append(
+                Buff(
+                    value=60,
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=SpecialAttribute.DAMAGE_BOOST,
+                    tag=DamageTag.ALL,
+                )
+            )
+
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Scorching Brand",
+            buffs_before=buffs_before,
+            damage_calculation_strategy=LoreleyDamageCalculationStrategy(),
+        )
+
+
+class CrimsonBindingDecree(CombatAction):
+    """Loreley S2."""
+
+    @override
+    def execute(
+        self,
+        has_blazing_embers: bool,
+        number_of_targets: int,
+        number_of_burn_buffs: int,
+    ) -> DamageInstance:
+        label: str = "Crimson Binding Decree"
+        base_potency: float = 120
+        tags: set[DamageTag] = {
+            DamageTag.ACTIVE,
+            DamageTag.BURN,
+            DamageTag.PHASE,
+            DamageTag.AREA_OF_EFFECT,
+        }
+
+        # If user has Blazing Embers, the damage is not split
+        if not has_blazing_embers and number_of_targets > 1:
+            base_potency = base_potency / number_of_targets
+
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Crimson Binding Decree",
+            damage_calculation_strategy=LoreleyDamageCalculationStrategy(),
+        )
+
+
+class CrimsonBindingDecreeV4(CombatAction):
+    """Loreley S2 (V4)."""
+
+    @override
+    def execute(
+        self,
+        has_blazing_embers: bool,
+        number_of_targets: int,
+        number_of_burn_buffs: int,
+    ) -> DamageInstance:
+        label: str = "Crimson Binding Decree"
+        base_potency: float = 150
+        tags: set[DamageTag] = {
+            DamageTag.ACTIVE,
+            DamageTag.BURN,
+            DamageTag.PHASE,
+            DamageTag.AREA_OF_EFFECT,
+        }
+
+        buffs_before: list[Buff] = []
+
+        # If user has Blazing Embers, the damage is not split
+        if not has_blazing_embers and number_of_targets > 1:
+            base_potency = base_potency / number_of_targets
+
+        # Every Burn buff increases damage dealt by 10%, up to a maximum of 40%
+        damage_boost_per_buff: int = 10
+        burn_buff_bonus = min(number_of_burn_buffs * damage_boost_per_buff, 40)
+        buffs_before.append(
+            Buff(
+                value=burn_buff_bonus,
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=SpecialAttribute.DAMAGE_BOOST,
+                tag=DamageTag.ALL,
+            )
+        )
+
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Crimson Binding Decree",
+            buffs_before=buffs_before,
+            damage_calculation_strategy=LoreleyDamageCalculationStrategy(),
+        )
+
+
+class AgonysGrace(CombatAction):
+    """Loreley Ultimate."""
+
+    @override
+    def execute(self) -> DamageInstance:
+        label: str = "Agony's Grace"
+        base_potency: int = 60
+        tags: set[DamageTag] = {
+            DamageTag.ACTIVE,
+            DamageTag.BURN,
+            DamageTag.PHASE,
+            DamageTag.ULTIMATE,
+            DamageTag.AREA_OF_EFFECT,
+        }
+
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Agony's Grace",
+            damage_calculation_strategy=LoreleyDamageCalculationStrategy(),
+        )
+
+
+class PhosphorPulse(CombatAction):
+    """Action from Hunter-Type II triggered by Loreley."""
+
+    @override
+    def execute(self) -> DamageInstance:
+        label: str = "Phosphor Pulse"
+        base_potency: int = 40
+        tags: set[DamageTag] = {
+            DamageTag.PASSIVE,
+            DamageTag.BURN,
+            DamageTag.PHASE,
+            DamageTag.ULTIMATE,
+            DamageTag.AREA_OF_EFFECT,
+        }
+
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Phosphor Pulse",
+            damage_calculation_strategy=LoreleyDamageCalculationStrategy(),
+        )
+
+
+class PhosphorPulseV3(CombatAction):
+    """Action from Hunter-Type II triggered by Loreley."""
+
+    @override
+    def execute(self) -> DamageInstance:
+        label: str = "Phosphor Pulse"
+        base_potency: int = 80
+        tags: set[DamageTag] = {
+            DamageTag.PASSIVE,
+            DamageTag.BURN,
+            DamageTag.PHASE,
+            DamageTag.ULTIMATE,
+            DamageTag.AREA_OF_EFFECT,
+        }
+
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Phosphor Pulse",
+            damage_calculation_strategy=LoreleyDamageCalculationStrategy(),
+        )
+
+
+class Loreley(Doll):
+    """Loreley."""
+
+    name: str = "Loreley"
+    irrelevant_damage_tags: ClassVar[set[DamageTag]] = set(
+        [
+            DamageTag.CORROSION,
+            DamageTag.ELECTRIC,
+            DamageTag.HYDRO,
+            DamageTag.FREEZE,
+            DamageTag.MEDIUM_AMMO,
+            DamageTag.LIGHT_AMMO,
+            DamageTag.SHOTGUN_AMMO,
+            DamageTag.MELEE,
+            DamageTag.SUPPORT_ACTION,
+            DamageTag.INTERCEPTION,
+            DamageTag.COUNTERATTACK,
+            DamageTag.PHYSICAL_SUMMON,
+            DamageTag.FIXED,
+        ]
+    )
+
+    punishment_prelude: CombatAction = Field(default_factory=PunishmentPrelude)
+    scorching_brand: CombatAction = Field(default_factory=ScorchingBrand)
+    crimson_binding_decree: CombatAction = Field(default_factory=CrimsonBindingDecree)
+    agonys_grace: CombatAction = Field(default_factory=AgonysGrace)
+    phosphor_pulse: CombatAction = Field(default_factory=PhosphorPulse)
+
+    def set_to_v0(self) -> None:
+        """Sets Fortification Level to Segment00."""
+        self.punishment_prelude: CombatAction = PunishmentPrelude()
+        self.scorching_brand: CombatAction = ScorchingBrand()
+        self.crimson_binding_decree: CombatAction = CrimsonBindingDecree()
+        self.agonys_grace: CombatAction = AgonysGrace()
+        self.phosphor_pulse: CombatAction = PhosphorPulse()
+
+    def set_to_v3(self) -> None:
+        """Sets Fortification Level to Segment03."""
+        self.set_to_v0()
+
+        self.phosphor_pulse: CombatAction = PhosphorPulseV3()
+
+    def set_to_v4(self) -> None:
+        """Sets Fortification Level to Segment04."""
+        self.set_to_v3()
+
+        self.crimson_binding_decree: CombatAction = CrimsonBindingDecreeV4()
+
+    def set_to_v5(self) -> None:
+        """Sets Fortification Level to Segment05."""
+        self.set_to_v4()
+
+        self.scorching_brand: CombatAction = ScorchingBrandV5()
+
+    @override
+    def set_fortification_level(self, level: FortificationLevel):
+        self.fortification_level = level
+        match level:
+            case FortificationLevel.SEGMENT00:
+                self.set_to_v0()
+            case FortificationLevel.SEGMENT01:
+                self.set_to_v0()
+            case FortificationLevel.SEGMENT02:
+                self.set_to_v0()
+            case FortificationLevel.SEGMENT03:
+                self.set_to_v3()
+            case FortificationLevel.SEGMENT04:
+                self.set_to_v4()
+            case FortificationLevel.SEGMENT05:
+                self.set_to_v5()
+            case FortificationLevel.SEGMENT06:
+                self.set_to_v5()
