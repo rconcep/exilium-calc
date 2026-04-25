@@ -62,6 +62,21 @@ class BlazingAssaultII(Buff):
         self.stat_type = StatType.ATTACK
 
 
+class WokHei(Buff):
+    """Stacking buff from Qiuhua's Expansion Key - Sizzling Stir-Fry. Stacks up to 4 times."""
+
+    display_name = "Wok Hei (Qiuhua)"
+    max_stack_count = 4
+    stack_input_type = "select"
+
+    def __init__(self, stacks: int):
+        burn_damage_boost_per_stack: int = 7
+        self.value = burn_damage_boost_per_stack * min(WokHei.max_stack_count, stacks)
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.BURN
+
+
 class GoodLuck(Buff):
     """Buff granted to Sakura."""
 

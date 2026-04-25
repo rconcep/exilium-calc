@@ -193,6 +193,12 @@ each stat and observing the resulting change in expected damage.
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
                     ui.timeline_entry(
+                        "Updated Qiuhua with Expansion Key - Sizzling Stir-Fry. Updated Helen flavor text.",
+                        title="",
+                        subtitle="April 24, 2026",
+                        icon="key",
+                    )
+                    ui.timeline_entry(
                         "Implemented Loreley (preview).",
                         title="",
                         subtitle="April 22, 2026",

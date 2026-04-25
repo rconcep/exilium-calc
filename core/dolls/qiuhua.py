@@ -326,7 +326,7 @@ class EmergencySupport(CombatAction):
     @override
     def execute(self) -> DamageInstance:
         label: str = "Emergency Support"
-        base_potency: int = 60
+        base_potency: int = 90
 
         tags: set[DamageTag] = {
             DamageTag.PASSIVE,
@@ -336,6 +336,18 @@ class EmergencySupport(CombatAction):
             DamageTag.SHOTGUN_AMMO,
             DamageTag.TARGETED,
         }
+
+        # Expansion Key - Sizzling Stir-Fry:
+        # Emergency Support ignores 15% of the target's defense
+        buffs_before: list[Buff] = []
+        buffs_before.append(
+            Buff(
+                15,
+                ModifierType.ADDITIVE,
+                SpecialAttribute.DEFENSE_IGNORE,
+                DamageTag.ALL,
+            )
+        )
 
         return DamageInstance(
             label=label,

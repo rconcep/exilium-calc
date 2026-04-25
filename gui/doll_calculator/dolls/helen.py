@@ -26,7 +26,7 @@ class Helen(DollCalculatorPage):
 
         self.doll = helen.Helen()
         self.doll.set_fortification_level(FortificationLevel.SEGMENT06)
-        self.doll_subtitle: str = """Defense-Scaling / Freeze / Basic Attack
+        self.doll_subtitle: str = """Damage Distribution / Tile / Shield
 
             Bulwark / Freeze"""
         self.dandegate_link: str = "https://www.dandegate.net/dolls/helen"

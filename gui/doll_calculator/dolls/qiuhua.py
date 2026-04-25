@@ -203,6 +203,7 @@ class Qiuhua(DollCalculatorPage):
                 "vector_fortification_level": FortificationLevel.SEGMENT06,
                 "number_of_burn_buffs": 3,
             },
+            {"name": "Wok Hei (Qiuhua)", "stacks": 4},
         ]
 
     def get_default_damage_calculator_debuffs(self) -> list[dict[str, Any]]:
@@ -224,6 +225,12 @@ class Qiuhua(DollCalculatorPage):
     @override
     def get_model_assumptions(self) -> list[ModelAssumption]:
         return [
+            ModelAssumption(
+                icon="key",
+                description="Expansion Key - Sizzling Stir-Fry is active.",
+                link_label="Dandegate",
+                link_target="https://www.dandegate.net/dolls/qiuhua/keys/expansion-key-sizzling-stir-fry",
+            ),
             ModelAssumption(
                 icon="local_fire_department",
                 description="The % Attack buff from V3 Passive currently assumes 30 Scorch Mark stacks.",

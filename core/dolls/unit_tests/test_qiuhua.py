@@ -110,7 +110,7 @@ class TestQiuhuaSkills:
     def test_emergency_support(self):
         emergency_support: DamageInstance = EmergencySupport().execute()
 
-        assert emergency_support.base_potency == 60
+        assert emergency_support.base_potency == 90
         assert DamageTag.SUPPORT_ACTION in emergency_support.tags
         assert DamageTag.PASSIVE in emergency_support.tags
         assert emergency_support.group_name == "Emergency Support"
