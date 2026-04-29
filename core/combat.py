@@ -1622,3 +1622,73 @@ class LoreleyDamageCalculationStrategy(StandardDamageCalculationStrategy):
                     burn_type_dolls_present * attack_boost_per_burn_type_doll,
                     maximum_attack_boost_from_passive,
                 )
+
+
+class SextansDamageCalculationStrategy(StandardDamageCalculationStrategy):
+    """Damage calculation strategy for Sextans, implementing her passive effects."""
+
+    @override
+    def resolve_buffs(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> None:
+        """Apply effect of Sextans's abilities."""
+        super().resolve_buffs(
+            attacker, target, damage_instance, buffs_before, debuffs_before
+        )
+
+        # Only expecting to run this for Sextans
+        if _is_doll_attacker(attacker):
+            # TODO: This effect is tied to having Coagulation, which is effectively all the time.
+            # For simplicity, just assume this is always active.
+            has_coagulation: bool = True
+
+            if has_coagulation:
+                # Model the critical rate overflow effects here;
+                # critical rate increase per stack should be applied via Buffs
+
+                # If Sextans's critical rate is greater than 100%, for every 1% of critical rate overflow,
+                # her attack, healing, and critical damage is increased.
+                bonus_per_overflow_crit_rate: float = 1
+                maximum_bonus_from_overflow_crit_rate: float = 30
+
+                overflow_crit_rate: float = (
+                    attacker.get_basic_attribute(
+                        StatType.CRIT_RATE, damage_instance.tags
+                    )
+                    - 100
+                )
+
+                if attacker.fortification_level >= FortificationLevel.SEGMENT03:
+                    maximum_bonus_from_overflow_crit_rate = 45
+
+                if overflow_crit_rate > 0:
+                    attacker.multiplicative_modifiers.basic_attributes[
+                        StatType.ATTACK
+                    ] += min(
+                        overflow_crit_rate * bonus_per_overflow_crit_rate,
+                        maximum_bonus_from_overflow_crit_rate,
+                    )
+
+                    attacker.additive_modifiers.special_attributes[
+                        SpecialAttribute.CRITICAL_DAMAGE
+                    ].add_to_multiplier(
+                        DamageTag.ALL,
+                        min(
+                            overflow_crit_rate * bonus_per_overflow_crit_rate,
+                            maximum_bonus_from_overflow_crit_rate,
+                        ),
+                    )
+
+            # Passive - Requiem: Damage dealt by all Dolls wielding blades is increased by 10%.
+            # Assume Sextans is always benefiting from this passive for simplicity.
+            attacker.additive_modifiers.special_attributes[
+                SpecialAttribute.DAMAGE_BOOST
+            ].add_to_multiplier(
+                DamageTag.MELEE,
+                10,
+            )

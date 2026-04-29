@@ -14,6 +14,7 @@ from gui.doll_calculator.dolls import (
     Liushih,
     Loreley,
     Robella,
+    Sextans,
     Voymastina,
     Lewis,
     MosinNagant,
@@ -64,6 +65,7 @@ DOLL_PAGES: list[tuple[str, str, Callable[[], object]]] = [
     ("Qiongjiu", "/qiongjiu", Qiongjiu),
     ("Robella", "/robella", Robella),
     ("Sakura", "/sakura", Sakura),
+    ("Sextans", "/sextans", Sextans),
     ("Springfield", "/springfield", Springfield),
     ("Voymastina", "/voymastina", Voymastina),
     ("Tololo", "/tololo", Tololo),
@@ -192,6 +194,12 @@ each stat and observing the resulting change in expected damage.
             ui.separator()
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
+                    ui.timeline_entry(
+                        "Implemented Sextans (preview).",
+                        title="",
+                        subtitle="April 28, 2026",
+                        icon="person_add",
+                    )
                     ui.timeline_entry(
                         "Updated Qiuhua with Expansion Key - Sizzling Stir-Fry. Updated Helen flavor text.",
                         title="",

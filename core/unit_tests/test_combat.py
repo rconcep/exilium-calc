@@ -928,6 +928,73 @@ class TestDamageCalculationStrategy:
             pytest.approx(0)
         )
 
+    def test_sextans_resolve_buffs_applies_overflow_crit_rate_bonuses_at_v0(self):
+        g = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT00
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        g.initial_stats.basic_attributes[StatType.CRIT_RATE] = 140
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.MELEE})
+
+        SextansDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        # V0 cap is 30, even with 40 overflow crit rate.
+        assert g.multiplicative_modifiers.basic_attributes[StatType.ATTACK] == (
+            pytest.approx(30)
+        )
+        assert g.additive_modifiers.special_attributes[
+            SpecialAttribute.CRITICAL_DAMAGE
+        ].get_multiplier(DamageTag.ALL) == pytest.approx(30)
+
+    def test_sextans_resolve_buffs_uses_higher_overflow_cap_at_v3(self):
+        g = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT03
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        g.initial_stats.basic_attributes[StatType.CRIT_RATE] = 140
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.MELEE})
+
+        SextansDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        # V3 cap is 45, so 40 overflow applies in full.
+        assert g.multiplicative_modifiers.basic_attributes[StatType.ATTACK] == (
+            pytest.approx(40)
+        )
+        assert g.additive_modifiers.special_attributes[
+            SpecialAttribute.CRITICAL_DAMAGE
+        ].get_multiplier(DamageTag.ALL) == pytest.approx(40)
+
+    def test_sextans_resolve_buffs_always_adds_melee_damage_boost_for_doll(self):
+        g = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT00
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.MELEE})
+
+        SextansDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        assert g.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].get_multiplier(DamageTag.MELEE) == pytest.approx(10)
+
+    def test_sextans_resolve_buffs_ignores_non_doll_attackers(self):
+        g = Unit()
+        t = TestDamageCalculationStrategy.construct_defender()
+        g.initial_stats.basic_attributes[StatType.CRIT_RATE] = 180
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.MELEE})
+
+        SextansDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        assert g.multiplicative_modifiers.basic_attributes[StatType.ATTACK] == (
+            pytest.approx(0)
+        )
+        assert g.additive_modifiers.special_attributes[
+            SpecialAttribute.CRITICAL_DAMAGE
+        ].get_multiplier(DamageTag.ALL) == pytest.approx(0)
+        assert g.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].get_multiplier(DamageTag.MELEE) == pytest.approx(0)
+
 
 class TestLainieBonusDamageCalculations:
     @staticmethod
