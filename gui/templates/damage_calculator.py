@@ -10,7 +10,8 @@ from core.types import (
     DamageTag,
     SpecialAttribute,
 )
-from core.combat import DamageInstance, CombatSummary
+from core.types import UnitLevel
+from core.combat import DamageInstance, CombatSummary, TargetCombatState
 from core.buffs import Buff, Debuff, buffs_option_config, debuffs_option_config
 from gui.templates.doll_calculator_page import DollCalculatorPage
 from gui.templates.single_configurable_item_editor import SingleConfigurableItemEditor
@@ -47,6 +48,8 @@ class DamageCalculator:
 
         self.target_phase_weaknesses_exploited: ui.select
         self.target_stability_broken: ui.switch
+        self.target_unit_level: ui.select
+        self.target_phase_tile_level: ui.select
 
         # self.bar_chart_plot: ui.plotly
         self.combat_summary: CombatSummary = CombatSummary()
@@ -159,6 +162,20 @@ class DamageCalculator:
             StatType.STABILITY_DAMAGE_REDUCTION
         ] = 60
 
+    def _build_target_combat_state(self) -> TargetCombatState:
+        """Builds TargetCombatState from current target UI controls."""
+        stability_broken: bool = self.target_stability_broken.value
+        phase_weaknesses_exploited: int = self.target_phase_weaknesses_exploited.value  # type: ignore
+        phase_tile_level: int = self.target_phase_tile_level.value  # type: ignore
+
+        return TargetCombatState(
+            is_stability_broken=stability_broken,
+            phase_weaknesses_exploited=phase_weaknesses_exploited,
+            unit_level=UnitLevel(self.target_unit_level.value),  # type: ignore
+            is_on_phase_tile=phase_tile_level > 0,
+            phase_tile_ascension_level=phase_tile_level,
+        )
+
     def calculate(self, data):
         """Performs the combat calculation according to currently defined values
         and updates elements for displaying calculation results.
@@ -178,16 +195,13 @@ class DamageCalculator:
         self.last_action_kwargs = keyword_args
 
         di: DamageInstance = combat_action(**keyword_args)
-
-        stability_broken: bool = self.target_stability_broken.value
-        phase_weaknesses_exploited: int = self.target_phase_weaknesses_exploited.value  # type: ignore
+        target_combat_state: TargetCombatState = self._build_target_combat_state()
 
         self.combat_summary = di.damage_calculation_strategy.calculate_damage(
             copy.deepcopy(self.doll),
             copy.deepcopy(self.target),
             di,
-            is_stability_broken=stability_broken,
-            phase_weaknesses_exploited=phase_weaknesses_exploited,
+            target_combat_state=target_combat_state,
             buffs_before=self.get_all_buffs(),
             debuffs_before=self.get_all_debuffs(),
         )
@@ -343,16 +357,13 @@ class DamageCalculator:
         ]
         combat_action: Callable = action_config["function"]
         damage_instance: DamageInstance = combat_action(**self.last_action_kwargs)
-
-        stability_broken: bool = self.target_stability_broken.value
-        phase_weaknesses_exploited: int = self.target_phase_weaknesses_exploited.value  # type: ignore
+        target_combat_state: TargetCombatState = self._build_target_combat_state()
 
         return damage_instance.damage_calculation_strategy.calculate_damage(
             copy.deepcopy(doll),
             copy.deepcopy(self.target),
             damage_instance,
-            is_stability_broken=stability_broken,
-            phase_weaknesses_exploited=phase_weaknesses_exploited,
+            target_combat_state=target_combat_state,
             buffs_before=self.get_all_buffs(),
             debuffs_before=self.get_all_debuffs(),
         )
@@ -799,6 +810,16 @@ class DamageCalculator:
                 options=[0, 1, 2], value=2, label="Phase Weaknesses Exploited"
             )
             self.target_stability_broken = ui.switch("Stability Broken", value=True)
+
+        with ui.grid(columns=2).classes("w-full"):
+            self.target_unit_level = ui.select(
+                options=[level.value for level in UnitLevel],
+                value=UnitLevel.BOSS.value,
+                label="Level",
+            )
+            self.target_phase_tile_level = ui.select(
+                options=[0, 1, 2, 3], value=0, label="Phase Tile Level"
+            )
 
         self.debuffs_selector: SelectableChipsEditor = SelectableChipsEditor(
             options=list(debuffs_option_config.keys()),

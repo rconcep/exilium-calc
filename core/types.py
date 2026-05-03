@@ -48,6 +48,7 @@ class DamageTag(StrEnum, boundary=STRICT):
     ONLY_HIT_ONE_TARGET = "Only Hit One Target"
     NEAR = "CQC"
     FAR = "Headhunter"
+    ON_PHASE_TILE = "On Phase Tile"
 
     FIXED = "Fixed"
 
@@ -296,6 +297,14 @@ class FortificationLevel(IntEnum, boundary=STRICT):
     SEGMENT04 = 4
     SEGMENT05 = 5
     SEGMENT06 = 6
+
+
+class UnitLevel(StrEnum, boundary=STRICT):
+    """The tier of a unit."""
+
+    NORMAL = "Normal"
+    ELITE = "Elite"
+    BOSS = "Boss"
 
 
 class Doll(ABC, Unit):

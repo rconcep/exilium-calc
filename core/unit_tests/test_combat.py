@@ -423,8 +423,10 @@ class TestDamageCalculationStrategy:
             attacker=g,
             target=t,
             damage_instance=di,
-            is_stability_broken=True,
-            phase_weaknesses_exploited=0,
+            target_combat_state=TargetCombatState(
+                is_stability_broken=True,
+                phase_weaknesses_exploited=0,
+            ),
         ).non_critical_damage == pytest.approx(7888.837)
 
     def test_debuffs_before(self):
@@ -461,8 +463,10 @@ class TestDamageCalculationStrategy:
             attacker=g,
             target=t,
             damage_instance=di,
-            is_stability_broken=True,
-            phase_weaknesses_exploited=0,
+            target_combat_state=TargetCombatState(
+                is_stability_broken=True,
+                phase_weaknesses_exploited=0,
+            ),
         ).non_critical_damage == pytest.approx(8011.367)
 
     def test_ignore_defense(self):
@@ -491,7 +495,13 @@ class TestDamageCalculationStrategy:
         ].get_total_multiplier(tags) == pytest.approx(0)
 
         assert StandardDamageCalculationStrategy().calculate_damage(
-            g, t, di, True, 0
+            g,
+            t,
+            di,
+            target_combat_state=TargetCombatState(
+                is_stability_broken=True,
+                phase_weaknesses_exploited=0,
+            ),
         ).non_critical_damage == pytest.approx(6859.095)
 
         g.initial_stats.special_attributes[
@@ -502,7 +512,13 @@ class TestDamageCalculationStrategy:
         ].get_total_multiplier(tags) == pytest.approx(50)
 
         assert StandardDamageCalculationStrategy().calculate_damage(
-            g, t, di, True, 0
+            g,
+            t,
+            di,
+            target_combat_state=TargetCombatState(
+                is_stability_broken=True,
+                phase_weaknesses_exploited=0,
+            ),
         ).non_critical_damage == pytest.approx(9021.755)
 
         # 100% ignore
@@ -514,7 +530,13 @@ class TestDamageCalculationStrategy:
         ].get_total_multiplier(tags) == pytest.approx(100)
 
         assert StandardDamageCalculationStrategy().calculate_damage(
-            g, t, di, True, 0
+            g,
+            t,
+            di,
+            target_combat_state=TargetCombatState(
+                is_stability_broken=True,
+                phase_weaknesses_exploited=0,
+            ),
         ).non_critical_damage == pytest.approx(13176.183)
 
         # >100% ignore
@@ -529,7 +551,13 @@ class TestDamageCalculationStrategy:
         )
 
         assert StandardDamageCalculationStrategy().calculate_damage(
-            g, t, di, True, 0
+            g,
+            t,
+            di,
+            target_combat_state=TargetCombatState(
+                is_stability_broken=True,
+                phase_weaknesses_exploited=0,
+            ),
         ).non_critical_damage == pytest.approx(13176.183)
 
     def test_resolve_increased_damage_taken(self):
@@ -574,8 +602,10 @@ class TestDamageCalculationStrategy:
             attacker=g,
             target=t,
             damage_instance=di,
-            is_stability_broken=False,
-            phase_weaknesses_exploited=0,
+            target_combat_state=TargetCombatState(
+                is_stability_broken=False,
+                phase_weaknesses_exploited=0,
+            ),
         ).non_critical_damage == pytest.approx(2743.637)
 
     def test_phase_weaknesses_exploited(self):
@@ -599,15 +629,19 @@ class TestDamageCalculationStrategy:
             attacker=g,
             target=t,
             damage_instance=di,
-            is_stability_broken=True,
-            phase_weaknesses_exploited=1,
+            target_combat_state=TargetCombatState(
+                is_stability_broken=True,
+                phase_weaknesses_exploited=1,
+            ),
         ).non_critical_damage == pytest.approx(7545.004)
         assert StandardDamageCalculationStrategy().calculate_damage(
             attacker=g,
             target=t,
             damage_instance=di,
-            is_stability_broken=True,
-            phase_weaknesses_exploited=2,
+            target_combat_state=TargetCombatState(
+                is_stability_broken=True,
+                phase_weaknesses_exploited=2,
+            ),
         ).non_critical_damage == pytest.approx(8230.914)
 
     def test_lainie_resolve_buffs_adds_crit_rate_from_health(self):
@@ -1224,11 +1258,17 @@ class TestFixedDamageInstance:
 
         # Fixed damage with stability broken
         damage_broken = strat.calculate_damage(
-            attacker, target, di, is_stability_broken=True
+            attacker,
+            target,
+            di,
+            target_combat_state=TargetCombatState(is_stability_broken=True),
         ).non_critical_damage
         # Fixed damage with stability not broken
         damage_not_broken = strat.calculate_damage(
-            attacker, target, di, is_stability_broken=False
+            attacker,
+            target,
+            di,
+            target_combat_state=TargetCombatState(is_stability_broken=False),
         ).non_critical_damage
 
         assert damage_broken == pytest.approx(damage_not_broken)
@@ -1243,11 +1283,17 @@ class TestFixedDamageInstance:
 
         # Fixed damage with no phase weaknesses
         damage_no_weakness = strat.calculate_damage(
-            attacker, target, di, phase_weaknesses_exploited=0
+            attacker,
+            target,
+            di,
+            target_combat_state=TargetCombatState(phase_weaknesses_exploited=0),
         ).non_critical_damage
         # Fixed damage with max phase weaknesses
         damage_with_weakness = strat.calculate_damage(
-            attacker, target, di, phase_weaknesses_exploited=2
+            attacker,
+            target,
+            di,
+            target_combat_state=TargetCombatState(phase_weaknesses_exploited=2),
         ).non_critical_damage
 
         assert damage_no_weakness == pytest.approx(damage_with_weakness)

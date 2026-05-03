@@ -24,7 +24,6 @@ class TestAlvaSkills:
 
         assert s2.base_potency == 90
         assert DamageTag.CONFECTANCE in s2.tags
-        assert DamageTag.HEAVY_AMMO in s2.tags
 
     def test_frosted_echo_v1(self):
         s2: DamageInstance = FrostedEchoV1().execute(confectance_index=6)

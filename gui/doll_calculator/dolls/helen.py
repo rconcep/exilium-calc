@@ -51,8 +51,8 @@ class Helen(DollCalculatorPage):
 
     @override
     def set_initial_values(self) -> None:
-        self.doll.initial_stats.basic_attributes[StatType.ATTACK] = 3000
-        self.doll.initial_stats.basic_attributes[StatType.DEFENSE] = 2000
+        self.doll.initial_stats.basic_attributes[StatType.ATTACK] = 3200
+        self.doll.initial_stats.basic_attributes[StatType.DEFENSE] = 2900
         self.doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 80.0
         self.doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 150.0
 
@@ -71,7 +71,7 @@ class Helen(DollCalculatorPage):
         # Common Key: 10
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
-        ].set_multiplier(DamageTag.SHOTGUN_AMMO, 10)
+        ].set_multiplier(DamageTag.BASIC, 70)
 
         # imagoform: 12
         # onslaught stance: 1
@@ -80,7 +80,7 @@ class Helen(DollCalculatorPage):
         ].set_multiplier(DamageTag.ALL, 13)
 
         # imagoform: 8
-        self.doll.multiplicative_modifiers.basic_attributes[StatType.DEFENSE] = 8
+        self.doll.multiplicative_modifiers.basic_attributes[StatType.DEFENSE] = 48
 
         # imagoform: 4
         # attack boost: 3.6

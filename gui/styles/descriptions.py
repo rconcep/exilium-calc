@@ -16,6 +16,7 @@ def get_tag_description(tag: DamageTag) -> str:
         DamageTag.ONLY_HIT_ONE_TARGET: "Damage only hits one target",
         DamageTag.NEAR: "Target is within 3 tiles",
         DamageTag.FAR: "Target is more than 6 tiles away",
+        DamageTag.ON_PHASE_TILE: "Target is on a phase tile",
     }
 
     return descriptions.get(tag, "")

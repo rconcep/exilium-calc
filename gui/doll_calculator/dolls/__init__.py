@@ -29,6 +29,7 @@ from .qiuhua import Qiuhua
 from .qiongjiu import Qiongjiu
 from .robella import Robella
 from .sakura import Sakura
+from .soppo import Soppo
 from .sextans import Sextans
 from .springfield import Springfield
 from .tololo import Tololo
@@ -64,6 +65,7 @@ __all__ = [
     "Qiongjiu",
     "Robella",
     "Sakura",
+    "Soppo",
     "Sextans",
     "Springfield",
     "Tololo",

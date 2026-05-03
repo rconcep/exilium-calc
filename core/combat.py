@@ -8,6 +8,7 @@ from core.types import (
     DamageTag,
     DamageTagMultipliers,
     Unit,
+    UnitLevel,
     Doll,
     FortificationLevel,
     SummonOwningAttacker,
@@ -100,8 +101,7 @@ class DamageCalculationStrategy(ABC):
         attacker: Unit,
         target: Unit,
         damage_instance: DamageInstance,
-        is_stability_broken: bool = True,
-        phase_weaknesses_exploited: int = 0,
+        target_combat_state: TargetCombatState | None = None,
         buffs_before: list[Buff] = [],
         debuffs_before: list[Debuff] = [],
     ) -> CombatSummary:
@@ -111,19 +111,17 @@ class DamageCalculationStrategy(ABC):
         attacker -- the attacking Unit
         target -- the target of the attack
         damage_instance -- describes the action
-        is_stability_broken -- True if the target is in stability break
-        phase_weaknesses_exploited -- the number of phase weaknesses exploited by the action
+        target_combat_state -- encapsulated target combat state used for damage calculations
         buffs_before -- Buffs to apply to attacker before the action
         debuffs_before -- Debuffs to apply to target before the action
         """
+        state: TargetCombatState = target_combat_state or TargetCombatState()
+
         # Ensure assumed target-state tags are available to all downstream math,
         # including attack/crit-rate and defense-ignore calculations.
-        self.apply_assumed_target_state_tags(damage_instance)
+        self.apply_assumed_target_state_tags(damage_instance, state)
 
         is_fixed_damage: bool = DamageTag.FIXED in damage_instance.tags
-
-        if is_stability_broken:
-            damage_instance.tags.add(DamageTag.STABILITY_BROKEN)
 
         # Apply buffs and debuffs before
         self.resolve_buffs(
@@ -176,7 +174,7 @@ class DamageCalculationStrategy(ABC):
         ) * (1 + increased_damage_taken / 100)
 
         # Apply stability damage reduction (disregard for fixed damage)
-        if not is_stability_broken and not is_fixed_damage:
+        if not state.is_stability_broken and not is_fixed_damage:
             non_critical_damage = non_critical_damage * (
                 1
                 - target.initial_stats.basic_attributes[
@@ -193,7 +191,10 @@ class DamageCalculationStrategy(ABC):
             non_critical_damage = non_critical_damage * (
                 1
                 + MORE_DAMAGE_PER_WEAKNESS_EXPLOITED
-                * min(phase_weaknesses_exploited, MAX_PHASE_WEAKNESSES_EXPLOITABLE)
+                * min(
+                    state.phase_weaknesses_exploited,
+                    MAX_PHASE_WEAKNESSES_EXPLOITABLE,
+                )
             )
 
         # Account for critical hit
@@ -221,8 +222,14 @@ class DamageCalculationStrategy(ABC):
         return combat_summary
 
     @final
-    def apply_assumed_target_state_tags(self, damage_instance: DamageInstance) -> None:
-        """Adds currently-assumed target state tags for conditional calculations."""
+    def apply_assumed_target_state_tags(
+        self,
+        damage_instance: DamageInstance,
+        target_combat_state: TargetCombatState | None = None,
+    ) -> None:
+        """Adds target-state tags for conditional calculations using combat state and defaults."""
+        state: TargetCombatState = target_combat_state or TargetCombatState()
+
         if DamageTag.FIXED in damage_instance.tags:
             # Fixed damage should not be affected by any conditional modifiers,
             # so we add a tag to short-circuit all conditional calculations downstream.
@@ -230,13 +237,21 @@ class DamageCalculationStrategy(ABC):
         else:
             damage_instance.tags.add(DamageTag.ALL)
 
-            # TODO: replace with real combat state checks (exposed, stability broken, etc.)
+            # Preserve current baseline assumptions for legacy behavior.
             damage_instance.tags.add(DamageTag.EXPOSED)
-            damage_instance.tags.add(DamageTag.BOSS)
             damage_instance.tags.add(DamageTag.HAS_MOVEMENT_DEBUFF)
             damage_instance.tags.add(DamageTag.ONLY_HIT_ONE_TARGET)
             damage_instance.tags.add(DamageTag.NEAR)
             damage_instance.tags.add(DamageTag.FAR)
+
+            if state.is_stability_broken:
+                damage_instance.tags.add(DamageTag.STABILITY_BROKEN)
+
+            if state.unit_level == UnitLevel.BOSS:
+                damage_instance.tags.add(DamageTag.BOSS)
+
+            if state.is_on_phase_tile or state.phase_tile_ascension_level > 0:
+                damage_instance.tags.add(DamageTag.ON_PHASE_TILE)
 
     def resolve_buffs(
         self,
@@ -606,6 +621,16 @@ class CombatSummary(BaseModel):
     effective_attack: float = 0
     effective_defense: float = 0
     negative_defense: float = 0
+
+
+class TargetCombatState(BaseModel):
+    """Represents target-side combat state used during damage calculation."""
+
+    is_stability_broken: bool = True
+    phase_weaknesses_exploited: int = 0
+    unit_level: UnitLevel = UnitLevel.BOSS
+    is_on_phase_tile: bool = False
+    phase_tile_ascension_level: int = Field(default=0, ge=0, le=3)
 
 
 def sum_damage_instances(
@@ -1691,4 +1716,45 @@ class SextansDamageCalculationStrategy(StandardDamageCalculationStrategy):
             ].add_to_multiplier(
                 DamageTag.MELEE,
                 10,
+            )
+
+
+class SoppoDamageCalculationStrategy(StandardDamageCalculationStrategy):
+    """Damage calculation strategy for Soppo, implementing her passive effects.
+    Used to implement the damage boost from her passive for all non-ultimate skills.
+    """
+
+    @override
+    def resolve_buffs(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> None:
+        """Apply effect of Soppo's abilities."""
+        super().resolve_buffs(
+            attacker, target, damage_instance, buffs_before, debuffs_before
+        )
+
+        # Only expecting to run this for Soppo
+        if _is_doll_attacker(attacker):
+            # Passive - Mad Dog Syndrome
+            # V0: If there are 3 or more Burn-attribute ally Dolls, damage dealt using certain skills
+            # is increased against enemy units with Burn debuffs is increased by 100%.
+            # If there are 3 or more Freeze-attribute ally dolls, same but with Freeze debuffs.
+            # TODO: For simplicity, just assume this is always active and applies to all damage instances.
+
+            # V4: Damage boost increased to 150% and no longer requires the target to have specific debuffs.
+            damage_boost_from_passive: int = 100
+
+            if attacker.fortification_level >= FortificationLevel.SEGMENT04:
+                damage_boost_from_passive = 150
+
+            attacker.additive_modifiers.special_attributes[
+                SpecialAttribute.DAMAGE_BOOST
+            ].add_to_multiplier(
+                DamageTag.ALL,
+                damage_boost_from_passive,
             )

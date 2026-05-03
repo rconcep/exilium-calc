@@ -15,6 +15,7 @@ from gui.doll_calculator.dolls import (
     Loreley,
     Robella,
     Sextans,
+    Soppo,
     Voymastina,
     Lewis,
     MosinNagant,
@@ -65,6 +66,7 @@ DOLL_PAGES: list[tuple[str, str, Callable[[], object]]] = [
     ("Qiongjiu", "/qiongjiu", Qiongjiu),
     ("Robella", "/robella", Robella),
     ("Sakura", "/sakura", Sakura),
+    ("Soppo", "/soppo", Soppo),
     ("Sextans", "/sextans", Sextans),
     ("Springfield", "/springfield", Springfield),
     ("Voymastina", "/voymastina", Voymastina),
@@ -194,6 +196,12 @@ each stat and observing the resulting change in expected damage.
             ui.separator()
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
+                    ui.timeline_entry(
+                        "Implemented Soppo (preview). Added 'on phase tile' as a damage tag; added phase tile level and unit level (type) to target in Damage Calculator. (Note: Buffs/debuffs/actions that take phase tile level as a parameter do not check the target's parameters and simply use their own parameters.)",
+                        title="",
+                        subtitle="May 2, 2026",
+                        icon="person_add",
+                    )
                     ui.timeline_entry(
                         "Implemented Sextans (preview).",
                         title="",

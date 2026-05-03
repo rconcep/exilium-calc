@@ -69,8 +69,7 @@ class FrostedEcho(CombatAction):
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
             DamageTag.CONFECTANCE,
-            DamageTag.HEAVY_AMMO,
-            DamageTag.TARGETED,
+            DamageTag.AREA_OF_EFFECT,
             DamageTag.FREEZE,
             DamageTag.PHASE,
         }
@@ -170,7 +169,7 @@ class NixRequiem(CombatAction):
             DamageTag.FREEZE,
             DamageTag.CONFECTANCE,
             DamageTag.PHASE,
-            DamageTag.HEAVY_AMMO,
+            DamageTag.MEDIUM_AMMO,
             DamageTag.TARGETED,
             DamageTag.ULTIMATE,
         }
@@ -197,7 +196,7 @@ class NixRequiemV2(CombatAction):
             DamageTag.FREEZE,
             DamageTag.CONFECTANCE,
             DamageTag.PHASE,
-            DamageTag.HEAVY_AMMO,
+            DamageTag.MEDIUM_AMMO,
             DamageTag.TARGETED,
             DamageTag.ULTIMATE,
         }
