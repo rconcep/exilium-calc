@@ -197,6 +197,12 @@ each stat and observing the resulting change in expected damage.
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
                     ui.timeline_entry(
+                        "Updated names of Phaetusa's actions and buffs to match GL translations.",
+                        title="",
+                        subtitle="May 9, 2026",
+                        icon="translate",
+                    )
+                    ui.timeline_entry(
                         "Implemented Soppo (preview). Added 'on phase tile' as a damage tag; added phase tile level and unit level (type) to target in Damage Calculator. (Note: Buffs/debuffs/actions that take phase tile level as a parameter do not check the target's parameters and simply use their own parameters.)",
                         title="",
                         subtitle="May 2, 2026",

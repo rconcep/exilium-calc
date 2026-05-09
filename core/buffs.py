@@ -1880,10 +1880,10 @@ class DreamscapeExhilaration(Buff):
         self.tag = DamageTag.CORROSION
 
 
-class ReturnForm(Buff):
-    """Effect of V3+ Phaetusa after using Return Form (increase attack by 50% for 1 round)."""
+class Reversion(Buff):
+    """Effect of V3+ Phaetusa after using Synchrony (increase attack by 50% for 1 round)."""
 
-    display_name = "Return Form (Phaetusa)"
+    display_name = "Reversion (Phaetusa)"
     max_stack_count = 1
     stack_input_type = "select"
 
@@ -1898,10 +1898,10 @@ class ReturnForm(Buff):
         self.tag = DamageTag.ALL
 
 
-class ReplicationTrap(Buff):
-    """Permanent effect of V1+ Phaetusa - gain 15% critical damage for every 2 uses of Replication Trap."""
+class OverwriteTrap(Buff):
+    """Permanent effect of V1+ Phaetusa - gain 15% critical damage for every 2 uses of Overwrite Trap."""
 
-    display_name = "Replication Trap (Phaetusa)"
+    display_name = "Overwrite Trap (Phaetusa)"
     max_stack_count = 6
     stack_input_type = "input"
 

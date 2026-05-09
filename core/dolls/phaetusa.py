@@ -22,12 +22,12 @@ BLOOD_OATH_DAMAGE_MULTIPLIER_INCREASE: int = 200
 MAX_STACKS_OF_BLADE_RESONANCE: int = 3
 
 
-class DualSlash(CombatAction):
+class OneStrikeTwoCuts(CombatAction):
     """Phaetusa Basic Attack."""
 
     @override
     def execute(self, has_blood_oath: bool) -> DamageInstance:
-        label: str = "Dual Slash"
+        label: str = "One Strike, Two Cuts"
         base_potency: int = 80
 
         tags: set[DamageTag] = {
@@ -45,16 +45,16 @@ class DualSlash(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Dual Slash",
+            group_name="One Strike, Two Cuts",
         )
 
 
-class DoubleDescent(CombatAction):
+class DualWingedDescent(CombatAction):
     """Phaetusa S1."""
 
     @override
     def execute(self, has_blood_oath: bool) -> DamageInstance:
-        label: str = "Double Descent"
+        label: str = "Dual-Winged Descent"
         base_potency: int = 90
 
         tags: set[DamageTag] = {
@@ -72,16 +72,16 @@ class DoubleDescent(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Double Descent",
+            group_name="Dual-Winged Descent",
         )
 
 
-class DoubleDescentV2(CombatAction):
+class DualWingedDescentV2(CombatAction):
     """Phaetusa S1 (V2)."""
 
     @override
     def execute(self, has_blood_oath: bool) -> DamageInstance:
-        label: str = "Double Descent"
+        label: str = "Dual-Winged Descent"
         base_potency: int = 120
 
         tags: set[DamageTag] = {
@@ -99,18 +99,18 @@ class DoubleDescentV2(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Double Descent",
+            group_name="Dual-Winged Descent",
         )
 
 
-class TwinParadise(CombatAction):
+class TwofoldRapture(CombatAction):
     """Phaetusa Ultimate."""
 
     @override
     def execute(
         self, has_blood_oath: bool, stacks_of_blade_resonance: int
     ) -> DamageInstance:
-        label: str = f"Twin Paradise ({stacks_of_blade_resonance})"
+        label: str = f"Twofold Rapture ({stacks_of_blade_resonance})"
         base_potency: int = 90
 
         tags: set[DamageTag] = {
@@ -145,19 +145,19 @@ class TwinParadise(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Twin Paradise",
+            group_name="Twofold Rapture",
             buffs_before=buffs_before,
         )
 
 
-class TwinParadiseV4(CombatAction):
+class TwofoldRaptureV4(CombatAction):
     """Phaetusa Ultimate (V4)."""
 
     @override
     def execute(
         self, has_blood_oath: bool, stacks_of_blade_resonance: int
     ) -> DamageInstance:
-        label: str = f"Twin Paradise ({stacks_of_blade_resonance})"
+        label: str = f"Twofold Rapture ({stacks_of_blade_resonance})"
         base_potency: int = 120
 
         tags: set[DamageTag] = {
@@ -192,20 +192,20 @@ class TwinParadiseV4(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Twin Paradise",
+            group_name="Twofold Rapture",
             buffs_before=buffs_before,
         )
 
 
 class LaceratingWound(CombatAction):
-    """Effect from Lacerating Wound debuff applied from Replication Trap.
+    """Effect from Lacerating Wound debuff applied from Overwrite Trap.
     When taking damage, if the attacker used a blade, take an additional instance of damage equal to 40% of the original damage.
     Modeled as a separate instance taking in the original damage instance potency and using 40% of it.
     """
 
     @override
     def execute(self, original_damage_instance_potency: int) -> DamageInstance:
-        label: str = f"Lacerating Wound ({original_damage_instance_potency})"
+        label: str = f"Lacerating Wound ({original_damage_instance_potency}%)"
         base_potency: int = int(original_damage_instance_potency * 0.4)
 
         tags: set[DamageTag] = {
@@ -294,17 +294,17 @@ class Phaetusa(Doll):
         ]
     )
 
-    dual_slash: CombatAction = Field(default_factory=DualSlash)
-    double_descent: CombatAction = Field(default_factory=DoubleDescent)
-    twin_paradise: CombatAction = Field(default_factory=TwinParadise)
+    one_strike_two_cuts: CombatAction = Field(default_factory=OneStrikeTwoCuts)
+    dual_winged_descent: CombatAction = Field(default_factory=DualWingedDescent)
+    twofold_rapture: CombatAction = Field(default_factory=TwofoldRapture)
     support_action: CombatAction = Field(default_factory=SupportAction)
     lacerating_wound: CombatAction = Field(default_factory=LaceratingWound)
 
     def set_to_v0(self) -> None:
         """Sets Fortification Level to Segment00."""
-        self.dual_slash = DualSlash()
-        self.double_descent = DoubleDescent()
-        self.twin_paradise = TwinParadise()
+        self.one_strike_two_cuts = OneStrikeTwoCuts()
+        self.dual_winged_descent = DualWingedDescent()
+        self.twofold_rapture = TwofoldRapture()
         self.support_action = SupportAction()
         self.lacerating_wound = LaceratingWound()
 
@@ -312,13 +312,13 @@ class Phaetusa(Doll):
         """Sets Fortification Level to Segment02."""
         self.set_to_v0()
 
-        self.double_descent = DoubleDescentV2()
+        self.dual_winged_descent = DualWingedDescentV2()
 
     def set_to_v4(self) -> None:
         """Sets Fortification Level to Segment04."""
         self.set_to_v2()
 
-        self.twin_paradise = TwinParadiseV4()
+        self.twofold_rapture = TwofoldRaptureV4()
 
     def set_to_v5(self) -> None:
         """Sets Fortification Level to Segment05."""

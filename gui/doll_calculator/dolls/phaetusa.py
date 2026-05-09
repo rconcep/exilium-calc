@@ -11,7 +11,7 @@ from gui.templates.rotation_planner import RotationPlanner
 sample_rotation: dict[int, list[dict[str, Any]]] = {
     1: [
         {
-            "name": "Twin Paradise",
+            "name": "Twofold Rapture",
             "has_blood_oath": True,
             "stacks_of_blade_resonance": 1,
         },
@@ -37,7 +37,7 @@ sample_rotation: dict[int, list[dict[str, Any]]] = {
     ],
     2: [
         {
-            "name": "Twin Paradise",
+            "name": "Twofold Rapture",
             "has_blood_oath": True,
             "stacks_of_blade_resonance": 2,
         },
@@ -63,7 +63,7 @@ sample_rotation: dict[int, list[dict[str, Any]]] = {
     ],
     3: [
         {
-            "name": "Double Descent",
+            "name": "Dual-Winged Descent",
             "has_blood_oath": False,
         },
         {"name": "Support Action"},
@@ -84,7 +84,7 @@ sample_rotation: dict[int, list[dict[str, Any]]] = {
     ],
     4: [
         {
-            "name": "Twin Paradise",
+            "name": "Twofold Rapture",
             "has_blood_oath": True,
             "stacks_of_blade_resonance": 3,
         },
@@ -110,7 +110,7 @@ sample_rotation: dict[int, list[dict[str, Any]]] = {
     ],
     5: [
         {
-            "name": "Twin Paradise",
+            "name": "Twofold Rapture",
             "has_blood_oath": True,
             "stacks_of_blade_resonance": 2,
         },
@@ -136,7 +136,7 @@ sample_rotation: dict[int, list[dict[str, Any]]] = {
     ],
     6: [
         {
-            "name": "Double Descent",
+            "name": "Dual-Winged Descent",
             "has_blood_oath": False,
         },
         {"name": "Support Action"},
@@ -157,7 +157,7 @@ sample_rotation: dict[int, list[dict[str, Any]]] = {
     ],
     7: [
         {
-            "name": "Twin Paradise",
+            "name": "Twofold Rapture",
             "has_blood_oath": True,
             "stacks_of_blade_resonance": 3,
         },
@@ -203,7 +203,7 @@ class Phaetusa(DollCalculatorPage):
         doll = cast(phaetusa.Phaetusa, self.doll)
 
         self.option_config = {
-            "Dual Slash": {
+            "One Strike, Two Cuts": {
                 "fields": [
                     {
                         "key": "has_blood_oath",
@@ -212,9 +212,9 @@ class Phaetusa(DollCalculatorPage):
                         "default": False,
                     },
                 ],
-                "function": doll.dual_slash.execute,
+                "function": doll.one_strike_two_cuts.execute,
             },
-            "Double Descent": {
+            "Dual-Winged Descent": {
                 "fields": [
                     {
                         "key": "has_blood_oath",
@@ -223,9 +223,9 @@ class Phaetusa(DollCalculatorPage):
                         "default": False,
                     },
                 ],
-                "function": doll.double_descent.execute,
+                "function": doll.dual_winged_descent.execute,
             },
-            "Twin Paradise": {
+            "Twofold Rapture": {
                 "fields": [
                     {
                         "key": "has_blood_oath",
@@ -241,7 +241,7 @@ class Phaetusa(DollCalculatorPage):
                         "options": [n for n in range(4)],
                     },
                 ],
-                "function": doll.twin_paradise.execute,
+                "function": doll.twofold_rapture.execute,
             },
             "Support Action": {
                 "fields": [],
@@ -282,11 +282,11 @@ class Phaetusa(DollCalculatorPage):
         return [
             {"name": "Attack Up II"},
             {
-                "name": "Return Form (Phaetusa)",
+                "name": "Reversion (Phaetusa)",
                 "phaetusa_fortification_level": FortificationLevel.SEGMENT06,
             },
             {
-                "name": "Replication Trap (Phaetusa)",
+                "name": "Overwrite Trap (Phaetusa)",
                 "uses_of_replication_trap": 6,
                 "phaetusa_fortification_level": FortificationLevel.SEGMENT06,
             },
@@ -320,7 +320,7 @@ class Phaetusa(DollCalculatorPage):
             ),
             ModelAssumption(
                 icon="content_cut",
-                description="Sample rotation assumes all Support Actions are used each turn and that Escort is used after the uses of Replication Trap that generate an additional stack of Blade Resonance to gain Return Form.",
+                description="Sample rotation assumes all Support Actions are used each turn and that Synchrony is used after the uses of Overwrite Trap that generate an additional stack of Blade Resonance to gain Reversion from Synchrony.",
             ),
         ]
 
