@@ -12,7 +12,6 @@ from core.types import (
     FortificationLevel,
 )
 
-
 MAX_TILE_ASCENSION_LEVEL: int = 3
 
 
@@ -2746,6 +2745,19 @@ class AcidCorrosionII(Debuff):
         self.modifier_type = ModifierType.MULTIPLICATIVE
         self.stat_type = StatType.DEFENSE
         self.tag = DamageTag.CORROSION
+
+
+class RadioInvitationDefenseDown(Debuff):
+    """From Lind's Fixed Key 3 - Radio Invitation. Reduce defense by 15%. Considered a defense buff."""
+
+    display_name = "Radio Invitation: Defense Down"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        self.value = -15
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.DEFENSE
 
 
 def _generate_field(param_name, annotation, default, cls):

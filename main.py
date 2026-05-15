@@ -39,7 +39,6 @@ from gui.doll_calculator.dolls import (
 )
 from gui.styles.theme import apply_exilium_theme
 
-
 DOLL_PAGES: list[tuple[str, str, Callable[[], object]]] = [
     ("Alva", "/alva", Alva),
     ("Belka", "/belka", Belka),
@@ -134,11 +133,9 @@ def root():
 
 
 def mainpage() -> None:
-    ui.markdown(
-        """# Welcome to Exilium-Calc!
+    ui.markdown("""# Welcome to Exilium-Calc!
 Get started by selecting a Doll above.
-                """
-    ).classes("exilium-intro-copy exilium-shell")
+                """).classes("exilium-intro-copy exilium-shell")
 
     with ui.row().classes("w-full exilium-mainpage-row"):
         with ui.card().classes("w-150 h-150 exilium-panel"):
@@ -172,8 +169,7 @@ gearing choices (base damage, critical damage, etc.).
             ).classes("exilium-intro-copy")
 
         with ui.card().classes("w-150 h-150 exilium-panel"):
-            ui.markdown(
-                """## Damage Calculator
+            ui.markdown("""## Damage Calculator
 A tool used for calculating the damage dealt by a single action. Apply buffs to the Doll and debuffs to the target,
 select a skill, and hit calculate to see the expected result. Note that all visible stats are applied - the attribute
 tab is shared with all tools!
@@ -187,8 +183,7 @@ comparing the resulting expected damage (for a specific action under specified c
 Should you add "increased damage" modifiers or "increased critical damage", given the Doll's current build? This feature 
 allows you to see which stats provide the most marginal benefit to expected damage output by incrementally increasing 
 each stat and observing the resulting change in expected damage.
-                        """
-            ).classes("exilium-intro-copy")
+                        """).classes("exilium-intro-copy")
 
     with ui.row().classes("w-full exilium-mainpage-row"):
         with ui.card().classes("w-150 h-100 exilium-panel"):
@@ -196,6 +191,12 @@ each stat and observing the resulting change in expected damage.
             ui.separator()
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
+                    ui.timeline_entry(
+                        "Changed Phaetusa's Bloodquenched buff behavior such that it does not get multiplied by Blade Resonance stack effect. Updated Phaetusa's sample rotation.",
+                        title="",
+                        subtitle="May 15, 2026",
+                        icon="bloodtype",
+                    )
                     ui.timeline_entry(
                         "Updated names of Phaetusa's actions and buffs to match GL translations.",
                         title="",

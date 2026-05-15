@@ -17,8 +17,7 @@ from core.combat import (
     CombatAction,
 )
 
-
-BLOOD_OATH_DAMAGE_MULTIPLIER_INCREASE: int = 200
+BLOODQUENCHED_DAMAGE_MULTIPLIER_INCREASE: int = 200
 MAX_STACKS_OF_BLADE_RESONANCE: int = 3
 
 
@@ -26,7 +25,8 @@ class OneStrikeTwoCuts(CombatAction):
     """Phaetusa Basic Attack."""
 
     @override
-    def execute(self, has_blood_oath: bool) -> DamageInstance:
+    def execute(self, has_bloodquenched: bool) -> DamageInstance:
+        _ = has_bloodquenched
         label: str = "One Strike, Two Cuts"
         base_potency: int = 80
 
@@ -38,8 +38,32 @@ class OneStrikeTwoCuts(CombatAction):
             DamageTag.PHYSICAL,
         }
 
-        if has_blood_oath:
-            base_potency += BLOOD_OATH_DAMAGE_MULTIPLIER_INCREASE
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="One Strike, Two Cuts",
+        )
+
+
+class OneStrikeTwoCutsV6(CombatAction):
+    """Phaetusa Basic Attack (V6)."""
+
+    @override
+    def execute(self, has_bloodquenched: bool) -> DamageInstance:
+        label: str = "One Strike, Two Cuts"
+        base_potency: int = 80
+
+        tags: set[DamageTag] = {
+            DamageTag.ACTIVE,
+            DamageTag.BASIC,
+            DamageTag.MELEE,
+            DamageTag.TARGETED,
+            DamageTag.PHYSICAL,
+        }
+
+        if has_bloodquenched:
+            base_potency += BLOODQUENCHED_DAMAGE_MULTIPLIER_INCREASE
 
         return DamageInstance(
             label=label,
@@ -53,7 +77,8 @@ class DualWingedDescent(CombatAction):
     """Phaetusa S1."""
 
     @override
-    def execute(self, has_blood_oath: bool) -> DamageInstance:
+    def execute(self, has_bloodquenched: bool) -> DamageInstance:
+        _ = has_bloodquenched
         label: str = "Dual-Winged Descent"
         base_potency: int = 90
 
@@ -65,8 +90,32 @@ class DualWingedDescent(CombatAction):
             DamageTag.AREA_OF_EFFECT,
         }
 
-        if has_blood_oath:
-            base_potency += BLOOD_OATH_DAMAGE_MULTIPLIER_INCREASE
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Dual-Winged Descent",
+        )
+
+
+class DualWingedDescentV6(CombatAction):
+    """Phaetusa S1 (V6)."""
+
+    @override
+    def execute(self, has_bloodquenched: bool) -> DamageInstance:
+        label: str = "Dual-Winged Descent"
+        base_potency: int = 120
+
+        tags: set[DamageTag] = {
+            DamageTag.ACTIVE,
+            DamageTag.CORROSION,
+            DamageTag.PHASE,
+            DamageTag.MELEE,
+            DamageTag.AREA_OF_EFFECT,
+        }
+
+        if has_bloodquenched:
+            base_potency += BLOODQUENCHED_DAMAGE_MULTIPLIER_INCREASE
 
         return DamageInstance(
             label=label,
@@ -80,7 +129,8 @@ class DualWingedDescentV2(CombatAction):
     """Phaetusa S1 (V2)."""
 
     @override
-    def execute(self, has_blood_oath: bool) -> DamageInstance:
+    def execute(self, has_bloodquenched: bool) -> DamageInstance:
+        _ = has_bloodquenched
         label: str = "Dual-Winged Descent"
         base_potency: int = 120
 
@@ -91,9 +141,6 @@ class DualWingedDescentV2(CombatAction):
             DamageTag.MELEE,
             DamageTag.AREA_OF_EFFECT,
         }
-
-        if has_blood_oath:
-            base_potency += BLOOD_OATH_DAMAGE_MULTIPLIER_INCREASE
 
         return DamageInstance(
             label=label,
@@ -108,8 +155,9 @@ class TwofoldRapture(CombatAction):
 
     @override
     def execute(
-        self, has_blood_oath: bool, stacks_of_blade_resonance: int
+        self, has_bloodquenched: bool, stacks_of_blade_resonance: int
     ) -> DamageInstance:
+        _ = has_bloodquenched
         label: str = f"Twofold Rapture ({stacks_of_blade_resonance})"
         base_potency: int = 90
 
@@ -123,9 +171,6 @@ class TwofoldRapture(CombatAction):
         }
 
         buffs_before: list[Buff] = []
-
-        if has_blood_oath:
-            base_potency += BLOOD_OATH_DAMAGE_MULTIPLIER_INCREASE
 
         if stacks_of_blade_resonance > 0:
             # Consumes all stacks of Blade Resonance: for each stack consumed,
@@ -150,12 +195,12 @@ class TwofoldRapture(CombatAction):
         )
 
 
-class TwofoldRaptureV4(CombatAction):
-    """Phaetusa Ultimate (V4)."""
+class TwofoldRaptureV6(CombatAction):
+    """Phaetusa Ultimate (V6)."""
 
     @override
     def execute(
-        self, has_blood_oath: bool, stacks_of_blade_resonance: int
+        self, has_bloodquenched: bool, stacks_of_blade_resonance: int
     ) -> DamageInstance:
         label: str = f"Twofold Rapture ({stacks_of_blade_resonance})"
         base_potency: int = 120
@@ -171,8 +216,51 @@ class TwofoldRaptureV4(CombatAction):
 
         buffs_before: list[Buff] = []
 
-        if has_blood_oath:
-            base_potency += BLOOD_OATH_DAMAGE_MULTIPLIER_INCREASE
+        if stacks_of_blade_resonance > 0:
+            potency_per_stack: int = 20
+            base_potency += (
+                min(stacks_of_blade_resonance, MAX_STACKS_OF_BLADE_RESONANCE)
+                * potency_per_stack
+            )
+            base_potency *= 1 + min(
+                stacks_of_blade_resonance, MAX_STACKS_OF_BLADE_RESONANCE
+            )
+
+        # Bloodquenched increase is applied after the increase from Blade Resonance, so it is added at the end.
+        # (Does not get multiplied per stack of Blade Resonance)
+        if has_bloodquenched:
+            base_potency += BLOODQUENCHED_DAMAGE_MULTIPLIER_INCREASE
+
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Twofold Rapture",
+            buffs_before=buffs_before,
+        )
+
+
+class TwofoldRaptureV4(CombatAction):
+    """Phaetusa Ultimate (V4)."""
+
+    @override
+    def execute(
+        self, has_bloodquenched: bool, stacks_of_blade_resonance: int
+    ) -> DamageInstance:
+        _ = has_bloodquenched
+        label: str = f"Twofold Rapture ({stacks_of_blade_resonance})"
+        base_potency: int = 120
+
+        tags: set[DamageTag] = {
+            DamageTag.ACTIVE,
+            DamageTag.CORROSION,
+            DamageTag.PHASE,
+            DamageTag.MELEE,
+            DamageTag.AREA_OF_EFFECT,
+            DamageTag.ULTIMATE,
+        }
+
+        buffs_before: list[Buff] = []
 
         if stacks_of_blade_resonance > 0:
             # Consumes all stacks of Blade Resonance: for each stack consumed,
@@ -326,6 +414,14 @@ class Phaetusa(Doll):
 
         self.support_action = SupportActionV5()
 
+    def set_to_v6(self) -> None:
+        """Sets Fortification Level to Segment06."""
+        self.set_to_v5()
+
+        self.one_strike_two_cuts = OneStrikeTwoCutsV6()
+        self.dual_winged_descent = DualWingedDescentV6()
+        self.twofold_rapture = TwofoldRaptureV6()
+
     @override
     def set_fortification_level(self, level: FortificationLevel) -> None:
         self.fortification_level = level
@@ -343,4 +439,4 @@ class Phaetusa(Doll):
             case FortificationLevel.SEGMENT05:
                 self.set_to_v5()
             case FortificationLevel.SEGMENT06:
-                self.set_to_v5()
+                self.set_to_v6()
