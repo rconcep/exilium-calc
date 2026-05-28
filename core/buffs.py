@@ -1919,6 +1919,67 @@ class OverwriteTrap(Buff):
         self.tag = DamageTag.ALL
 
 
+class EnergyDrink(Buff):
+    """Basti buff"""
+
+    display_name = "Energy Drink (Basti)"
+    max_stack_count = 5
+    stack_input_type = "select"
+
+    def __init__(self, stacks: int, basti_fortification_level: FortificationLevel):
+        if basti_fortification_level >= FortificationLevel.SEGMENT03:
+            damage_boost_per_stack: int = 24
+        elif basti_fortification_level >= FortificationLevel.SEGMENT02:
+            damage_boost_per_stack: int = 12
+        else:
+            damage_boost_per_stack: int = 0
+
+        self.value = damage_boost_per_stack * min(stacks, self.max_stack_count)
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.ALL
+
+
+class AccomplicesEmblem(Buff):
+    """Basti buff"""
+
+    display_name = "Accomplice's Emblem (Basti)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, basti_fortification_level: FortificationLevel):
+        if basti_fortification_level >= FortificationLevel.SEGMENT03:
+            self.value = 30
+        else:
+            self.value = 15
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.ALL
+
+
+class CutiePieDetonation(Buff):
+    """Attack buff granted to Basti and Cutie Pies after each Cutie Pie self-detonates."""
+
+    display_name = "Cutie Pie Detonation (Basti)"
+    max_stack_count = 3
+    stack_input_type = "input"
+
+    def __init__(
+        self, cutie_pies_detonated: int, basti_fortification_level: FortificationLevel
+    ):
+        attack_boost_per_prior_detonation: int = 0
+
+        if basti_fortification_level >= FortificationLevel.SEGMENT06:
+            attack_boost_per_prior_detonation = 3
+
+        self.value = attack_boost_per_prior_detonation * max(cutie_pies_detonated, 0)
+
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.ATTACK
+        self.tag = DamageTag.ALL
+
+
 class SupportBoostI(Buff):
     """Increases damage dealt with Support Action by 15%. Damage against exposed units is increased by 10%."""
 
@@ -2758,6 +2819,24 @@ class RadioInvitationDefenseDown(Debuff):
         self.value = -15
         self.modifier_type = ModifierType.MULTIPLICATIVE
         self.stat_type = StatType.DEFENSE
+
+
+class SloppyGrimace(Debuff):
+    """Increases Corrosion damage taken. Considered a Corrosion debuff."""
+
+    display_name = "Sloppy Grimace (Basti)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, basti_fortification_level: FortificationLevel):
+        if basti_fortification_level >= FortificationLevel.SEGMENT03:
+            self.value = 30
+        else:
+            self.value = 15
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.CORROSION
 
 
 def _generate_field(param_name, annotation, default, cls):

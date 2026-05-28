@@ -1,3 +1,4 @@
+import copy
 from typing import Any
 from nicegui import ui
 from nicegui.events import ClickEventArguments
@@ -256,5 +257,5 @@ class SelectableChipsEditor:
         self.clear_all()
 
     def set_data(self, data: list[dict]):
-        self.selected_items = data
+        self.selected_items = copy.deepcopy(data)
         self.refresh_chips()

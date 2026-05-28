@@ -3,6 +3,7 @@ from typing import Callable
 
 from gui.doll_calculator.dolls import (
     Alva,
+    Basti,
     Daiyan,
     Dushevnaya,
     Faye,
@@ -41,6 +42,7 @@ from gui.styles.theme import apply_exilium_theme
 
 DOLL_PAGES: list[tuple[str, str, Callable[[], object]]] = [
     ("Alva", "/alva", Alva),
+    ("Basti", "/basti", Basti),
     ("Belka", "/belka", Belka),
     ("Cheyanne", "/cheyanne", Cheyanne),
     ("Daiyan", "/daiyan", Daiyan),
@@ -191,6 +193,12 @@ each stat and observing the resulting change in expected damage.
             ui.separator()
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
+                    ui.timeline_entry(
+                        "Implemented Basti (preview). Fixed a bug in Rotation Potency where removing actions from one turn could cause actions to be removed from other turns as well due to shared references.",
+                        title="",
+                        subtitle="May 27, 2026",
+                        icon="person_add",
+                    )
                     ui.timeline_entry(
                         "Added Total Increased Damage to Damage Calculator results.",
                         title="",
