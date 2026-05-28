@@ -1901,19 +1901,19 @@ class OverwriteTrap(Buff):
     """Permanent effect of V1+ Phaetusa - gain 15% critical damage for every 2 uses of Overwrite Trap."""
 
     display_name = "Overwrite Trap (Phaetusa)"
-    max_stack_count = 6
+    max_stack_count = 4
     stack_input_type = "input"
 
     def __init__(
         self,
-        uses_of_replication_trap: int,
+        uses_of_overwrite_trap: int,
         phaetusa_fortification_level: FortificationLevel,
     ):
         critical_damage_per_two_uses: int = 0
         if phaetusa_fortification_level >= FortificationLevel.SEGMENT03:
             critical_damage_per_two_uses = 15
 
-        self.value = critical_damage_per_two_uses * (uses_of_replication_trap // 2)
+        self.value = critical_damage_per_two_uses * (uses_of_overwrite_trap // 2)
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = SpecialAttribute.CRITICAL_DAMAGE
         self.tag = DamageTag.ALL

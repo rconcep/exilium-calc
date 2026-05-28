@@ -247,6 +247,14 @@ class DamageCalculator:
                     Decimal("0.01"), rounding=ROUND_DOWN
                 )
             )
+            # + "%"
+        )
+        self.results_labels["total_increased_damage_pct"].text = (
+            str(
+                Decimal(self.combat_summary.total_increased_damage_pct).quantize(
+                    Decimal("0.01"), rounding=ROUND_DOWN
+                )
+            )
             + "%"
         )
         self.results_labels["negative_defense"].text = (
@@ -473,6 +481,18 @@ class DamageCalculator:
 
             with ui.item():
                 with ui.item_section().props(""):
+                    ui.item_label("Total Increased Damage")
+                with ui.item_section().props("side"):
+                    self.results_labels["total_increased_damage_pct"] = ui.label()
+
+            with ui.item():
+                with ui.item_section().props(""):
+                    ui.item_label("Effective Potency")
+                with ui.item_section().props("side"):
+                    self.results_labels["effective_damage_multiplier"] = ui.label()
+
+            with ui.item():
+                with ui.item_section().props(""):
                     ui.item_label("Effective Attack")
                 with ui.item_section().props("side"):
                     self.results_labels["effective_attack"] = ui.label()
@@ -482,13 +502,6 @@ class DamageCalculator:
                     ui.item_label("Effective Defense")
                 with ui.item_section().props("side"):
                     self.results_labels["effective_defense"] = ui.label()
-
-            with ui.item():
-                with ui.item_section().props(""):
-                    ui.item_label("Effective Potency")
-                    # ui.item_label('description').props('caption')
-                with ui.item_section().props("side"):
-                    self.results_labels["effective_damage_multiplier"] = ui.label()
 
             with ui.item():
                 with ui.item_section().props(""):
@@ -544,18 +557,18 @@ class DamageCalculator:
                 },
             )
             self._create_scenario_row(
-                label="Change Attack for Health",
+                label="+0.4 Crit Dmg",
                 mode="combined",
                 component_1={
-                    "source": "initial_stats",
-                    "increment": 50,
-                    "stat": StatType.HEALTH,
-                    "special_attribute": SpecialAttribute.DAMAGE_BOOST,
+                    "source": "additive_special_attributes",
+                    "increment": 0.4,
+                    "stat": StatType.CRIT_DAMAGE,
+                    "special_attribute": SpecialAttribute.CRITICAL_DAMAGE,
                     "tag": default_tag,
                 },
                 component_2={
                     "source": "initial_stats",
-                    "increment": -20,
+                    "increment": 0,
                     "stat": StatType.ATTACK,
                     "special_attribute": SpecialAttribute.DAMAGE_BOOST,
                     "tag": default_tag,

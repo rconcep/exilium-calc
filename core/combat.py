@@ -151,8 +151,11 @@ class DamageCalculationStrategy(ABC):
                 SpecialAttribute.DAMAGE_BOOST
             ].add_to_multiplier(DamageTag.PHYSICAL, bonus_increased_damage)
 
-        # Get the effective damage multiplier
-        effective_dmg_multiplier: float = self.get_effective_multiplier(
+        # Get effective potency multiplier and total increased damage % from potency scaling.
+        (
+            effective_dmg_multiplier,
+            total_increased_damage_pct,
+        ) = self.get_effective_multiplier(
             attacker=attacker,
             target=target,
             damage_instance=damage_instance,
@@ -212,6 +215,7 @@ class DamageCalculationStrategy(ABC):
             critical_damage=critical_damage,
             expected_damage=expected_damage,
             effective_damage_multiplier=effective_dmg_multiplier,
+            total_increased_damage_pct=total_increased_damage_pct,
             critical_rate=crit_rate,
             effective_critical_damage_multiplier=crit_dmg_multiplier,
             effective_attack=effective_atk,
@@ -452,8 +456,8 @@ class DamageCalculationStrategy(ABC):
         damage_instance: DamageInstance,
         buffs_before: list[Buff] = [],
         debuffs_before: list[Debuff] = [],
-    ) -> float:
-        """Returns the effective multiplier of damage_instance.
+    ) -> tuple[float, float]:
+        """Returns the effective potency multiplier and total increased damage %.
 
         Arguments:
         attacker -- the attacking Unit
@@ -468,7 +472,14 @@ class DamageCalculationStrategy(ABC):
             damage_instance=damage_instance,
         )
 
-        return adjusted_potency / 100
+        if damage_instance.base_potency == 0:
+            total_increased_damage_pct: float = 0
+        else:
+            total_increased_damage_pct = (
+                adjusted_potency / damage_instance.base_potency - 1
+            ) * 100
+
+        return adjusted_potency / 100, total_increased_damage_pct
 
     @final
     def calculate_crit_and_expected_damage(
@@ -616,6 +627,7 @@ class CombatSummary(BaseModel):
     critical_damage: float = 0
     expected_damage: float = 0
     effective_damage_multiplier: float = 0
+    total_increased_damage_pct: float = 0
     critical_rate: float = 0
     effective_critical_damage_multiplier: float = 0
     effective_attack: float = 0

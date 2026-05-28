@@ -192,6 +192,12 @@ each stat and observing the resulting change in expected damage.
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
                     ui.timeline_entry(
+                        "Added Total Increased Damage to Damage Calculator results.",
+                        title="",
+                        subtitle="May 27, 2026",
+                        icon="functions",
+                    )
+                    ui.timeline_entry(
                         "Changed Phaetusa's Bloodquenched buff behavior such that it does not get multiplied by Blade Resonance stack effect. Updated Phaetusa's sample rotation.",
                         title="",
                         subtitle="May 15, 2026",

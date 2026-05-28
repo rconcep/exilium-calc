@@ -288,10 +288,10 @@ class Phaetusa(DollCalculatorPage):
     def set_initial_values(self) -> None:
         doll = cast(phaetusa.Phaetusa, self.doll)
 
-        doll.initial_stats.basic_attributes[StatType.ATTACK] = 4064
-        doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 98.3
-        doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 188.3
-        doll.initial_stats.basic_attributes[StatType.HEALTH] = 4343
+        doll.initial_stats.basic_attributes[StatType.ATTACK] = 4197
+        doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 99.2
+        doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 189.2
+        doll.initial_stats.basic_attributes[StatType.HEALTH] = 4538
 
         # Key: 7
         # Attachment: 12
@@ -371,7 +371,7 @@ class Phaetusa(DollCalculatorPage):
             },
             {
                 "name": "Overwrite Trap (Phaetusa)",
-                "uses_of_replication_trap": 6,
+                "uses_of_overwrite_trap": 4,
                 "phaetusa_fortification_level": FortificationLevel.SEGMENT06,
             },
             {
