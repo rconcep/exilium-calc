@@ -1,0 +1,94 @@
+{
+  "doll": "Alva",
+  "sections": [
+    {
+      "kind": "markdown",
+      "key": "synopsis",
+      "title": "Synopsis",
+      "markdown": "Freeze damage support based on shield generation and Freeze damage amplification based on shield size. Capable of multiple Interceptions per turn and can generate Confectance Index for Freeze-attributed allies."
+    },
+    {
+      "kind": "utility_table",
+      "key": "utility",
+      "title": "Utility",
+      "rows": [
+        {
+          "label": "Frost tile generation",
+          "detail": "Fixed Key 1"
+        },
+        {
+          "label": "Shield",
+          "detail": "On interception, ultimate (V4+) based on damage dealt"
+        },
+        {
+          "label": "Increased shield effectiveness",
+          "detail": "(30-50%) Passive"
+        },
+        {
+          "label": "Increased Freeze damage dealt",
+          "detail": "(~12-36%) Brumal Barrier effect (passively), based on shield size"
+        },
+        {
+          "label": "Increased Freeze critical damage dealt (V3+)",
+          "detail": "(~8-24%)Brumal Barrier effect (passively), based on shield size"
+        },
+        {
+          "label": "Confectance Index generation (V2+)",
+          "detail": "(1) Freeze allies, after ultimate"
+        },
+        {
+          "label": "Increased Freeze damage taken",
+          "detail": "(20-40%) Hypothermia debuff, applied in area around Liquid N2 Fang"
+        },
+        { "label": "Buff cleanse", "detail": "Fixed Key 5" },
+        {
+          "label": "Interception",
+          "detail": "Covering Mode - up to 3 times per turn"
+        }
+      ]
+    },
+    {
+      "kind": "fortification_table",
+      "key": "fortification_upgrades",
+      "title": "Fortification Level upgrades",
+      "upgrades": [
+        {
+          "level": 1,
+          "description": "Personal damage increase; removes need for S1 from rotation."
+        },
+        {
+          "level": 2,
+          "description": "Personal damage increase; adds Confectance Index generation for Freeze allies."
+        },
+        {
+          "level": 3,
+          "description": "Increases shield effectiveness boost; adds Freeze critical damage boost to Brumal Barrier."
+        },
+        {
+          "level": 4,
+          "description": "Improves shield generation."
+        },
+        {
+          "level": 5,
+          "description": "Personal damage increase; enhances Hypothermia potency."
+        },
+        {
+          "level": 6,
+          "description": "Raises Brumal Barrier size limit; enhances Freeze damage and critical damage buff from Brumal Barrier."
+        }
+      ]
+    },
+    {
+      "kind": "markdown",
+      "key": "team_notes",
+      "title": "Team notes",
+      "markdown": "Significantly enhances Freeze-attributed allies through damage boost as well as critical damage (V3+) and applying an increased Freeze damage taken debuff. At V2+, can generate an extra point of Confectance Index for Freeze allies, potentially altering skill rotations. High synergy with Robella - Alva can perform multiple interceptions per turn and can hit a large AoE with her S2, tagging targets for Robella's follow-ups."
+    },
+    {
+      "kind": "markdown",
+      "key": "build_notes",
+      "title": "Build notes",
+      "markdown": "Maximum shield value is based on Alva's initial attack. Since Alva's personal damage potential is decent, build her like a Freeze DPS - Attack Boost, Attack, and Critical Damage/Rate. Note that Alva's Covering Mode, which should have permanent uptime, grants Alva 20% critical hit rate."
+    }
+  ]
+}

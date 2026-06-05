@@ -10,8 +10,8 @@ from core.types import (
 
 
 class TestBastiSkills:
-    def test_reckless_provocation(self):
-        result = RecklessProvocation().execute()
+    def test_wildcat_impulse(self):
+        result = WildcatImpulse().execute()
 
         assert result.base_potency == 80
         assert result.tags == {
@@ -21,7 +21,7 @@ class TestBastiSkills:
             DamageTag.TARGETED,
             DamageTag.PHYSICAL,
         }
-        assert result.group_name == "Reckless Provocation"
+        assert result.group_name == "Wildcat Impulse"
 
     def test_self_destruct(self):
         result = SelfDestruct().execute()
@@ -33,7 +33,7 @@ class TestBastiSkills:
             DamageTag.PHASE,
             DamageTag.AREA_OF_EFFECT,
         }
-        assert result.group_name == "Self-Destruct (Cutie Pie)"
+        assert result.group_name == "Self-Destruct (Cutie)"
 
     def test_self_destruct_v6(self):
         result = SelfDestructV6().execute()
@@ -108,7 +108,7 @@ class TestBasti:
         doll = Basti()
         doll.set_to_v0()
 
-        assert isinstance(doll.reckless_provocation, RecklessProvocation)
+        assert isinstance(doll.wildcat_impulse, WildcatImpulse)
         assert isinstance(doll.self_destruct, SelfDestruct)
         assert isinstance(doll.candy_coated_carnage, CandyCoatedCarnage)
         assert isinstance(doll.grudge, Grudge)
@@ -117,7 +117,7 @@ class TestBasti:
         doll = Basti()
         doll.set_to_v4()
 
-        assert isinstance(doll.reckless_provocation, RecklessProvocation)
+        assert isinstance(doll.wildcat_impulse, WildcatImpulse)
         assert isinstance(doll.self_destruct, SelfDestruct)
         assert isinstance(doll.candy_coated_carnage, CandyCoatedCarnageV4)
         assert isinstance(doll.grudge, Grudge)
@@ -126,7 +126,7 @@ class TestBasti:
         doll = Basti()
         doll.set_to_v5()
 
-        assert isinstance(doll.reckless_provocation, RecklessProvocation)
+        assert isinstance(doll.wildcat_impulse, WildcatImpulse)
         assert isinstance(doll.self_destruct, SelfDestruct)
         assert isinstance(doll.candy_coated_carnage, CandyCoatedCarnageV5)
         assert isinstance(doll.grudge, GrudgeV5)
@@ -135,7 +135,7 @@ class TestBasti:
         doll = Basti()
         doll.set_to_v6()
 
-        assert isinstance(doll.reckless_provocation, RecklessProvocation)
+        assert isinstance(doll.wildcat_impulse, WildcatImpulse)
         assert isinstance(doll.self_destruct, SelfDestructV6)
         assert isinstance(doll.candy_coated_carnage, CandyCoatedCarnageV5)
         assert isinstance(doll.grudge, GrudgeV5)

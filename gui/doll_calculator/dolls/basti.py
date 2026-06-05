@@ -9,13 +9,13 @@ from gui.templates.rotation_planner import RotationPlanner
 
 _t1 = [
     {
-        "name": "Self-Destruct (Cutie Pie)",
+        "name": "Self-Destruct (Cutie)",
     },
     {
-        "name": "Self-Destruct (Cutie Pie)",
+        "name": "Self-Destruct (Cutie)",
     },
     {
-        "name": "Self-Destruct (Cutie Pie)",
+        "name": "Self-Destruct (Cutie)",
     },
     {
         "name": "Candy-Coated Carnage",
@@ -34,13 +34,13 @@ _t1 = [
 
 _t2 = [
     {
-        "name": "Self-Destruct (Cutie Pie)",
+        "name": "Self-Destruct (Cutie)",
     },
     {
-        "name": "Self-Destruct (Cutie Pie)",
+        "name": "Self-Destruct (Cutie)",
     },
     {
-        "name": "Self-Destruct (Cutie Pie)",
+        "name": "Self-Destruct (Cutie)",
     },
 ]
 
@@ -64,9 +64,9 @@ class Basti(DollCalculatorPage):
 
         self.doll = basti.Basti()
         self.doll.set_fortification_level(FortificationLevel.SEGMENT06)
-        self.doll_subtitle: str = """Summon / Support Action / AoE
+        self.doll_subtitle: str = """Summon / Transfer / Tile
 
-            Sentinel / Corrosion"""
+            Support / Corrosion"""
         self.dandegate_link: str = "https://www.dandegate.net/dolls/basti"
         self.doll_portrait: str = "resources/basti.webp"
 
@@ -75,11 +75,11 @@ class Basti(DollCalculatorPage):
         doll = cast(basti.Basti, self.doll)
 
         self.option_config: dict[str, dict[str, Any]] = {
-            "Reckless Provocation": {
+            "Wildcat Impulse": {
                 "fields": [],
-                "function": doll.reckless_provocation.execute,
+                "function": doll.wildcat_impulse.execute,
             },
-            "Self-Destruct (Cutie Pie)": {
+            "Self-Destruct (Cutie)": {
                 "fields": [],
                 "function": doll.self_destruct.execute,
             },
@@ -130,12 +130,12 @@ class Basti(DollCalculatorPage):
                 "basti_fortification_level": FortificationLevel.SEGMENT06,
             },
             {
-                "name": "Accomplice's Emblem (Basti)",
+                "name": "Insignia of Camaraderie (Basti)",
                 "basti_fortification_level": FortificationLevel.SEGMENT06,
             },
             {
-                "name": "Cutie Pie Detonation (Basti)",
-                "cutie_pies_detonated": 18,
+                "name": "Cutie Detonation (Basti)",
+                "cuties_detonated": 18,
                 "basti_fortification_level": FortificationLevel.SEGMENT06,
             },
         ]
@@ -145,7 +145,7 @@ class Basti(DollCalculatorPage):
             {"name": "Defense Down II"},
             {"name": "Toxin Inundation"},
             {
-                "name": "Sloppy Grimace (Basti)",
+                "name": "Scribbled Funny Face (Basti)",
                 "basti_fortification_level": FortificationLevel.SEGMENT06,
             },
         ]

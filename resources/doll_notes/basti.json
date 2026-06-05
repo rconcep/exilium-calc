@@ -1,0 +1,90 @@
+{
+  "doll": "Basti",
+  "sections": [
+    {
+      "kind": "markdown",
+      "key": "synopsis",
+      "title": "Synopsis",
+      "markdown": "Corrosion damage support with consistent tile generation, health and stability recovery, and decent personal damage output."
+    },
+    {
+      "kind": "utility_table",
+      "key": "utility",
+      "title": "Utility",
+      "rows": [
+        {
+          "label": "Toxic Mist tile generation",
+          "detail": "On Cutie detonation, at battle start, after moving"
+        },
+        { "label": "Attack Up II", "detail": "Allies on Toxic Mist tiles" },
+        {
+          "label": "Increased damage dealt",
+          "detail": "(15-30%) Insignia of Camaraderie buff"
+        },
+        { "label": "Continuous Healing II", "detail": "S1" },
+        {
+          "label": "Increased Corrosion damage taken",
+          "detail": "(15-30%) Scribbled Funny Face debuff; distinct from Toxin Inundation."
+        },
+        { "label": "Toxin Inundation", "detail": "On Cutie detonation" },
+        { "label": "Stun", "detail": "On Cutie detonation" },
+        { "label": "Teleport", "detail": "S1, one ally" },
+        { "label": "Buff cleanse", "detail": "Fixed Key 5" },
+        { "label": "Heal (team)", "detail": "Ultimate (V4+)" },
+        { "label": "Debuff cleanse (team)", "detail": "Ultimate (V4+)" },
+        {
+          "label": "Infatuated and Stun cleanse (team)",
+          "detail": "Ultimate (V4+)"
+        },
+        {
+          "label": "Lifesteal",
+          "detail": "Scribbled Funny Face debuff (based on Corrosion damage dealt)"
+        },
+        { "label": "Stability recovery", "detail": "Insignia of Camaraderie buff" }
+      ]
+    },
+    {
+      "kind": "fortification_table",
+      "key": "fortification_upgrades",
+      "title": "Fortification Level upgrades",
+      "upgrades": [
+        {
+          "level": 1,
+          "description": "Personal damage increase - additional summon and increased attack range."
+        },
+        {
+          "level": 2,
+          "description": "More regular tile generation. Increased healing and personal damage buff."
+        },
+        {
+          "level": 3,
+          "description": "Increased efficacy of buffs and debuffs."
+        },
+        {
+          "level": 4,
+          "description": "Personal damage increase; team-wide heal and debuff cleanse."
+        },
+        {
+          "level": 5,
+          "description": "Personal damage increase; add Infatuated and Stun to team-wide cleanse."
+        },
+        {
+          "level": 6,
+          "description": "Personal damage increase."
+        }
+      ]
+    },
+    {
+      "kind": "markdown",
+      "key": "team_notes",
+      "title": "Team notes",
+      "markdown": "Utility is mostly Corrosion-specific: Toxic Mist tile generation, debuff application for increased Corrosion damage taken, etc."
+    },
+    {
+      "kind": "markdown",
+      "key": "build_notes",
+      "title": "Build notes",
+      "markdown": "Healing is based on attacker\u0027s damage dealt or Basti\u0027s own attack. Since Basti\u0027s personal damage potential is decent, build her like a Corrosion DPS."
+    }
+  ]
+}

@@ -12,6 +12,13 @@ from core.types import *
 from core.stat_serializer import SerializationError, StatsSerializer
 from core.combat import DamageInstance, sum_damage_instances
 from gui.templates.rotation_planner import RotationPlanner
+from gui.templates.doll_notes import (
+    BulletsSection,
+    FortificationTableSection,
+    MarkdownSection,
+    UtilityTableSection,
+    load_notes_document,
+)
 from gui.styles.descriptions import get_tag_description, get_stat_description
 from gui.styles.graphs import get_bar_chart_template, get_donut_chart_template
 
@@ -123,14 +130,12 @@ class DollCalculatorPage(ABC):
     def doll_header(self) -> None:
         """Generates the Doll description."""
         ui.page_title(f"Exilium-Calc: {self.doll.name}")
-        ui.markdown(
-            f"""
+        ui.markdown(f"""
             # {self.doll.name}
             {self.doll_subtitle}
 
             [Dandegate]({self.dandegate_link})
-        """
-        ).classes("exilium-character-copy")
+        """).classes("exilium-character-copy")
 
     @abstractmethod
     def get_model_assumptions(self) -> list[ModelAssumption]:
@@ -1446,6 +1451,7 @@ class DollCalculatorPage(ABC):
         with ui.tabs().classes("w-fit exilium-main-tabs") as tabs:
             basic_stats_tab = ui.tab("Rotation Potency")
             special_stats_tab = ui.tab("Damage Calculator")
+            notes_tab = ui.tab("Doll Notes")
 
         with ui.tab_panels(tabs, value=basic_stats_tab).classes(
             "w-340 h-full exilium-tab-panels"
@@ -1459,6 +1465,122 @@ class DollCalculatorPage(ABC):
                 from gui.templates.damage_calculator import DamageCalculator
 
                 self.damage_calculator = DamageCalculator(self)
+
+            with ui.tab_panel(notes_tab).classes("w-full h-650"):
+                notes_document = load_notes_document(self.doll.name)
+
+                def render_notes_card(section: Any) -> None:
+                    with ui.card().classes("w-full exilium-panel"):
+                        ui.label(section.title).classes("text-h6")
+                        ui.separator()
+                        if isinstance(section, MarkdownSection):
+                            if section.markdown:
+                                ui.markdown(section.markdown).classes(
+                                    "exilium-intro-copy"
+                                )
+                            return
+
+                        if isinstance(section, BulletsSection):
+                            if section.bullets:
+                                with ui.list().props("dense"):
+                                    for bullet in section.bullets:
+                                        with ui.item():
+                                            with ui.item_section().props("avatar"):
+                                                ui.icon("notes")
+                                            with ui.item_section():
+                                                ui.item_label(bullet)
+                            return
+
+                        if isinstance(section, UtilityTableSection):
+                            rows = [
+                                {
+                                    "label": row.label,
+                                    "detail": row.detail,
+                                }
+                                for row in section.rows
+                            ]
+                            columns = [
+                                {
+                                    "name": "label",
+                                    "label": "Utility",
+                                    "field": "label",
+                                    "align": "left",
+                                },
+                                {
+                                    "name": "detail",
+                                    "label": "Detail",
+                                    "field": "detail",
+                                    "align": "left",
+                                },
+                            ]
+                            ui.table(
+                                columns=columns,
+                                rows=rows,
+                                # pagination={"rowsPerPage": 8},
+                            ).classes("w-full exilium-data-table exilium-wrap-table")
+                            return
+
+                        if isinstance(section, FortificationTableSection):
+                            rows = [
+                                {
+                                    "segment": f"V{row.level}",
+                                    "upgrade": row.description,
+                                }
+                                for row in section.upgrades
+                            ]
+                            columns = [
+                                {
+                                    "name": "segment",
+                                    "label": "Segment",
+                                    "field": "segment",
+                                    "align": "left",
+                                    "style": "width: 6rem; min-width: 6rem; max-width: 6rem; white-space: nowrap;",
+                                    "headerStyle": "width: 7rem; min-width: 6rem; max-width: 7rem; white-space: nowrap;",
+                                },
+                                {
+                                    "name": "upgrade",
+                                    "label": "Upgrade",
+                                    "field": "upgrade",
+                                    "align": "left",
+                                },
+                            ]
+                            ui.table(
+                                columns=columns,
+                                rows=rows,
+                            ).classes("w-full exilium-data-table exilium-wrap-table")
+
+                with ui.scroll_area().classes("w-full h-full"):
+                    with ui.column().classes("w-full gap-4"):
+                        if notes_document.warning:
+                            with ui.card().classes("w-full exilium-panel"):
+                                ui.label("Notes warning").classes("text-subtitle1")
+                                ui.separator()
+                                ui.label(notes_document.warning).classes(
+                                    "text-caption exilium-subtle"
+                                )
+
+                        markdown_heavy_keys = ("synopsis", "team_notes", "build_notes")
+
+                        markdown_sections = [
+                            section
+                            for section in notes_document.sections
+                            if section.key in markdown_heavy_keys
+                        ]
+                        bullet_sections = [
+                            section
+                            for section in notes_document.sections
+                            if section.key not in markdown_heavy_keys
+                        ]
+
+                        if markdown_sections:
+                            with ui.grid(columns=3).classes("w-full"):
+                                for section in markdown_sections:
+                                    render_notes_card(section)
+
+                        if bullet_sections:
+                            with ui.grid(columns=2).classes("w-full"):
+                                for section in bullet_sections:
+                                    render_notes_card(section)
 
         self.damage_instances = self.rotation_planner.get_all_actions()
         self.stats_update_callback(None)

@@ -194,6 +194,12 @@ each stat and observing the resulting change in expected damage.
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
                     ui.timeline_entry(
+                        "Added a tab for Doll Notes - quick reference for Dolls' utility, team and build tips, and upgrades at each fortification level. Updated Basti's localizations after GL release.",
+                        title="Added Doll Notes",
+                        subtitle="June 4, 2026",
+                        icon="post_add",
+                    )
+                    ui.timeline_entry(
                         "Implemented Basti (preview). Fixed a bug in Rotation Potency where removing actions from one turn could cause actions to be removed from other turns as well due to shared references.",
                         title="",
                         subtitle="May 27, 2026",

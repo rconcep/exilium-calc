@@ -13,8 +13,7 @@ def apply_exilium_theme() -> None:
         warning="#e7bc61",
         info="#65bbc4",
     )
-    ui.add_head_html(
-        """
+    ui.add_head_html("""
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -369,6 +368,19 @@ def apply_exilium_theme() -> None:
             background: rgba(143, 214, 208, 0.06);
           }
 
+          .exilium-wrap-table .q-table {
+            table-layout: fixed;
+            width: 100%;
+          }
+
+          .exilium-wrap-table .q-table th,
+          .exilium-wrap-table .q-table td {
+            white-space: normal !important;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            vertical-align: top;
+          }
+
           .q-chip {
             background: linear-gradient(180deg, rgba(40, 90, 96, 0.92), rgba(20, 49, 55, 0.96)) !important;
             border: 1px solid rgba(143, 214, 208, 0.18);
@@ -411,5 +423,4 @@ def apply_exilium_theme() -> None:
             background: rgba(10, 24, 30, 0.58);
           }
         </style>
-        """
-    )
+        """)

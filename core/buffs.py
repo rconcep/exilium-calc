@@ -1940,10 +1940,10 @@ class EnergyDrink(Buff):
         self.tag = DamageTag.ALL
 
 
-class AccomplicesEmblem(Buff):
+class InsigniaOfCamaraderie(Buff):
     """Basti buff"""
 
-    display_name = "Accomplice's Emblem (Basti)"
+    display_name = "Insignia of Camaraderie (Basti)"
     max_stack_count = 1
     stack_input_type = "select"
 
@@ -1958,22 +1958,22 @@ class AccomplicesEmblem(Buff):
         self.tag = DamageTag.ALL
 
 
-class CutiePieDetonation(Buff):
-    """Attack buff granted to Basti and Cutie Pies after each Cutie Pie self-detonates."""
+class CutieDetonation(Buff):
+    """Attack buff granted to Basti and Cuties after each Cutie self-detonates."""
 
-    display_name = "Cutie Pie Detonation (Basti)"
+    display_name = "Cutie Detonation (Basti)"
     max_stack_count = 3
     stack_input_type = "input"
 
     def __init__(
-        self, cutie_pies_detonated: int, basti_fortification_level: FortificationLevel
+        self, cuties_detonated: int, basti_fortification_level: FortificationLevel
     ):
         attack_boost_per_prior_detonation: int = 0
 
         if basti_fortification_level >= FortificationLevel.SEGMENT06:
             attack_boost_per_prior_detonation = 3
 
-        self.value = attack_boost_per_prior_detonation * max(cutie_pies_detonated, 0)
+        self.value = attack_boost_per_prior_detonation * max(cuties_detonated, 0)
 
         self.modifier_type = ModifierType.MULTIPLICATIVE
         self.stat_type = StatType.ATTACK
@@ -2821,10 +2821,10 @@ class RadioInvitationDefenseDown(Debuff):
         self.stat_type = StatType.DEFENSE
 
 
-class SloppyGrimace(Debuff):
+class ScribbledFunnyFace(Debuff):
     """Increases Corrosion damage taken. Considered a Corrosion debuff."""
 
-    display_name = "Sloppy Grimace (Basti)"
+    display_name = "Scribbled Funny Face (Basti)"
     max_stack_count = 1
     stack_input_type = "select"
 

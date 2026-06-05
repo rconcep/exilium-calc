@@ -14,12 +14,12 @@ from core.buffs import Buff
 from core.combat import DamageInstance, CombatAction
 
 
-class RecklessProvocation(CombatAction):
+class WildcatImpulse(CombatAction):
     """Basti Basic Attack."""
 
     @override
     def execute(self) -> DamageInstance:
-        label: str = "Reckless Provocation"
+        label: str = "Wildcat Impulse"
         base_potency: int = 80
 
         tags: set[DamageTag] = {
@@ -34,18 +34,18 @@ class RecklessProvocation(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Reckless Provocation",
+            group_name="Wildcat Impulse",
         )
 
 
 class SelfDestruct(CombatAction):
-    """Cutie Pie summon's Self-Destruct."""
+    """Cutie summon's Self-Destruct."""
 
     @override
     def execute(
         self,
     ) -> DamageInstance:
-        label: str = "Self-Destruct (Cutie Pie)"
+        label: str = "Self-Destruct (Cutie)"
         base_potency: int = 100
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -58,18 +58,18 @@ class SelfDestruct(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Self-Destruct (Cutie Pie)",
+            group_name="Self-Destruct (Cutie)",
         )
 
 
 class SelfDestructV6(CombatAction):
-    """Cutie Pie summon's Self-Destruct (V6)."""
+    """Cutie summon's Self-Destruct (V6)."""
 
     @override
     def execute(
         self,
     ) -> DamageInstance:
-        label: str = "Self-Destruct (Cutie Pie)"
+        label: str = "Self-Destruct (Cutie)"
         base_potency: int = 130
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -82,7 +82,7 @@ class SelfDestructV6(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Self-Destruct (Cutie Pie)",
+            group_name="Self-Destruct (Cutie)",
         )
 
 
@@ -250,14 +250,14 @@ class Basti(Doll):
         ]
     )
 
-    reckless_provocation: CombatAction = Field(default_factory=RecklessProvocation)
+    wildcat_impulse: CombatAction = Field(default_factory=WildcatImpulse)
     self_destruct: CombatAction = Field(default_factory=SelfDestruct)
     candy_coated_carnage: CombatAction = Field(default_factory=CandyCoatedCarnage)
     grudge: CombatAction = Field(default_factory=Grudge)
 
     def set_to_v0(self) -> None:
         """Sets Fortification Level to Segment00."""
-        self.reckless_provocation = RecklessProvocation()
+        self.wildcat_impulse = WildcatImpulse()
         self.self_destruct = SelfDestruct()
         self.candy_coated_carnage = CandyCoatedCarnage()
         self.grudge = Grudge()

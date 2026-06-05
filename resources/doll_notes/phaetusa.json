@@ -1,0 +1,70 @@
+{
+  "doll": "Phaetusa",
+  "sections": [
+    {
+      "kind": "markdown",
+      "key": "synopsis",
+      "title": "Synopsis",
+      "markdown": "AoE Corrosion Melee DPS with high mobility, multiple support actions, and high burst potential. Converts Confectance Index into a stacking buff used to greatly amplify her ultimate on selected turns."
+    },
+    {
+      "kind": "utility_table",
+      "key": "utility",
+      "title": "Utility",
+      "rows": [
+        {
+          "label": "Lacerating Wound",
+          "detail": "S2; Fixed Key 2"
+        },
+        { "label": "Buff cleanse", "detail": "Fixed Key 5" },
+        {
+          "label": "Support Action",
+          "detail": "Passive - up to 3 times per turn"
+        }
+      ]
+    },
+    {
+      "kind": "fortification_table",
+      "key": "fortification_upgrades",
+      "title": "Fortification Level upgrades",
+      "upgrades": [
+        {
+          "level": 1,
+          "description": "Increases Blade Resonance gain on S2 - speeds up rotation."
+        },
+        {
+          "level": 2,
+          "description": "Increase damage and range of S1."
+        },
+        {
+          "level": 3,
+          "description": "Adds one more use of Synchrony and attaches an attack boost to it. Lets Phaetusa burst on an additional turn."
+        },
+        {
+          "level": 4,
+          "description": "Improves damage of ultimate."
+        },
+        {
+          "level": 5,
+          "description": "Increases damage of support actions."
+        },
+        {
+          "level": 6,
+          "description": "Attaches a buff to Overwrite Trap that increases the damage multiplier of the next active attack."
+        }
+      ]
+    },
+    {
+      "kind": "markdown",
+      "key": "team_notes",
+      "title": "Team notes",
+      "markdown": "Requires at least two AoE attacks per turn maximize her Confectance Index gain via her support actions. Strong synergy with Mechty who amplifies AoE Support Actions. Fits well with Corrosion teams but can also flex as a package with Mechty into mixed teams."
+    },
+    {
+      "kind": "markdown",
+      "key": "build_notes",
+      "title": "Build notes",
+      "markdown": "Corrosion DPS - Attack Boost, Attack, Crit. Note that her damage profile is 100% AoE, Corrosion, and Melee so the Close Assault attachment set is optimal; for Remolding Core, look for AoE damage boosts in addition to the usual stats."
+    }
+  ]
+}
