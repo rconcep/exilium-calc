@@ -22,8 +22,8 @@ class TestLoreleySkills:
         assert DamageTag.PHYSICAL in result.tags
         assert result.group_name == "Punishment Prelude"
 
-    def test_scorching_brand_without_blazing_embers(self):
-        result: DamageInstance = ScorchingBrand().execute(
+    def test_searing_brand_without_blazing_embers(self):
+        result: DamageInstance = SearingBrand().execute(
             has_blazing_embers=False,
             target_on_burn_tile=False,
         )
@@ -31,18 +31,18 @@ class TestLoreleySkills:
         assert result.base_potency == 130
         assert DamageTag.BURN in result.tags
         assert DamageTag.PHASE in result.tags
-        assert result.group_name == "Scorching Brand"
+        assert result.group_name == "Searing Brand"
 
-    def test_scorching_brand_with_blazing_embers(self):
-        result: DamageInstance = ScorchingBrand().execute(
+    def test_searing_brand_with_blazing_embers(self):
+        result: DamageInstance = SearingBrand().execute(
             has_blazing_embers=True,
             target_on_burn_tile=False,
         )
 
         assert result.base_potency == 260
 
-    def test_scorching_brand_v5_applies_defense_ignore(self):
-        result: DamageInstance = ScorchingBrandV5().execute(
+    def test_searing_brand_v5_applies_defense_ignore(self):
+        result: DamageInstance = SearingBrandV5().execute(
             has_blazing_embers=False,
             target_on_burn_tile=False,
         )
@@ -57,8 +57,8 @@ class TestLoreleySkills:
             )
         ]
 
-    def test_scorching_brand_v5_on_burn_tile_adds_damage_buff(self):
-        result: DamageInstance = ScorchingBrandV5().execute(
+    def test_searing_brand_v5_on_burn_tile_adds_damage_buff(self):
+        result: DamageInstance = SearingBrandV5().execute(
             has_blazing_embers=True,
             target_on_burn_tile=True,
         )
@@ -72,8 +72,8 @@ class TestLoreleySkills:
             tag=DamageTag.ALL,
         )
 
-    def test_crimson_binding_decree_splits_without_blazing_embers(self):
-        result: DamageInstance = CrimsonBindingDecree().execute(
+    def test_red_bound_declaration_splits_without_blazing_embers(self):
+        result: DamageInstance = RedBoundDeclaration().execute(
             has_blazing_embers=False,
             number_of_targets=3,
             number_of_burn_buffs=0,
@@ -81,8 +81,8 @@ class TestLoreleySkills:
 
         assert result.base_potency == 40
 
-    def test_crimson_binding_decree_no_split_with_blazing_embers(self):
-        result: DamageInstance = CrimsonBindingDecree().execute(
+    def test_red_bound_declaration_no_split_with_blazing_embers(self):
+        result: DamageInstance = RedBoundDeclaration().execute(
             has_blazing_embers=True,
             number_of_targets=3,
             number_of_burn_buffs=0,
@@ -90,8 +90,8 @@ class TestLoreleySkills:
 
         assert result.base_potency == 120
 
-    def test_crimson_binding_decree_v4_burn_buff_cap(self):
-        result: DamageInstance = CrimsonBindingDecreeV4().execute(
+    def test_red_bound_declaration_v4_burn_buff_cap(self):
+        result: DamageInstance = RedBoundDeclarationV4().execute(
             has_blazing_embers=True,
             number_of_targets=1,
             number_of_burn_buffs=8,
@@ -107,13 +107,13 @@ class TestLoreleySkills:
             )
         ]
 
-    def test_agonys_grace(self):
-        result: DamageInstance = AgonysGrace().execute()
+    def test_dolorous_grace(self):
+        result: DamageInstance = DolorousGrace().execute()
 
         assert result.base_potency == 60
         assert DamageTag.ULTIMATE in result.tags
         assert DamageTag.AREA_OF_EFFECT in result.tags
-        assert result.group_name == "Agony's Grace"
+        assert result.group_name == "Dolorous Grace"
 
     def test_phosphor_pulse_versions(self):
         v0: DamageInstance = PhosphorPulse().execute()
@@ -129,8 +129,8 @@ class TestLoreleyFortification:
         doll: Loreley = Loreley()
         doll.set_to_v0()
 
-        assert isinstance(doll.scorching_brand, ScorchingBrand)
-        assert isinstance(doll.crimson_binding_decree, CrimsonBindingDecree)
+        assert isinstance(doll.searing_brand, SearingBrand)
+        assert isinstance(doll.red_bound_declaration, RedBoundDeclaration)
         assert isinstance(doll.phosphor_pulse, PhosphorPulse)
 
     def test_set_to_v3(self):
@@ -143,28 +143,28 @@ class TestLoreleyFortification:
         doll: Loreley = Loreley()
         doll.set_to_v4()
 
-        assert isinstance(doll.crimson_binding_decree, CrimsonBindingDecreeV4)
+        assert isinstance(doll.red_bound_declaration, RedBoundDeclarationV4)
 
     def test_set_to_v5(self):
         doll: Loreley = Loreley()
         doll.set_to_v5()
 
-        assert isinstance(doll.scorching_brand, ScorchingBrandV5)
+        assert isinstance(doll.searing_brand, SearingBrandV5)
 
     def test_set_fortification_level(self):
         doll: Loreley = Loreley()
 
         doll.set_fortification_level(FortificationLevel.SEGMENT00)
-        assert isinstance(doll.scorching_brand, ScorchingBrand)
+        assert isinstance(doll.searing_brand, SearingBrand)
 
         doll.set_fortification_level(FortificationLevel.SEGMENT03)
         assert isinstance(doll.phosphor_pulse, PhosphorPulseV3)
 
         doll.set_fortification_level(FortificationLevel.SEGMENT04)
-        assert isinstance(doll.crimson_binding_decree, CrimsonBindingDecreeV4)
+        assert isinstance(doll.red_bound_declaration, RedBoundDeclarationV4)
 
         doll.set_fortification_level(FortificationLevel.SEGMENT05)
-        assert isinstance(doll.scorching_brand, ScorchingBrandV5)
+        assert isinstance(doll.searing_brand, SearingBrandV5)
 
         doll.set_fortification_level(FortificationLevel.SEGMENT06)
         assert doll.fortification_level == FortificationLevel.SEGMENT06

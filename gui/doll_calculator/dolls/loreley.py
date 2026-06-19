@@ -12,11 +12,11 @@ from core.types import (
 from core.dolls import loreley
 
 _t1: list[dict[str, Any]] = [
-    {"name": "Agony's Grace"},
+    {"name": "Dolorous Grace"},
     {"name": "Phosphor Pulse"},
     {"name": "Phosphor Pulse"},
     {
-        "name": "Scorching Brand",
+        "name": "Searing Brand",
         "has_blazing_embers": False,
         "target_on_burn_tile": True,
     },
@@ -25,14 +25,14 @@ _t1: list[dict[str, Any]] = [
 
 _t2: list[dict[str, Any]] = [
     {
-        "name": "Crimson Binding Decree",
+        "name": "Red-Bound Declaration",
         "has_blazing_embers": False,
         "number_of_targets": 1,
         "number_of_burn_buffs": 4,
     },
     {"name": "Phosphor Pulse"},
     {
-        "name": "Scorching Brand",
+        "name": "Searing Brand",
         "has_blazing_embers": True,
         "target_on_burn_tile": True,
     },
@@ -41,11 +41,11 @@ _t2: list[dict[str, Any]] = [
 ]
 
 _t4: list[dict[str, Any]] = [
-    {"name": "Agony's Grace"},
+    {"name": "Dolorous Grace"},
     {"name": "Phosphor Pulse"},
     {"name": "Phosphor Pulse"},
     {
-        "name": "Scorching Brand",
+        "name": "Searing Brand",
         "has_blazing_embers": True,
         "target_on_burn_tile": True,
     },
@@ -86,7 +86,7 @@ class Loreley(DollCalculatorPage):
                 "fields": [],
                 "function": doll.punishment_prelude.execute,
             },
-            "Scorching Brand": {
+            "Searing Brand": {
                 "fields": [
                     {
                         "key": "has_blazing_embers",
@@ -101,9 +101,9 @@ class Loreley(DollCalculatorPage):
                         "default": True,
                     },
                 ],
-                "function": doll.scorching_brand.execute,
+                "function": doll.searing_brand.execute,
             },
-            "Crimson Binding Decree": {
+            "Red-Bound Declaration": {
                 "fields": [
                     {
                         "key": "has_blazing_embers",
@@ -124,11 +124,11 @@ class Loreley(DollCalculatorPage):
                         "default": 3,
                     },
                 ],
-                "function": doll.crimson_binding_decree.execute,
+                "function": doll.red_bound_declaration.execute,
             },
-            "Agony's Grace": {
+            "Dolorous Grace": {
                 "fields": [],
-                "function": doll.agonys_grace.execute,
+                "function": doll.dolorous_grace.execute,
             },
             "Phosphor Pulse": {
                 "fields": [],
@@ -216,7 +216,7 @@ class Loreley(DollCalculatorPage):
         return [
             {"name": "Defense Down II"},
             {"name": "Conflagration"},
-            {"name": "Hunter-Type II"},
+            {"name": "Ranger Mk.II"},
         ]
 
     @override
@@ -228,7 +228,7 @@ class Loreley(DollCalculatorPage):
             ),
             ModelAssumption(
                 icon="groups",
-                description="The attack boost from Passive - Queen's Gift at V6 for each Burn-type Doll present is maxed out at 30%.",
+                description="The attack boost from Passive - Queen's Largesse at V6 for each Burn-type Doll present is maxed out at 30%.",
             ),
         ]
 

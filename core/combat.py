@@ -1613,7 +1613,7 @@ class LoreleyDamageCalculationStrategy(StandardDamageCalculationStrategy):
 
         # Only expecting to run this for Loreley
         if _is_doll_attacker(attacker):
-            # Passive - Queen's Gift
+            # Passive - Queen's Largesse
             # All allied dolls wielding a rifle deals 10% increased damage
             attacker.additive_modifiers.special_attributes[
                 SpecialAttribute.DAMAGE_BOOST

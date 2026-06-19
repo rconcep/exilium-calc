@@ -39,14 +39,14 @@ class PunishmentPrelude(CombatAction):
         )
 
 
-class ScorchingBrand(CombatAction):
+class SearingBrand(CombatAction):
     """Loreley S1."""
 
     @override
     def execute(
         self, has_blazing_embers: bool, target_on_burn_tile: bool
     ) -> DamageInstance:
-        label: str = "Scorching Brand"
+        label: str = "Searing Brand"
         base_potency: int = 130
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -64,19 +64,19 @@ class ScorchingBrand(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Scorching Brand",
+            group_name="Searing Brand",
             damage_calculation_strategy=LoreleyDamageCalculationStrategy(),
         )
 
 
-class ScorchingBrandV5(CombatAction):
+class SearingBrandV5(CombatAction):
     """Loreley S1 (V5)."""
 
     @override
     def execute(
         self, has_blazing_embers: bool, target_on_burn_tile: bool
     ) -> DamageInstance:
-        label: str = "Scorching Brand"
+        label: str = "Searing Brand"
         base_potency: int = 130
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -116,13 +116,13 @@ class ScorchingBrandV5(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Scorching Brand",
+            group_name="Searing Brand",
             buffs_before=buffs_before,
             damage_calculation_strategy=LoreleyDamageCalculationStrategy(),
         )
 
 
-class CrimsonBindingDecree(CombatAction):
+class RedBoundDeclaration(CombatAction):
     """Loreley S2."""
 
     @override
@@ -132,7 +132,7 @@ class CrimsonBindingDecree(CombatAction):
         number_of_targets: int,
         number_of_burn_buffs: int,
     ) -> DamageInstance:
-        label: str = "Crimson Binding Decree"
+        label: str = "Red-Bound Declaration"
         base_potency: float = 120
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -149,12 +149,12 @@ class CrimsonBindingDecree(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Crimson Binding Decree",
+            group_name="Red-Bound Declaration",
             damage_calculation_strategy=LoreleyDamageCalculationStrategy(),
         )
 
 
-class CrimsonBindingDecreeV4(CombatAction):
+class RedBoundDeclarationV4(CombatAction):
     """Loreley S2 (V4)."""
 
     @override
@@ -164,7 +164,7 @@ class CrimsonBindingDecreeV4(CombatAction):
         number_of_targets: int,
         number_of_burn_buffs: int,
     ) -> DamageInstance:
-        label: str = "Crimson Binding Decree"
+        label: str = "Red-Bound Declaration"
         base_potency: float = 150
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -195,18 +195,18 @@ class CrimsonBindingDecreeV4(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Crimson Binding Decree",
+            group_name="Red-Bound Declaration",
             buffs_before=buffs_before,
             damage_calculation_strategy=LoreleyDamageCalculationStrategy(),
         )
 
 
-class AgonysGrace(CombatAction):
+class DolorousGrace(CombatAction):
     """Loreley Ultimate."""
 
     @override
     def execute(self) -> DamageInstance:
-        label: str = "Agony's Grace"
+        label: str = "Dolorous Grace"
         base_potency: int = 60
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -220,13 +220,13 @@ class AgonysGrace(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Agony's Grace",
+            group_name="Dolorous Grace",
             damage_calculation_strategy=LoreleyDamageCalculationStrategy(),
         )
 
 
 class PhosphorPulse(CombatAction):
-    """Action from Hunter-Type II triggered by Loreley."""
+    """Action from Ranger Mk.II triggered by Loreley."""
 
     @override
     def execute(self) -> DamageInstance:
@@ -250,7 +250,7 @@ class PhosphorPulse(CombatAction):
 
 
 class PhosphorPulseV3(CombatAction):
-    """Action from Hunter-Type II triggered by Loreley."""
+    """Action from Ranger Mk.II triggered by Loreley."""
 
     @override
     def execute(self) -> DamageInstance:
@@ -296,17 +296,17 @@ class Loreley(Doll):
     )
 
     punishment_prelude: CombatAction = Field(default_factory=PunishmentPrelude)
-    scorching_brand: CombatAction = Field(default_factory=ScorchingBrand)
-    crimson_binding_decree: CombatAction = Field(default_factory=CrimsonBindingDecree)
-    agonys_grace: CombatAction = Field(default_factory=AgonysGrace)
+    searing_brand: CombatAction = Field(default_factory=SearingBrand)
+    red_bound_declaration: CombatAction = Field(default_factory=RedBoundDeclaration)
+    dolorous_grace: CombatAction = Field(default_factory=DolorousGrace)
     phosphor_pulse: CombatAction = Field(default_factory=PhosphorPulse)
 
     def set_to_v0(self) -> None:
         """Sets Fortification Level to Segment00."""
         self.punishment_prelude: CombatAction = PunishmentPrelude()
-        self.scorching_brand: CombatAction = ScorchingBrand()
-        self.crimson_binding_decree: CombatAction = CrimsonBindingDecree()
-        self.agonys_grace: CombatAction = AgonysGrace()
+        self.searing_brand: CombatAction = SearingBrand()
+        self.red_bound_declaration: CombatAction = RedBoundDeclaration()
+        self.dolorous_grace: CombatAction = DolorousGrace()
         self.phosphor_pulse: CombatAction = PhosphorPulse()
 
     def set_to_v3(self) -> None:
@@ -319,13 +319,13 @@ class Loreley(Doll):
         """Sets Fortification Level to Segment04."""
         self.set_to_v3()
 
-        self.crimson_binding_decree: CombatAction = CrimsonBindingDecreeV4()
+        self.red_bound_declaration: CombatAction = RedBoundDeclarationV4()
 
     def set_to_v5(self) -> None:
         """Sets Fortification Level to Segment05."""
         self.set_to_v4()
 
-        self.scorching_brand: CombatAction = ScorchingBrandV5()
+        self.searing_brand: CombatAction = SearingBrandV5()
 
     @override
     def set_fortification_level(self, level: FortificationLevel):

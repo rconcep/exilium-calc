@@ -295,7 +295,7 @@ class BlazingEmbers(Buff):
 
 
 class Scorchflame(Buff):
-    """Buff from Loreley's Hunter-Type II."""
+    """Buff from Loreley's Ranger Mk.II."""
 
     display_name = "Scorchflame (Loreley)"
     max_stack_count = 1
@@ -2527,10 +2527,10 @@ class Smolder(Debuff):
         self.tag = DamageTag.ALL
 
 
-class HunterTypeII(Debuff):
-    """All enemy units within a 5-tile radius of Hunter-Type II take 15% increased Burn damage."""
+class RangerMkII(Debuff):
+    """All enemy units within a 5-tile radius of Ranger Mk.II take 15% increased Burn damage."""
 
-    display_name = "Hunter-Type II"
+    display_name = "Ranger Mk.II"
     max_stack_count = 1
     stack_input_type = "select"
 

@@ -194,6 +194,12 @@ each stat and observing the resulting change in expected damage.
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
                     ui.timeline_entry(
+                        "Updated Loreley's localizations based on preview material and added to her Notes.",
+                        title="",
+                        subtitle="June 18, 2026",
+                        icon="translate",
+                    )
+                    ui.timeline_entry(
                         "Added a tab for Doll Notes - quick reference for Dolls' utility, team and build tips, and upgrades at each fortification level. Updated Basti's localizations after GL release.",
                         title="Added Doll Notes",
                         subtitle="June 4, 2026",

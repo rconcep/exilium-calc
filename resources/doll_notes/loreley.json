@@ -1,0 +1,131 @@
+{
+  "doll": "Loreley",
+  "sections": [
+    {
+      "kind": "markdown",
+      "key": "synopsis",
+      "title": "Synopsis",
+      "markdown": "Burn damage support with consistent tile generation, damage boost buffs, damage mitigation, debuff cleansing, and decent personal damage output. At V2+, Loreley can be a good flex support pick for mixed element teams."
+    },
+    {
+      "kind": "utility_table",
+      "key": "utility",
+      "title": "Utility",
+      "rows": [
+        {
+          "label": "Incineration tile generation",
+          "detail": "On ultimate, S2"
+        },
+        { "label": "Thermal Conduction + Embers", "detail": "" },
+        {
+          "label": "Searing Flame accumulation",
+          "detail": "(8, 12 at V3) on summon, (3) on Phosphor Pulse trigger, (10 at battle start) Fixed Key 1"
+        },
+        {
+          "label": "Enhanced Embers effect",
+          "detail": "Increase Burn damage dealt by 30% and all damage dealt by 15% (or all damage dealt by 45% at V2+); reduced damage taken by 15% (30% at V6)"
+        },
+        {
+          "label": "Scorchflame (Attack Up)",
+          "detail": "(6%, 12% at V6) On summon / ultimate"
+        },
+        {
+          "label": "Increased damage dealt",
+          "detail": "(15%, 45% at V2+) Blazing Embers"
+        },
+        {
+          "label": "Increased Burn damage dealt",
+          "detail": "(30%, 0% at V2+) Blazing Embers, (7%, when summon is on field) Fixed Key 3"
+        },
+        {
+          "label": "Increased critical damage",
+          "detail": "(5%, stacking) Embers"
+        },
+        {
+          "label": "Increased damage dealt for RF (sniper rifle) allies",
+          "detail": "(10%) Passive"
+        },
+        {
+          "label": "Overburn",
+          "detail": "(On Phosphor Pulse trigger) Fixed Key 2."
+        },
+        {
+          "label": "Reduced damage taken",
+          "detail": "(15%, 30% at V6) Blazing Embers"
+        },
+        {
+          "label": "Increased Burn damage taken",
+          "detail": "(15%) in range of summon"
+        },
+        {
+          "label": "Immunity to basic attacks and skill damage",
+          "detail": "(3-5 times per turn) Passive"
+        },
+        {
+          "label": "Avoid fatal damage (courage)",
+          "detail": "(self and one ally) On ultimate"
+        },
+        {
+          "label": "Infatuation cleanse",
+          "detail": "(all allies) On ultimate"
+        },
+        {
+          "label": "Stun cleanse",
+          "detail": "(all allies, V1+) On ultimate"
+        },
+        {
+          "label": "Debuff cleanse",
+          "detail": "(all allies) On Phosphor Pulse trigger"
+        },
+        { "label": "Buff cleanse", "detail": "Fixed Key 4" },
+        {
+          "label": "Stability recovery",
+          "detail": "On Phosphor Pulse trigger"
+        }
+      ]
+    },
+    {
+      "kind": "fortification_table",
+      "key": "fortification_upgrades",
+      "title": "Fortification Level upgrades",
+      "upgrades": [
+        {
+          "level": 1,
+          "description": "Increase number of Phosphor Pulse triggers per turn. Enhance Symbiotic Butterfly Dance effect. Add Stun cleanse to ultimate."
+        },
+        {
+          "level": 2,
+          "description": "Change Blazing Embers to increase all damage dealt by 45%. Increased number of Immaculate Flame procs per turn."
+        },
+        {
+          "level": 3,
+          "description": "Increased Searing Flame accumulation on summon. Increased Phosphor Pulse damage and adds a ramping damage boost and critical damage boost to Loreley based on number of Phosphor Pulse triggers."
+        },
+        {
+          "level": 4,
+          "description": "Personal damage increase to S2."
+        },
+        {
+          "level": 5,
+          "description": "Personal damage increase to S1."
+        },
+        {
+          "level": 6,
+          "description": "Additional Searing Flame accumulation at the start of battle. Enhanced Attack buff from Scorchflame. Loreley gets increased Attack per Burn-type doll present. Enhances damage taken reduction from Blazing Embers."
+        }
+      ]
+    },
+    {
+      "kind": "markdown",
+      "key": "team_notes",
+      "title": "Team notes",
+      "markdown": "Tons of utility but a lot of it is tied to the Embers Burn mechanic, although Loreley generates plenty of Searing Flame by herself. At V2, the damage boost from Blazing Embers becomes generic, justifying her inclusion in non-mono-Burn teams. No healing but damage avoidance and reduction effects can help with survivability. There's some overlap with Vector, but they each have plenty of non-overlapping utility to justify running both in a mono-Burn team."
+    },
+    {
+      "kind": "markdown",
+      "key": "build_notes",
+      "title": "Build notes",
+      "markdown": "No utility scaling off of Defense or Health. Build her like a Burn DPS."
+    }
+  ]
+}
