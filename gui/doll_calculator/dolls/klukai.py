@@ -11,7 +11,6 @@ from core.types import (
 )
 from core.dolls import klukai
 
-
 sample_rotation: dict[int, list[dict]] = {
     1: [
         {
@@ -21,8 +20,9 @@ sample_rotation: dict[int, list[dict]] = {
             "has_fixed_key_2": True,
             "has_fixed_key_5": False,
         },
-        {"name": "Corrosive Infusion", "stacks": 2},
+        {"name": "Corrosive Infusion", "stacks": 2, "stacks_competitive_spirit": 12},
         {"name": "Toxic Infiltration"},
+        {"name": "Fang", "stacks_corrosion_debuff_triggers": 2},
         {
             "name": "Devastating Drift",
             "number_targets_hit": 1,
@@ -30,9 +30,10 @@ sample_rotation: dict[int, list[dict]] = {
             "has_fixed_key_2": True,
             "has_fixed_key_5": False,
         },
-        {"name": "Corrosive Infusion", "stacks": 3},
+        {"name": "Corrosive Infusion", "stacks": 3, "stacks_competitive_spirit": 12},
         {"name": "Toxic Infiltration"},
-        {"name": "Corrosive Infusion", "stacks": 3},
+        {"name": "Fang", "stacks_corrosion_debuff_triggers": 4},
+        {"name": "Corrosive Infusion", "stacks": 3, "stacks_competitive_spirit": 12},
     ],
     2: [
         {
@@ -42,8 +43,9 @@ sample_rotation: dict[int, list[dict]] = {
             "has_fixed_key_2": True,
             "has_fixed_key_5": False,
         },
-        {"name": "Corrosive Infusion", "stacks": 6},
+        {"name": "Corrosive Infusion", "stacks": 6, "stacks_competitive_spirit": 12},
         {"name": "Toxic Infiltration"},
+        {"name": "Fang", "stacks_corrosion_debuff_triggers": 7},
         {
             "name": "Devastating Drift",
             "number_targets_hit": 1,
@@ -51,9 +53,10 @@ sample_rotation: dict[int, list[dict]] = {
             "has_fixed_key_2": True,
             "has_fixed_key_5": False,
         },
-        {"name": "Corrosive Infusion", "stacks": 7},
+        {"name": "Corrosive Infusion", "stacks": 7, "stacks_competitive_spirit": 12},
         {"name": "Toxic Infiltration"},
-        {"name": "Corrosive Infusion", "stacks": 7},
+        {"name": "Fang", "stacks_corrosion_debuff_triggers": 9},
+        {"name": "Corrosive Infusion", "stacks": 7, "stacks_competitive_spirit": 12},
     ],
     3: [
         {
@@ -63,8 +66,9 @@ sample_rotation: dict[int, list[dict]] = {
             "has_fixed_key_2": True,
             "has_fixed_key_5": False,
         },
-        {"name": "Corrosive Infusion", "stacks": 10},
+        {"name": "Corrosive Infusion", "stacks": 10, "stacks_competitive_spirit": 12},
         {"name": "Toxic Infiltration"},
+        {"name": "Fang", "stacks_corrosion_debuff_triggers": 12},
         {
             "name": "Devastating Drift",
             "number_targets_hit": 1,
@@ -72,9 +76,10 @@ sample_rotation: dict[int, list[dict]] = {
             "has_fixed_key_2": True,
             "has_fixed_key_5": False,
         },
-        {"name": "Corrosive Infusion", "stacks": 11},
+        {"name": "Corrosive Infusion", "stacks": 11, "stacks_competitive_spirit": 12},
         {"name": "Toxic Infiltration"},
-        {"name": "Corrosive Infusion", "stacks": 11},
+        {"name": "Fang", "stacks_corrosion_debuff_triggers": 14},
+        {"name": "Corrosive Infusion", "stacks": 11, "stacks_competitive_spirit": 12},
     ],
     4: [
         {
@@ -84,8 +89,9 @@ sample_rotation: dict[int, list[dict]] = {
             "has_fixed_key_2": True,
             "has_fixed_key_5": False,
         },
-        {"name": "Corrosive Infusion", "stacks": 14},
+        {"name": "Corrosive Infusion", "stacks": 14, "stacks_competitive_spirit": 12},
         {"name": "Toxic Infiltration"},
+        {"name": "Fang", "stacks_corrosion_debuff_triggers": 17},
         {
             "name": "Devastating Drift",
             "number_targets_hit": 1,
@@ -93,9 +99,10 @@ sample_rotation: dict[int, list[dict]] = {
             "has_fixed_key_2": True,
             "has_fixed_key_5": False,
         },
-        {"name": "Corrosive Infusion", "stacks": 15},
+        {"name": "Corrosive Infusion", "stacks": 15, "stacks_competitive_spirit": 12},
         {"name": "Toxic Infiltration"},
-        {"name": "Corrosive Infusion", "stacks": 15},
+        {"name": "Fang", "stacks_corrosion_debuff_triggers": 19},
+        {"name": "Corrosive Infusion", "stacks": 15, "stacks_competitive_spirit": 12},
     ],
     5: [
         {
@@ -105,8 +112,9 @@ sample_rotation: dict[int, list[dict]] = {
             "has_fixed_key_2": True,
             "has_fixed_key_5": False,
         },
-        {"name": "Corrosive Infusion", "stacks": 15},
+        {"name": "Corrosive Infusion", "stacks": 15, "stacks_competitive_spirit": 12},
         {"name": "Toxic Infiltration"},
+        {"name": "Fang", "stacks_corrosion_debuff_triggers": 22},
         {
             "name": "Devastating Drift",
             "number_targets_hit": 1,
@@ -114,9 +122,10 @@ sample_rotation: dict[int, list[dict]] = {
             "has_fixed_key_2": True,
             "has_fixed_key_5": False,
         },
-        {"name": "Corrosive Infusion", "stacks": 15},
+        {"name": "Corrosive Infusion", "stacks": 15, "stacks_competitive_spirit": 12},
         {"name": "Toxic Infiltration"},
-        {"name": "Corrosive Infusion", "stacks": 15},
+        {"name": "Fang", "stacks_corrosion_debuff_triggers": 24},
+        {"name": "Corrosive Infusion", "stacks": 15, "stacks_competitive_spirit": 12},
     ],
     6: [
         {
@@ -126,8 +135,9 @@ sample_rotation: dict[int, list[dict]] = {
             "has_fixed_key_2": True,
             "has_fixed_key_5": False,
         },
-        {"name": "Corrosive Infusion", "stacks": 15},
+        {"name": "Corrosive Infusion", "stacks": 15, "stacks_competitive_spirit": 12},
         {"name": "Toxic Infiltration"},
+        {"name": "Fang", "stacks_corrosion_debuff_triggers": 27},
         {
             "name": "Devastating Drift",
             "number_targets_hit": 1,
@@ -135,9 +145,10 @@ sample_rotation: dict[int, list[dict]] = {
             "has_fixed_key_2": True,
             "has_fixed_key_5": False,
         },
-        {"name": "Corrosive Infusion", "stacks": 15},
+        {"name": "Corrosive Infusion", "stacks": 15, "stacks_competitive_spirit": 12},
         {"name": "Toxic Infiltration"},
-        {"name": "Corrosive Infusion", "stacks": 15},
+        {"name": "Fang", "stacks_corrosion_debuff_triggers": 29},
+        {"name": "Corrosive Infusion", "stacks": 15, "stacks_competitive_spirit": 12},
     ],
     7: [
         {
@@ -147,8 +158,9 @@ sample_rotation: dict[int, list[dict]] = {
             "has_fixed_key_2": True,
             "has_fixed_key_5": False,
         },
-        {"name": "Corrosive Infusion", "stacks": 15},
+        {"name": "Corrosive Infusion", "stacks": 15, "stacks_competitive_spirit": 12},
         {"name": "Toxic Infiltration"},
+        {"name": "Fang", "stacks_corrosion_debuff_triggers": 32},
         {
             "name": "Devastating Drift",
             "number_targets_hit": 1,
@@ -156,9 +168,10 @@ sample_rotation: dict[int, list[dict]] = {
             "has_fixed_key_2": True,
             "has_fixed_key_5": False,
         },
-        {"name": "Corrosive Infusion", "stacks": 15},
+        {"name": "Corrosive Infusion", "stacks": 15, "stacks_competitive_spirit": 12},
         {"name": "Toxic Infiltration"},
-        {"name": "Corrosive Infusion", "stacks": 15},
+        {"name": "Fang", "stacks_corrosion_debuff_triggers": 34},
+        {"name": "Corrosive Infusion", "stacks": 15, "stacks_competitive_spirit": 12},
     ],
 }
 
@@ -242,6 +255,17 @@ class Klukai(DollCalculatorPage):
                 ],
                 "function": doll.devastating_drift.execute,
             },
+            "Fang": {
+                "fields": [
+                    {
+                        "key": "stacks_corrosion_debuff_triggers",
+                        "type": "number",
+                        "label": "Corrosion Debuff Trigger Stacks",
+                        "default": 0,
+                    },
+                ],
+                "function": doll.fang.execute,
+            },
             "Corrosive Infusion": {
                 "fields": [
                     {
@@ -250,6 +274,13 @@ class Klukai(DollCalculatorPage):
                         "label": "Corrosive Infusion Stacks",
                         "options": [n for n in range(16)],
                         "default": 15,
+                    },
+                    {
+                        "key": "stacks_competitive_spirit",
+                        "type": "select",
+                        "label": "Competitive Spirit Stacks",
+                        "options": [n for n in range(13)],
+                        "default": 12,
                     },
                 ],
                 "function": doll.corrosive_infusion.execute,
@@ -316,6 +347,12 @@ class Klukai(DollCalculatorPage):
     @override
     def get_model_assumptions(self) -> list[ModelAssumption]:
         return [
+            ModelAssumption(
+                icon="key",
+                description="Expansion Key - Elite Doll's Pride is active.",
+                link_label="Dandegate",
+                link_target="https://www.dandegate.net/dolls/klukai/keys/expansion-key-pride-of-the-elite",
+            ),
             ModelAssumption(
                 icon="key",
                 description="Sample rotation assumes Fixed Key 1 - Deadly Entwine is active.",

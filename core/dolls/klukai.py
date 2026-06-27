@@ -474,16 +474,45 @@ class DevastatingDriftV6(CombatAction):
         )
 
 
+class Fang(CombatAction):
+    """Klukai passive follow-up attack triggered by corrosion debuff procs."""
+
+    @override
+    def execute(self, stacks_corrosion_debuff_triggers: int) -> DamageInstance:
+        label: str = f"Fang ({stacks_corrosion_debuff_triggers} triggers)"
+        base_potency: int = 100 + (10 * stacks_corrosion_debuff_triggers)
+
+        tags: set[DamageTag] = {
+            DamageTag.ACTIVE,
+            DamageTag.AREA_OF_EFFECT,
+            DamageTag.CORROSION,
+            DamageTag.PHASE,
+        }
+
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Fang",
+            damage_calculation_strategy=KlukaiDamageCalculationStrategy(),
+        )
+
+
 class CorrosiveInfusion(CombatAction):
     """Stacking debuff effect applied by Klukai. Triggers at the end of the holder's turn."""
 
     @override
-    def execute(self, stacks: int) -> DamageInstance:
+    def execute(self, stacks: int, stacks_competitive_spirit: int = 0) -> DamageInstance:
         label: str = f"Corrosive Infusion ({stacks} stacks)"
         base_potency: int = 0
         potency_per_stack: int = 12
         maximum_stacks: int = 10
+        maximum_competitive_spirit_stacks: int = 8
         base_potency += potency_per_stack * min(stacks, maximum_stacks)
+        base_potency += min(
+            stacks_competitive_spirit,
+            maximum_competitive_spirit_stacks,
+        )
 
         tags: set[DamageTag] = {
             DamageTag.PASSIVE,
@@ -505,13 +534,18 @@ class CorrosiveInfusionV2(CombatAction):
     """Stacking debuff effect applied by Klukai. Triggers at the end of the holder's turn."""
 
     @override
-    def execute(self, stacks: int) -> DamageInstance:
+    def execute(self, stacks: int, stacks_competitive_spirit: int = 0) -> DamageInstance:
         label: str = f"Corrosive Infusion ({stacks} stacks)"
         base_potency: int = 0
         potency_per_stack: int = 12
         defense_down_per_stack: int = -1
         maximum_stacks: int = 15
+        maximum_competitive_spirit_stacks: int = 12
         base_potency += potency_per_stack * min(stacks, maximum_stacks)
+        base_potency += min(
+            stacks_competitive_spirit,
+            maximum_competitive_spirit_stacks,
+        )
 
         tags: set[DamageTag] = {
             DamageTag.PASSIVE,
@@ -644,6 +678,7 @@ class Klukai(Doll):
     )
     overpowering_corrosion: CombatAction = Field(default_factory=OverpoweringCorrosion)
     devastating_drift: CombatAction = Field(default_factory=DevastatingDrift)
+    fang: CombatAction = Field(default_factory=Fang)
     corrosive_infusion: CombatAction = Field(default_factory=CorrosiveInfusion)
     toxic_infiltration: CombatAction = Field(default_factory=ToxicInfiltration)
 
@@ -654,6 +689,7 @@ class Klukai(Doll):
         self.pinpoint_detonation_second: CombatAction = PinpointDetonationSecond()
         self.overpowering_corrosion: CombatAction = OverpoweringCorrosion()
         self.devastating_drift: CombatAction = DevastatingDrift()
+        self.fang: CombatAction = Fang()
         self.corrosive_infusion: CombatAction = CorrosiveInfusion()
         self.toxic_infiltration: CombatAction = ToxicInfiltration()
 

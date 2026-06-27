@@ -235,10 +235,10 @@ class Embers(Buff):
         return ret
 
 
-class BlazingEmbers(Buff):
+class GlowingEmbers(Buff):
     """Enhanced version of Embers, granted by fully charging Thermal Conduction with Loreley on the field."""
 
-    display_name = "Blazing Embers"
+    display_name = "Glowing Embers"
     max_stack_count = 6  # Theoretically infinite, but no battle lasts long enough.
     stack_input_type = "select"
 
@@ -269,7 +269,7 @@ class BlazingEmbers(Buff):
 
             ret.append(self)
 
-            # Increase damage dealt by 15%. (Additional effect from Blazing Embers)
+            # Increase damage dealt by 15%. (Additional effect from Glowing Embers)
             ret.append(
                 Buff(
                     value=15,
@@ -294,10 +294,10 @@ class BlazingEmbers(Buff):
         return ret
 
 
-class Scorchflame(Buff):
+class BurningTide(Buff):
     """Buff from Loreley's Ranger Mk.II."""
 
-    display_name = "Scorchflame (Loreley)"
+    display_name = "Burning Tide (Loreley)"
     max_stack_count = 1
     stack_input_type = "select"
 

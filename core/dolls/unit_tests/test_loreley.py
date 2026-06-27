@@ -22,9 +22,9 @@ class TestLoreleySkills:
         assert DamageTag.PHYSICAL in result.tags
         assert result.group_name == "Punishment Prelude"
 
-    def test_searing_brand_without_blazing_embers(self):
+    def test_searing_brand_without_glowing_embers(self):
         result: DamageInstance = SearingBrand().execute(
-            has_blazing_embers=False,
+            has_glowing_embers=False,
             target_on_burn_tile=False,
         )
 
@@ -33,9 +33,9 @@ class TestLoreleySkills:
         assert DamageTag.PHASE in result.tags
         assert result.group_name == "Searing Brand"
 
-    def test_searing_brand_with_blazing_embers(self):
+    def test_searing_brand_with_glowing_embers(self):
         result: DamageInstance = SearingBrand().execute(
-            has_blazing_embers=True,
+            has_glowing_embers=True,
             target_on_burn_tile=False,
         )
 
@@ -43,7 +43,7 @@ class TestLoreleySkills:
 
     def test_searing_brand_v5_applies_defense_ignore(self):
         result: DamageInstance = SearingBrandV5().execute(
-            has_blazing_embers=False,
+            has_glowing_embers=False,
             target_on_burn_tile=False,
         )
 
@@ -59,7 +59,7 @@ class TestLoreleySkills:
 
     def test_searing_brand_v5_on_burn_tile_adds_damage_buff(self):
         result: DamageInstance = SearingBrandV5().execute(
-            has_blazing_embers=True,
+            has_glowing_embers=True,
             target_on_burn_tile=True,
         )
 
@@ -72,18 +72,18 @@ class TestLoreleySkills:
             tag=DamageTag.ALL,
         )
 
-    def test_red_bound_declaration_splits_without_blazing_embers(self):
+    def test_red_bound_declaration_splits_without_glowing_embers(self):
         result: DamageInstance = RedBoundDeclaration().execute(
-            has_blazing_embers=False,
+            has_glowing_embers=False,
             number_of_targets=3,
             number_of_burn_buffs=0,
         )
 
         assert result.base_potency == 40
 
-    def test_red_bound_declaration_no_split_with_blazing_embers(self):
+    def test_red_bound_declaration_no_split_with_glowing_embers(self):
         result: DamageInstance = RedBoundDeclaration().execute(
-            has_blazing_embers=True,
+            has_glowing_embers=True,
             number_of_targets=3,
             number_of_burn_buffs=0,
         )
@@ -92,7 +92,7 @@ class TestLoreleySkills:
 
     def test_red_bound_declaration_v4_burn_buff_cap(self):
         result: DamageInstance = RedBoundDeclarationV4().execute(
-            has_blazing_embers=True,
+            has_glowing_embers=True,
             number_of_targets=1,
             number_of_burn_buffs=8,
         )
@@ -115,9 +115,9 @@ class TestLoreleySkills:
         assert DamageTag.AREA_OF_EFFECT in result.tags
         assert result.group_name == "Dolorous Grace"
 
-    def test_phosphor_pulse_versions(self):
-        v0: DamageInstance = PhosphorPulse().execute()
-        v3: DamageInstance = PhosphorPulseV3().execute()
+    def test_whippoorwill_pulse_versions(self):
+        v0: DamageInstance = WhippoorwillPulse().execute()
+        v3: DamageInstance = WhippoorwillPulseV3().execute()
 
         assert v0.base_potency == 40
         assert v3.base_potency == 80
@@ -131,13 +131,13 @@ class TestLoreleyFortification:
 
         assert isinstance(doll.searing_brand, SearingBrand)
         assert isinstance(doll.red_bound_declaration, RedBoundDeclaration)
-        assert isinstance(doll.phosphor_pulse, PhosphorPulse)
+        assert isinstance(doll.whippoorwill_pulse, WhippoorwillPulse)
 
     def test_set_to_v3(self):
         doll: Loreley = Loreley()
         doll.set_to_v3()
 
-        assert isinstance(doll.phosphor_pulse, PhosphorPulseV3)
+        assert isinstance(doll.whippoorwill_pulse, WhippoorwillPulseV3)
 
     def test_set_to_v4(self):
         doll: Loreley = Loreley()
@@ -158,7 +158,7 @@ class TestLoreleyFortification:
         assert isinstance(doll.searing_brand, SearingBrand)
 
         doll.set_fortification_level(FortificationLevel.SEGMENT03)
-        assert isinstance(doll.phosphor_pulse, PhosphorPulseV3)
+        assert isinstance(doll.whippoorwill_pulse, WhippoorwillPulseV3)
 
         doll.set_fortification_level(FortificationLevel.SEGMENT04)
         assert isinstance(doll.red_bound_declaration, RedBoundDeclarationV4)

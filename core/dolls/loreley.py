@@ -44,7 +44,7 @@ class SearingBrand(CombatAction):
 
     @override
     def execute(
-        self, has_blazing_embers: bool, target_on_burn_tile: bool
+        self, has_glowing_embers: bool, target_on_burn_tile: bool
     ) -> DamageInstance:
         label: str = "Searing Brand"
         base_potency: int = 130
@@ -56,8 +56,8 @@ class SearingBrand(CombatAction):
             DamageTag.HEAVY_AMMO,
         }
 
-        # If user has Blazing Embers, double the damage multiplier
-        if has_blazing_embers:
+        # If user has Glowing Embers, double the damage multiplier
+        if has_glowing_embers:
             base_potency *= 2
 
         return DamageInstance(
@@ -74,7 +74,7 @@ class SearingBrandV5(CombatAction):
 
     @override
     def execute(
-        self, has_blazing_embers: bool, target_on_burn_tile: bool
+        self, has_glowing_embers: bool, target_on_burn_tile: bool
     ) -> DamageInstance:
         label: str = "Searing Brand"
         base_potency: int = 130
@@ -87,8 +87,8 @@ class SearingBrandV5(CombatAction):
         }
         buffs_before: list[Buff] = []
 
-        # If user has Blazing Embers, double the damage multiplier
-        if has_blazing_embers:
+        # If user has Glowing Embers, double the damage multiplier
+        if has_glowing_embers:
             base_potency *= 2
 
         # Ignores 30% of defense
@@ -128,7 +128,7 @@ class RedBoundDeclaration(CombatAction):
     @override
     def execute(
         self,
-        has_blazing_embers: bool,
+        has_glowing_embers: bool,
         number_of_targets: int,
         number_of_burn_buffs: int,
     ) -> DamageInstance:
@@ -141,8 +141,8 @@ class RedBoundDeclaration(CombatAction):
             DamageTag.AREA_OF_EFFECT,
         }
 
-        # If user has Blazing Embers, the damage is not split
-        if not has_blazing_embers and number_of_targets > 1:
+        # If user has Glowing Embers, the damage is not split
+        if not has_glowing_embers and number_of_targets > 1:
             base_potency = base_potency / number_of_targets
 
         return DamageInstance(
@@ -160,7 +160,7 @@ class RedBoundDeclarationV4(CombatAction):
     @override
     def execute(
         self,
-        has_blazing_embers: bool,
+        has_glowing_embers: bool,
         number_of_targets: int,
         number_of_burn_buffs: int,
     ) -> DamageInstance:
@@ -175,8 +175,8 @@ class RedBoundDeclarationV4(CombatAction):
 
         buffs_before: list[Buff] = []
 
-        # If user has Blazing Embers, the damage is not split
-        if not has_blazing_embers and number_of_targets > 1:
+        # If user has Glowing Embers, the damage is not split
+        if not has_glowing_embers and number_of_targets > 1:
             base_potency = base_potency / number_of_targets
 
         # Every Burn buff increases damage dealt by 10%, up to a maximum of 40%
@@ -225,12 +225,12 @@ class DolorousGrace(CombatAction):
         )
 
 
-class PhosphorPulse(CombatAction):
+class WhippoorwillPulse(CombatAction):
     """Action from Ranger Mk.II triggered by Loreley."""
 
     @override
     def execute(self) -> DamageInstance:
-        label: str = "Phosphor Pulse"
+        label: str = "Whippoorwill Pulse"
         base_potency: int = 40
         tags: set[DamageTag] = {
             DamageTag.PASSIVE,
@@ -244,17 +244,17 @@ class PhosphorPulse(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Phosphor Pulse",
+            group_name="Whippoorwill Pulse",
             damage_calculation_strategy=LoreleyDamageCalculationStrategy(),
         )
 
 
-class PhosphorPulseV3(CombatAction):
+class WhippoorwillPulseV3(CombatAction):
     """Action from Ranger Mk.II triggered by Loreley."""
 
     @override
     def execute(self) -> DamageInstance:
-        label: str = "Phosphor Pulse"
+        label: str = "Whippoorwill Pulse"
         base_potency: int = 80
         tags: set[DamageTag] = {
             DamageTag.PASSIVE,
@@ -268,7 +268,7 @@ class PhosphorPulseV3(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Phosphor Pulse",
+            group_name="Whippoorwill Pulse",
             damage_calculation_strategy=LoreleyDamageCalculationStrategy(),
         )
 
@@ -299,7 +299,7 @@ class Loreley(Doll):
     searing_brand: CombatAction = Field(default_factory=SearingBrand)
     red_bound_declaration: CombatAction = Field(default_factory=RedBoundDeclaration)
     dolorous_grace: CombatAction = Field(default_factory=DolorousGrace)
-    phosphor_pulse: CombatAction = Field(default_factory=PhosphorPulse)
+    whippoorwill_pulse: CombatAction = Field(default_factory=WhippoorwillPulse)
 
     def set_to_v0(self) -> None:
         """Sets Fortification Level to Segment00."""
@@ -307,13 +307,13 @@ class Loreley(Doll):
         self.searing_brand: CombatAction = SearingBrand()
         self.red_bound_declaration: CombatAction = RedBoundDeclaration()
         self.dolorous_grace: CombatAction = DolorousGrace()
-        self.phosphor_pulse: CombatAction = PhosphorPulse()
+        self.whippoorwill_pulse: CombatAction = WhippoorwillPulse()
 
     def set_to_v3(self) -> None:
         """Sets Fortification Level to Segment03."""
         self.set_to_v0()
 
-        self.phosphor_pulse: CombatAction = PhosphorPulseV3()
+        self.whippoorwill_pulse: CombatAction = WhippoorwillPulseV3()
 
     def set_to_v4(self) -> None:
         """Sets Fortification Level to Segment04."""

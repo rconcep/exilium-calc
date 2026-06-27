@@ -13,43 +13,46 @@ from core.dolls import loreley
 
 _t1: list[dict[str, Any]] = [
     {"name": "Dolorous Grace"},
-    {"name": "Phosphor Pulse"},
-    {"name": "Phosphor Pulse"},
+    {"name": "Whippoorwill Pulse"},
+    {"name": "Whippoorwill Pulse"},
     {
         "name": "Searing Brand",
-        "has_blazing_embers": False,
+        "has_glowing_embers": True,
         "target_on_burn_tile": True,
     },
-    {"name": "Phosphor Pulse"},
+    {"name": "Whippoorwill Pulse"},
+    {"name": "Whippoorwill Pulse"},
 ]
 
 _t2: list[dict[str, Any]] = [
     {
         "name": "Red-Bound Declaration",
-        "has_blazing_embers": False,
+        "has_glowing_embers": True,
         "number_of_targets": 1,
         "number_of_burn_buffs": 4,
     },
-    {"name": "Phosphor Pulse"},
+    {"name": "Whippoorwill Pulse"},
+    {"name": "Whippoorwill Pulse"},
     {
         "name": "Searing Brand",
-        "has_blazing_embers": True,
+        "has_glowing_embers": True,
         "target_on_burn_tile": True,
     },
-    {"name": "Phosphor Pulse"},
-    {"name": "Phosphor Pulse"},
+    {"name": "Whippoorwill Pulse"},
+    {"name": "Whippoorwill Pulse"},
 ]
 
 _t4: list[dict[str, Any]] = [
     {"name": "Dolorous Grace"},
-    {"name": "Phosphor Pulse"},
-    {"name": "Phosphor Pulse"},
+    {"name": "Whippoorwill Pulse"},
+    {"name": "Whippoorwill Pulse"},
     {
         "name": "Searing Brand",
-        "has_blazing_embers": True,
+        "has_glowing_embers": True,
         "target_on_burn_tile": True,
     },
-    {"name": "Phosphor Pulse"},
+    {"name": "Whippoorwill Pulse"},
+    {"name": "Whippoorwill Pulse"},
 ]
 
 sample_rotation: dict[int, list[dict]] = {
@@ -71,7 +74,7 @@ class Loreley(DollCalculatorPage):
 
         self.doll = loreley.Loreley()
         self.doll.set_fortification_level(FortificationLevel.SEGMENT06)
-        self.doll_subtitle: str = """AoE / Tile / Support
+        self.doll_subtitle: str = """Mixed Damage / Summon / Multi-Buff
 
             Support / Burn"""
         self.dandegate_link: str = "https://www.dandegate.net/dolls/loreley"
@@ -89,9 +92,9 @@ class Loreley(DollCalculatorPage):
             "Searing Brand": {
                 "fields": [
                     {
-                        "key": "has_blazing_embers",
+                        "key": "has_glowing_embers",
                         "type": "checkbox",
-                        "label": "Blazing Embers",
+                        "label": "Glowing Embers",
                         "default": True,
                     },
                     {
@@ -106,9 +109,9 @@ class Loreley(DollCalculatorPage):
             "Red-Bound Declaration": {
                 "fields": [
                     {
-                        "key": "has_blazing_embers",
+                        "key": "has_glowing_embers",
                         "type": "checkbox",
-                        "label": "Blazing Embers",
+                        "label": "Glowing Embers",
                         "default": True,
                     },
                     {
@@ -130,9 +133,9 @@ class Loreley(DollCalculatorPage):
                 "fields": [],
                 "function": doll.dolorous_grace.execute,
             },
-            "Phosphor Pulse": {
+            "Whippoorwill Pulse": {
                 "fields": [],
-                "function": doll.phosphor_pulse.execute,
+                "function": doll.whippoorwill_pulse.execute,
             },
         }
 
@@ -202,12 +205,12 @@ class Loreley(DollCalculatorPage):
         return [
             {"name": "Blazing Assault II"},
             {
-                "name": "Blazing Embers",
+                "name": "Glowing Embers",
                 "loreley_fortification_level": FortificationLevel.SEGMENT06,
                 "stack": 6,
             },
             {
-                "name": "Scorchflame (Loreley)",
+                "name": "Burning Tide (Loreley)",
                 "loreley_fortification_level": FortificationLevel.SEGMENT06,
             },
         ]
@@ -224,7 +227,7 @@ class Loreley(DollCalculatorPage):
         return [
             ModelAssumption(
                 icon="local_fire_department",
-                description="The damage boost and critical damage boost for each Phosphor Pulse triggered at V3+ is maxed.",
+                description="The damage boost and critical damage boost for each Whippoorwill Pulse triggered at V3+ is maxed.",
             ),
             ModelAssumption(
                 icon="groups",

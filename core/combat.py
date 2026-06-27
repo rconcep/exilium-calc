@@ -1619,10 +1619,10 @@ class LoreleyDamageCalculationStrategy(StandardDamageCalculationStrategy):
                 SpecialAttribute.DAMAGE_BOOST
             ].add_to_multiplier(DamageTag.ALL, 10)
 
-            # V3: Phosphor Pulse: for each Phosphor Pulse triggered, Loreley's damage is increased by 10%,
-            # up to a maximum of 60% and critical damage is increased by 2%, up to a maximum of 12%. Assume max 6 Phosphor Pulse triggers for max bonus.
+            # V3: Whippoorwill Pulse: for each Whippoorwill Pulse triggered, Loreley's damage is increased by 10%,
+            # up to a maximum of 60% and critical damage is increased by 2%, up to a maximum of 12%. Assume max 6 Whippoorwill Pulse triggers for max bonus.
             if attacker.fortification_level >= FortificationLevel.SEGMENT03:
-                phosphor_pulse_triggers: int = 6
+                whippoorwill_pulse_triggers: int = 6
                 damage_boost_per_trigger: int = 10
                 crit_dmg_boost_per_trigger: int = 2
                 maximum_damage_boost_from_passive: int = 60
@@ -1633,7 +1633,7 @@ class LoreleyDamageCalculationStrategy(StandardDamageCalculationStrategy):
                 ].add_to_multiplier(
                     DamageTag.ALL,
                     min(
-                        phosphor_pulse_triggers * damage_boost_per_trigger,
+                        whippoorwill_pulse_triggers * damage_boost_per_trigger,
                         maximum_damage_boost_from_passive,
                     ),
                 )
@@ -1643,7 +1643,7 @@ class LoreleyDamageCalculationStrategy(StandardDamageCalculationStrategy):
                 ].add_to_multiplier(
                     DamageTag.ALL,
                     min(
-                        phosphor_pulse_triggers * crit_dmg_boost_per_trigger,
+                        whippoorwill_pulse_triggers * crit_dmg_boost_per_trigger,
                         maximum_crit_dmg_boost_from_passive,
                     ),
                 )

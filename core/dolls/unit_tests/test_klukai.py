@@ -84,10 +84,34 @@ class TestKlukaiSkills:
             tag=DamageTag.ALL,
         )
 
-    def test_corrosive_infusion_v2_caps_stacks_and_applies_defense_debuff(self):
-        result: DamageInstance = CorrosiveInfusionV2().execute(stacks=20)
+    def test_fang_scales_with_corrosion_debuff_trigger_stacks(self):
+        result: DamageInstance = Fang().execute(stacks_corrosion_debuff_triggers=5)
 
-        assert result.base_potency == 180
+        assert result.label == "Fang (5 triggers)"
+        assert result.base_potency == 150
+        assert result.tags == {
+            DamageTag.ACTIVE,
+            DamageTag.AREA_OF_EFFECT,
+            DamageTag.CORROSION,
+            DamageTag.PHASE,
+        }
+        assert result.group_name == "Fang"
+
+    def test_corrosive_infusion_caps_competitive_spirit_stacks(self):
+        result: DamageInstance = CorrosiveInfusion().execute(
+            stacks=20,
+            stacks_competitive_spirit=20,
+        )
+
+        assert result.base_potency == 128
+
+    def test_corrosive_infusion_v2_caps_stacks_and_applies_defense_debuff(self):
+        result: DamageInstance = CorrosiveInfusionV2().execute(
+            stacks=20,
+            stacks_competitive_spirit=20,
+        )
+
+        assert result.base_potency == 192
         assert result.debuffs_before == [
             Debuff(
                 value=-15,
@@ -114,6 +138,7 @@ class TestKlukaiFortification:
         assert isinstance(klukai.pinpoint_detonation_second, PinpointDetonationSecond)
         assert isinstance(klukai.overpowering_corrosion, OverpoweringCorrosion)
         assert isinstance(klukai.devastating_drift, DevastatingDrift)
+        assert isinstance(klukai.fang, Fang)
         assert isinstance(klukai.corrosive_infusion, CorrosiveInfusion)
         assert isinstance(klukai.toxic_infiltration, ToxicInfiltration)
 
@@ -125,6 +150,7 @@ class TestKlukaiFortification:
         assert isinstance(klukai.pinpoint_detonation_second, PinpointDetonationSecondV4)
         assert isinstance(klukai.overpowering_corrosion, OverpoweringCorrosionV5)
         assert isinstance(klukai.devastating_drift, DevastatingDriftV6)
+        assert isinstance(klukai.fang, Fang)
         assert isinstance(klukai.corrosive_infusion, CorrosiveInfusionV2)
         assert isinstance(klukai.toxic_infiltration, ToxicInfiltrationV5)
 
