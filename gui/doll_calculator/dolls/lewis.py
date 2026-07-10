@@ -7,172 +7,102 @@ from core.types import DamageTag, SpecialAttribute, StatType, FortificationLevel
 from core.dolls import lewis
 from core.combat import Overburn
 
-
 sample_rotation: dict[int, list[dict]] = {
     1: [
+        # Holders' Actions
+        {"name": "Volley Fire", "tin_soldier_rank": 2, "has_tin_soldiers_order": False},
+        {"name": "Volley Fire", "tin_soldier_rank": 2, "has_tin_soldiers_order": False},
+        # End of Holders' Actions
+        {"name": "Volley Fire", "tin_soldier_rank": 2, "has_tin_soldiers_order": False},
+        {"name": "Volley Fire", "tin_soldier_rank": 2, "has_tin_soldiers_order": False},
         {
             "name": "Surprising Funball",
         },
         {"name": "Surprising Funball (Fixed)"},
-        {"name": "Volley Fire", "tin_soldier_rank": 2, "has_tin_soldiers_order": True},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 2, "has_tin_soldiers_order": True},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 2, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 2, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
     ],
     2: [
+        # Holders' Actions
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": True},
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": True},
+        # End of Holders' Actions
         {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
+        # Rank III - Toy Carnival triggers
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
         {
             "name": "Toy Carnival",
             "cumulative_tin_soldier_ranks": 6,
             "highest_rank_tin_soldier": 3,
         },
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
     ],
     3: [
+        # Holders' Actions
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
+        # End of Holders' Actions
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
         {
             "name": "Surprising Funball",
         },
         {"name": "Surprising Funball (Fixed)"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": True},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": True},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
     ],
     4: [
+        # Holders' Actions
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": True},
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": True},
+        # End of Holders' Actions
         {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
+        # Rank III - Toy Carnival triggers
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
         {
             "name": "Toy Carnival",
             "cumulative_tin_soldier_ranks": 6,
             "highest_rank_tin_soldier": 3,
         },
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
     ],
     5: [
+        # Holders' Actions
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
+        # End of Holders' Actions
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
         {
             "name": "Surprising Funball",
         },
         {"name": "Surprising Funball (Fixed)"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": True},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": True},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
     ],
     6: [
+        # Holders' Actions
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": True},
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": True},
+        # End of Holders' Actions
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
+        # Rank III - Toy Carnival triggers
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
         {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
         {
             "name": "Toy Carnival",
             "cumulative_tin_soldier_ranks": 6,
             "highest_rank_tin_soldier": 3,
         },
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
     ],
     7: [
+        # Holders' Actions
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
+        # End of Holders' Actions
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
+        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
         {
             "name": "Surprising Funball",
         },
         {"name": "Surprising Funball (Fixed)"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": True},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": True},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
-        {"name": "Overburn"},
     ],
 }
 
@@ -337,6 +267,16 @@ class Lewis(DollCalculatorPage):
                 "vector_fortification_level": FortificationLevel.SEGMENT06,
                 "number_of_burn_buffs": 3,
             },
+            {
+                "name": "Rank (Lewis)",
+                "lewis_fortification_level": FortificationLevel.SEGMENT06,
+                "rank": 3,
+            },
+            {
+                "name": "Rank (Lewis)",
+                "lewis_fortification_level": FortificationLevel.SEGMENT06,
+                "rank": 3,
+            },
         ]
 
     def get_default_damage_calculator_debuffs(self) -> list[dict[str, Any]]:
@@ -359,7 +299,7 @@ class Lewis(DollCalculatorPage):
         return [
             ModelAssumption(
                 icon="whatshot",
-                description="Sample rotation assumes Tin Soldier holders are triggering Volley Fire and Overburn is always applied when Volley Fire is used.",
+                description="Sample rotation assumes Tin Soldier holders are triggering Volley Fire.",
             ),
         ]
 

@@ -235,6 +235,68 @@ class Embers(Buff):
         return ret
 
 
+class Rank(Buff):
+    """Buff granted to Lewis by her Tin Soldier based on its rank (this is per Soldier; use two Buff instances for two Soldiers)."""
+
+    display_name = "Rank (Lewis)"
+    max_stack_count = 4
+    stack_input_type = "input"
+
+    def __init__(self): ...
+
+    def get_buffs(self, lewis_fortification_level: FortificationLevel, rank: int):
+        """
+        Arguments:
+        lewis_fortification_level -- the Fortification Level of Lewis receiving this buff
+        rank -- the rank of the Tin Soldier granting this buff (1, 2, or 3)
+        """
+        ret: list[Buff] = []
+
+        # Higher ranks include the effects of lower ranks, so we can use a simple if/elif structure.
+        # Rank I: Burn damage dealt is increased by 10%.
+        # Rank II: Burn damage dealt is increased by 15% and critical rate is increased by 10%.
+        # Rank II (V6): Additionally, critical damage is increased by 15%.
+        # Rank III: Volley Fire triggered by Toy Carnival - implemented through rotation.
+
+        # Burn damage dealt
+        self.value = 0
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.BURN
+
+        if rank >= 1:
+            self.value += 10
+
+        if rank >= 2:
+            self.value += 15
+
+        ret.append(self)
+
+        # Critical rate
+        if rank >= 2:
+            ret.append(
+                Buff(
+                    value=10,
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=StatType.CRIT_RATE,
+                    tag=DamageTag.ALL,
+                )
+            )
+
+        # Critical damage (V6)
+        if rank >= 2 and lewis_fortification_level >= FortificationLevel.SEGMENT06:
+            ret.append(
+                Buff(
+                    value=15,
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=SpecialAttribute.CRITICAL_DAMAGE,
+                    tag=DamageTag.ALL,
+                )
+            )
+
+        return ret
+
+
 class GlowingEmbers(Buff):
     """Enhanced version of Embers, granted by fully charging Thermal Conduction with Loreley on the field."""
 

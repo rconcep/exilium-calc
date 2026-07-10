@@ -194,11 +194,18 @@ each stat and observing the resulting change in expected damage.
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
                     ui.timeline_entry(
+                        "Add Rank (Lewis) buff to represent buff from Tin Soldiers' rank; marked release of version 1.0.0.",
+                        title="Release 1.0.0",
+                        subtitle="July 9, 2026",
+                        icon="publish",
+                    )
+
+                    ui.timeline_entry(
                         "Updated Loreley's localizations and sample rotation; implemented Klukai's expansion key.",
                         title="",
                         subtitle="June 26, 2026",
                         icon="translate",
-                    ),
+                    )
                     ui.timeline_entry(
                         "Updated Loreley's localizations based on preview material and added to her Notes.",
                         title="",
@@ -429,6 +436,6 @@ if __name__ in {"__main__", "__mp_main__"}:
     )
     ui.run(
         root,
-        # reload=False,
+        reload=False,
         reconnect_timeout=300,
     )
