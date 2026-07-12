@@ -86,7 +86,7 @@ class RotationSimulator:
                     with ui.card().classes("w-80 h-180 exilium-panel"):
                         ui.label("Rotation Actions").classes("text-h6")
                         ui.label(
-                            "Build your sequence by turn, then click Sync Timeline."
+                            "Build your sequence by turn, then click Sync Timeline. This will re-build the action timeline and erase any per-action modifications."
                         ).classes("text-caption exilium-subtle")
                         ui.separator()
                         self.rotation_planner = RotationPlanner(
@@ -104,7 +104,7 @@ class RotationSimulator:
 
             with ui.expansion(
                 "Edit Action Timeline",
-                caption="Per-action attacker/target modifications.",
+                caption="Per-action attacker/target modifications. Buff/debuff additions and removals are resolved in chronological order.",
                 value=False,
                 icon="timeline",
             ).classes("w-full"):
@@ -453,6 +453,7 @@ class RotationSimulator:
             option_config[instance_id] = {
                 "fields": [],
                 "display_name": display_name,
+                "target_instance_id": instance_id,
             }
 
         return options, option_config
@@ -531,8 +532,11 @@ class RotationSimulator:
         to_remove: list[dict[str, Any]],
     ) -> None:
         for remove_item in to_remove:
+            target_instance_id = remove_item.get(
+                "_target_instance_id", remove_item.get("_instance_id")
+            )
             for idx, active_item in enumerate(active_items):
-                if active_item.get("_instance_id") == remove_item.get("_instance_id"):
+                if active_item.get("_instance_id") == target_instance_id:
                     active_items.pop(idx)
                     break
 

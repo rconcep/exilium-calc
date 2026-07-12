@@ -70,6 +70,8 @@ class SelectableChipsEditor:
         config = self.get_config(item["name"])
         item.setdefault("_instance_id", str(uuid4()))
         item.setdefault("_display_name", config.get("display_name", item["name"]))
+        if "target_instance_id" in config:
+            item.setdefault("_target_instance_id", config["target_instance_id"])
         return item
 
     def get_config(self, option_name: str) -> dict:
