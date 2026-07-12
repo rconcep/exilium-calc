@@ -1,5 +1,6 @@
 import copy
 from typing import Any
+from uuid import uuid4
 from nicegui import ui
 from nicegui.events import ClickEventArguments
 
@@ -15,7 +16,7 @@ class SelectableChipsEditor:
 
     def __init__(
         self,
-        options: list[str],
+        options: list[str] | dict[str, str],
         option_config: dict[str, dict[str, Any]],
         allow_duplicates: bool = True,
         title: str = "Select options",
@@ -26,6 +27,7 @@ class SelectableChipsEditor:
         # chip_icon: str = "",
         chip_color: str = "primary",
         container_classes: str = "w-full gap-2 wrap q-mt-md",
+        on_change: Any | None = None,
     ):
         self.allow_duplicates = allow_duplicates
         self.title = title
@@ -35,6 +37,7 @@ class SelectableChipsEditor:
         self.clear_button_icon = clear_button_icon
         # self.chip_icon = chip_icon
         self.chip_color = chip_color
+        self.on_change = on_change
 
         self.options = options
         self.option_config = option_config
@@ -54,9 +57,20 @@ class SelectableChipsEditor:
 
         self.selected_items: list[dict[str, Any]] = []
         self.container = ui.row().classes(f"{container_classes} exilium-chipbar")
+        self.selector: ui.select
 
         self._build_ui()
         self.refresh_chips()
+
+    def _notify_change(self) -> None:
+        if callable(self.on_change):
+            self.on_change()
+
+    def _ensure_item_metadata(self, item: dict[str, Any]) -> dict[str, Any]:
+        config = self.get_config(item["name"])
+        item.setdefault("_instance_id", str(uuid4()))
+        item.setdefault("_display_name", config.get("display_name", item["name"]))
+        return item
 
     def get_config(self, option_name: str) -> dict:
         return self.option_config.get(option_name, self.default_config)
@@ -66,7 +80,7 @@ class SelectableChipsEditor:
         item = {"name": option_name}
         for field in config.get("fields", []):
             item[field["key"]] = field.get("default", "")
-        return item
+        return self._ensure_item_metadata(item)
 
     def open_edit_dialog(self, item: dict):
         config = self.get_config(item["name"])
@@ -125,8 +139,10 @@ class SelectableChipsEditor:
             def save_and_close(e: ClickEventArguments):
                 for key, element in field_elements.items():
                     item[key] = element.value
+                self._ensure_item_metadata(item)
                 dialog.close()
                 self.refresh_chips()
+                self._notify_change()
                 with e.client:
                     ui.notify(f'Updated {item["name"]}')
 
@@ -139,8 +155,9 @@ class SelectableChipsEditor:
         with self.container:
             ui.label(f"{self.title}:").classes("text-subtitle2")
             for item in self.selected_items:
+                self._ensure_item_metadata(item)
                 chip = ui.chip(
-                    text=item["name"],
+                    text=item.get("_display_name", item["name"]),
                     # icon=self.chip_icon,
                     color=self.chip_color,
                     removable=True,
@@ -170,6 +187,7 @@ class SelectableChipsEditor:
                 def remove_this(e, it=item):
                     self.selected_items.remove(it)
                     self.refresh_chips()
+                    self._notify_change()
                     with e.client:
                         ui.notify(f'Removed {it["name"]}')
 
@@ -186,6 +204,7 @@ class SelectableChipsEditor:
             new_item = self.create_new_item(option_text)
             self.selected_items.append(new_item)
             self.refresh_chips()
+            self._notify_change()
             ui.notify(f"Added: {option_text}")
         else:
             ui.notify(f"{option_text} already selected", type="warning")
@@ -196,7 +215,31 @@ class SelectableChipsEditor:
             return
         self.selected_items.clear()
         self.refresh_chips()
+        self._notify_change()
         ui.notify(f"Cleared all {self.title.lower()}", type="positive")
+
+    def set_options_and_config(
+        self,
+        options: list[str] | dict[str, str],
+        option_config: dict[str, dict[str, Any]],
+    ) -> None:
+        self.options = options
+        self.option_config = option_config
+        self.default_config = option_config.get(
+            "default",
+            {
+                "fields": [
+                    {
+                        "key": "comment",
+                        "type": "textarea",
+                        "label": "Notes",
+                        "default": "",
+                    }
+                ]
+            },
+        )
+        self.selector.options = options
+        self.selector.update()
 
     def _build_ui(self):
         # Selection dialog
@@ -207,7 +250,7 @@ class SelectableChipsEditor:
                 ui.label(self.title).classes("text-h6")
                 ui.separator()
 
-                selector = (
+                self.selector = (
                     ui.select(
                         options=self.options,
                         with_input=True,
@@ -256,6 +299,10 @@ class SelectableChipsEditor:
     def clear(self):
         self.clear_all()
 
-    def set_data(self, data: list[dict]):
-        self.selected_items = copy.deepcopy(data)
+    def set_data(self, data: list[dict], notify: bool = True):
+        self.selected_items = [
+            self._ensure_item_metadata(copy.deepcopy(item)) for item in data
+        ]
         self.refresh_chips()
+        if notify:
+            self._notify_change()

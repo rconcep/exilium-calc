@@ -12,6 +12,7 @@ from core.types import *
 from core.stat_serializer import SerializationError, StatsSerializer
 from core.combat import DamageInstance, sum_damage_instances
 from gui.templates.rotation_planner import RotationPlanner
+from gui.templates.rotation_simulator import RotationSimulator
 from gui.templates.doll_notes import (
     BulletsSection,
     FortificationTableSection,
@@ -169,6 +170,27 @@ class DollCalculatorPage(ABC):
         self.damage_calculator.debuffs_selector.set_data(
             copy.deepcopy(self.get_default_damage_calculator_debuffs())
         )
+
+    def get_default_rotation_simulator_actions(self) -> dict[int, list[dict[str, Any]]]:
+        """Returns default action selections for the Rotation Simulator prototype."""
+        return self.rotation_planner.get_data()
+
+    def apply_default_rotation_simulator_selections(self) -> None:
+        """Applies prototype defaults to the Rotation Simulator.
+
+        For now this reuses the page's pre-populated Rotation Planner data and
+        the curated Damage Calculator buff/debuff defaults.
+        """
+        self.rotation_simulator.rotation_planner.set_data(
+            copy.deepcopy(self.get_default_rotation_simulator_actions())
+        )
+        self.rotation_simulator.baseline_buffs_selector.set_data(
+            copy.deepcopy(self.get_default_damage_calculator_buffs())
+        )
+        self.rotation_simulator.baseline_debuffs_selector.set_data(
+            copy.deepcopy(self.get_default_damage_calculator_debuffs())
+        )
+        self.rotation_simulator.sync_timeline()
 
     def render_model_assumptions(self) -> None:
         """Renders model assumptions as a list with icon, description, and optional link."""
@@ -651,7 +673,7 @@ class DollCalculatorPage(ABC):
                     basic_stats_tab = ui.tab("Basic").tooltip(
                         "Initial values of basic stats as seen in Refitting Room or Formation."
                     )
-                    special_stats_tab = ui.tab("Special").tooltip(
+                    damage_calculator_tab = ui.tab("Special").tooltip(
                         "Conditionally applied stats from innate abilities."
                     )
                     additive_mods_tab = ui.tab("Additive").tooltip(
@@ -687,7 +709,7 @@ class DollCalculatorPage(ABC):
                                                 ui.number(value=0, min=0, precision=2)
                                             )
 
-                    with ui.tab_panel(special_stats_tab):
+                    with ui.tab_panel(damage_calculator_tab):
                         with ui.scroll_area().classes("w-full h-full"):
                             with ui.expansion(
                                 text="Help",
@@ -1450,7 +1472,8 @@ class DollCalculatorPage(ABC):
 
         with ui.tabs().classes("w-fit exilium-main-tabs") as tabs:
             basic_stats_tab = ui.tab("Rotation Potency")
-            special_stats_tab = ui.tab("Damage Calculator")
+            damage_calculator_tab = ui.tab("Damage Calculator")
+            rotation_simulator_tab = ui.tab("Rotation Simulator")
             notes_tab = ui.tab("Doll Notes")
 
         with ui.tab_panels(tabs, value=basic_stats_tab).classes(
@@ -1461,10 +1484,13 @@ class DollCalculatorPage(ABC):
                     self.get_rotation_planner()
                     self.get_rotation_analysis()
 
-            with ui.tab_panel(special_stats_tab).classes("w-full h-650"):
+            with ui.tab_panel(damage_calculator_tab).classes("w-full h-650"):
                 from gui.templates.damage_calculator import DamageCalculator
 
                 self.damage_calculator = DamageCalculator(self)
+
+            with ui.tab_panel(rotation_simulator_tab).classes("w-full h-650"):
+                self.rotation_simulator = RotationSimulator(self)
 
             with ui.tab_panel(notes_tab).classes("w-full h-650"):
                 notes_document = load_notes_document(self.doll.name)
@@ -1584,6 +1610,8 @@ class DollCalculatorPage(ABC):
 
         self.damage_instances = self.rotation_planner.get_all_actions()
         self.stats_update_callback(None)
+
+        self.apply_default_rotation_simulator_selections()
 
         # Pre-populate Damage Calculator with buffs/debuffs that are relevant to Doll's damage output and commonly toggled in the UI.
         self.apply_default_damage_calculator_selections()

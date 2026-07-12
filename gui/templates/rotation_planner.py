@@ -3,6 +3,7 @@ from nicegui import ui
 from gui.templates.selectable_chips_editor import SelectableChipsEditor
 from typing import Any, Callable
 from core.combat import DamageInstance
+import copy
 
 
 class RotationPlanner:
@@ -54,6 +55,12 @@ class RotationPlanner:
         """Sets the data in the turn editors directly, e.g., for pre-populating a rotation."""
         for t, v in data.items():
             self.editors[t].set_data(v)
+
+    def get_data(self) -> dict[int, list[dict[str, Any]]]:
+        """Returns a deep copy of all turn editor data."""
+        return {
+            turn: copy.deepcopy(editor.data) for turn, editor in self.editors.items()
+        }
 
     def set_options_config(self, options_config: dict[str, dict[str, Any]]) -> None:
         """Sets the options config such as when changing Action implementations."""
