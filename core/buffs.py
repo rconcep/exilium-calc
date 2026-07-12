@@ -1119,10 +1119,10 @@ class PreshowWarmup(Buff):
         self.tag = DamageTag.PHYSICAL
 
 
-class SepalOfShyness(Buff):
+class MimosasCalyx(Buff):
     """Cheyanne buff."""
 
-    display_name = "Sepal of Shyness (Cheyanne)"
+    display_name = "Mimosa's Calyx (Cheyanne)"
     max_stack_count = 1
     stack_input_type = "select"
 
@@ -1144,7 +1144,7 @@ class SepalOfShyness(Buff):
 
 
 class SenseOfSecurity(Buff):
-    """Buff granted to Cheyanne (V4+) for each turn Sepal of Shyness is active, stacking up to 3 times."""
+    """Buff granted to Cheyanne (V4+) for each turn Mimosa's Calyx is active, stacking up to 3 times."""
 
     display_name = "Sense of Security (Cheyanne)"
     max_stack_count = 3
@@ -1635,10 +1635,10 @@ class Justice(Buff):
         return ret
 
 
-class CoordinatedCombat(Buff):
+class JointOps(Buff):
     """Pegasus buff. At V4+, increases critical damage of both Liushih and Pegasus."""
 
-    display_name = "Coordinated Combat (Liushih)"
+    display_name = "Joint Ops (Liushih)"
     max_stack_count = 1
     stack_input_type = "select"
 

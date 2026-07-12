@@ -1449,7 +1449,7 @@ class LiushihDamageCalculationStrategy(DamageCalculationStrategy):
             # Fixed damage does not benefit from damage boost modifiers
             adjusted_potency: float = damage_instance.base_potency
         elif DamageTag.BASIC in damage_instance.tags:
-            # Liushih Passive - We Fight As One:
+            # Liushih Passive - Shared Vengeance:
             # For every 60 points of Liushih's initial attack, increase the basic attack damage multiplier of both herself
             # and Pegasus by 5%, up to a maximum of 50%.
 
@@ -1563,7 +1563,7 @@ class PegasusDamageCalculationStrategy(DamageCalculationStrategy):
             # Fixed damage does not benefit from damage boost modifiers
             adjusted_potency: float = damage_instance.base_potency
         elif DamageTag.BASIC in damage_instance.tags:
-            # Liushih Passive - We Fight As One:
+            # Liushih Passive - Shared Vengeance:
             # For every 60 points of Liushih's initial attack, increase the basic attack damage multiplier of both herself
             # and Pegasus by 5%, up to a maximum of 50%.
 

@@ -24,7 +24,7 @@ class LineBreaker(CombatAction):
     """Liushih Basic Attack."""
 
     @override
-    def execute(self, stacks_of_precision: int) -> DamageInstance:
+    def execute(self, stacks_of_marksmanship: int) -> DamageInstance:
         label: str = "Line Breaker"
         base_potency: int = 90
 
@@ -37,9 +37,9 @@ class LineBreaker(CombatAction):
             DamageTag.PHASE,
         }
 
-        # Precision: Damage multiplier of basic attack is increased by 10%.
+        # Marksmanship: Damage multiplier of basic attack is increased by 10%.
         potency_per_stack: int = 10
-        base_potency += potency_per_stack * stacks_of_precision
+        base_potency += potency_per_stack * stacks_of_marksmanship
 
         return DamageInstance(
             label=label,
@@ -54,7 +54,7 @@ class LineBreakerV3(CombatAction):
     """Liushih Basic Attack (V3)."""
 
     @override
-    def execute(self, stacks_of_precision: int) -> DamageInstance:
+    def execute(self, stacks_of_marksmanship: int) -> DamageInstance:
         label: str = "Line Breaker"
         base_potency: int = 90
 
@@ -67,9 +67,9 @@ class LineBreakerV3(CombatAction):
             DamageTag.PHASE,
         }
 
-        # Precision: Damage multiplier of basic attack is increased by 20%.
+        # Marksmanship: Damage multiplier of basic attack is increased by 20%.
         potency_per_stack: int = 20
-        base_potency += potency_per_stack * stacks_of_precision
+        base_potency += potency_per_stack * stacks_of_marksmanship
 
         return DamageInstance(
             label=label,
@@ -80,12 +80,12 @@ class LineBreakerV3(CombatAction):
         )
 
 
-class AllOrNothing(CombatAction):
+class DesperateGambit(CombatAction):
     """Liushih S1."""
 
     @override
     def execute(self) -> DamageInstance:
-        label: str = "All or Nothing"
+        label: str = "Desperate Gambit"
         base_potency: int = 90
 
         tags: set[DamageTag] = {
@@ -100,17 +100,17 @@ class AllOrNothing(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="All or Nothing",
+            group_name="Desperate Gambit",
             damage_calculation_strategy=LiushihDamageCalculationStrategy(),
         )
 
 
-class AllOrNothingV3(CombatAction):
+class DesperateGambitV3(CombatAction):
     """Liushih S1 (V3)."""
 
     @override
     def execute(self) -> DamageInstance:
-        label: str = "All or Nothing"
+        label: str = "Desperate Gambit"
         base_potency: int = 120
 
         tags: set[DamageTag] = {
@@ -125,17 +125,17 @@ class AllOrNothingV3(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="All or Nothing",
+            group_name="Desperate Gambit",
             damage_calculation_strategy=LiushihDamageCalculationStrategy(),
         )
 
 
-class LeadingTheCharge(CombatAction):
+class OneDollCavalry(CombatAction):
     """Liushih Ultimate."""
 
     @override
     def execute(self) -> DamageInstance:
-        label: str = "Leading the Charge"
+        label: str = "One Doll Cavalry"
         base_potency: int = 90
 
         tags: set[DamageTag] = {
@@ -149,17 +149,17 @@ class LeadingTheCharge(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Leading the Charge",
+            group_name="One Doll Cavalry",
             damage_calculation_strategy=LiushihDamageCalculationStrategy(),
         )
 
 
-class LeadingTheChargeV4(CombatAction):
+class OneDollCavalryV4(CombatAction):
     """Liushih Ultimate (V4)."""
 
     @override
     def execute(self) -> DamageInstance:
-        label: str = "Leading the Charge"
+        label: str = "One Doll Cavalry"
         base_potency: int = 120
 
         tags: set[DamageTag] = {
@@ -173,17 +173,17 @@ class LeadingTheChargeV4(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Leading the Charge",
+            group_name="One Doll Cavalry",
             damage_calculation_strategy=LiushihDamageCalculationStrategy(),
         )
 
 
-class CloseInDefenseAutocannon(CombatAction):
+class GatlingCannon(CombatAction):
     """Pegasus's follow-up attack."""
 
     @override
-    def execute(self, stacks_of_precision: int) -> DamageInstance:
-        label: str = "Close-In Defense Autocannon (Pegasus)"
+    def execute(self, stacks_of_marksmanship: int) -> DamageInstance:
+        label: str = "Gatling Cannon (Pegasus)"
         base_potency: int = 110
 
         tags: set[DamageTag] = {
@@ -196,25 +196,25 @@ class CloseInDefenseAutocannon(CombatAction):
             DamageTag.HEAVY_AMMO,
         }
 
-        # Precision: Damage multiplier of basic attack is increased by 10%.
+        # Marksmanship: Damage multiplier of basic attack is increased by 10%.
         potency_per_stack: int = 10
-        base_potency += potency_per_stack * stacks_of_precision
+        base_potency += potency_per_stack * stacks_of_marksmanship
 
         return DamageInstance(
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Close-In Defense Autocannon (Pegasus)",
+            group_name="Gatling Cannon (Pegasus)",
             damage_calculation_strategy=PegasusDamageCalculationStrategy(),
         )
 
 
-class CloseInDefenseAutocannonV3(CombatAction):
+class GatlingCannonV3(CombatAction):
     """Pegasus's follow-up attack (V3)."""
 
     @override
-    def execute(self, stacks_of_precision: int) -> DamageInstance:
-        label: str = "Close-In Defense Autocannon (Pegasus)"
+    def execute(self, stacks_of_marksmanship: int) -> DamageInstance:
+        label: str = "Gatling Cannon (Pegasus)"
         base_potency: int = 110
 
         tags: set[DamageTag] = {
@@ -227,15 +227,15 @@ class CloseInDefenseAutocannonV3(CombatAction):
             DamageTag.HEAVY_AMMO,
         }
 
-        # Precision: Damage multiplier of basic attack is increased by 20%.
+        # Marksmanship: Damage multiplier of basic attack is increased by 20%.
         potency_per_stack: int = 20
-        base_potency += potency_per_stack * stacks_of_precision
+        base_potency += potency_per_stack * stacks_of_marksmanship
 
         return DamageInstance(
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Close-In Defense Autocannon (Pegasus)",
+            group_name="Gatling Cannon (Pegasus)",
             damage_calculation_strategy=PegasusDamageCalculationStrategy(),
         )
 
@@ -262,10 +262,10 @@ class Liushih(Doll):
     )
 
     line_breaker: CombatAction = Field(default_factory=LineBreaker)
-    all_or_nothing: CombatAction = Field(default_factory=AllOrNothing)
-    leading_the_charge: CombatAction = Field(default_factory=LeadingTheCharge)
-    close_in_defense_autocannon: CombatAction = Field(
-        default_factory=CloseInDefenseAutocannon
+    desperate_gambit: CombatAction = Field(default_factory=DesperateGambit)
+    one_doll_cavalry: CombatAction = Field(default_factory=OneDollCavalry)
+    gatling_cannon: CombatAction = Field(
+        default_factory=GatlingCannon
     )
 
     def _build_pegasus(self) -> PhysicalSummonedUnit:
@@ -307,9 +307,9 @@ class Liushih(Doll):
     def set_to_v0(self) -> None:
         """Sets Fortification Level to Segment00."""
         self.line_breaker = LineBreaker()
-        self.all_or_nothing = AllOrNothing()
-        self.leading_the_charge = LeadingTheCharge()
-        self.close_in_defense_autocannon = CloseInDefenseAutocannon()
+        self.desperate_gambit = DesperateGambit()
+        self.one_doll_cavalry = OneDollCavalry()
+        self.gatling_cannon = GatlingCannon()
 
         self.summon_pegasus()
 
@@ -317,13 +317,13 @@ class Liushih(Doll):
         """Sets Fortification Level to Segment03."""
         self.set_to_v0()
         self.line_breaker = LineBreakerV3()
-        self.all_or_nothing = AllOrNothingV3()
-        self.close_in_defense_autocannon = CloseInDefenseAutocannonV3()
+        self.desperate_gambit = DesperateGambitV3()
+        self.gatling_cannon = GatlingCannonV3()
 
     def set_to_v4(self) -> None:
         """Sets Fortification Level to Segment04."""
         self.set_to_v3()
-        self.leading_the_charge = LeadingTheChargeV4()
+        self.one_doll_cavalry = OneDollCavalryV4()
 
     @override
     def set_fortification_level(self, level: FortificationLevel):

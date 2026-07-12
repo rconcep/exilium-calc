@@ -6,19 +6,17 @@ from typing import Any, cast, override
 from core.types import DamageTag, FortificationLevel, SpecialAttribute, StatType
 from core.dolls import liushih
 
-
-# Sample rotation left blank for now
 _t1: list[dict[str, Any]] = [
-    {"name": "All or Nothing"},
-    {"name": "Leading the Charge"},
-    {"name": "Close-In Defense Autocannon (Pegasus)", "stacks_of_precision": 6},
+    {"name": "Desperate Gambit"},
+    {"name": "One Doll Cavalry"},
+    {"name": "Gatling Cannon (Pegasus)", "stacks_of_marksmanship": 6},
 ]
 
 _t2: list[dict[str, Any]] = [
-    {"name": "All or Nothing"},
-    {"name": "Close-In Defense Autocannon (Pegasus)", "stacks_of_precision": 10},
-    {"name": "Line Breaker", "stacks_of_precision": 10},
-    {"name": "Close-In Defense Autocannon (Pegasus)", "stacks_of_precision": 10},
+    {"name": "Desperate Gambit"},
+    {"name": "Gatling Cannon (Pegasus)", "stacks_of_marksmanship": 10},
+    {"name": "Line Breaker", "stacks_of_marksmanship": 10},
+    {"name": "Gatling Cannon (Pegasus)", "stacks_of_marksmanship": 10},
 ]
 
 
@@ -56,8 +54,8 @@ class Liushih(DollCalculatorPage):
             "Line Breaker": {
                 "fields": [
                     {
-                        "key": "stacks_of_precision",
-                        "label": "Stacks of Precision",
+                        "key": "stacks_of_marksmanship",
+                        "label": "Stacks of Marksmanship",
                         "type": "select",
                         "options": list(range(13)),
                         "default": 10,
@@ -65,25 +63,25 @@ class Liushih(DollCalculatorPage):
                 ],
                 "function": doll.line_breaker.execute,
             },
-            "All or Nothing": {
+            "Desperate Gambit": {
                 "fields": [],
-                "function": doll.all_or_nothing.execute,
+                "function": doll.desperate_gambit.execute,
             },
-            "Leading the Charge": {
+            "One Doll Cavalry": {
                 "fields": [],
-                "function": doll.leading_the_charge.execute,
+                "function": doll.one_doll_cavalry.execute,
             },
-            "Close-In Defense Autocannon (Pegasus)": {
+            "Gatling Cannon (Pegasus)": {
                 "fields": [
                     {
-                        "key": "stacks_of_precision",
-                        "label": "Stacks of Precision",
+                        "key": "stacks_of_marksmanship",
+                        "label": "Stacks of Marksmanship",
                         "type": "select",
                         "options": list(range(13)),
                         "default": 10,
                     }
                 ],
-                "function": doll.close_in_defense_autocannon.execute,
+                "function": doll.gatling_cannon.execute,
             },
         }
 
@@ -166,7 +164,7 @@ class Liushih(DollCalculatorPage):
                 "stacks": 6,
             },
             {
-                "name": "Coordinated Combat (Liushih)",
+                "name": "Joint Ops (Liushih)",
                 "liushih_fortification_level": FortificationLevel.SEGMENT06,
             },
         ]
@@ -202,7 +200,7 @@ class Liushih(DollCalculatorPage):
         return [
             ModelAssumption(
                 icon="people",
-                description="Liushih's passive 'We Fight As One' increases the basic attack damage multiplier based on her initial attack but only in Damage Calculator.",
+                description="Liushih's passive 'Shared Vengeance' increases the basic attack damage multiplier based on her initial attack but only in Damage Calculator.",
             ),
             ModelAssumption(
                 icon="bedroom_baby",

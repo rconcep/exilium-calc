@@ -6,42 +6,30 @@ from typing import Any, cast, override
 from core.types import FortificationLevel, StatType, SpecialAttribute, DamageTag
 from core.dolls import cheyanne
 
-
 _t1: list[dict[str, Any]] = [
-    {"name": "Steadfast Pursuit", "analytical_value": 100},
-    {"name": "Think Before You Act", "analytical_value": 100},
-    {"name": "Think Before You Act", "analytical_value": 100},
-]
-
-_t2: list[dict[str, Any]] = [
-    {
-        "name": "Piercing the Heavens into the Sun",
-        "target_has_bullseye": True,
-        "few_enemies_with_low_analytical_value": True,
-        "stacks_of_prepared_stance": 2,
-    },
-    {"name": "Think Before You Act", "analytical_value": 100},
-    {"name": "Think Before You Act", "analytical_value": 100},
+    {"name": "Focused Pursuit", "analysis_score": 100},
+    {"name": "Deliberate Action", "analysis_score": 100},
+    {"name": "Deliberate Action", "analysis_score": 100},
 ]
 
 _t3: list[dict[str, Any]] = [
     {
-        "name": "Piercing the Heavens into the Sun",
+        "name": "Heavenpierce",
         "target_has_bullseye": True,
-        "few_enemies_with_low_analytical_value": True,
+        "few_enemies_with_low_analysis_score": True,
         "stacks_of_prepared_stance": 3,
     },
-    {"name": "Think Before You Act", "analytical_value": 100},
-    {"name": "Think Before You Act", "analytical_value": 100},
+    {"name": "Deliberate Action", "analysis_score": 100},
+    {"name": "Deliberate Action", "analysis_score": 100},
 ]
 
 sample_rotation: dict[int, list[dict]] = {
     1: _t1,
-    2: _t2,
-    3: _t3,
+    2: _t1,
+    3: _t1,
     4: _t3,
     5: _t3,
-    6: _t3,
+    6: _t1,
     7: _t3,
 }
 
@@ -65,29 +53,29 @@ class Cheyanne(DollCalculatorPage):
         doll = cast(cheyanne.Cheyanne, self.doll)
 
         self.option_config: dict[str, dict[str, Any]] = {
-            "Playing to Potential": {
+            "Definitely Not 360 NoScope": {
                 "fields": [
                     {
-                        "key": "analytical_value",
+                        "key": "analysis_score",
                         "type": "number",
-                        "label": "Target Analytical Value",
+                        "label": "Target Analysis Score",
                         "default": 100,
                     },
                 ],
-                "function": doll.playing_to_potential.execute,
+                "function": doll.definitely_not_360_noscope.execute,
             },
-            "Steadfast Pursuit": {
+            "Focused Pursuit": {
                 "fields": [
                     {
-                        "key": "analytical_value",
+                        "key": "analysis_score",
                         "type": "number",
-                        "label": "Target Analytical Value",
+                        "label": "Target Analysis Score",
                         "default": 100,
                     },
                 ],
-                "function": doll.steadfast_pursuit.execute,
+                "function": doll.focused_pursuit.execute,
             },
-            "Piercing the Heavens into the Sun": {
+            "Heavenpierce": {
                 "fields": [
                     {
                         "key": "target_has_bullseye",
@@ -96,9 +84,9 @@ class Cheyanne(DollCalculatorPage):
                         "default": True,
                     },
                     {
-                        "key": "few_enemies_with_low_analytical_value",
+                        "key": "few_enemies_with_low_analysis_score",
                         "type": "checkbox",
-                        "label": "<= 3 enemies below 50% Analytical Value",
+                        "label": "<= 3 enemies below 50% Analysis Score",
                         "default": True,
                     },
                     {
@@ -109,18 +97,18 @@ class Cheyanne(DollCalculatorPage):
                         "default": 3,
                     },
                 ],
-                "function": doll.piercing_the_heavens_into_the_sun.execute,
+                "function": doll.heavenpierce.execute,
             },
-            "Think Before You Act": {
+            "Deliberate Action": {
                 "fields": [
                     {
-                        "key": "analytical_value",
+                        "key": "analysis_score",
                         "type": "number",
-                        "label": "Target Analytical Value",
+                        "label": "Target Analysis Score",
                         "default": 100,
                     },
                 ],
-                "function": doll.think_before_you_act.execute,
+                "function": doll.deliberate_action.execute,
             },
         }
 
@@ -192,7 +180,7 @@ class Cheyanne(DollCalculatorPage):
             {"name": "Never Give Up (Yoohee)", "stacks": 4},
             {"name": "Graceful Spin (Yoohee)"},
             {"name": "Preshow Warmup (Yoohee)"},
-            {"name": "Sepal of Shyness (Cheyanne)"},
+            {"name": "Mimosa's Calyx (Cheyanne)"},
             {
                 "name": "Sense of Security (Cheyanne)",
                 "stacks": 3,
@@ -223,7 +211,13 @@ class Cheyanne(DollCalculatorPage):
             ModelAssumption(
                 icon="flight",
                 description="The 20% increased damage against flying targets is not included by default.",
-            )
+            ),
+            ModelAssumption(
+                icon="key",
+                description="Sample rotation assumes Fixed Key 6 - Total Focus is active to ensure all activations of Deliberate Action.",
+                link_label="Dandegate",
+                link_target="https://www.dandegate.net/dolls/cheyanne/keys/fixed-key-6-full-attention",
+            ),
         ]
 
     @override
