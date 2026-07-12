@@ -1635,10 +1635,10 @@ class Justice(Buff):
         return ret
 
 
-class CoordinatedCombat(Buff):
+class JointOps(Buff):
     """Pegasus buff. At V4+, increases critical damage of both Liushih and Pegasus."""
 
-    display_name = "Coordinated Combat (Liushih)"
+    display_name = "Joint Ops (Liushih)"
     max_stack_count = 1
     stack_input_type = "select"
 

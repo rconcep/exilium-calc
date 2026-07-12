@@ -11,7 +11,7 @@ from core.types import Unit, SummonedUnit
 
 class TestLiushihSkills:
     def test_line_breaker(self):
-        da: DamageInstance = LineBreaker().execute(stacks_of_precision=0)
+        da: DamageInstance = LineBreaker().execute(stacks_of_marksmanship=0)
 
         assert da.base_potency == 90
         assert DamageTag.ACTIVE in da.tags
@@ -25,28 +25,28 @@ class TestLiushihSkills:
             da.damage_calculation_strategy, LiushihDamageCalculationStrategy
         )
 
-    def test_line_breaker_with_precision(self):
-        da: DamageInstance = LineBreaker().execute(stacks_of_precision=3)
+    def test_line_breaker_with_marksmanship(self):
+        da: DamageInstance = LineBreaker().execute(stacks_of_marksmanship=3)
 
         # Base 90 + 10 per stack * 3 stacks = 120
         assert da.base_potency == 120
         assert da.group_name == "Line Breaker"
 
     def test_line_breaker_v3(self):
-        da: DamageInstance = LineBreakerV3().execute(stacks_of_precision=0)
+        da: DamageInstance = LineBreakerV3().execute(stacks_of_marksmanship=0)
 
         assert da.base_potency == 90
         assert DamageTag.BASIC in da.tags
 
-    def test_line_breaker_v3_with_precision(self):
-        da: DamageInstance = LineBreakerV3().execute(stacks_of_precision=3)
+    def test_line_breaker_v3_with_marksmanship(self):
+        da: DamageInstance = LineBreakerV3().execute(stacks_of_marksmanship=3)
 
         # Base 90 + 20 per stack * 3 stacks = 150
         assert da.base_potency == 150
         assert da.group_name == "Line Breaker"
 
-    def test_all_or_nothing(self):
-        da: DamageInstance = AllOrNothing().execute()
+    def test_desperate_gambit(self):
+        da: DamageInstance = DesperateGambit().execute()
 
         assert da.base_potency == 90
         assert DamageTag.ACTIVE in da.tags
@@ -54,44 +54,44 @@ class TestLiushihSkills:
         assert DamageTag.TARGETED in da.tags
         assert DamageTag.HYDRO in da.tags
         assert DamageTag.PHASE in da.tags
-        assert da.group_name == "All or Nothing"
+        assert da.group_name == "Desperate Gambit"
         assert isinstance(
             da.damage_calculation_strategy, LiushihDamageCalculationStrategy
         )
 
-    def test_all_or_nothing_v3(self):
-        da: DamageInstance = AllOrNothingV3().execute()
+    def test_desperate_gambit_v3(self):
+        da: DamageInstance = DesperateGambitV3().execute()
 
         assert da.base_potency == 120
-        assert da.group_name == "All or Nothing"
+        assert da.group_name == "Desperate Gambit"
         assert isinstance(
             da.damage_calculation_strategy, LiushihDamageCalculationStrategy
         )
 
-    def test_leading_the_charge(self):
-        da: DamageInstance = LeadingTheCharge().execute()
+    def test_one_doll_cavalry(self):
+        da: DamageInstance = OneDollCavalry().execute()
 
         assert da.base_potency == 90
         assert DamageTag.ULTIMATE in da.tags
         assert DamageTag.PHASE in da.tags
         assert DamageTag.HYDRO in da.tags
         assert DamageTag.TARGETED in da.tags
-        assert da.group_name == "Leading the Charge"
+        assert da.group_name == "One Doll Cavalry"
         assert isinstance(
             da.damage_calculation_strategy, LiushihDamageCalculationStrategy
         )
 
-    def test_leading_the_charge_v4(self):
-        da: DamageInstance = LeadingTheChargeV4().execute()
+    def test_one_doll_cavalry_v4(self):
+        da: DamageInstance = OneDollCavalryV4().execute()
 
         assert da.base_potency == 120
-        assert da.group_name == "Leading the Charge"
+        assert da.group_name == "One Doll Cavalry"
         assert isinstance(
             da.damage_calculation_strategy, LiushihDamageCalculationStrategy
         )
 
-    def test_close_in_defense_autocannon(self):
-        da: DamageInstance = CloseInDefenseAutocannon().execute(stacks_of_precision=0)
+    def test_gatling_cannon(self):
+        da: DamageInstance = GatlingCannon().execute(stacks_of_marksmanship=0)
 
         assert da.base_potency == 110
         assert DamageTag.HYDRO in da.tags
@@ -99,30 +99,30 @@ class TestLiushihSkills:
         assert DamageTag.PHYSICAL_SUMMON in da.tags
         assert DamageTag.TARGETED in da.tags
         assert DamageTag.BASIC in da.tags
-        assert da.group_name == "Close-In Defense Autocannon (Pegasus)"
+        assert da.group_name == "Gatling Cannon (Pegasus)"
         assert isinstance(
             da.damage_calculation_strategy, PegasusDamageCalculationStrategy
         )
 
-    def test_close_in_defense_autocannon_with_precision(self):
-        da: DamageInstance = CloseInDefenseAutocannon().execute(stacks_of_precision=3)
+    def test_gatling_cannon_with_marksmanship(self):
+        da: DamageInstance = GatlingCannon().execute(stacks_of_marksmanship=3)
 
         # Base 110 + 10 per stack * 3 stacks = 140
         assert da.base_potency == 140
-        assert da.group_name == "Close-In Defense Autocannon (Pegasus)"
+        assert da.group_name == "Gatling Cannon (Pegasus)"
 
-    def test_close_in_defense_autocannon_v3(self):
-        da: DamageInstance = CloseInDefenseAutocannonV3().execute(stacks_of_precision=0)
+    def test_gatling_cannon_v3(self):
+        da: DamageInstance = GatlingCannonV3().execute(stacks_of_marksmanship=0)
 
         assert da.base_potency == 110
         assert DamageTag.BASIC in da.tags
 
-    def test_close_in_defense_autocannon_v3_with_precision(self):
-        da: DamageInstance = CloseInDefenseAutocannonV3().execute(stacks_of_precision=3)
+    def test_gatling_cannon_v3_with_marksmanship(self):
+        da: DamageInstance = GatlingCannonV3().execute(stacks_of_marksmanship=3)
 
         # Base 110 + 20 per stack * 3 stacks = 170
         assert da.base_potency == 170
-        assert da.group_name == "Close-In Defense Autocannon (Pegasus)"
+        assert da.group_name == "Gatling Cannon (Pegasus)"
 
 
 class TestLiushih:
@@ -131,9 +131,9 @@ class TestLiushih:
         liushih.set_to_v0()
 
         assert isinstance(liushih.line_breaker, LineBreaker)
-        assert isinstance(liushih.all_or_nothing, AllOrNothing)
-        assert isinstance(liushih.leading_the_charge, LeadingTheCharge)
-        assert isinstance(liushih.close_in_defense_autocannon, CloseInDefenseAutocannon)
+        assert isinstance(liushih.desperate_gambit, DesperateGambit)
+        assert isinstance(liushih.one_doll_cavalry, OneDollCavalry)
+        assert isinstance(liushih.gatling_cannon, GatlingCannon)
         assert liushih.get_summoned_unit("Pegasus") is not None
 
     def test_set_to_v3(self):
@@ -141,16 +141,14 @@ class TestLiushih:
         liushih.set_to_v3()
 
         assert isinstance(liushih.line_breaker, LineBreakerV3)
-        assert isinstance(liushih.all_or_nothing, AllOrNothingV3)
-        assert isinstance(
-            liushih.close_in_defense_autocannon, CloseInDefenseAutocannonV3
-        )
+        assert isinstance(liushih.desperate_gambit, DesperateGambitV3)
+        assert isinstance(liushih.gatling_cannon, GatlingCannonV3)
 
     def test_set_to_v4(self):
         liushih: Liushih = Liushih()
         liushih.set_to_v4()
 
-        assert isinstance(liushih.leading_the_charge, LeadingTheChargeV4)
+        assert isinstance(liushih.one_doll_cavalry, OneDollCavalryV4)
         assert isinstance(liushih.line_breaker, LineBreakerV3)
 
     def test_set_fortification_level(self):
@@ -163,7 +161,7 @@ class TestLiushih:
         assert isinstance(liushih.line_breaker, LineBreakerV3)
 
         liushih.set_fortification_level(FortificationLevel.SEGMENT04)
-        assert isinstance(liushih.leading_the_charge, LeadingTheChargeV4)
+        assert isinstance(liushih.one_doll_cavalry, OneDollCavalryV4)
 
         liushih.set_fortification_level(FortificationLevel.SEGMENT06)
         assert liushih.fortification_level == FortificationLevel.SEGMENT06
@@ -288,7 +286,7 @@ class TestLiushihDamageCalculationStrategy:
 
         target: Unit = self.construct_defender()
         di: DamageInstance = DamageInstance(
-            label="All or Nothing",
+            label="Desperate Gambit",
             base_potency=120,
             tags={
                 DamageTag.ACTIVE,
@@ -385,7 +383,7 @@ class TestPegasusDamageCalculationStrategy:
 
         target: Unit = self.construct_defender()
         di: DamageInstance = DamageInstance(
-            label="Close-In Defense Autocannon",
+            label="Gatling Cannon",
             base_potency=110,
             tags={
                 DamageTag.HYDRO,
