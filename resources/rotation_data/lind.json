@@ -1,0 +1,405 @@
+{
+  "metadata": {
+    "version": 1,
+    "doll_name": "Lind"
+  },
+  "baseline": {
+    "attacker": {
+      "buffs": [
+        {
+          "name": "Candyglaze (Lind)",
+          "stacks": 30,
+          "lind_fortification_level": 6
+        }
+      ]
+    },
+    "target": {
+      "debuffs": [
+        {
+          "name": "Defense Down II"
+        }
+      ],
+      "phase_weaknesses_exploited": 2,
+      "stability_broken": true,
+      "unit_level": "Boss",
+      "phase_tile_level": 0,
+      "basic_attributes": {
+        "Defense": 5000.0,
+        "Health": 11000000.0,
+        "Stability Damage Reduction": 60.0
+      }
+    }
+  },
+  "planner": {
+    "turns": {
+      "1": [
+        {
+          "name": "Overwhelming Burst",
+          "has_fixed_key_4": true,
+          "is_confectance_index_at_maximum": true,
+          "stacks_of_candyglaze": 10,
+          "is_glucose_overload_followup": true
+        },
+        {
+          "name": "Honeytrap"
+        }
+      ],
+      "2": [
+        {
+          "name": "Overwhelming Burst",
+          "has_fixed_key_4": true,
+          "is_confectance_index_at_maximum": true,
+          "stacks_of_candyglaze": 20,
+          "is_glucose_overload_followup": true
+        },
+        {
+          "name": "Honeytrap"
+        }
+      ],
+      "3": [
+        {
+          "name": "Overwhelming Burst",
+          "has_fixed_key_4": true,
+          "is_confectance_index_at_maximum": true,
+          "stacks_of_candyglaze": 30,
+          "is_glucose_overload_followup": true
+        },
+        {
+          "name": "Honeytrap"
+        }
+      ],
+      "4": [
+        {
+          "name": "Overwhelming Burst",
+          "has_fixed_key_4": true,
+          "is_confectance_index_at_maximum": true,
+          "stacks_of_candyglaze": 30,
+          "is_glucose_overload_followup": true
+        },
+        {
+          "name": "Honeytrap"
+        }
+      ],
+      "5": [
+        {
+          "name": "Overwhelming Burst",
+          "has_fixed_key_4": true,
+          "is_confectance_index_at_maximum": true,
+          "stacks_of_candyglaze": 30,
+          "is_glucose_overload_followup": true
+        },
+        {
+          "name": "Honeytrap"
+        }
+      ],
+      "6": [
+        {
+          "name": "Overwhelming Burst",
+          "has_fixed_key_4": true,
+          "is_confectance_index_at_maximum": true,
+          "stacks_of_candyglaze": 30,
+          "is_glucose_overload_followup": true
+        },
+        {
+          "name": "Honeytrap"
+        }
+      ],
+      "7": [
+        {
+          "name": "Overwhelming Burst",
+          "has_fixed_key_4": true,
+          "is_confectance_index_at_maximum": true,
+          "stacks_of_candyglaze": 30,
+          "is_glucose_overload_followup": true
+        },
+        {
+          "name": "Honeytrap"
+        }
+      ]
+    }
+  },
+  "timeline": {
+    "actions": [
+      {
+        "turn": 1,
+        "action": {
+          "name": "Overwhelming Burst",
+          "has_fixed_key_4": true,
+          "is_confectance_index_at_maximum": true,
+          "stacks_of_candyglaze": 10,
+          "is_glucose_overload_followup": true
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Honeytrap"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Overwhelming Burst",
+          "has_fixed_key_4": true,
+          "is_confectance_index_at_maximum": true,
+          "stacks_of_candyglaze": 20,
+          "is_glucose_overload_followup": true
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Honeytrap"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Overwhelming Burst",
+          "has_fixed_key_4": true,
+          "is_confectance_index_at_maximum": true,
+          "stacks_of_candyglaze": 30,
+          "is_glucose_overload_followup": true
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Honeytrap"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Overwhelming Burst",
+          "has_fixed_key_4": true,
+          "is_confectance_index_at_maximum": true,
+          "stacks_of_candyglaze": 30,
+          "is_glucose_overload_followup": true
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Honeytrap"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Overwhelming Burst",
+          "has_fixed_key_4": true,
+          "is_confectance_index_at_maximum": true,
+          "stacks_of_candyglaze": 30,
+          "is_glucose_overload_followup": true
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Honeytrap"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Overwhelming Burst",
+          "has_fixed_key_4": true,
+          "is_confectance_index_at_maximum": true,
+          "stacks_of_candyglaze": 30,
+          "is_glucose_overload_followup": true
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Honeytrap"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Overwhelming Burst",
+          "has_fixed_key_4": true,
+          "is_confectance_index_at_maximum": true,
+          "stacks_of_candyglaze": 30,
+          "is_glucose_overload_followup": true
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Honeytrap"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      }
+    ]
+  }
+}

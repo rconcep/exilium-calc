@@ -1,0 +1,1173 @@
+{
+  "metadata": {
+    "version": 1,
+    "doll_name": "Lewis"
+  },
+  "baseline": {
+    "attacker": {
+      "buffs": [
+        {
+          "name": "Blazing Assault II"
+        },
+        {
+          "name": "Accelerant (Vector)",
+          "vector_fortification_level": 6,
+          "number_of_burn_buffs": 3
+        },
+        {
+          "name": "Rank (Lewis)",
+          "lewis_fortification_level": 6,
+          "rank": 3
+        },
+        {
+          "name": "Rank (Lewis)",
+          "lewis_fortification_level": 6,
+          "rank": 3
+        }
+      ]
+    },
+    "target": {
+      "debuffs": [
+        {
+          "name": "Defense Down II"
+        },
+        {
+          "name": "Overheat Combustion",
+          "vector_fortification_level": 6
+        },
+        {
+          "name": "Conflagration"
+        },
+        {
+          "name": "Smolder",
+          "vector_fortification_level": 6,
+          "number_of_burn_debuffs": 4
+        }
+      ],
+      "phase_weaknesses_exploited": 2,
+      "stability_broken": true,
+      "unit_level": "Boss",
+      "phase_tile_level": 0,
+      "basic_attributes": {
+        "Defense": 5000.0,
+        "Health": 11000000.0,
+        "Stability Damage Reduction": 60.0
+      }
+    }
+  },
+  "planner": {
+    "turns": {
+      "1": [
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 2,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 2,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 2,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 2,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Surprising Funball"
+        },
+        {
+          "name": "Surprising Funball (Fixed)"
+        }
+      ],
+      "2": [
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": true
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": true
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Toy Carnival",
+          "cumulative_tin_soldier_ranks": 6,
+          "highest_rank_tin_soldier": 3
+        }
+      ],
+      "3": [
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Surprising Funball"
+        },
+        {
+          "name": "Surprising Funball (Fixed)"
+        }
+      ],
+      "4": [
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": true
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": true
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Toy Carnival",
+          "cumulative_tin_soldier_ranks": 6,
+          "highest_rank_tin_soldier": 3
+        }
+      ],
+      "5": [
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Surprising Funball"
+        },
+        {
+          "name": "Surprising Funball (Fixed)"
+        }
+      ],
+      "6": [
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": true
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": true
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Toy Carnival",
+          "cumulative_tin_soldier_ranks": 6,
+          "highest_rank_tin_soldier": 3
+        }
+      ],
+      "7": [
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        {
+          "name": "Surprising Funball"
+        },
+        {
+          "name": "Surprising Funball (Fixed)"
+        }
+      ]
+    }
+  },
+  "timeline": {
+    "actions": [
+      {
+        "turn": 1,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 2,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 2,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 2,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 2,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Surprising Funball"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Surprising Funball (Fixed)"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": true
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": true
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Toy Carnival",
+          "cumulative_tin_soldier_ranks": 6,
+          "highest_rank_tin_soldier": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Surprising Funball"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Surprising Funball (Fixed)"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": true
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": true
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Toy Carnival",
+          "cumulative_tin_soldier_ranks": 6,
+          "highest_rank_tin_soldier": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Surprising Funball"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Surprising Funball (Fixed)"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": true
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": true
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Toy Carnival",
+          "cumulative_tin_soldier_ranks": 6,
+          "highest_rank_tin_soldier": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Volley Fire",
+          "tin_soldier_rank": 3,
+          "has_tin_soldiers_order": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Surprising Funball"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Surprising Funball (Fixed)"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      }
+    ]
+  }
+}

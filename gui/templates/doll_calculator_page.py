@@ -6,9 +6,17 @@ from typing import final, Any
 from abc import ABC, abstractmethod
 from dataclasses import asdict
 from decimal import Decimal, ROUND_DOWN
+from pathlib import Path
 from pydantic import BaseModel
 
 from core.types import *
+from core.rotation_data_serializer import (
+    RotationDataError,
+    build_payload_from_planner_defaults,
+    normalize_payload,
+    payload_to_string,
+    string_to_payload,
+)
 from core.stat_serializer import SerializationError, StatsSerializer
 from core.combat import DamageInstance, sum_damage_instances
 from gui.templates.rotation_planner import RotationPlanner
@@ -127,6 +135,11 @@ class DollCalculatorPage(ABC):
         self.damage_type_breakdown_table: ui.table
         self.actions_table_data: list[dict] = []
         self.actions_table: ui.table
+        self.damage_calculator: Any = None
+        self.rotation_simulator: RotationSimulator | None = None
+        self._cached_rotation_sample_payload: dict[str, Any] | None = None
+        self._damage_calculator_initialized: bool = False
+        self._rotation_simulator_initialized: bool = False
 
     def doll_header(self) -> None:
         """Generates the Doll description."""
@@ -162,35 +175,101 @@ class DollCalculatorPage(ABC):
             {"name": "Defense Down II"},
         ]
 
-    def apply_default_damage_calculator_selections(self) -> None:
-        """Applies the page's curated Damage Calculator buff and debuff selections."""
-        self.damage_calculator.buffs_selector.set_data(
-            copy.deepcopy(self.get_default_damage_calculator_buffs())
+    def apply_default_damage_calculator_selections(
+        self, payload: dict[str, Any] | None = None
+    ) -> None:
+        """Applies Damage Calculator defaults from the stored sample rotation data."""
+        if payload is None:
+            payload = self._load_or_create_rotation_sample_payload()
+        baseline_target = payload["baseline"]["target"]
+        damage_calculator = getattr(self, "damage_calculator", None)
+        if damage_calculator is None:
+            return
+
+        damage_calculator.buffs_selector.set_data(
+            copy.deepcopy(payload["baseline"]["attacker"]["buffs"])
         )
-        self.damage_calculator.debuffs_selector.set_data(
-            copy.deepcopy(self.get_default_damage_calculator_debuffs())
+        damage_calculator.debuffs_selector.set_data(
+            copy.deepcopy(baseline_target["debuffs"])
         )
 
     def get_default_rotation_simulator_actions(self) -> dict[int, list[dict[str, Any]]]:
         """Returns default action selections for the Rotation Simulator prototype."""
         return self.rotation_planner.get_data()
 
-    def apply_default_rotation_simulator_selections(self) -> None:
-        """Applies prototype defaults to the Rotation Simulator.
+    def apply_default_rotation_simulator_selections(
+        self, payload: dict[str, Any] | None = None
+    ) -> None:
+        """Applies Rotation Simulator defaults from the stored sample rotation data."""
+        if payload is None:
+            payload = self._load_or_create_rotation_sample_payload()
+        rotation_simulator = getattr(self, "rotation_simulator", None)
+        if rotation_simulator is None:
+            return
+        try:
+            rotation_simulator.apply_rotation_payload(payload)
+        except RotationDataError as exc:
+            ui.notify(
+                f"Could not apply sample rotation data: {exc}",
+                type="negative",
+            )
 
-        For now this reuses the page's pre-populated Rotation Planner data and
-        the curated Damage Calculator buff/debuff defaults.
-        """
-        self.rotation_simulator.rotation_planner.set_data(
-            copy.deepcopy(self.get_default_rotation_simulator_actions())
+    def _rotation_data_dir(self) -> Path:
+        app_root = Path(__file__).resolve().parents[2]
+        return app_root / "resources" / "rotation_data"
+
+    def _rotation_data_file_path(self) -> Path:
+        safe_name = "".join(
+            character.lower() if character.isalnum() else "_"
+            for character in self.doll.name.strip()
+        ).strip("_")
+        return self._rotation_data_dir() / f"{safe_name or 'doll'}.json"
+
+    def _build_rotation_sample_payload_from_legacy_defaults(self) -> dict[str, Any]:
+        planner_turns = copy.deepcopy(self.get_default_rotation_simulator_actions())
+        payload = build_payload_from_planner_defaults(
+            doll_name=self.doll.name,
+            planner_turns=planner_turns,
+            baseline_buffs=copy.deepcopy(self.get_default_damage_calculator_buffs()),
+            baseline_debuffs=copy.deepcopy(
+                self.get_default_damage_calculator_debuffs()
+            ),
         )
-        self.rotation_simulator.baseline_buffs_selector.set_data(
-            copy.deepcopy(self.get_default_damage_calculator_buffs())
+
+        return normalize_payload(
+            payload,
+            option_config=self.option_config,
+            expected_doll_name=self.doll.name,
         )
-        self.rotation_simulator.baseline_debuffs_selector.set_data(
-            copy.deepcopy(self.get_default_damage_calculator_debuffs())
-        )
-        self.rotation_simulator.sync_timeline()
+
+    def _load_or_create_rotation_sample_payload(self) -> dict[str, Any]:
+        if self._cached_rotation_sample_payload is not None:
+            return copy.deepcopy(self._cached_rotation_sample_payload)
+
+        data_dir = self._rotation_data_dir()
+        data_dir.mkdir(parents=True, exist_ok=True)
+        file_path = self._rotation_data_file_path()
+
+        if file_path.exists():
+            try:
+                raw_json = file_path.read_text(encoding="utf-8")
+                payload = string_to_payload(
+                    raw_json,
+                    option_config=self.option_config,
+                    expected_doll_name=self.doll.name,
+                )
+                self._cached_rotation_sample_payload = copy.deepcopy(payload)
+                return copy.deepcopy(payload)
+            except (OSError, RotationDataError) as exc:
+                ui.notify(
+                    f"Rotation sample data invalid; regenerating ({exc})",
+                    type="warning",
+                )
+
+        payload = self._build_rotation_sample_payload_from_legacy_defaults()
+        file_path.write_text(payload_to_string(payload), encoding="utf-8")
+        self._cached_rotation_sample_payload = copy.deepcopy(payload)
+        return copy.deepcopy(payload)
 
     def render_model_assumptions(self) -> None:
         """Renders model assumptions as a list with icon, description, and optional link."""
@@ -279,6 +358,9 @@ class DollCalculatorPage(ABC):
         ui.notify(f"Changed fortification to V{update.value}", group=False)
         self.update_doll_abilities()
         self.rotation_planner.set_options_config(self.option_config)
+
+        if self.rotation_simulator is not None:
+            self.rotation_simulator.refresh_doll_state_from_calculator()
 
         for di in self.damage_instances:
             di.damage_calculation_strategy.do_adjust_potency(
@@ -638,6 +720,11 @@ class DollCalculatorPage(ABC):
     @final
     def get_page(self) -> None:
         """Generates the Doll Calculator Page instance."""
+        self.damage_calculator = None
+        self.rotation_simulator = None
+        self._damage_calculator_initialized = False
+        self._rotation_simulator_initialized = False
+
         self.relevant_damage_tags = [
             tag for tag in DamageTag if tag not in self.doll.irrelevant_damage_tags
         ]
@@ -1485,12 +1572,12 @@ class DollCalculatorPage(ABC):
                     self.get_rotation_analysis()
 
             with ui.tab_panel(damage_calculator_tab).classes("w-full h-650"):
-                from gui.templates.damage_calculator import DamageCalculator
-
-                self.damage_calculator = DamageCalculator(self)
+                with ui.column().classes("w-full h-full") as damage_calculator_panel:
+                    ui.skeleton().classes("w-full")
 
             with ui.tab_panel(rotation_simulator_tab).classes("w-full h-650"):
-                self.rotation_simulator = RotationSimulator(self)
+                with ui.column().classes("w-full h-full") as rotation_simulator_panel:
+                    ui.skeleton().classes("w-full")
 
             with ui.tab_panel(notes_tab).classes("w-full h-650"):
                 notes_document = load_notes_document(self.doll.name)
@@ -1608,10 +1695,50 @@ class DollCalculatorPage(ABC):
                                 for section in bullet_sections:
                                     render_notes_card(section)
 
+        sample_payload = self._load_or_create_rotation_sample_payload()
+
+        def ensure_damage_calculator_initialized() -> None:
+            if self._damage_calculator_initialized:
+                return
+
+            damage_calculator_panel.clear()
+            with damage_calculator_panel:
+                from gui.templates.damage_calculator import DamageCalculator
+
+                self.damage_calculator = DamageCalculator(self)
+
+            self.apply_default_damage_calculator_selections(sample_payload)
+            self._damage_calculator_initialized = True
+
+        def ensure_rotation_simulator_initialized() -> None:
+            if self._rotation_simulator_initialized:
+                return
+
+            rotation_simulator_panel.clear()
+            try:
+                with rotation_simulator_panel:
+                    self.rotation_simulator = RotationSimulator(self)
+
+                self.apply_default_rotation_simulator_selections(sample_payload)
+                self._rotation_simulator_initialized = True
+            except Exception as exc:
+                with rotation_simulator_panel:
+                    ui.label("Rotation Simulator failed to initialize.").classes(
+                        "text-negative"
+                    )
+                    ui.label(str(exc)).classes("text-caption")
+                ui.notify(
+                    "Rotation Simulator failed to initialize. See details in panel.",
+                    type="negative",
+                )
+
+        damage_calculator_tab.on(
+            "click", lambda _event: ensure_damage_calculator_initialized()
+        )
+
+        # Initialize Rotation Simulator eagerly to avoid skeleton persistence when
+        # tab selection events are dropped during page revisit/restoration.
+        ensure_rotation_simulator_initialized()
+
         self.damage_instances = self.rotation_planner.get_all_actions()
         self.stats_update_callback(None)
-
-        self.apply_default_rotation_simulator_selections()
-
-        # Pre-populate Damage Calculator with buffs/debuffs that are relevant to Doll's damage output and commonly toggled in the UI.
-        self.apply_default_damage_calculator_selections()

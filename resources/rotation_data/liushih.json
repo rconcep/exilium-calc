@@ -1,0 +1,695 @@
+{
+  "metadata": {
+    "version": 1,
+    "doll_name": "Liushih"
+  },
+  "baseline": {
+    "attacker": {
+      "buffs": [
+        {
+          "name": "Attack Up II"
+        },
+        {
+          "name": "Overflowing Care",
+          "springfield_fortification_level": 6,
+          "percent_excess_healing": 105
+        },
+        {
+          "name": "Deep-Rooted Bonds"
+        },
+        {
+          "name": "Eagle's Vigilance (Taryz)",
+          "springfield_fortification_level": 6
+        },
+        {
+          "name": "Sharpness",
+          "liushih_fortification_level": 6,
+          "stacks": 6
+        },
+        {
+          "name": "Joint Ops (Liushih)",
+          "liushih_fortification_level": 6
+        }
+      ]
+    },
+    "target": {
+      "debuffs": [
+        {
+          "name": "Defense Down II"
+        },
+        {
+          "name": "False Intelligence",
+          "springfield_fortification_level": 6
+        },
+        {
+          "name": "Taryz",
+          "springfield_fortification_level": 6
+        },
+        {
+          "name": "Vulnerability Analysis",
+          "springfield_fortification_level": 6,
+          "stacks": 3
+        },
+        {
+          "name": "Lockdown (Liushih)"
+        }
+      ],
+      "phase_weaknesses_exploited": 2,
+      "stability_broken": true,
+      "unit_level": "Boss",
+      "phase_tile_level": 0,
+      "basic_attributes": {
+        "Defense": 5000.0,
+        "Health": 11000000.0,
+        "Stability Damage Reduction": 60.0
+      }
+    }
+  },
+  "planner": {
+    "turns": {
+      "1": [
+        {
+          "name": "Desperate Gambit"
+        },
+        {
+          "name": "One Doll Cavalry"
+        },
+        {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 6
+        }
+      ],
+      "2": [
+        {
+          "name": "Desperate Gambit"
+        },
+        {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        },
+        {
+          "name": "Line Breaker",
+          "stacks_of_marksmanship": 10
+        },
+        {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        }
+      ],
+      "3": [
+        {
+          "name": "Desperate Gambit"
+        },
+        {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        },
+        {
+          "name": "Line Breaker",
+          "stacks_of_marksmanship": 10
+        },
+        {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        }
+      ],
+      "4": [
+        {
+          "name": "Desperate Gambit"
+        },
+        {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        },
+        {
+          "name": "Line Breaker",
+          "stacks_of_marksmanship": 10
+        },
+        {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        }
+      ],
+      "5": [
+        {
+          "name": "Desperate Gambit"
+        },
+        {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        },
+        {
+          "name": "Line Breaker",
+          "stacks_of_marksmanship": 10
+        },
+        {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        }
+      ],
+      "6": [
+        {
+          "name": "Desperate Gambit"
+        },
+        {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        },
+        {
+          "name": "Line Breaker",
+          "stacks_of_marksmanship": 10
+        },
+        {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        }
+      ],
+      "7": [
+        {
+          "name": "Desperate Gambit"
+        },
+        {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        },
+        {
+          "name": "Line Breaker",
+          "stacks_of_marksmanship": 10
+        },
+        {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        }
+      ]
+    }
+  },
+  "timeline": {
+    "actions": [
+      {
+        "turn": 1,
+        "action": {
+          "name": "Desperate Gambit"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "One Doll Cavalry"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 6
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Desperate Gambit"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Line Breaker",
+          "stacks_of_marksmanship": 10
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Desperate Gambit"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Line Breaker",
+          "stacks_of_marksmanship": 10
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Desperate Gambit"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Line Breaker",
+          "stacks_of_marksmanship": 10
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Desperate Gambit"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Line Breaker",
+          "stacks_of_marksmanship": 10
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Desperate Gambit"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Line Breaker",
+          "stacks_of_marksmanship": 10
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Desperate Gambit"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Line Breaker",
+          "stacks_of_marksmanship": 10
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Gatling Cannon (Pegasus)",
+          "stacks_of_marksmanship": 10
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      }
+    ]
+  }
+}

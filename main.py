@@ -101,15 +101,11 @@ def root():
 
             ui.switch("Dark mode").bind_value(dark).props("color=white")
 
-    doll_page_cache: dict[str, object] = {}
-
     def lazy_doll_page(route: str, factory: Callable[[], object]) -> Callable[[], None]:
-        """Create the Doll page on first navigation and reuse it afterwards."""
+        """Create a fresh Doll page instance for each navigation."""
 
         def render() -> None:
-            if route not in doll_page_cache:
-                doll_page_cache[route] = factory()
-            doll_page_cache[route].get_page()  # type: ignore[attr-defined]
+            factory().get_page()  # type: ignore[attr-defined]
 
         return render
 
