@@ -10,9 +10,11 @@ from core.buffs import Buff, Debuff, buffs_option_config, debuffs_option_config
 from core.combat import CombatSummary, DamageInstance, TargetCombatState
 from core.types import DamageTag, Doll, SpecialAttribute, StatType, Unit, UnitLevel
 from gui.styles.descriptions import get_stat_description
-from gui.styles.graphs import get_donut_chart_template
+from gui.styles.graphs import get_bar_chart_template, get_donut_chart_template
 from gui.templates.rotation_planner import RotationPlanner
 from gui.templates.selectable_chips_editor import SelectableChipsEditor
+import gui.templates.increment_sweep_analysis as sweep_analysis
+import gui.templates.scenario_comparison_analysis as scenario_analysis
 
 
 def get_relevant_target_stats() -> list[StatType]:
@@ -48,6 +50,10 @@ class RotationSimulator:
         self.target: Unit = Unit()
         self._initialize_target()
 
+        self.combat_summary: CombatSummary = CombatSummary()
+        self.last_action_type: str | None = "rotation"
+        self.last_action_kwargs: dict[str, Any] = {}
+
         self.baseline_buffs_selector: SelectableChipsEditor
         self.baseline_debuffs_selector: SelectableChipsEditor
         self.baseline_phase_weaknesses: ui.select
@@ -59,8 +65,49 @@ class RotationSimulator:
         self.timeline_rows: list[dict[str, Any]] = []
 
         self.total_expected_damage_label: ui.label
+        self.simulation_status_label: ui.label
+        self.simulation_spinner: ui.spinner
+        self.simulate_button: ui.button
         self.timeline_result_table: ui.table
         self.tag_breakdown_table: ui.table
+
+        self.delta_chart: dict[str, Any] = get_bar_chart_template()
+        self.scenario_chart: dict[str, Any] = get_bar_chart_template()
+        self.delta_chart_plot: ui.plotly
+        self.scenario_chart_plot: ui.plotly
+        self.delta_increment_input: ui.number
+        self.delta_steps_input: ui.number
+        self.delta_stats_selector: ui.select
+        self.delta_stat_source_selector: ui.select
+        self.delta_special_attribute_selector: ui.select
+        self.delta_special_attribute_tag_selector: ui.select
+        self.delta_multi_initial_stats_selector: ui.select
+        self.delta_multi_additive_stats_selector: ui.select
+        self.delta_multi_additive_special_selector: ui.select
+        self.delta_multi_additive_conditional_basic_stats_selector: ui.select
+        self.delta_multi_multiplicative_stats_selector: ui.select
+        self.delta_multi_multiplicative_conditional_basic_stats_selector: ui.select
+        self.delta_basic_controls_container: ui.column
+        self.delta_single_special_controls_container: ui.column
+        self.delta_multi_controls_container: ui.column
+        self.scenario_rows_container: ui.column
+        self.delta_scenario_rows: list[dict[str, Any]] = []
+        self.delta_scenario_next_index: int = 1
+
+        self.delta_special_combo_options: dict[str, str] = {
+            f"{attribute.value}::{tag.value}": f"{attribute.value} [{tag.value}]"
+            for attribute in SpecialAttribute
+            for tag in self.relevant_damage_tags
+        }
+        conditional_basic_stats_to_show: tuple[StatType, ...] = (
+            StatType.ATTACK,
+            StatType.CRIT_RATE,
+        )
+        self.delta_conditional_basic_combo_options: dict[str, str] = {
+            f"{stat.value}::{tag.value}": f"{stat.value} [{tag.value}]"
+            for stat in conditional_basic_stats_to_show
+            for tag in self.relevant_damage_tags
+        }
 
         self.ability_donut_chart: dict[str, Any] = get_donut_chart_template()
         self.ability_donut_chart_plot: ui.plotly
@@ -193,6 +240,8 @@ class RotationSimulator:
                         self.ability_donut_chart
                     ).classes("w-full h-80 exilium-plot")
 
+            self._delta_section()
+
     def _baseline_state_section(self) -> None:
         ui.label("Baseline Combat State").classes("text-h6")
         ui.label("Default Attacker and Target state used for each action.").classes(
@@ -276,12 +325,484 @@ class RotationSimulator:
                 with ui.item_section().props("side"):
                     self.total_expected_damage_label = ui.label("0")
 
+        with ui.row().classes("w-full items-center gap-2 text-caption exilium-subtle"):
+            self.simulation_spinner = ui.spinner(size="sm")
+            self.simulation_spinner.set_visibility(False)
+            self.simulation_status_label = ui.label("")
+
         with ui.row().classes("w-full justify-end"):
-            ui.button(
+            self.simulate_button = ui.button(
                 "Simulate",
                 on_click=self.simulate,
                 icon="play_arrow",
             ).props("color=primary unelevated")
+
+    def _set_simulation_busy(self, busy: bool) -> None:
+        self.simulation_spinner.set_visibility(busy)
+        self.simulation_status_label.text = (
+            "Processing simulation..." if busy else ""
+        )
+        if busy:
+            self.simulate_button.disable()
+        else:
+            self.simulate_button.enable()
+
+    def _delta_section(self) -> None:
+        """Generates the sensitivity analysis section for the full rotation result."""
+        self.delta_chart["layout"].update(
+            {
+                "title": {"text": "Change in Expected Damage by Stat Increment"},
+                "margin": {"l": 50, "r": 20, "t": 50, "b": 50},
+                "colorway": [
+                    "#d5a34f",
+                    "#65bbc4",
+                    "#8fd6d0",
+                    "#dfc27d",
+                    "#7fa8ad",
+                ],
+                "xaxis": {
+                    "title": {"text": "Stat increment"},
+                    "gridcolor": "rgba(143,214,208,0.08)",
+                    "linecolor": "rgba(143,214,208,0.24)",
+                },
+                "yaxis": {
+                    "title": {"text": "Change in expected damage (%)"},
+                    "gridcolor": "rgba(143,214,208,0.08)",
+                    "linecolor": "rgba(143,214,208,0.24)",
+                },
+                "legend": {
+                    "orientation": "h",
+                    "y": -0.55,
+                    "x": 0,
+                    "xanchor": "left",
+                },
+            }
+        )
+        self.scenario_chart["layout"].update(
+            {
+                "title": {"text": "Scenario Comparison (Single Increment)"},
+                "margin": {"l": 250, "r": 20, "t": 50, "b": 65},
+                "colorway": [
+                    "#d5a34f",
+                    "#65bbc4",
+                    "#8fd6d0",
+                    "#dfc27d",
+                    "#7fa8ad",
+                ],
+                "xaxis": {
+                    "title": {"text": "Change in expected damage (%)"},
+                    "gridcolor": "rgba(143,214,208,0.08)",
+                    "linecolor": "rgba(143,214,208,0.24)",
+                },
+                "yaxis": {
+                    "gridcolor": "rgba(143,214,208,0.08)",
+                    "linecolor": "rgba(143,214,208,0.24)",
+                },
+                "showlegend": False,
+            }
+        )
+
+        with ui.expansion(
+            "Scenario Comparison",
+            caption="Expected damage change for rotation-wide stat scenarios.",
+            value=True,
+            icon="analytics",
+            group="rotation-sensitivity-analysis",
+        ).classes("w-full"):
+            with ui.row().classes("w-full gap-2"):
+                ui.button("Add Scenario", on_click=self._add_single_scenario_row)
+                ui.button(
+                    "Add Combined Scenario", on_click=self._add_combined_scenario_row
+                )
+
+            with ui.column().classes("w-full gap-2") as self.scenario_rows_container:
+                pass
+
+            default_tag: DamageTag = self._default_scenario_tag()
+            self._create_scenario_row(
+                label="Crit Dmg for Dmg Boost",
+                mode="combined",
+                component_1={
+                    "source": "additive_special_attributes",
+                    "increment": -0.8,
+                    "stat": StatType.CRIT_DAMAGE,
+                    "special_attribute": SpecialAttribute.CRITICAL_DAMAGE,
+                    "tag": default_tag,
+                },
+                component_2={
+                    "source": "additive_special_attributes",
+                    "increment": 2,
+                    "stat": StatType.HEALTH,
+                    "special_attribute": SpecialAttribute.DAMAGE_BOOST,
+                    "tag": default_tag,
+                },
+                component_3={
+                    "source": "additive_special_attributes",
+                    "increment": 0,
+                    "stat": StatType.ATTACK,
+                    "special_attribute": SpecialAttribute.DAMAGE_BOOST,
+                    "tag": default_tag,
+                },
+            )
+            self._create_scenario_row(
+                label="+0.4 Crit Dmg",
+                mode="combined",
+                component_1={
+                    "source": "additive_special_attributes",
+                    "increment": 0.4,
+                    "stat": StatType.CRIT_DAMAGE,
+                    "special_attribute": SpecialAttribute.CRITICAL_DAMAGE,
+                    "tag": default_tag,
+                },
+                component_2={
+                    "source": "initial_stats",
+                    "increment": 0,
+                    "stat": StatType.ATTACK,
+                    "special_attribute": SpecialAttribute.DAMAGE_BOOST,
+                    "tag": default_tag,
+                },
+                component_3={
+                    "source": "additive_special_attributes",
+                    "increment": 0,
+                    "stat": StatType.ATTACK,
+                    "special_attribute": SpecialAttribute.DAMAGE_BOOST,
+                    "tag": default_tag,
+                },
+            )
+            self._create_scenario_row(
+                label="+2 Additive Damage Boost [All]",
+                mode="single",
+                component_1={
+                    "source": "additive_special_attributes",
+                    "increment": 2,
+                    "stat": StatType.ATTACK,
+                    "special_attribute": SpecialAttribute.DAMAGE_BOOST,
+                    "tag": default_tag,
+                },
+                component_2={
+                    "source": "initial_stats",
+                    "increment": 0,
+                    "stat": StatType.HEALTH,
+                    "special_attribute": SpecialAttribute.DAMAGE_BOOST,
+                    "tag": default_tag,
+                },
+                component_3={
+                    "source": "initial_stats",
+                    "increment": 0,
+                    "stat": StatType.ATTACK,
+                    "special_attribute": SpecialAttribute.DAMAGE_BOOST,
+                    "tag": default_tag,
+                },
+            )
+            self.delta_scenario_next_index = 4
+
+            self.scenario_chart_plot = ui.plotly(self.scenario_chart).classes(
+                "w-full h-100 exilium-plot"
+            )
+
+        with ui.expansion(
+            "Stat Increment Analysis",
+            caption="Expected damage as a function of rotation-wide stat changes.",
+            value=False,
+            icon="data_exploration",
+            group="rotation-sensitivity-analysis",
+        ).classes("w-full"):
+            with ui.grid(columns=3).classes("w-full gap-2"):
+                self.delta_increment_input = ui.number(
+                    value=0.4,
+                    min=0,
+                    precision=2,
+                    label="Increment per step",
+                ).on("update:model-value", self._update_expected_damage_delta_chart)
+                self.delta_steps_input = ui.number(
+                    value=10,
+                    min=1,
+                    precision=0,
+                    label="Number of steps",
+                ).on("update:model-value", self._update_expected_damage_delta_chart)
+                self.delta_stat_source_selector = (
+                    ui.select(
+                        options={
+                            "initial_stats": "Initial Stats",
+                            "additive_modifiers": "Additive Modifiers (Basic)",
+                            "additive_special_attributes": "Additive Modifiers (Special)",
+                            "multi_series": "Custom Multi-Series",
+                        },
+                        value="multi_series",
+                        label="Increment source",
+                    )
+                    .classes("w-full")
+                    .on("update:model-value", self._on_delta_stat_source_changed)
+                )
+
+            with ui.column().classes("w-full") as self.delta_basic_controls_container:
+                self.delta_stats_selector = (
+                    ui.select(
+                        options=[stat for stat in StatType],
+                        value=[
+                            StatType.ATTACK,
+                            StatType.CRIT_RATE,
+                            StatType.CRIT_DAMAGE,
+                        ],
+                        multiple=True,
+                        with_input=False,
+                        label="Stats to vary",
+                    )
+                    .classes("w-full")
+                    .on("update:model-value", self._update_expected_damage_delta_chart)
+                )
+
+            with ui.column().classes("w-full") as self.delta_single_special_controls_container:
+                with ui.grid(columns=2).classes("w-full gap-2"):
+                    self.delta_special_attribute_selector = (
+                        ui.select(
+                            options=[attribute for attribute in SpecialAttribute],
+                            value=SpecialAttribute.DAMAGE_BOOST,
+                            label="Special attribute",
+                        )
+                        .classes("w-full")
+                        .on("update:model-value", self._update_expected_damage_delta_chart)
+                    )
+                    self.delta_special_attribute_tag_selector = (
+                        ui.select(
+                            options=self.relevant_damage_tags,
+                            value=self._default_scenario_tag(),
+                            label="Special attribute tag",
+                        )
+                        .classes("w-full")
+                        .on("update:model-value", self._update_expected_damage_delta_chart)
+                    )
+
+            with ui.column().classes("w-full") as self.delta_multi_controls_container:
+                with ui.grid(columns=2).classes("w-full gap-2"):
+                    self.delta_multi_initial_stats_selector = (
+                        ui.select(
+                            options=[stat for stat in StatType],
+                            value=[],
+                            multiple=True,
+                            with_input=False,
+                            label="Initial stats (multi-series)",
+                        )
+                        .props("use-chips options-selected-class=exilium-multiselect-selected")
+                        .classes("w-full")
+                        .on("update:model-value", self._update_expected_damage_delta_chart)
+                    )
+                    self.delta_multi_additive_stats_selector = (
+                        ui.select(
+                            options=[stat for stat in StatType],
+                            value=[],
+                            multiple=True,
+                            with_input=False,
+                            label="Additive modifiers (basic) (multi-series)",
+                        )
+                        .props("use-chips options-selected-class=exilium-multiselect-selected")
+                        .classes("w-full")
+                        .on("update:model-value", self._update_expected_damage_delta_chart)
+                    )
+
+                self.delta_multi_additive_special_selector = (
+                    ui.select(
+                        options=self.delta_special_combo_options,
+                        value=[
+                            f"{SpecialAttribute.DAMAGE_BOOST.value}::{DamageTag.ALL.value}",
+                            f"{SpecialAttribute.CRITICAL_DAMAGE.value}::{DamageTag.ALL.value}",
+                            f"{SpecialAttribute.DEFENSE_IGNORE.value}::{DamageTag.ALL.value}",
+                        ],
+                        multiple=True,
+                        with_input=True,
+                        label="Additive modifiers (special) (multi-series)",
+                    )
+                    .props("use-chips options-selected-class=exilium-multiselect-selected")
+                    .classes("w-full")
+                    .on("update:model-value", self._update_expected_damage_delta_chart)
+                )
+
+                self.delta_multi_additive_conditional_basic_stats_selector = (
+                    ui.select(
+                        options=self.delta_conditional_basic_combo_options,
+                        value=[],
+                        multiple=True,
+                        with_input=False,
+                        label="Additive modifiers (basic conditional) (multi-series)",
+                    )
+                    .props("use-chips options-selected-class=exilium-multiselect-selected")
+                    .classes("w-full")
+                    .on("update:model-value", self._update_expected_damage_delta_chart)
+                )
+
+                self.delta_multi_multiplicative_stats_selector = (
+                    ui.select(
+                        options=[stat for stat in StatType],
+                        value=[],
+                        multiple=True,
+                        with_input=False,
+                        label="Multiplicative modifiers (basic) (multi-series)",
+                    )
+                    .props("use-chips options-selected-class=exilium-multiselect-selected")
+                    .classes("w-full")
+                    .on("update:model-value", self._update_expected_damage_delta_chart)
+                )
+
+                self.delta_multi_multiplicative_conditional_basic_stats_selector = (
+                    ui.select(
+                        options=self.delta_conditional_basic_combo_options,
+                        value=[],
+                        multiple=True,
+                        with_input=False,
+                        label="Multiplicative modifiers (basic conditional) (multi-series)",
+                    )
+                    .props("use-chips options-selected-class=exilium-multiselect-selected")
+                    .classes("w-full")
+                    .on("update:model-value", self._update_expected_damage_delta_chart)
+                )
+
+            self.delta_chart_plot = ui.plotly(self.delta_chart).classes(
+                "w-full h-100 exilium-plot"
+            )
+
+        self._update_delta_control_visibility()
+
+    def _default_scenario_tag(self) -> DamageTag:
+        return scenario_analysis.default_scenario_tag(self)
+
+    def _apply_scenario_component(
+        self,
+        doll: Doll,
+        source: str,
+        increment: float,
+        stat: StatType,
+        special_attribute: SpecialAttribute,
+        tag: DamageTag,
+    ) -> None:
+        scenario_analysis.apply_scenario_component(
+            doll=doll,
+            source=source,
+            increment=increment,
+            stat=stat,
+            special_attribute=special_attribute,
+            tag=tag,
+        )
+
+    def _update_scenario_component_visibility(
+        self, scenario_row: dict[str, Any], component_index: int
+    ) -> None:
+        scenario_analysis.update_scenario_component_visibility(
+            self, scenario_row, component_index
+        )
+
+    def _update_scenario_row_visibility(self, scenario_row: dict[str, Any]) -> None:
+        scenario_analysis.update_scenario_row_visibility(self, scenario_row)
+
+    def _remove_scenario_row(self, scenario_row: dict[str, Any]) -> None:
+        scenario_analysis.remove_scenario_row(self, scenario_row)
+
+    def _add_component_to_scenario_row(self, scenario_row: dict[str, Any]) -> None:
+        scenario_analysis.add_component_to_scenario_row(self, scenario_row)
+
+    def _remove_component_from_scenario_row(self, scenario_row: dict[str, Any]) -> None:
+        scenario_analysis.remove_component_from_scenario_row(self, scenario_row)
+
+    def _add_single_scenario_row(self, _event: Any = None) -> None:
+        scenario_analysis.add_single_scenario_row(self, _event)
+
+    def _add_combined_scenario_row(self, _event: Any = None) -> None:
+        scenario_analysis.add_combined_scenario_row(self, _event)
+
+    def _create_scenario_row(
+        self,
+        label: str,
+        mode: str,
+        component_1: dict[str, Any],
+        component_2: dict[str, Any],
+        component_3: dict[str, Any],
+    ) -> None:
+        scenario_analysis.create_scenario_row(
+            self,
+            label,
+            mode,
+            component_1,
+            component_2,
+            component_3,
+        )
+
+    def _update_scenario_comparison_chart(self, _event: Any = None) -> None:
+        scenario_analysis.update_scenario_comparison_chart(self, _event)
+
+    def _update_expected_damage_delta_chart(self, _event: Any = None) -> None:
+        sweep_analysis.update_expected_damage_delta_chart(self, _event)
+
+    def _on_delta_stat_source_changed(self, _event: Any = None) -> None:
+        sweep_analysis.on_delta_stat_source_changed(self, _event)
+
+    def _update_delta_control_visibility(self) -> None:
+        sweep_analysis.update_delta_control_visibility(self)
+
+    def _get_combat_summary_with_doll(self, doll: Doll) -> CombatSummary:
+        summary: CombatSummary = CombatSummary()
+        summary.expected_damage = self._calculate_rotation_expected_damage_with_doll(
+            doll
+        )
+        return summary
+
+    def _calculate_rotation_expected_damage_with_doll(self, doll: Doll) -> float:
+        if not self.timeline_rows:
+            return 0
+
+        total_expected_damage: float = 0
+        active_buffs_data: list[dict[str, Any]] = copy.deepcopy(
+            self.baseline_buffs_selector.data
+        )
+        active_debuffs_data: list[dict[str, Any]] = copy.deepcopy(
+            self.baseline_debuffs_selector.data
+        )
+
+        for row in self.timeline_rows:
+            self._remove_matching_items(
+                active_items=active_buffs_data,
+                to_remove=copy.deepcopy(row["remove_buffs_selector"].data),
+            )
+            self._remove_matching_items(
+                active_items=active_debuffs_data,
+                to_remove=copy.deepcopy(row["remove_debuffs_selector"].data),
+            )
+
+            active_buffs_data.extend(copy.deepcopy(row["add_buffs_selector"].data))
+            active_debuffs_data.extend(copy.deepcopy(row["add_debuffs_selector"].data))
+
+            buffs_before: list[Buff] = self._create_buff_instances(active_buffs_data)
+            debuffs_before: list[Debuff] = self._create_debuff_instances(
+                active_debuffs_data
+            )
+
+            chip_data: dict[str, Any] = row["chip_data"]
+            action_config: dict[str, Any] = self.option_config[chip_data["name"]]
+            action_function: Callable = action_config["function"]
+
+            keyword_args: dict[str, Any] = {}
+            for field in action_config["fields"]:
+                keyword_args[field["key"]] = chip_data[field["key"]]
+
+            damage_instance: DamageInstance = action_function(**keyword_args)
+            target_state: TargetCombatState = self._build_target_state(row)
+
+            attacker: Doll = copy.deepcopy(doll)
+            attacker.prepare_for_calculation()
+
+            target: Unit = copy.deepcopy(self.target)
+
+            combat_summary: CombatSummary = (
+                damage_instance.damage_calculation_strategy.calculate_damage(
+                    attacker,
+                    target,
+                    damage_instance,
+                    target_combat_state=target_state,
+                    buffs_before=buffs_before,
+                    debuffs_before=debuffs_before,
+                )
+            )
+            total_expected_damage += combat_summary.expected_damage
+
+        return total_expected_damage
 
     def _build_target_state(self, timeline_row: dict[str, Any]) -> TargetCombatState:
         weaknesses_override: str = timeline_row["phase_weaknesses_override"].value
@@ -681,145 +1202,163 @@ class RotationSimulator:
             ui.notify("Sync timeline first", type="warning")
             return
 
-        total_expected_damage: float = 0
-        grouped_expected_damage: dict[str, float] = {}
-        tag_expected_damage: dict[DamageTag, float] = {}
-        action_rows: list[dict[str, Any]] = []
-
-        active_buffs_data: list[dict[str, Any]] = copy.deepcopy(
-            self.baseline_buffs_selector.data
-        )
-        active_debuffs_data: list[dict[str, Any]] = copy.deepcopy(
-            self.baseline_debuffs_selector.data
+        self._set_simulation_busy(True)
+        ui.timer(
+            0.05,
+            self._start_simulation,
+            once=True,
+            immediate=False,
         )
 
-        for row in self.timeline_rows:
-            self._remove_matching_items(
-                active_items=active_buffs_data,
-                to_remove=copy.deepcopy(row["remove_buffs_selector"].data),
+    def _start_simulation(self) -> None:
+        self.simulate_button.client.safe_invoke(self._run_simulation())
+
+    async def _run_simulation(self) -> None:
+        try:
+            total_expected_damage: float = 0
+            grouped_expected_damage: dict[str, float] = {}
+            tag_expected_damage: dict[DamageTag, float] = {}
+            action_rows: list[dict[str, Any]] = []
+
+            active_buffs_data: list[dict[str, Any]] = copy.deepcopy(
+                self.baseline_buffs_selector.data
             )
-            self._remove_matching_items(
-                active_items=active_debuffs_data,
-                to_remove=copy.deepcopy(row["remove_debuffs_selector"].data),
+            active_debuffs_data: list[dict[str, Any]] = copy.deepcopy(
+                self.baseline_debuffs_selector.data
             )
 
-            active_buffs_data.extend(copy.deepcopy(row["add_buffs_selector"].data))
-            active_debuffs_data.extend(copy.deepcopy(row["add_debuffs_selector"].data))
+            for row in self.timeline_rows:
+                self._remove_matching_items(
+                    active_items=active_buffs_data,
+                    to_remove=copy.deepcopy(row["remove_buffs_selector"].data),
+                )
+                self._remove_matching_items(
+                    active_items=active_debuffs_data,
+                    to_remove=copy.deepcopy(row["remove_debuffs_selector"].data),
+                )
+                active_buffs_data.extend(copy.deepcopy(row["add_buffs_selector"].data))
+                active_debuffs_data.extend(copy.deepcopy(row["add_debuffs_selector"].data))
 
-            buffs_before: list[Buff] = self._create_buff_instances(active_buffs_data)
-            debuffs_before: list[Debuff] = self._create_debuff_instances(
-                active_debuffs_data
-            )
+                buffs_before: list[Buff] = self._create_buff_instances(active_buffs_data)
+                debuffs_before: list[Debuff] = self._create_debuff_instances(
+                    active_debuffs_data
+                )
 
-            chip_data: dict[str, Any] = row["chip_data"]
-            action_config: dict[str, Any] = self.option_config[chip_data["name"]]
-            action_function: Callable = action_config["function"]
+                chip_data: dict[str, Any] = row["chip_data"]
+                action_config: dict[str, Any] = self.option_config[chip_data["name"]]
+                action_function: Callable = action_config["function"]
 
-            keyword_args: dict[str, Any] = {}
-            for field in action_config["fields"]:
-                keyword_args[field["key"]] = chip_data[field["key"]]
+                keyword_args: dict[str, Any] = {}
+                for field in action_config["fields"]:
+                    keyword_args[field["key"]] = chip_data[field["key"]]
 
-            damage_instance: DamageInstance = action_function(**keyword_args)
-            target_state: TargetCombatState = self._build_target_state(row)
+                damage_instance: DamageInstance = action_function(**keyword_args)
+                target_state: TargetCombatState = self._build_target_state(row)
 
-            attacker: Doll = copy.deepcopy(self.doll)
-            attacker.prepare_for_calculation()
+                attacker: Doll = copy.deepcopy(self.doll)
+                attacker.prepare_for_calculation()
 
-            target: Unit = copy.deepcopy(self.target)
+                target: Unit = copy.deepcopy(self.target)
 
-            combat_summary: CombatSummary = (
-                damage_instance.damage_calculation_strategy.calculate_damage(
-                    attacker,
-                    target,
-                    damage_instance,
-                    target_combat_state=target_state,
-                    buffs_before=buffs_before,
-                    debuffs_before=debuffs_before,
+                combat_summary: CombatSummary = (
+                    damage_instance.damage_calculation_strategy.calculate_damage(
+                        attacker,
+                        target,
+                        damage_instance,
+                        target_combat_state=target_state,
+                        buffs_before=buffs_before,
+                        debuffs_before=debuffs_before,
+                    )
+                )
+
+                expected_damage: float = combat_summary.expected_damage
+                total_expected_damage += expected_damage
+
+                grouped_expected_damage.setdefault(
+                    damage_instance.group_name or damage_instance.label,
+                    0,
+                )
+                grouped_expected_damage[
+                    damage_instance.group_name or damage_instance.label
+                ] += expected_damage
+
+                for tag in damage_instance.tags:
+                    if tag in self.tag_blacklist:
+                        continue
+                    if tag not in self.relevant_damage_tags:
+                        continue
+                    tag_expected_damage.setdefault(tag, 0)
+                    tag_expected_damage[tag] += expected_damage
+
+                action_rows.append(
+                    {
+                        "index": row["index"],
+                        "turn": f"T{row['turn']}",
+                        "action": chip_data["name"],
+                        "expected_damage": str(
+                            Decimal(expected_damage).quantize(
+                                Decimal("0.01"),
+                                rounding=ROUND_DOWN,
+                            )
+                        ),
+                        "critical_rate": f"{Decimal(combat_summary.critical_rate * 100).quantize(Decimal('0.1'), rounding=ROUND_DOWN)}%",
+                    }
+                )
+
+            self.total_expected_damage_label.text = str(
+                Decimal(total_expected_damage).quantize(
+                    Decimal("0.01"),
+                    rounding=ROUND_DOWN,
                 )
             )
+            self.combat_summary.expected_damage = total_expected_damage
 
-            expected_damage: float = combat_summary.expected_damage
-            total_expected_damage += expected_damage
+            self.timeline_result_table.rows[:] = action_rows
+            self.timeline_result_table.update()
 
-            grouped_expected_damage.setdefault(
-                damage_instance.group_name or damage_instance.label,
-                0,
+            tag_rows: list[dict[str, Any]] = []
+            for tag, expected_damage in tag_expected_damage.items():
+                share_pct: float = (
+                    expected_damage / total_expected_damage * 100
+                    if total_expected_damage > 0
+                    else 0
+                )
+                tag_rows.append(
+                    {
+                        "tag": str(tag),
+                        "share": str(
+                            Decimal(share_pct).quantize(
+                                Decimal("0.1"),
+                                rounding=ROUND_DOWN,
+                            )
+                        ),
+                        "expected_damage": str(
+                            Decimal(expected_damage).quantize(
+                                Decimal("0.01"),
+                                rounding=ROUND_DOWN,
+                            )
+                        ),
+                    }
+                )
+
+            self.tag_breakdown_table.rows[:] = sorted(
+                tag_rows,
+                key=lambda row_data: float(row_data["share"]),
+                reverse=True,
             )
-            grouped_expected_damage[
-                damage_instance.group_name or damage_instance.label
-            ] += expected_damage
+            self.tag_breakdown_table.update()
 
-            for tag in damage_instance.tags:
-                if tag in self.tag_blacklist:
-                    continue
-                if tag not in self.relevant_damage_tags:
-                    continue
-                tag_expected_damage.setdefault(tag, 0)
-                tag_expected_damage[tag] += expected_damage
-
-            action_rows.append(
-                {
-                    "index": row["index"],
-                    "turn": f"T{row['turn']}",
-                    "action": chip_data["name"],
-                    "expected_damage": str(
-                        Decimal(expected_damage).quantize(
-                            Decimal("0.01"),
-                            rounding=ROUND_DOWN,
-                        )
-                    ),
-                    "critical_rate": f"{Decimal(combat_summary.critical_rate * 100).quantize(Decimal('0.1'), rounding=ROUND_DOWN)}%",
-                }
+            self.ability_donut_chart["data"][0]["labels"] = list(
+                grouped_expected_damage.keys()
             )
-
-        self.total_expected_damage_label.text = str(
-            Decimal(total_expected_damage).quantize(
-                Decimal("0.01"),
-                rounding=ROUND_DOWN,
+            self.ability_donut_chart["data"][0]["values"] = list(
+                grouped_expected_damage.values()
             )
-        )
+            ui.update(self.ability_donut_chart_plot)
 
-        self.timeline_result_table.rows[:] = action_rows
-        self.timeline_result_table.update()
+            self._update_expected_damage_delta_chart()
+            self._update_scenario_comparison_chart()
 
-        tag_rows: list[dict[str, Any]] = []
-        for tag, expected_damage in tag_expected_damage.items():
-            share_pct: float = (
-                expected_damage / total_expected_damage * 100
-                if total_expected_damage > 0
-                else 0
-            )
-            tag_rows.append(
-                {
-                    "tag": str(tag),
-                    "share": str(
-                        Decimal(share_pct).quantize(
-                            Decimal("0.1"),
-                            rounding=ROUND_DOWN,
-                        )
-                    ),
-                    "expected_damage": str(
-                        Decimal(expected_damage).quantize(
-                            Decimal("0.01"),
-                            rounding=ROUND_DOWN,
-                        )
-                    ),
-                }
-            )
-
-        self.tag_breakdown_table.rows[:] = sorted(
-            tag_rows,
-            key=lambda row_data: float(row_data["share"]),
-            reverse=True,
-        )
-        self.tag_breakdown_table.update()
-
-        self.ability_donut_chart["data"][0]["labels"] = list(
-            grouped_expected_damage.keys()
-        )
-        self.ability_donut_chart["data"][0]["values"] = list(
-            grouped_expected_damage.values()
-        )
-        ui.update(self.ability_donut_chart_plot)
-
-        ui.notify("Rotation simulation complete", type="positive", group=False)
+            ui.notify("Rotation simulation complete", type="positive", group=False)
+        finally:
+            self._set_simulation_busy(False)
