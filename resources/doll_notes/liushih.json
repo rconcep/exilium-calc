@@ -1,0 +1,74 @@
+{
+  "doll": "Liushih",
+  "sections": [
+    {
+      "kind": "markdown",
+      "key": "synopsis",
+      "title": "Synopsis",
+      "markdown": "Single-target hydro DPS with unorthodox health-scaling of damage. Highly dependent on Springfield for maximum health boost and Confectance Index generation. Liushih's damage is calculated based on her health instead of attack, so be aware of content balanced around buffing your team's attack (e.g., Gunsmoke buffs)."
+    },
+    {
+      "kind": "utility_table",
+      "key": "utility",
+      "title": "Utility",
+      "rows": [
+        {
+          "label": "Tideway (hydro tile) generation (V2+)",
+          "detail": "S2"
+        },
+        {
+          "label": "Defense reduction for physical summons",
+          "detail": "(30%) On S1 or Ultimate (Lockdown debuff)"
+        },
+        {
+          "label": "Increased damage dealt (V5+)",
+          "detail": "(5+%) Sharpness buff applied to Liushih and physical summons after using S1."
+        },
+        { "label": "Buff cleanse", "detail": "Fixed Key 3" }
+      ]
+    },
+    {
+      "kind": "fortification_table",
+      "key": "fortification_upgrades",
+      "title": "Fortification Level upgrades",
+      "upgrades": [
+        {
+          "level": 1,
+          "description": "Adds an instance of Gatling Cannon at the end of each turn."
+        },
+        {
+          "level": 2,
+          "description": "S2: Adds hydro tile generation; no longer deactivates Joint Ops on use."
+        },
+        {
+          "level": 3,
+          "description": "Increases damage multiplier of S1 and doubles the effect of Marksmanship."
+        },
+        {
+          "level": 4,
+          "description": "Increases damage multiplier of Ultimate and adds critical damage buff for Liushih and Pegasus to Joint Ops."
+        },
+        {
+          "level": 5,
+          "description": "Adds Sharpness buff, buffing Liushih and physical summons with damage boost based on Confectance Index gained during the turn before using S1."
+        },
+        {
+          "level": 6,
+          "description": "Doubles Marksmanship acquisition rate."
+        }
+      ]
+    },
+    {
+      "kind": "markdown",
+      "key": "team_notes",
+      "title": "Team notes",
+      "markdown": "Springfield is a must - maximum health increase, hydro damage boost, physical summon damage boost (with expansion key), and increased Confectance Index gain (V1+). This duo could flex as a package into mixed teams but Springfield's aforementioned utility basically ties her to mono-hydro teams. Liushih's Fixed Key 6 grants Confectance Index when allied physical summons attack, further encouraging mono-hydro teams filled with physical summons."
+    },
+    {
+      "kind": "markdown",
+      "key": "build_notes",
+      "title": "Build notes",
+      "markdown": "Liushih's passive increases her and Pegasus's basic attack damage multiplier based on Liushih's initial attack (5% per 60, up to 50%) - make sure she has at least 600 attack but no much more... because her and Pegasus's damage is calculated with health instead of attack. Look to maximize her health and critical damage/rate. Modifier-wise, look for hydro, targeted, and heavy ammo damage boosts. Physical summon is good (even moreso at V1+); basic attack is acceptable."
+    }
+  ]
+}
