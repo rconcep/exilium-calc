@@ -10,13 +10,16 @@ _t1: list[dict[str, Any]] = [
     {"name": "Desperate Gambit"},
     {"name": "One Doll Cavalry"},
     {"name": "Gatling Cannon (Pegasus)", "stacks_of_marksmanship": 6},
+    {"name": "Gatling Cannon (Pegasus)", "stacks_of_marksmanship": 6},
 ]
 
 _t2: list[dict[str, Any]] = [
     {"name": "Desperate Gambit"},
-    {"name": "Gatling Cannon (Pegasus)", "stacks_of_marksmanship": 10},
-    {"name": "Line Breaker", "stacks_of_marksmanship": 10},
-    {"name": "Gatling Cannon (Pegasus)", "stacks_of_marksmanship": 10},
+    {"name": "Gatling Cannon (Pegasus)", "stacks_of_marksmanship": 12},
+    {"name": "Gatling Cannon (Pegasus)", "stacks_of_marksmanship": 12},
+    {"name": "Line Breaker", "stacks_of_marksmanship": 12},
+    {"name": "Gatling Cannon (Pegasus)", "stacks_of_marksmanship": 12},
+    {"name": "Gatling Cannon (Pegasus)", "stacks_of_marksmanship": 12},
 ]
 
 
@@ -58,7 +61,7 @@ class Liushih(DollCalculatorPage):
                         "label": "Stacks of Marksmanship",
                         "type": "select",
                         "options": list(range(13)),
-                        "default": 10,
+                        "default": 12,
                     }
                 ],
                 "function": doll.line_breaker.execute,
@@ -78,7 +81,7 @@ class Liushih(DollCalculatorPage):
                         "label": "Stacks of Marksmanship",
                         "type": "select",
                         "options": list(range(13)),
-                        "default": 10,
+                        "default": 12,
                     }
                 ],
                 "function": doll.gatling_cannon.execute,
@@ -88,8 +91,8 @@ class Liushih(DollCalculatorPage):
     @override
     def set_initial_values(self) -> None:
         # Using Springfield's stats as initial values
-        self.doll.initial_stats.basic_attributes[StatType.ATTACK] = 2610
-        self.doll.initial_stats.basic_attributes[StatType.HEALTH] = 7784
+        self.doll.initial_stats.basic_attributes[StatType.ATTACK] = 600
+        self.doll.initial_stats.basic_attributes[StatType.HEALTH] = 15700
         self.doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 90
         self.doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 168
 

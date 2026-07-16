@@ -1263,6 +1263,55 @@ class HealthScalingDamageCalculationStrategy(DamageCalculationStrategy):
         )
 
 
+class LoadedAttackDamageCalculationStrategy(DamageCalculationStrategy):
+    """Implements the damage formula where base damage is a function of health and defense only."""
+
+    health_scalar: float = Field(default=0.2)  # 20%
+
+    def __init__(self, health_scalar: float = 0.2):
+        """
+        Arguments:
+        health_scalar -- the fraction of current Health to use as the surrogate Attack stat in the damage formula
+        """
+        self.health_scalar = health_scalar
+
+    @final
+    @override
+    def calculate_base_damage(
+        self, attacker: Unit, target: Unit, damage_instance: DamageInstance
+    ) -> tuple[float, float, float, float]:
+        """Returns the term in the damage formula that is conventionally a function of attacker attack
+        and target defense but is now a function of health and defense only.
+        In addition, returns the effective attack, effective defense, and any defense reduced/ignored
+        beyond 0.
+
+        Arguments:
+        attacker -- the attacking Unit
+        target -- the target of the attack
+        damage_instance -- describes the action
+        """
+        effective_health: float = (
+            attacker.get_basic_attribute(StatType.HEALTH, damage_instance.tags)
+            * self.health_scalar
+        )
+
+        effective_def, negative_def = _calculate_effective_and_negative_defense(
+            attacker=attacker,
+            target=target,
+            damage_instance=damage_instance,
+        )
+
+        # For "Term 1" (base damage), use \frac{Health}{1 + \frac{Defense}{Health}} instead of
+        # \frac{Attack}{1 + \frac{Defense}{Attack}}
+
+        return (
+            effective_health,
+            effective_def,
+            negative_def,
+            effective_health / (1 + effective_def / effective_health),
+        )
+
+
 class UllridDamageCalculationStrategy(StandardDamageCalculationStrategy):
     """Damage calculation strategy for Ullrid, implementing her passive effects, in particular Hunter's Talent upgraded
     with Expansion Key - Determined Pursuit Tier 2."""
@@ -1409,15 +1458,15 @@ class HelenDamageCalculationStrategy(StandardDamageCalculationStrategy):
 
 
 class LiushihDamageCalculationStrategy(DamageCalculationStrategy):
-    """Damage calculation strategy for Lainie, implementing her passive."""
+    """Damage calculation strategy for Liushih, implementing her health-scaling damage."""
 
     @final
     @override
     def calculate_base_damage(
         self, attacker: Unit, target: Unit, damage_instance: DamageInstance
     ) -> tuple[float, float, float, float]:
-        loaded_attack_health_ratio: float = 0.20
-        return HealthScalingDamageCalculationStrategy(
+        loaded_attack_health_ratio: float = 0.2
+        return LoadedAttackDamageCalculationStrategy(
             loaded_attack_health_ratio
         ).calculate_base_damage(
             attacker=attacker,
@@ -1529,7 +1578,7 @@ class PegasusDamageCalculationStrategy(DamageCalculationStrategy):
         summon: SummonedUnit = self._require_pegasus_summon(attacker)
 
         loaded_attack_health_ratio: float = 0.20
-        return HealthScalingDamageCalculationStrategy(
+        return LoadedAttackDamageCalculationStrategy(
             loaded_attack_health_ratio
         ).calculate_base_damage(
             attacker=summon,
