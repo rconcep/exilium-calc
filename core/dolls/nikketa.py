@@ -10,6 +10,7 @@ from core.types import (
     FortificationLevel,
     SummonedUnit,
     PhysicalSummonedUnit,
+    build_physical_summon_stat_snapshot,
 )
 from core.buffs import Buff
 from core.combat import (
@@ -328,13 +329,14 @@ class Nikketa(Doll):
     kulich_counterattack: CombatAction = Field(default_factory=KulichCounterattack)
 
     def _build_kulich(self) -> PhysicalSummonedUnit:
+        initial_stats, additive_modifiers, multiplicative_modifiers = (
+            build_physical_summon_stat_snapshot(self)
+        )
         kulich: PhysicalSummonedUnit = PhysicalSummonedUnit(
             name="Kulich",
-            initial_stats=self.initial_stats.model_copy(deep=True),
-            additive_modifiers=self.additive_modifiers.model_copy(deep=True),
-            multiplicative_modifiers=self.multiplicative_modifiers.model_copy(
-                deep=True
-            ),
+            initial_stats=initial_stats,
+            additive_modifiers=additive_modifiers,
+            multiplicative_modifiers=multiplicative_modifiers,
         )
 
         # TODO: health ratio upgrades to 1.0 at V5

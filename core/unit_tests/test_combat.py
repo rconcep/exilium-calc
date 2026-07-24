@@ -1,5 +1,8 @@
 import pytest
 
+from core.buffs import Elsin
+from core.dolls.springfield import Springfield
+
 from core.combat import *
 from core.combat import _calculate_effective_and_negative_defense
 
@@ -895,6 +898,49 @@ class TestDamageCalculationStrategy:
         # Summon has 0 crit rate, so effective crit rate must be 0
         assert summary.critical_rate == pytest.approx(0.0)
         assert summary.expected_damage == pytest.approx(summary.non_critical_damage)
+
+    def test_elsin_buff_applies_to_summon_damage_calculation(self):
+        """Springfield's Elsin buff must affect summon-based damage scaling and results."""
+        springfield = Springfield()
+        springfield.initial_stats.basic_attributes[StatType.ATTACK] = 100
+        springfield.initial_stats.basic_attributes[StatType.HEALTH] = 100
+        springfield.initial_stats.basic_attributes[StatType.CRIT_RATE] = 0
+        springfield.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 100
+        springfield.refresh_elsin()
+
+        damage_instance = springfield.peck.execute(
+            stacks_of_inundance=0,
+            target_has_taryz=False,
+        )
+
+        import copy
+
+        summary_without_elsin = (
+            damage_instance.damage_calculation_strategy.calculate_damage(
+                attacker=copy.deepcopy(springfield),
+                target=Unit(),
+                damage_instance=damage_instance,
+            )
+        )
+
+        damage_instance_with_elsin = springfield.peck.execute(
+            stacks_of_inundance=0,
+            target_has_taryz=False,
+        )
+        summary_with_elsin = (
+            damage_instance_with_elsin.damage_calculation_strategy.calculate_damage(
+                attacker=copy.deepcopy(springfield),
+                target=Unit(),
+                damage_instance=damage_instance_with_elsin,
+                buffs_before=[Elsin()],
+            )
+        )
+
+        assert summary_without_elsin.total_increased_damage_pct == pytest.approx(0.0)
+        assert summary_with_elsin.total_increased_damage_pct == pytest.approx(50.0)
+        assert damage_instance_with_elsin.adjusted_potency == pytest.approx(
+            damage_instance.adjusted_potency * 1.5
+        )
 
     def test_yoohee_resolve_buffs_applies_v6_passive_and_super_resolution(self):
         g = TestDamageCalculationStrategy.construct_doll_attacker(

@@ -1,0 +1,69 @@
+{
+  "doll": "Cheyanne",
+  "sections": [
+    {
+      "kind": "markdown",
+      "key": "synopsis",
+      "title": "Synopsis",
+      "markdown": "Physical DPS that specializes in single-target damage. Prefers to stay in one spot to accumulate stacking buffs."
+    },
+    {
+      "kind": "utility_table",
+      "key": "utility",
+      "title": "Utility",
+      "rows": [
+        {
+          "label": "Knockback",
+          "detail": "Fixed Key 1"
+        },
+        {
+          "label": "Movement Down II",
+          "detail": "Fixed Key 1"
+        }
+      ]
+    },
+    {
+      "kind": "fortification_table",
+      "key": "fortification_upgrades",
+      "title": "Fortification Level upgrades",
+      "upgrades": [
+        {
+          "level": 1,
+          "description": "Additional critical damage and enhanced stability index ignore based on target's Analysis Score."
+        },
+        {
+          "level": 2,
+          "description": "Enhances Ultimate."
+        },
+        {
+          "level": 3,
+          "description": "Enhances Bullseye: more defense reduction and Analytical Score is no longer consumed on hit."
+        },
+        {
+          "level": 4,
+          "description": "Adds stacking attack buff while Mimosa's Calyx is active."
+        },
+        {
+          "level": 5,
+          "description": "Enhances Ultimate."
+        },
+        {
+          "level": 6,
+          "description": "Enhances Deliberate Action and adds a stacking buff that increases the damage multiplier of Ultimate."
+        }
+      ]
+    },
+    {
+      "kind": "markdown",
+      "key": "team_notes",
+      "title": "Team notes",
+      "markdown": "Needs Yoohee for the Reversed Assault buff. Other than that, the two of them can flex in as a package in a mixed composition. Mono-physical teams or teams with additional defense reduction sources work too."
+    },
+    {
+      "kind": "markdown",
+      "key": "build_notes",
+      "title": "Build notes",
+      "markdown": "Physical DPS - attack, critical. All damage is single-target so look for single-target boosts in her Remolding Pattern - Pinpoint Specialization, Precision Blow."
+    }
+  ]
+}

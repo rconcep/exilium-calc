@@ -43,7 +43,7 @@ class Liushih(DollCalculatorPage):
         self._liushih: liushih.Liushih = liushih.Liushih()
         self.doll = self._liushih
         self.doll.set_fortification_level(FortificationLevel.SEGMENT06)
-        self.doll_subtitle: str = """Basic Attack / Summon / Single Target Burst
+        self.doll_subtitle: str = """Summon / Load Attack
 
             Sentinel / Hydro"""
         self.dandegate_link: str = "https://www.dandegate.net/dolls/liushih"
@@ -162,7 +162,7 @@ class Liushih(DollCalculatorPage):
                 "springfield_fortification_level": FortificationLevel.SEGMENT06,
             },
             {
-                "name": "Sharpness",
+                "name": "Boldness",
                 "liushih_fortification_level": FortificationLevel.SEGMENT06,
                 "stacks": 6,
             },
@@ -188,7 +188,7 @@ class Liushih(DollCalculatorPage):
                 "springfield_fortification_level": FortificationLevel.SEGMENT06,
                 "stacks": 3,
             },
-            {"name": "Lockdown (Liushih)"},
+            {"name": "Lock On (Liushih)"},
         ]
 
     @override

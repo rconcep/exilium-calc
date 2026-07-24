@@ -10,6 +10,7 @@ from core.types import (
     FortificationLevel,
     SummonedUnit,
     PhysicalSummonedUnit,
+    build_physical_summon_stat_snapshot,
 )
 from core.buffs import Buff
 from core.combat import (
@@ -480,13 +481,14 @@ class Lainie(Doll):
     hashrate_overclock: CombatAction = Field(default_factory=HashrateOverclock)
 
     def _build_simulacrum(self) -> PhysicalSummonedUnit:
+        initial_stats, additive_modifiers, multiplicative_modifiers = (
+            build_physical_summon_stat_snapshot(self)
+        )
         return PhysicalSummonedUnit(
             name="Simulacrum",
-            initial_stats=self.initial_stats.model_copy(deep=True),
-            additive_modifiers=self.additive_modifiers.model_copy(deep=True),
-            multiplicative_modifiers=self.multiplicative_modifiers.model_copy(
-                deep=True
-            ),
+            initial_stats=initial_stats,
+            additive_modifiers=additive_modifiers,
+            multiplicative_modifiers=multiplicative_modifiers,
         )
 
     def summon_simulacrum(self) -> None:

@@ -7,9 +7,6 @@
     "attacker": {
       "buffs": [
         {
-          "name": "Attack Up II"
-        },
-        {
           "name": "Overflowing Care",
           "springfield_fortification_level": 6,
           "percent_excess_healing": 105
@@ -22,7 +19,10 @@
           "springfield_fortification_level": 6
         },
         {
-          "name": "Sharpness",
+          "name": "Elsin"
+        },
+        {
+          "name": "Boldness",
           "liushih_fortification_level": 6,
           "stacks": 6
         },
@@ -51,7 +51,7 @@
           "stacks": 3
         },
         {
-          "name": "Lockdown (Liushih)"
+          "name": "Lock On (Liushih)"
         }
       ],
       "phase_weaknesses_exploited": 2,

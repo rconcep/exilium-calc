@@ -1577,6 +1577,21 @@ class EaglesVigilance(Buff):
         self.tag = DamageTag.PASSIVE
 
 
+class Elsin(Buff):
+    """Effect granted when Elsin is present from Springfield's Expansion Key - Watching Each Other."""
+
+    display_name = "Elsin"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        # If Elsin exists, damage dealt by allied physical summons is increased by 50%.
+        self.value = 50
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.PHYSICAL_SUMMON
+
+
 class Clue(Buff):
     """Nikketa buff"""
 
@@ -1657,10 +1672,10 @@ class JointOps(Buff):
         self.tag = DamageTag.ALL
 
 
-class Sharpness(Buff):
+class Boldness(Buff):
     """Buff from Liushih (V5+). Damage dealt is increased by 5%."""
 
-    display_name = "Sharpness"
+    display_name = "Boldness"
     max_stack_count = 10
     stack_input_type = "select"
 
@@ -2739,10 +2754,10 @@ class Guilt(Debuff):
         self.tag = DamageTag.HYDRO
 
 
-class Lockdown(Debuff):
+class LockOn(Debuff):
     """Liushih debuff. When damaged by Liushih or enemy Physical Summon, defense is reduced by 30%."""
 
-    display_name = "Lockdown (Liushih)"
+    display_name = "Lock On (Liushih)"
     max_stack_count = 1
     stack_input_type = "select"
 

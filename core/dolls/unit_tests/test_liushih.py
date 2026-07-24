@@ -178,7 +178,7 @@ class TestLiushih:
         pegasus1 = liushih.get_summoned_unit("Pegasus")
 
         # Mutate Liushih's stats
-        liushih.additive_modifiers.basic_attributes[StatType.ATTACK] += 100
+        liushih.initial_stats.basic_attributes[StatType.ATTACK] += 100
 
         # Refresh Pegasus to get updated snapshot
         liushih.refresh_pegasus()

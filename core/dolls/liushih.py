@@ -10,6 +10,7 @@ from core.types import (
     FortificationLevel,
     SummonedUnit,
     PhysicalSummonedUnit,
+    build_physical_summon_stat_snapshot,
 )
 from core.buffs import Buff
 from core.combat import (
@@ -264,19 +265,18 @@ class Liushih(Doll):
     line_breaker: CombatAction = Field(default_factory=LineBreaker)
     desperate_gambit: CombatAction = Field(default_factory=DesperateGambit)
     one_doll_cavalry: CombatAction = Field(default_factory=OneDollCavalry)
-    gatling_cannon: CombatAction = Field(
-        default_factory=GatlingCannon
-    )
+    gatling_cannon: CombatAction = Field(default_factory=GatlingCannon)
 
     def _build_pegasus(self) -> PhysicalSummonedUnit:
         # Pegasus inherits all of Liushih's initial attributes.
+        initial_stats, additive_modifiers, multiplicative_modifiers = (
+            build_physical_summon_stat_snapshot(self)
+        )
         pegasus: PhysicalSummonedUnit = PhysicalSummonedUnit(
             name="Pegasus",
-            initial_stats=self.initial_stats.model_copy(deep=True),
-            additive_modifiers=self.additive_modifiers.model_copy(deep=True),
-            multiplicative_modifiers=self.multiplicative_modifiers.model_copy(
-                deep=True
-            ),
+            initial_stats=initial_stats,
+            additive_modifiers=additive_modifiers,
+            multiplicative_modifiers=multiplicative_modifiers,
         )
 
         return pegasus

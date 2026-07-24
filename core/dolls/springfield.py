@@ -9,12 +9,15 @@ from core.types import (
     FortificationLevel,
     StatType,
     SummonedUnit,
+    PhysicalSummonedUnit,
+    build_physical_summon_stat_snapshot,
 )
 from core.buffs import Buff
 from core.combat import (
     DamageInstance,
     CombatAction,
     HealthScalingDamageCalculationStrategy,
+    ElsinDamageCalculationStrategy,
 )
 
 
@@ -230,6 +233,49 @@ class SupportActionV6(CombatAction):
         )
 
 
+class Peck(CombatAction):
+    """Peck from Elsin."""
+
+    @override
+    def execute(
+        self, stacks_of_inundance: int, target_has_taryz: bool
+    ) -> DamageInstance:
+        label: str = "Peck (Elsin)"
+        base_potency: int = (
+            50  # 50% of Health; strategy uses 100% of Health as the base damage
+        )
+        tags: set[DamageTag] = {
+            # DamageTag.PASSIVE,
+            DamageTag.TARGETED,
+            DamageTag.HYDRO,
+            DamageTag.PHASE,
+            DamageTag.PHYSICAL_SUMMON,
+            DamageTag.BASIC,
+        }
+
+        # Mechanics refer to increasing the damage multiplier by x% which is equivalent
+        # to x% of Elsin's Health. So we can use base_potency 1:1 with % of Health
+        # and the DamageCalculationStrategy uses 100% of Health as the effective base
+        # damage.
+
+        # If the target is inflicted with Taryz, the damage multiplier is increased by 30%.
+        if target_has_taryz:
+            base_potency += 30
+
+        # When Elsin's passive skill Peck is triggered, consumes all Inundance stacks and for each
+        # stack consumed, the damage multiplier of Peck is increased by 5%
+        potency_per_stack: int = 5
+        base_potency += max(0, stacks_of_inundance) * potency_per_stack
+
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Peck (Elsin)",
+            damage_calculation_strategy=ElsinDamageCalculationStrategy(),
+        )
+
+
 class Springfield(Doll):
     """Springfield."""
 
@@ -247,7 +293,6 @@ class Springfield(Doll):
             DamageTag.INTERCEPTION,
             DamageTag.CONFECTANCE,
             DamageTag.FIXED,
-            DamageTag.PHYSICAL_SUMMON,
         ]
     )
 
@@ -256,6 +301,47 @@ class Springfield(Doll):
     path_of_protection: CombatAction = Field(default_factory=PathOfProtection)
     counterattack: CombatAction = Field(default_factory=Counterattack)
     support_action: CombatAction = Field(default_factory=SupportAction)
+    peck: CombatAction = Field(default_factory=Peck)
+
+    def _build_elsin(self) -> PhysicalSummonedUnit:
+        # Elsin inherits all of Springfield's initial stats.
+        # Upon Summon, its own HP is doubled.
+        initial_stats, additive_modifiers, multiplicative_modifiers = (
+            build_physical_summon_stat_snapshot(self)
+        )
+        elsin: PhysicalSummonedUnit = PhysicalSummonedUnit(
+            name="Elsin",
+            initial_stats=initial_stats,
+            additive_modifiers=additive_modifiers,
+            multiplicative_modifiers=multiplicative_modifiers,
+        )
+
+        elsin.initial_stats.basic_attributes[StatType.HEALTH] *= 2
+
+        return elsin
+
+    def summon_elsin(self) -> None:
+        """Summons Elsin with a snapshot of Springfield's current stats."""
+        if super().get_summoned_unit("Elsin") is None:
+            self.summoned_units.append(self._build_elsin())
+
+    def refresh_elsin(self) -> None:
+        """Replaces Elsin with a fresh snapshot of Springfield's current stats.
+
+        Call this whenever Springfield's stats have been mutated so that subsequent
+        deepcopy-based damage calculations see up-to-date Elsin stats.
+        """
+        self.summoned_units = [u for u in self.summoned_units if u.name != "Elsin"]
+        self.summoned_units.append(self._build_elsin())
+
+    @override
+    def prepare_for_calculation(self) -> None:
+        self.refresh_elsin()
+
+    @override
+    def get_summoned_unit(self, name: str) -> SummonedUnit | None:
+        self.summon_elsin()
+        return super().get_summoned_unit(name)
 
     def set_to_v0(self) -> None:
         """Sets Fortification Level to Segment00."""
@@ -264,6 +350,9 @@ class Springfield(Doll):
         self.path_of_protection: CombatAction = PathOfProtection()
         self.counterattack: CombatAction = Counterattack()
         self.support_action: CombatAction = SupportAction()
+        self.peck: CombatAction = Peck()
+
+        self.summon_elsin()
 
     def set_to_v3(self) -> None:
         """Sets Fortification Level to Segment03."""

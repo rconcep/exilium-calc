@@ -6,27 +6,53 @@ from typing import Any, cast, override
 from core.types import DamageTag, FortificationLevel, SpecialAttribute, StatType
 from core.dolls import springfield
 
+_t1: list[dict[str, Any]] = [
+    {"name": "Path of Protection"},
+    {"name": "Peck (Elsin)", "stacks_of_inundance": 1, "target_has_taryz": True},
+    {"name": "Peck (Elsin)", "stacks_of_inundance": 2, "target_has_taryz": True},
+    {"name": "Peck (Elsin)", "stacks_of_inundance": 11, "target_has_taryz": True},
+]
 
-def _sample_turn(include_path_of_protection: bool) -> list[dict]:
-    actions: list[dict] = []
+_t1.extend({"name": "Support Action (Taryz)"} for _ in range(4))
+_t1.extend({"name": "Counterattack (Taryz)"} for _ in range(4))
 
-    if include_path_of_protection:
-        actions.append({"name": "Path of Protection"})
+_t2: list[dict[str, Any]] = [
+    {"name": "Intel Manipulation"},
+    {"name": "Peck (Elsin)", "stacks_of_inundance": 1, "target_has_taryz": True},
+    {"name": "Peck (Elsin)", "stacks_of_inundance": 11, "target_has_taryz": True},
+]
 
-    actions.extend({"name": "Support Action (Taryz)"} for _ in range(4))
-    actions.extend({"name": "Counterattack (Taryz)"} for _ in range(4))
+_t2.extend({"name": "Support Action (Taryz)"} for _ in range(4))
+_t2.extend({"name": "Counterattack (Taryz)"} for _ in range(4))
 
-    return actions
+_t3: list[dict[str, Any]] = [
+    {"name": "Peck (Elsin)", "stacks_of_inundance": 1, "target_has_taryz": True},
+    {"name": "Peck (Elsin)", "stacks_of_inundance": 11, "target_has_taryz": True},
+]
+
+_t3.extend({"name": "Support Action (Taryz)"} for _ in range(4))
+_t3.extend({"name": "Counterattack (Taryz)"} for _ in range(4))
+
+_t4: list[dict[str, Any]] = [
+    {"name": "Path of Protection"},
+    {"name": "Peck (Elsin)", "stacks_of_inundance": 1, "target_has_taryz": True},
+    {"name": "Intel Manipulation"},
+    {"name": "Peck (Elsin)", "stacks_of_inundance": 2, "target_has_taryz": True},
+    {"name": "Peck (Elsin)", "stacks_of_inundance": 11, "target_has_taryz": True},
+]
+
+_t4.extend({"name": "Support Action (Taryz)"} for _ in range(4))
+_t4.extend({"name": "Counterattack (Taryz)"} for _ in range(4))
 
 
 sample_rotation: dict[int, list[dict]] = {
-    1: _sample_turn(include_path_of_protection=True),
-    2: _sample_turn(include_path_of_protection=False),
-    3: _sample_turn(include_path_of_protection=False),
-    4: _sample_turn(include_path_of_protection=True),
-    5: _sample_turn(include_path_of_protection=False),
-    6: _sample_turn(include_path_of_protection=False),
-    7: _sample_turn(include_path_of_protection=True),
+    1: _t1,
+    2: _t2,
+    3: _t3,
+    4: _t4,
+    5: _t3,
+    6: _t2,
+    7: _t1,
 }
 
 
@@ -36,7 +62,8 @@ class Springfield(DollCalculatorPage):
     def __init__(self):
         super().__init__()
 
-        self.doll = springfield.Springfield()
+        self._springfield: springfield.Springfield = springfield.Springfield()
+        self.doll = self._springfield
         self.doll.set_fortification_level(FortificationLevel.SEGMENT06)
         self.doll_subtitle: str = """Heal & Stability Regen / Summon / Overflow Damage
 
@@ -69,13 +96,30 @@ class Springfield(DollCalculatorPage):
                 "fields": [],
                 "function": doll.counterattack.execute,
             },
+            "Peck (Elsin)": {
+                "fields": [
+                    {
+                        "key": "stacks_of_inundance",
+                        "label": "Stacks of Inundance",
+                        "type": "number",
+                        "default": 11,
+                    },
+                    {
+                        "key": "target_has_taryz",
+                        "label": "Target has Taryz",
+                        "type": "checkbox",
+                        "default": True,
+                    },
+                ],
+                "function": doll.peck.execute,
+            },
         }
 
     @override
     def set_initial_values(self) -> None:
-        self.doll.initial_stats.basic_attributes[StatType.ATTACK] = 2610
-        self.doll.initial_stats.basic_attributes[StatType.HEALTH] = 7784
-        self.doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 70
+        self.doll.initial_stats.basic_attributes[StatType.ATTACK] = 2545
+        self.doll.initial_stats.basic_attributes[StatType.HEALTH] = 7971
+        self.doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 91
         self.doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 150
 
         # Radiance: 2.5
@@ -125,6 +169,8 @@ class Springfield(DollCalculatorPage):
             0.004 * self.doll.initial_stats.basic_attributes[StatType.ATTACK]
         )
 
+        self._springfield.refresh_elsin()
+
     def get_default_damage_calculator_buffs(self) -> list[dict[str, Any]]:
         return [
             {"name": "Attack Up II"},
@@ -139,6 +185,9 @@ class Springfield(DollCalculatorPage):
             {
                 "name": "Eagle's Vigilance (Taryz)",
                 "springfield_fortification_level": FortificationLevel.SEGMENT06,
+            },
+            {
+                "name": "Elsin",
             },
         ]
 
@@ -165,7 +214,7 @@ class Springfield(DollCalculatorPage):
         return [
             ModelAssumption(
                 icon="flutter_dash",
-                description="Taryz's attacks are set to 100 potency but uses the health scalars appropriately in Damage Calculator. One could argue this over-represents Taryz in Rotation Potency.",
+                description="Taryz's attacks are set to 100 potency but uses the health scalars appropriately in Damage Calculator.",
             ),
             ModelAssumption(
                 icon="flutter_dash",
@@ -174,6 +223,12 @@ class Springfield(DollCalculatorPage):
             ModelAssumption(
                 icon="water_drop",
                 description="Using False Intelligence assumes the target is in Stability Break independently of the toggle in Damage Calculator.",
+            ),
+            ModelAssumption(
+                icon="key",
+                description="Expansion Key - Watching Each Other is active.",
+                link_label="Dandegate",
+                link_target="https://www.dandegate.net/dolls/springfield/keys/expansion-key-vigilant-bond",
             ),
         ]
 

@@ -1,0 +1,134 @@
+{
+  "doll": "Springfield",
+  "sections": [
+    {
+      "kind": "markdown",
+      "key": "synopsis",
+      "title": "Synopsis",
+      "markdown": "Cornerstone support of the hydro element - boosts allies' maximum health through health overflow and enhances Confectance Index generation (V1+). Enhances team survivability through health overflow and continuous, passive healing. Offensive utility is mostly exclusive to the hydro element."
+    },
+    {
+      "kind": "utility_table",
+      "key": "utility",
+      "title": "Utility",
+      "rows": [
+        {
+          "label": "Apply Hydro weakness",
+          "detail": "Fixed Key 5"
+        },
+        {
+          "label": "Increased Hydro damage dealt",
+          "detail": "(35~70%) Overflowing Care"
+        },
+        {
+          "label": "Increased out-of-turn Hydro damage dealt",
+          "detail": "(40%, V3+) Taryz"
+        },
+        {
+          "label": "Increased damage dealt by Physical Summons",
+          "detail": "(50%) Elsin"
+        },
+        {
+          "label": "Increased Hydro damage taken",
+          "detail": "(10~20%) False Intelligence, (10%) Taryz, (5~15%, V6) Vulnerability Analysis"
+        },
+        {
+          "label": "Increased stability damage taken",
+          "detail": "(2) False Intelligence"
+        },
+        {
+          "label": "Damp/Congestion/Cold Snap",
+          "detail": "S1, Ultimate"
+        },
+        {
+          "label": "Confectance Index generation",
+          "detail": "Shared Telepathy (V1+)"
+        },
+        {
+          "label": "Support Actions",
+          "detail": "(2, 4 at V6) Taryz"
+        },
+        {
+          "label": "Counterattacks",
+          "detail": "(2, 4 at V6) Taryz"
+        },
+        {
+          "label": "Reduced damage taken",
+          "detail": "(15%, V5+) Deep-Rooted Bonds"
+        },
+        {
+          "label": "Passive healing",
+          "detail": "Overflowing Care"
+        },
+        {
+          "label": "Taunt cleanse",
+          "detail": "(all allies) On ultimate"
+        },
+        {
+          "label": "Fear cleanse",
+          "detail": "(all allies) On ultimate"
+        },
+        {
+          "label": "Infatuation cleanse",
+          "detail": "(all allies, V2+) On ultimate"
+        },
+        {
+          "label": "Stun cleanse",
+          "detail": "(all allies, V2+) On ultimate"
+        },
+        {
+          "label": "Debuff cleanse",
+          "detail": "(all allies, 1, 2 (V2+)) On ultimate"
+        },
+        { "label": "Buff cleanse", "detail": "Fixed Key 2" },
+        {
+          "label": "Stability recovery",
+          "detail": "S2, Ultimate"
+        }
+      ]
+    },
+    {
+      "kind": "fortification_table",
+      "key": "fortification_upgrades",
+      "title": "Fortification Level upgrades",
+      "upgrades": [
+        {
+          "level": 1,
+          "description": "Adds Shared Telepathy buff to S1 and doubles the maximum hydro damage boost from Overflowing Care."
+        },
+        {
+          "level": 2,
+          "description": "Ultimate cleanses an additional debuff and additionally dispels Stun and Infatuated."
+        },
+        {
+          "level": 3,
+          "description": "Adds an increased hydro damage taken aura to Taryz. Adds a damage boost to out-of-turn hydro damage effect while Taryz is fielded. Taryz can provide support actions."
+        },
+        {
+          "level": 4,
+          "description": "Personal damage increase to S1; doubles increased hydro damage taken effect of False Intelligence debuff."
+        },
+        {
+          "level": 5,
+          "description": "Extends duration of Taryz (allows full uptime)."
+        },
+        {
+          "level": 6,
+          "description": "Doubles Taryz's damage and maximum number of counterattacks and support actions. Taryz applies Vulnerability Analysis stacks, increasing hydro damage taken."
+        }
+      ]
+    },
+    {
+      "kind": "markdown",
+      "key": "team_notes",
+      "title": "Team notes",
+      "markdown": "Springfield enables the hydro DPS crew through her unique mechanics of health overflow and Shared Telepathy (V1+) and her other offensive utility is specific to the hydro element, so mono-hydro teams are recommended. However, she can flex in with 1-2 hydro DPS into mixed teams well - she can implant hydro weakness for the DPS while providing generic survivability utility to the whole team."
+    },
+    {
+      "kind": "markdown",
+      "key": "build_notes",
+      "title": "Build notes",
+      "markdown": "The summons Taryz and Elsin do damage based on Springfield's maximum health and their damage shares dwarf Springfield's, so building for health + critical rate/damage is recommended. Regarding damage modifier priority, it will depend on Springfield's fortification level. At lower levels, Elsin's damage share is higher so physical summon modifiers are more effective. But at higher levels, Taryz, who uses Springfield's modifiers, will have a much higher damage share. In that case, hydro modifiers is more recommended."
+    }
+  ]
+}

@@ -287,6 +287,51 @@ class Unit(BaseModel):
         ).get_total_multiplier(tags)
 
 
+def _copy_physical_summon_tagged_modifiers(
+    source: StatSheet, target: StatSheet
+) -> None:
+    """Copies only Physical Summon-tagged conditional/special modifiers."""
+    for stat in StatType:
+        target.conditional_basic_attributes[stat].set_multiplier(
+            DamageTag.PHYSICAL_SUMMON,
+            source.conditional_basic_attributes[stat].get_multiplier(
+                DamageTag.PHYSICAL_SUMMON
+            ),
+        )
+
+    for special_attribute in SpecialAttribute:
+        target.special_attributes[special_attribute].set_multiplier(
+            DamageTag.PHYSICAL_SUMMON,
+            source.special_attributes[special_attribute].get_multiplier(
+                DamageTag.PHYSICAL_SUMMON
+            ),
+        )
+
+
+def build_physical_summon_stat_snapshot(
+    owner: Unit,
+) -> tuple[StatSheet, StatSheet, FinalStatModifiers]:
+    """Builds summon stat sheets inheriting only Physical Summon-tagged modifiers.
+
+    Basic attributes from owner's initial stats are copied as the summon baseline.
+    All inherited conditional/special modifiers are filtered to the
+    Physical Summon tag only; everything else stays at default (zero).
+    """
+    initial_stats: StatSheet = StatSheet(
+        basic_attributes=owner.initial_stats.basic_attributes.copy()
+    )
+    additive_modifiers: StatSheet = StatSheet()
+    multiplicative_modifiers: FinalStatModifiers = FinalStatModifiers()
+
+    _copy_physical_summon_tagged_modifiers(owner.initial_stats, initial_stats)
+    _copy_physical_summon_tagged_modifiers(owner.additive_modifiers, additive_modifiers)
+    _copy_physical_summon_tagged_modifiers(
+        owner.multiplicative_modifiers, multiplicative_modifiers
+    )
+
+    return initial_stats, additive_modifiers, multiplicative_modifiers
+
+
 class FortificationLevel(IntEnum, boundary=STRICT):
     """The Fortification Level (a.k.a., 'V') of a Doll."""
 

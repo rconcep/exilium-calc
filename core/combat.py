@@ -430,6 +430,7 @@ class DamageCalculationStrategy(ABC):
         buffs_before -- Buffs to apply to attacker before the action
         debuffs_before -- Debuffs to apply to target before the action
         """
+        effective_attacker: Unit = self.get_effective_attacker(attacker)
         is_fixed_damage: bool = DamageTag.FIXED in damage_instance.tags
 
         if is_fixed_damage:
@@ -438,7 +439,7 @@ class DamageCalculationStrategy(ABC):
         else:
             adjusted_potency: float = damage_instance.base_potency * (
                 1
-                + attacker.get_effective_special_attribute(
+                + effective_attacker.get_effective_special_attribute(
                     SpecialAttribute.DAMAGE_BOOST
                 ).get_total_multiplier(damage_instance.tags)
                 / 100
@@ -1641,6 +1642,80 @@ class PegasusDamageCalculationStrategy(DamageCalculationStrategy):
         damage_instance.adjusted_potency = adjusted_potency
 
         return adjusted_potency
+
+
+class ElsinDamageCalculationStrategy(DamageCalculationStrategy):
+    """Implements the base damage for Springfield's Elsin."""
+
+    @final
+    def _require_elsin_summon(self, attacker: Unit) -> SummonedUnit:
+        owner: SummonOwningAttacker = _require_summon_owning_attacker(attacker)
+        summon: SummonedUnit | None = owner.get_summoned_unit("Elsin")
+        if summon is None:
+            raise ValueError("Elsin summon is required for this strategy")
+
+        return summon
+
+    @final
+    @override
+    def get_effective_attacker(self, attacker: Unit) -> Unit:
+        return self._require_elsin_summon(attacker)
+
+    @final
+    @override
+    def resolve_buffs(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> None:
+        summon: SummonedUnit = self._require_elsin_summon(attacker)
+        # TODO: Elsin cannot be affected by the max HP increased from Deep-Rooted Bonds,
+        # so try to filter it out from buffs_before if it exists.
+
+        def buff_is_probably_deep_rooted_bonds(buff: Buff) -> bool:
+            return (
+                buff.value == 100
+                and buff.modifier_type == ModifierType.MULTIPLICATIVE
+                and buff.stat_type == StatType.HEALTH
+            )
+
+        buffs_before = [
+            buff
+            for buff in buffs_before
+            if not (buff_is_probably_deep_rooted_bonds(buff))
+        ]
+
+        return super().resolve_buffs(
+            summon, target, damage_instance, buffs_before, debuffs_before
+        )
+
+    @final
+    @override
+    def calculate_base_damage(
+        self, attacker: Unit, target: Unit, damage_instance: DamageInstance
+    ) -> tuple[float, float, float, float]:
+        """Returns the term in the damage formula that is a function of attacker attack
+        and target defense. In addition, returns the effective attack, effective defense,
+        and any defense reduced/ignored beyond 0.
+
+        Arguments:
+        attacker -- the attacking Unit
+        target -- the target of the attack
+        damage_instance -- describes the action
+        """
+        summon: SummonedUnit = self._require_elsin_summon(attacker)
+
+        health_ratio: float = 1.00
+        return HealthScalingDamageCalculationStrategy(
+            health_ratio
+        ).calculate_base_damage(
+            attacker=summon,
+            target=target,
+            damage_instance=damage_instance,
+        )
 
 
 class LoreleyDamageCalculationStrategy(StandardDamageCalculationStrategy):
