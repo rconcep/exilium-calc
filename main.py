@@ -135,7 +135,7 @@ def mainpage() -> None:
 Get started by selecting a Doll above.
                 """).classes("exilium-intro-copy exilium-shell")
 
-    with ui.row().classes("w-full exilium-mainpage-row"):
+    with ui.grid(columns=2).classes("w-full exilium-mainpage-row"):
         with ui.card().classes("w-150 h-150 exilium-panel"):
             ui.markdown(
                 """## Rotation Potency 
@@ -148,19 +148,17 @@ This tool is not intended for comparing damage output between Dolls - it abstrac
 the damage calculation and instead focuses on "potency".
 
 ### What is "potency"?
-The damage formula consists of several terms that are multiplied together:
+The damage formula consists of several terms that are multiplied together, including:
 
-* Base damage, as a function of Attack and the target's Defense
+* Base damage, as a function of Attack/Health and the target's Defense
 * Skill multiplier ("deals x% of attack")
 * The sum of all applicable "increased damage" stats
 * Critical damage multiplier, if the attack is a crit
 * Increased damage taken effects on the target
 * Bonus damage if phase weaknesses are exploited
-* Damage reduction if the target has stability
 
-We use the term "potency" to refer to the product of skill multiplier and the sum of all applicable "increased damage" stats. 
-This is because these are the terms that are most relevant to gearing choices. The other terms are typically constant across 
-gearing choices (base damage, critical damage, etc.).
+We use the term "potency" to refer to the product of skill multiplier and the sum of all applicable "increased damage" stats.
+The other terms are typically constant across gearing choices (base damage, critical damage, etc.).
 
 
             """,
@@ -169,8 +167,7 @@ gearing choices (base damage, critical damage, etc.).
         with ui.card().classes("w-150 h-150 exilium-panel"):
             ui.markdown("""## Damage Calculator
 A tool used for calculating the damage dealt by a single action. Apply buffs to the Doll and debuffs to the target,
-select a skill, and hit calculate to see the expected result. Note that all visible stats are applied - the attribute
-tab is shared with all tools!
+select a skill, and hit calculate to see the expected result.
 
 ### Scenario Comparison
 Trying to figure out if losing 3 levels of Freeze Boost for 3 levels of Freeze Smite in your Remolding Core is worth it? This feature 
@@ -183,12 +180,33 @@ allows you to see which stats provide the most marginal benefit to expected dama
 each stat and observing the resulting change in expected damage.
                         """).classes("exilium-intro-copy")
 
+        with ui.card().classes("w-150 h-150 exilium-panel"):
+            ui.markdown("""## Rotation Simulator
+A tool used to estimate the expected damage dealt to a single target after a sequence of actions ("rotation").
+                        
+* Configure the baseline stats of the Doll and the target, including buffs and debuffs. These conditions will be used in the action timeline unless overridden.
+* Define the attacker's rotation then sync the timeline.
+* Edit each action in the timeline as desired - are buffs or debuffs added or removed at this point?
+* Run the simulation to see the results.
+* Need to adjust the buff/debuff timings? Edit the Action Timeline and re-run the simulation.
+* Need to modify the rotation? Edit the Rotation, re-sync the timeline, edit the Action Timeline, and re-run the simulation.
+* Rotation data can be saved and loaded for sharing or future use.
+
+Scenario Comparison and Stat Increment Analysis are also available in Rotation Simulator for sensitivity analysis.
+                        """).classes("exilium-intro-copy")
+
     with ui.row().classes("w-full exilium-mainpage-row"):
-        with ui.card().classes("w-150 h-100 exilium-panel"):
+        with ui.card().classes("w-200 h-100 exilium-panel"):
             ui.label("Revision history").classes("text-lg")
             ui.separator()
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
+                    ui.timeline_entry(
+                        "Added the Rotation Simulator tool - a union of the Rotation Potency and Damage Calculator tools for estimating the expected damage of a rotation in a single-target scenario. Added Springfield's expansion key. Fixed physical summons' stat inheritance behavior.",
+                        title="Added Rotation Simulator",
+                        subtitle="July 24, 2026",
+                        icon="analytics",
+                    )
                     ui.timeline_entry(
                         "Add Rank (Lewis) buff to represent buff from Tin Soldiers' rank; marked release of version 1.0.0.",
                         title="Release 1.0.0",
@@ -432,6 +450,6 @@ if __name__ in {"__main__", "__mp_main__"}:
     )
     ui.run(
         root,
-        reload=False,
+        # reload=False,
         reconnect_timeout=300,
     )

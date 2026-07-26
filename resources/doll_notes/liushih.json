@@ -18,7 +18,7 @@
         },
         {
           "label": "Defense reduction for physical summons",
-          "detail": "(30%) On S1 or Ultimate (Lockdown debuff)"
+          "detail": "(30%) On S1 or Ultimate (Lock On debuff)"
         },
         {
           "label": "Increased damage dealt (V5+)",
@@ -62,13 +62,13 @@
       "kind": "markdown",
       "key": "team_notes",
       "title": "Team notes",
-      "markdown": "Springfield is a must - maximum health increase, hydro damage boost, physical summon damage boost (with expansion key), and increased Confectance Index gain (V1+). This duo could flex as a package into mixed teams but Springfield's aforementioned utility basically ties her to mono-hydro teams. Liushih's Fixed Key 6 grants Confectance Index when allied physical summons attack, further encouraging mono-hydro teams filled with physical summons."
+      "markdown": "Springfield is a must - maximum health increase, hydro damage boost, physical summon damage boost (with expansion key), and increased Confectance Index gain (V1+). This duo could flex as a package into mixed teams but Springfield's aforementioned utility basically ties her to mono-hydro teams. Liushih provides good utility for Physical Summons in general, even at base fortification level, so she easily earns a spot in mono-hydro teams with the other, newer summoners."
     },
     {
       "kind": "markdown",
       "key": "build_notes",
       "title": "Build notes",
-      "markdown": "Liushih's passive increases her and Pegasus's basic attack damage multiplier based on Liushih's initial attack (5% per 60, up to 50%) - make sure she has at least 600 attack but no much more... because her and Pegasus's damage is calculated with health instead of attack. Look to maximize her health and critical damage/rate. Modifier-wise, look for hydro, targeted, and heavy ammo damage boosts. Physical summon is good (even moreso at V1+); basic attack is acceptable."
+      "markdown": "Liushih's passive increases her and Pegasus's basic attack damage multiplier based on Liushih's initial attack (5% per 60, up to 50%) - make sure she has at least 600 attack but no much more... because her and Pegasus's damage is calculated with health instead of attack. Look to maximize her health and critical damage/rate. Modifier-wise, prefer boosts to Physical Summon damage as Pegasus is roughly 70% of Liushih's output. Else, look for hydro, targeted, heavy ammo, or basic attack damage increases."
     }
   ]
 }
