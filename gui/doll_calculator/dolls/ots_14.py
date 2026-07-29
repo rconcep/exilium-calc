@@ -130,13 +130,13 @@ class OTs14(DollCalculatorPage):
 
     @override
     def set_initial_values(self) -> None:
-        self.doll.initial_stats.basic_attributes[StatType.ATTACK] = 4400
+        self.doll.initial_stats.basic_attributes[StatType.ATTACK] = 4250
 
         # Base + Universal Keys + Weapon Attachment
-        self.doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 80
+        self.doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 99.5
 
         # Base + Universal Keys + Signature Weapon + Weapon Attachment
-        self.doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 120 + 25 + 15
+        self.doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 189.5
         self.doll.initial_stats.basic_attributes[StatType.HEALTH] = 4400
 
         # Attachments, common keys, imagoform, specialized traits

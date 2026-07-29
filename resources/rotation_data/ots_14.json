@@ -8,6 +8,15 @@
       "buffs": [
         {
           "name": "Attack Up II"
+        },
+        {
+          "name": "Glowing Embers",
+          "loreley_fortification_level": 3,
+          "stack": 4
+        },
+        {
+          "name": "Burning Tide (Loreley)",
+          "loreley_fortification_level": 6
         }
       ]
     },
@@ -15,6 +24,12 @@
       "debuffs": [
         {
           "name": "Defense Down II"
+        },
+        {
+          "name": "Conflagration"
+        },
+        {
+          "name": "Ranger Mk.II"
         }
       ],
       "phase_weaknesses_exploited": 2,
@@ -256,7 +271,13 @@
           "previous_uses": 0
         },
         "attacker": {
-          "add_buffs": [],
+          "add_buffs": [
+            {
+              "name": "Demolition Mode (OTs-14)",
+              "allies_combined_initial_attack": 17000.0,
+              "ots14_fortification_level": 6
+            }
+          ],
           "remove_buffs": []
         },
         "target": {

@@ -2093,7 +2093,7 @@ class DemolitionMode(Buff):
 
     def __init__(
         self,
-        allies_combined_initial_attack: float,
+        allies_combined_initial_attack: int,
         ots14_fortification_level: FortificationLevel,
     ):
         allies_combined_attack_to_buff_ratio: float = 0.10
@@ -2130,6 +2130,149 @@ class ReconstructionElectric(Buff):
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = SpecialAttribute.DAMAGE_BOOST
         self.tag = DamageTag.STABILITY_BROKEN
+
+
+class ReconstructionFreeze(Buff):
+    """Buff granted to friendly units when OTs-14 has Reconstruction: Freeze."""
+
+    display_name = "Reconstruction: Freeze (OTs-14)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(
+        self,
+        has_shield: bool,
+        shield_value: int,
+        ots14_fortification_level: FortificationLevel,
+    ):
+        ret: list[Buff] = []
+
+        if has_shield:
+            self.value = 15
+            self.modifier_type = ModifierType.ADDITIVE
+            self.stat_type = SpecialAttribute.DAMAGE_BOOST
+            self.tag = DamageTag.ALL
+
+            ret.append(self)
+
+            if ots14_fortification_level >= FortificationLevel.SEGMENT06:
+                # When friendly units deal damage, their attack is increased by 10% of their
+                # Shield value.
+                shield_value_to_attack_ratio: float = 0.10
+
+                ret.append(
+                    Buff(
+                        value=int(shield_value * shield_value_to_attack_ratio),
+                        modifier_type=ModifierType.ADDITIVE,
+                        stat_type=StatType.ATTACK,
+                        tag=DamageTag.ALL,
+                    )
+                )
+
+        return ret
+
+
+class ReconstructionHydro(Buff):
+    """Buff granted to friendly units when OTs-14 has Reconstruction: Hydro."""
+
+    display_name = "Reconstruction: Hydro (OTs-14)"
+    max_stack_count = 4
+    stack_input_type = "input"
+
+    def __init__(self): ...
+
+    def get_buffs(
+        self,
+        number_of_friendly_units: int,
+        ots14_fortification_level: FortificationLevel,
+    ):
+        ret: list[Buff] = []
+
+        if number_of_friendly_units > 0:
+            damage_boost_per_friendly_unit: int = 2
+            self.value = damage_boost_per_friendly_unit * max(
+                0, number_of_friendly_units
+            )
+            self.modifier_type = ModifierType.ADDITIVE
+            self.stat_type = SpecialAttribute.DAMAGE_BOOST
+            self.tag = DamageTag.ALL
+
+            ret.append(self)
+
+            if ots14_fortification_level >= FortificationLevel.SEGMENT06:
+                # Attack and Max HP of all friendly Physical Summon are increased by 1%
+                # TODO: Implement Physical Summon check in the future.
+                # For now, this will be enforced through the PHYSICAL_SUMMON tag on the buffs.
+
+                ret.append(
+                    Buff(
+                        value=1,
+                        modifier_type=ModifierType.MULTIPLICATIVE,
+                        stat_type=StatType.ATTACK,
+                        tag=DamageTag.PHYSICAL_SUMMON,
+                    )
+                )
+
+                ret.append(
+                    Buff(
+                        value=1,
+                        modifier_type=ModifierType.MULTIPLICATIVE,
+                        stat_type=StatType.HEALTH,
+                        tag=DamageTag.PHYSICAL_SUMMON,
+                    )
+                )
+
+        return ret
+
+
+class ReconstructionZero(Buff):
+    """Buff granted to OTs-14 when she has Reconstruction: Zero."""
+
+    display_name = "Reconstruction: Zero (OTs-14)"
+    max_stack_count = 6
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(
+        self,
+        is_in_demolition_mode: bool,
+        initial_critical_damage: int,
+        ots14_fortification_level: FortificationLevel,
+    ):
+        ret: list[Buff] = []
+        attack_boost_magnitude: int = 30
+
+        if ots14_fortification_level >= FortificationLevel.SEGMENT06:
+            attack_boost_magnitude = 50
+
+        # While under Demolition Mode, attack is increased by 30%
+        if is_in_demolition_mode:
+            self.value = attack_boost_magnitude
+            self.modifier_type = ModifierType.MULTIPLICATIVE
+            self.stat_type = StatType.ATTACK
+            self.tag = DamageTag.ALL
+
+        if ots14_fortification_level >= FortificationLevel.SEGMENT06:
+            # For every 15% of initial critical damage, attacks ignore 5% of the target's defense.
+            defense_ignore_per_interval: int = 5
+            initial_critical_damage_interval: int = 15
+
+            ret.append(
+                Buff(
+                    value=int(
+                        defense_ignore_per_interval
+                        * (initial_critical_damage // initial_critical_damage_interval)
+                    ),
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=SpecialAttribute.DEFENSE_IGNORE,
+                    tag=DamageTag.ALL,
+                )
+            )
+
+        return ret
 
 
 class SupportBoostI(Buff):
@@ -2989,6 +3132,30 @@ class ScribbledFunnyFace(Debuff):
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
         self.tag = DamageTag.CORROSION
+
+
+class ReconstructionCorrosion(Buff):
+    """Effect when OTs-14 has Reconstruction: Corrosion."""
+
+    display_name = "Reconstruction: Corrosion (OTs-14)"
+    max_stack_count = 1
+    stack_input_type = "input"
+
+    def __init__(
+        self,
+        number_of_debuffs: int,
+        ots14_fortification_level: FortificationLevel,
+    ):
+        if ots14_fortification_level >= FortificationLevel.SEGMENT06:
+            ...  # Currently no implementable difference at V6
+
+        # When an enemy unit takes damage, damage taken is increased by 2% for each debuff held
+        # by the enemy unit.
+        increased_damage_taken_per_debuff: int = 2
+        self.value = increased_damage_taken_per_debuff * max(0, number_of_debuffs)
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.ALL
 
 
 def _generate_field(param_name, annotation, default, cls):
