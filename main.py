@@ -204,6 +204,12 @@ Scenario Comparison and Stat Increment Analysis are also available in Rotation S
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
                     ui.timeline_entry(
+                        "Added preview of OTs-14. Re-enabled modifiers for fixed damage. Fixed an issue where the Rotation Simulator would fail to complete its simulations.",
+                        title="",
+                        subtitle="July 29, 2026",
+                        icon="person_add",
+                    )
+                    ui.timeline_entry(
                         "Added the Rotation Simulator tool - a union of the Rotation Potency and Damage Calculator tools for estimating the expected damage of a rotation in a single-target scenario. Added Springfield's expansion key. Fixed physical summons' stat inheritance behavior.",
                         title="Added Rotation Simulator",
                         subtitle="July 24, 2026",
