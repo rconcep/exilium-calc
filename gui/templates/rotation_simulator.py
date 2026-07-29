@@ -1818,7 +1818,7 @@ class RotationSimulator:
         )
 
     def _start_simulation(self) -> None:
-        self.simulate_button.client.safe_invoke(self._run_simulation())
+        self.simulate_button.client.safe_invoke(self._run_simulation)
 
     async def _run_simulation(self) -> None:
         try:
