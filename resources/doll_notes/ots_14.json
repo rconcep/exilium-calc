@@ -1,0 +1,137 @@
+{
+  "doll": "OTs-14",
+  "sections": [
+    {
+      "kind": "markdown",
+      "key": "synopsis",
+      "title": "Synopsis",
+      "markdown": "A hybrid DPS+Support that deals most of her damage by accumulating damage dealt by the rest of the team and repeating a portion of it as fixed damage. OTs-14 won't carry a team by herself as a result but is instead a damage amplifier, multiplying the team's overall damage output. This basically earns her a slot on any team for the foreseeable future. At V6, she can add tile generation to any elemental team."
+    },
+    {
+      "kind": "utility_table",
+      "key": "utility",
+      "title": "Utility",
+      "rows": [
+        {
+          "label": "Increased critical damage",
+          "detail": "(10-15% of OTs-14's initial critical damage) Cover Mode"
+        },
+        {
+          "label": "Incineration tile generation",
+          "detail": "(V6) Reconstruction: Burn - on S1"
+        },
+        {
+          "label": "Thermal Conduction + Embers",
+          "detail": "Reconstruction: Burn"
+        },
+        {
+          "label": "Searing Flame accumulation",
+          "detail": "(13) Reconstruction: Burn - on S1"
+        },
+        {
+          "label": "Debuff cleanse",
+          "detail": "(V6) (1) Reconstruction: Burn - on ember gain"
+        },
+        {
+          "label": "Voltage tile generation",
+          "detail": "(V6) Reconstruction: Electric - on S1"
+        },
+        {
+          "label": "Increased damage against targets in stability break",
+          "detail": "(15%) Reconstruction: Electric"
+        },
+        {
+          "label": "Stability recovery",
+          "detail": "(V6) (1) Reconstruction: Electric - on stability break"
+        },
+        {
+          "label": "Frost tile generation",
+          "detail": "(V6) Reconstruction: Freeze - on S1"
+        },
+        {
+          "label": "Increased damage while possessing a shield",
+          "detail": "(15%) Reconstruction: Freeze"
+        },
+        {
+          "label": "Increased attack",
+          "detail": "(V6) (10% of own shield value) Reconstruction: Freeze"
+        },
+        {
+          "label": "Toxic Mist tile generation",
+          "detail": "(V6) Reconstruction: Corrosion - on S1"
+        },
+        {
+          "label": "Increased damage taken",
+          "detail": "(2% per debuff) Reconstruction: Corrosion"
+        },
+        {
+          "label": "Corrosion debuff trigger",
+          "detail": "(V6) Reconstruction: Corrosion - on S1"
+        },
+        {
+          "label": "Tideway tile generation",
+          "detail": "(V6) Reconstruction: Hydro - on S1"
+        },
+        {
+          "label": "Increased damage",
+          "detail": "(2% per friendly unit) Reconstruction: Hydro"
+        },
+        {
+          "label": "Increased attack and max health for Physical Summons",
+          "detail": "(V6) (1%) Reconstruction: Hydro"
+        },
+        {
+          "label": "Movement Down III",
+          "detail": "Ultimate"
+        },
+        {
+          "label": "Buff cleanse",
+          "detail": "(1) Fixed Key 4 - S1"
+        }
+      ]
+    },
+    {
+      "kind": "fortification_table",
+      "key": "fortification_upgrades",
+      "title": "Fortification Level upgrades",
+      "upgrades": [
+        {
+          "level": 1,
+          "description": "Increase critical damage and attack buffs from Cover Mode and Demolition Mode, respectively."
+        },
+        {
+          "level": 2,
+          "description": "Damage multiplier and AoE increase for S1; also cooldown reduction for rotation smoothness."
+        },
+        {
+          "level": 3,
+          "description": "Damage multiplier and range increase for Critical Splash."
+        },
+        {
+          "level": 4,
+          "description": "Adds ramping multiplier effects for each use of Critical Splash in the same round."
+        },
+        {
+          "level": 5,
+          "description": "Adds to S1: more damage accumulated while in Cover Mode and increased damage multiplier while in Demolition Mode."
+        },
+        {
+          "level": 6,
+          "description": "Enhances each Reconstruction effect - adds tile generation to S1 (when applicable) and an additional effect."
+        }
+      ]
+    },
+    {
+      "kind": "markdown",
+      "key": "team_notes",
+      "title": "Team notes",
+      "markdown": "Basically a staple in every team. Note that a majority of the team needs to be the same element to activate each Reconstruction effect, so the composition becomes 3 element core + OTs-14 + flex."
+    },
+    {
+      "kind": "markdown",
+      "key": "build_notes",
+      "title": "Build notes",
+      "markdown": "Find sources for increased fixed damage dealt - OTs-14's common key is a must. Otherwise, her personal damage is all active + AoE + Omni and the majority is basic attack. For Omni damage scaling, use any elemental boosts (excluding Physical) or general phase damage boosts."
+    }
+  ]
+}
