@@ -235,10 +235,20 @@ class DamageCalculationStrategy(ABC):
         state: TargetCombatState = target_combat_state or TargetCombatState()
 
         if DamageTag.FIXED in damage_instance.tags:
-            # Fixed damage should not be affected by any conditional modifiers,
+            # Fixed damage overrides all other tags,
             # so we add a tag to short-circuit all conditional calculations downstream.
             damage_instance.tags = set([DamageTag.FIXED])
         else:
+            if DamageTag.OMNI in damage_instance.tags:
+                # Omni damage includes Burn, Freeze, Corrosion, Hydro, and Electric
+                # and is affected by those phases. Physical is not included.
+                damage_instance.tags.add(DamageTag.BURN)
+                damage_instance.tags.add(DamageTag.FREEZE)
+                damage_instance.tags.add(DamageTag.CORROSION)
+                damage_instance.tags.add(DamageTag.HYDRO)
+                damage_instance.tags.add(DamageTag.ELECTRIC)
+                damage_instance.tags.add(DamageTag.PHASE)
+
             damage_instance.tags.add(DamageTag.ALL)
 
             # Preserve current baseline assumptions for legacy behavior.
@@ -421,7 +431,6 @@ class DamageCalculationStrategy(ABC):
     ) -> float:
         """
         Returns the adjusted potency for damage_instance, accounting for attacker and target.
-        For fixed damage, returns base potency without damage boost modifiers.
 
         Arguments:
         attacker -- the attacking Unit
@@ -431,19 +440,14 @@ class DamageCalculationStrategy(ABC):
         debuffs_before -- Debuffs to apply to target before the action
         """
         effective_attacker: Unit = self.get_effective_attacker(attacker)
-        is_fixed_damage: bool = DamageTag.FIXED in damage_instance.tags
 
-        if is_fixed_damage:
-            # Fixed damage does not benefit from damage boost modifiers
-            adjusted_potency: float = damage_instance.base_potency
-        else:
-            adjusted_potency: float = damage_instance.base_potency * (
-                1
-                + effective_attacker.get_effective_special_attribute(
-                    SpecialAttribute.DAMAGE_BOOST
-                ).get_total_multiplier(damage_instance.tags)
-                / 100
-            )
+        adjusted_potency: float = damage_instance.base_potency * (
+            1
+            + effective_attacker.get_effective_special_attribute(
+                SpecialAttribute.DAMAGE_BOOST
+            ).get_total_multiplier(damage_instance.tags)
+            / 100
+        )
 
         damage_instance.adjusted_potency = adjusted_potency
 
@@ -646,6 +650,26 @@ class TargetCombatState(BaseModel):
     phase_tile_ascension_level: int = Field(default=0, ge=0, le=3)
 
 
+def get_reportable_damage_tags(damage_instance: DamageInstance) -> set[DamageTag]:
+    """Returns the tags that should be shown in tag-based breakdowns."""
+    if DamageTag.OMNI not in damage_instance.tags:
+        return damage_instance.tags
+
+    omni_expanded_tags: set[DamageTag] = {
+        DamageTag.BURN,
+        DamageTag.FREEZE,
+        DamageTag.CORROSION,
+        DamageTag.HYDRO,
+        DamageTag.ELECTRIC,
+        DamageTag.PHASE,
+    }
+    return {
+        tag
+        for tag in damage_instance.tags
+        if tag not in omni_expanded_tags
+    }
+
+
 def sum_damage_instances(
     damage_instances: list[DamageInstance],
     tag: DamageTag,
@@ -664,11 +688,12 @@ def sum_damage_instances(
     combined_base_potency: float = 0
     combined_adjusted_potency: float = 0
     for damage_instance in damage_instances:
+        reportable_tags: set[DamageTag] = get_reportable_damage_tags(damage_instance)
         do_add: bool = False
 
-        if do_exclude and tag not in damage_instance.tags:
+        if do_exclude and tag not in reportable_tags:
             do_add = True
-        elif not do_exclude and tag in damage_instance.tags:
+        elif not do_exclude and tag in reportable_tags:
             do_add = True
 
         if do_add:
@@ -1894,3 +1919,121 @@ class SoppoDamageCalculationStrategy(StandardDamageCalculationStrategy):
                 DamageTag.ALL,
                 damage_boost_from_passive,
             )
+
+
+class OTs14TotalSuppressionDamageCalculationStrategy(StandardDamageCalculationStrategy):
+    """Damage calculation strategy for OTs-14's Total Suppression skill.
+    Used to implement the damage boost and/or damage multiplier increase
+    when OTs-14 is in Demolition Mode.
+    """
+
+    @override
+    def resolve_buffs(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> None:
+        """Apply effect of OTs-14's Total Suppression skill."""
+        super().resolve_buffs(
+            attacker, target, damage_instance, buffs_before, debuffs_before
+        )
+
+        # Only expecting to run this for OTs-14
+        if _is_doll_attacker(attacker):
+            # If OTs-14 is in Demolition Mode, increase damage dealt by 15% for every 15% of initial critical damage.
+            initial_crit_dmg: float = attacker.initial_stats.basic_attributes[
+                StatType.CRIT_DAMAGE
+            ]
+            damage_boost_from_critical_damage: float = (initial_crit_dmg // 15) * 15
+
+            attacker.additive_modifiers.special_attributes[
+                SpecialAttribute.DAMAGE_BOOST
+            ].add_to_multiplier(
+                DamageTag.ALL,
+                damage_boost_from_critical_damage,
+            )
+
+    @override
+    def calculate_adjusted_potency(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+    ) -> float:
+        """
+        Increase the damage multiplier based on initial critical damage stat.
+
+        Arguments:
+        attacker -- the attacking Unit
+        target -- the target of the attack
+        damage_instance -- describes the action
+        buffs_before -- Buffs to apply to attacker before the action
+        debuffs_before -- Debuffs to apply to target before the action
+        """
+        if (
+            _is_doll_attacker(attacker)
+            and attacker.fortification_level >= FortificationLevel.SEGMENT05
+        ):
+            # V5: Increase damage multiplier by 15% for every 15% of initial critical damage.
+            initial_crit_dmg: float = attacker.initial_stats.basic_attributes[
+                StatType.CRIT_DAMAGE
+            ]
+            crit_dmg_multiplier_increase: float = (initial_crit_dmg // 15) * 15
+
+            damage_instance.base_potency += crit_dmg_multiplier_increase
+
+        # Total Suppression strategy is only used in Demolition Mode,
+        # so apply the mode's doubling last to include any prior potency additions.
+        damage_instance.base_potency *= 2
+
+        return super().calculate_adjusted_potency(attacker, target, damage_instance)
+
+
+class OverloadPulseDamageCalculationStrategy(StandardDamageCalculationStrategy):
+    """Treats base potency as precomputed fixed damage before damage-boost scaling."""
+
+    @override
+    def calculate_damage(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        target_combat_state: TargetCombatState | None = None,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> CombatSummary:
+        state: TargetCombatState = target_combat_state or TargetCombatState()
+
+        self.apply_assumed_target_state_tags(damage_instance, state)
+        self.resolve_buffs(
+            attacker, target, damage_instance, buffs_before, debuffs_before
+        )
+
+        adjusted_damage: float = self.calculate_adjusted_potency(
+            attacker=attacker,
+            target=target,
+            damage_instance=damage_instance,
+        )
+
+        if damage_instance.base_potency == 0:
+            total_increased_damage_pct: float = 0
+            effective_damage_multiplier: float = 0
+        else:
+            effective_damage_multiplier = adjusted_damage / damage_instance.base_potency
+            total_increased_damage_pct = (effective_damage_multiplier - 1) * 100
+
+        return CombatSummary(
+            non_critical_damage=adjusted_damage,
+            critical_damage=adjusted_damage,
+            expected_damage=adjusted_damage,
+            effective_damage_multiplier=effective_damage_multiplier,
+            total_increased_damage_pct=total_increased_damage_pct,
+            critical_rate=0,
+            effective_critical_damage_multiplier=1,
+            effective_attack=0,
+            effective_defense=0,
+            negative_defense=0,
+        )

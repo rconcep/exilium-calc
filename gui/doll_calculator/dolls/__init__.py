@@ -25,6 +25,7 @@ from .makiatto import Makiatto
 from .mechty import Mechty
 from .mosin_nagant import MosinNagant
 from .nikketa import Nikketa
+from .ots_14 import OTs14
 from .phaetusa import Phaetusa
 from .qiuhua import Qiuhua
 from .qiongjiu import Qiongjiu
@@ -62,6 +63,7 @@ __all__ = [
     "Mechty",
     "MosinNagant",
     "Nikketa",
+    "OTs14",
     "Phaetusa",
     "Qiuhua",
     "Qiongjiu",

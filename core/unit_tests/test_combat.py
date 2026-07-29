@@ -39,6 +39,16 @@ class TestDamageInstance:
         assert DamageTag.PASSIVE in di.tags
         assert DamageTag.BURN not in di.tags
 
+    def test_reportable_tags_keep_omni_single_bucket(self):
+        """Omni should stay a single reporting bucket even if it expands for math."""
+        di: DamageInstance = DamageInstance(
+            label="Omni Shot",
+            base_potency=100,
+            tags={DamageTag.OMNI, DamageTag.BURN, DamageTag.PHASE},
+        )
+
+        assert get_reportable_damage_tags(di) == {DamageTag.OMNI}
+
 
 class TestSumDamageInstances:
     """ """

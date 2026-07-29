@@ -10,7 +10,12 @@ import json
 from nicegui import events, ui
 
 from core.buffs import Buff, Debuff, buffs_option_config, debuffs_option_config
-from core.combat import CombatSummary, DamageInstance, TargetCombatState
+from core.combat import (
+    CombatSummary,
+    DamageInstance,
+    TargetCombatState,
+    get_reportable_damage_tags,
+)
 from core.rotation_data_serializer import (
     RotationDataError,
     build_payload_from_planner_defaults,
@@ -1895,7 +1900,7 @@ class RotationSimulator:
                     damage_instance.group_name or damage_instance.label
                 ] += expected_damage
 
-                for tag in damage_instance.tags:
+                for tag in get_reportable_damage_tags(damage_instance):
                     if tag in self.tag_blacklist:
                         continue
                     if tag not in self.relevant_damage_tags:

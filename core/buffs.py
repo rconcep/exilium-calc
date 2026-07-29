@@ -2057,6 +2057,81 @@ class CutieDetonation(Buff):
         self.tag = DamageTag.ALL
 
 
+class CoverMode(Buff):
+    """Buff granted to allies when OTs-14 is in Cover Mode."""
+
+    display_name = "Cover Mode (OTs-14)"
+    max_stack_count = 175
+    stack_input_type = "input"
+
+    def __init__(
+        self,
+        ots14_initial_critical_damage: float,
+        ots14_fortification_level: FortificationLevel,
+    ):
+        ots14_initial_critical_damage_to_buff_ratio: float = 0.10
+
+        if ots14_fortification_level >= FortificationLevel.SEGMENT01:
+            ots14_initial_critical_damage_to_buff_ratio = 0.15
+
+        # Increase critical damage of all friendly units by x% of OTs-14's initial critical damage.
+        self.value = int(
+            ots14_initial_critical_damage * ots14_initial_critical_damage_to_buff_ratio
+        )
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = StatType.CRIT_DAMAGE
+        self.tag = DamageTag.ALL
+
+
+class DemolitionMode(Buff):
+    """Buff granted to self when OTs-14 is in Demolition Mode."""
+
+    display_name = "Demolition Mode (OTs-14)"
+    max_stack_count = 17000
+    stack_input_type = "input"
+
+    def __init__(
+        self,
+        allies_combined_initial_attack: float,
+        ots14_fortification_level: FortificationLevel,
+    ):
+        allies_combined_attack_to_buff_ratio: float = 0.10
+
+        if ots14_fortification_level >= FortificationLevel.SEGMENT01:
+            allies_combined_attack_to_buff_ratio = 0.15
+
+        # Increase OTs-14's attack by x% of friendly Dolls' combined initial attack.
+        self.value = int(
+            allies_combined_initial_attack * allies_combined_attack_to_buff_ratio
+        )
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = StatType.ATTACK
+        self.tag = DamageTag.ALL
+
+
+class ReconstructionElectric(Buff):
+    """Buff granted to friendly units when OTs-14 has Reconstruction: Electric."""
+
+    display_name = "Reconstruction: Electric (OTs-14)"
+    max_stack_count = 1
+    stack_input_type = "input"
+
+    def __init__(
+        self,
+        ots14_fortification_level: FortificationLevel,
+    ):
+        if ots14_fortification_level >= FortificationLevel.SEGMENT06:
+            ...  # Currently no implementable difference at V6
+
+        # Damage dealt by friendly units to targets under stability break is increased by 15%
+        self.value = 15
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.STABILITY_BROKEN
+
+
 class SupportBoostI(Buff):
     """Increases damage dealt with Support Action by 15%. Damage against exposed units is increased by 10%."""
 
