@@ -10,6 +10,7 @@ from pathlib import Path
 from pydantic import BaseModel
 
 from core.types import *
+from core.runtime_paths import get_resource_path
 from core.rotation_data_serializer import (
     RotationDataError,
     build_payload_from_planner_defaults,
@@ -215,8 +216,7 @@ class DollCalculatorPage(ABC):
             )
 
     def _rotation_data_dir(self) -> Path:
-        app_root = Path(__file__).resolve().parents[2]
-        return app_root / "resources" / "rotation_data"
+        return get_resource_path("rotation_data")
 
     def _rotation_data_file_path(self) -> Path:
         safe_name = "".join(

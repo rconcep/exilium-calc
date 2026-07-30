@@ -40,6 +40,7 @@ from gui.doll_calculator.dolls import (
     Vepley,
 )
 from gui.styles.theme import apply_exilium_theme
+from core.runtime_paths import get_resource_path, get_resources_root
 
 DOLL_PAGES: list[tuple[str, str, Callable[[], object]]] = [
     ("Alva", "/alva", Alva),
@@ -454,7 +455,15 @@ Scenario Comparison and Stat Increment Analysis are also available in Rotation S
 if __name__ in {"__main__", "__mp_main__"}:
     app.add_static_files(
         "/resources",
-        "resources",
+        str(get_resources_root()),
+    )
+    app.add_static_files(
+        "/resources/doll_notes",
+        str(get_resource_path("doll_notes")),
+    )
+    app.add_static_files(
+        "/resources/rotation_data",
+        str(get_resource_path("rotation_data")),
     )
     ui.run(
         root,

@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Annotated, Literal
 
 from pydantic import BaseModel, Field, ValidationError, model_validator
+from core.runtime_paths import get_resource_path
 
 REQUIRED_SECTION_ORDER: tuple[str, ...] = (
     "synopsis",
@@ -105,8 +106,7 @@ def _to_slug(value: str) -> str:
 
 
 def _notes_directory() -> Path:
-    # app/gui/templates/doll_notes.py -> app/resources/doll_notes
-    return Path(__file__).resolve().parents[2] / "resources" / "doll_notes"
+    return get_resource_path("doll_notes")
 
 
 def get_default_notes_document(doll_name: str) -> DollNotesDocument:
