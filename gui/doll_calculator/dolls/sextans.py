@@ -122,548 +122,548 @@ _t2: list[dict[str, Any]] = [
     # Passive - Requiem: When an enemy unit dies or is in Stability Break,Sextans gains 1 stack of Rigor Sanguis.
     # For each Level of the target (Normal, Elite, Boss), gain 1 additional stack of Rigor Sanguis.
     # Assume Boss is in Stability Break now, so increment the Rigor Sanguis stack count by 4 (1 for the passive trigger and 3 for the Boss level).
-    # Total Rigor Sanguis stacks is 17 (initial) + 1 (Death Knell) + 3 (Boss) = 21 stacks.
+    # Total Rigor Sanguis stacks is 17 (initial) + 1 (Death Knell) + 3 (Boss) = 15 stacks (capped).
     # Sanguine Emblem triggers when allied units (excluding Sextans) attack with a blade:
     # Assume:
     # 4x from Ullrid
     # 4x from Phaetusa
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 21,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 1,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 21 * 4 - 1 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 1 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 21,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 2,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 21 * 4 - 2 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 2 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 21,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 3,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 21 * 4 - 3 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 3 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 21,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 4,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 21 * 4 - 4 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 4 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 21,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 5,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 21 * 4 - 5 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 5 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 21,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 6,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 21 * 4 - 6 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 6 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 21,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 7,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 21 * 4 - 7 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 7 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 21,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 8,
     },
     # Minimum potency of Sanguine Emblem is 30, so Lacerating Wound potency will be 30 at this point.
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 21 * 4 - 8 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 8 * 20,
     },
 ]
 
 
 _t3: list[dict[str, Any]] = [
-    # Passive: Starts with 21 stacks of Rigor Sanguis from previous turn.
-    {"name": "Midnight Vespers", "stacks_of_rigor_sanguis": 21},
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 21 * 10},
-    {"name": "Death Knell", "stacks_of_rigor_sanguis": 21},
+    # Passive: Starts with 15 stacks of Rigor Sanguis from previous turn (capped).
+    {"name": "Midnight Vespers", "stacks_of_rigor_sanguis": 15},
+    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 15 * 10},
+    {"name": "Death Knell", "stacks_of_rigor_sanguis": 15},
     # Death Knell: Sextans gains 1 stack of Rigor Sanguis. For each Level of the target (Normal, Elite, Boss), gain 1 additional stack of Rigor Sanguis.
-    # Assuming target is a Boss, total Rigor Sanguis stacks is 21 (initial) + 1 (Death Knell) + 3 (Boss) = 25 stacks.
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 21 * 10},
+    # Assuming target is a Boss, total Rigor Sanguis stacks is 21 (initial) + 1 (Death Knell) + 3 (Boss) = 15 stacks (capped).
+    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 15 * 10},
     # Target has Blood Kiss from the previous Sanctuary Lauds turn, so Death Knell triggers Blood Kiss.
-    {"name": "Blood Kiss", "multiplier_of_death_knell": 120 + 21 * 10},
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 21 * 10},
+    {"name": "Blood Kiss", "multiplier_of_death_knell": 120 + 15 * 10},
+    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 15 * 10},
     # Death Knell: When the skill hits an enemy target, Sanguine Emblem is triggered. After using the skill, Sextans gains 2 stacks
-    # of Rigor Sanguis → 27 stacks.
+    # of Rigor Sanguis, but it remains at 15 due to the cap.
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 25,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 0,
     },
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 25 * 4},
+    {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 15 * 4},
     # Sanguine Emblem triggers when allied units (excluding Sextans) attack with a blade:
     # Assume:
     # 4x from Ullrid
     # 4x from Phaetusa
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 27,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 1,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 27 * 4 - 1 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 1 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 27,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 2,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 27 * 4 - 2 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 2 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 27,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 3,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 27 * 4 - 3 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 3 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 27,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 4,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 27 * 4 - 4 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 4 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 27,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 5,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 27 * 4 - 5 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 5 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 27,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 6,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 27 * 4 - 6 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 6 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 27,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 7,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 27 * 4 - 7 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 7 * 20,
     },
 ]
 
 _t4: list[dict[str, Any]] = [
-    {"name": "Sanctuary Lauds", "stacks_of_rigor_sanguis": 27},
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 27 * 10},
-    {"name": "Death Knell", "stacks_of_rigor_sanguis": 27},
+    {"name": "Sanctuary Lauds", "stacks_of_rigor_sanguis": 15},
+    {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 15 * 10},
+    {"name": "Death Knell", "stacks_of_rigor_sanguis": 15},
     # Death Knell: Sextans gains 1 stack of Rigor Sanguis. For each Level of the target (Normal, Elite, Boss), gain 1 additional stack of Rigor Sanguis.
-    # Assuming target is a Boss, total Rigor Sanguis stacks is 27 (initial) + 1 (Death Knell) + 3 (Boss) = 31 stacks.
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 27 * 10},
+    # Assuming target is a Boss, total Rigor Sanguis stacks is 27 (initial) + 1 (Death Knell) + 3 (Boss) = 15 stacks (capped).
+    {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 15 * 10},
     # Target now has Blood Kiss from Sanctuary Lauds, so Death Knell will trigger Blood Kiss.
-    {"name": "Blood Kiss", "multiplier_of_death_knell": 120 + 27 * 10},
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 27 * 10},
+    {"name": "Blood Kiss", "multiplier_of_death_knell": 120 + 15 * 10},
+    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 15 * 10},
     # Death Knell: When the skill hits an enemy target, Sanguine Emblem is triggered. After using the skill, Sextans gains 2 stacks
     # of Rigor Sanguis.
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 31,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 0,
     },
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 31 * 4},
+    {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 15 * 4},
     # Passive - Requiem: When an enemy unit dies or is in Stability Break, Sextans gains 1 stack of Rigor Sanguis.
     # For each Level of the target (Normal, Elite, Boss), gain 1 additional stack of Rigor Sanguis.
     # Assume Boss is in Stability Break now, so increment the Rigor Sanguis stack count by 4 (1 for the passive trigger and 3 for the Boss level).
-    # Total Rigor Sanguis stacks is 31 (after Death Knell hit) + 2 (Death Knell completion) + 4 (Stability Break passive) = 37 stacks.
+    # Total Rigor Sanguis stacks is 31 (after Death Knell hit) + 2 (Death Knell completion) + 4 (Stability Break passive) = 15 stacks (capped).
     # Sanguine Emblem triggers when allied units (excluding Sextans) attack with a blade:
     # Assume:
     # 4x from Ullrid
     # 4x from Phaetusa
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 37,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 1,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 37 * 4 - 1 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 1 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 37,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 2,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 37 * 4 - 2 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 2 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 37,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 3,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 37 * 4 - 3 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 3 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 37,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 4,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 37 * 4 - 4 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 4 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 37,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 5,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 37 * 4 - 5 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 5 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 37,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 6,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 37 * 4 - 6 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 6 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 37,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 7,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 37 * 4 - 7 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 7 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 37,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 8,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 37 * 4 - 8 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 8 * 20,
     },
 ]
 
 _t5: list[dict[str, Any]] = [
-    # Passive: Starts with 37 stacks of Rigor Sanguis from previous turn.
-    {"name": "Midnight Vespers", "stacks_of_rigor_sanguis": 37},
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 37 * 10},
-    {"name": "Death Knell", "stacks_of_rigor_sanguis": 37},
+    # Passive: Starts with 15 stacks of Rigor Sanguis from previous turn (capped).
+    {"name": "Midnight Vespers", "stacks_of_rigor_sanguis": 15},
+    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 15 * 10},
+    {"name": "Death Knell", "stacks_of_rigor_sanguis": 15},
     # Death Knell: Sextans gains 1 stack of Rigor Sanguis. For each Level of the target (Normal, Elite, Boss), gain 1 additional stack of Rigor Sanguis.
-    # Assuming target is a Boss, total Rigor Sanguis stacks is 37 (initial) + 1 (Death Knell) + 3 (Boss) = 41 stacks.
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 37 * 10},
+    # Assuming target is a Boss, total Rigor Sanguis stacks is 37 (initial) + 1 (Death Knell) + 3 (Boss) = 15 stacks (capped).
+    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 15 * 10},
     # Target has Blood Kiss from the previous Sanctuary Lauds turn, so Death Knell triggers Blood Kiss.
-    {"name": "Blood Kiss", "multiplier_of_death_knell": 120 + 37 * 10},
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 37 * 10},
+    {"name": "Blood Kiss", "multiplier_of_death_knell": 120 + 15 * 10},
+    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 15 * 10},
     # Death Knell: When the skill hits an enemy target, Sanguine Emblem is triggered. After using the skill, Sextans gains 2 stacks
-    # of Rigor Sanguis → 43 stacks.
+    # of Rigor Sanguis, but it remains at 15 due to the cap.
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 41,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 0,
     },
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 41 * 4},
+    {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 15 * 4},
     # Sanguine Emblem triggers when allied units (excluding Sextans) attack with a blade:
     # Assume:
     # 4x from Ullrid
     # 4x from Phaetusa
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 43,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 1,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 43 * 4 - 1 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 1 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 43,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 2,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 43 * 4 - 2 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 2 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 43,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 3,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 43 * 4 - 3 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 3 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 43,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 4,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 43 * 4 - 4 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 4 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 43,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 5,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 43 * 4 - 5 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 5 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 43,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 6,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 43 * 4 - 6 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 6 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 43,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 7,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 43 * 4 - 7 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 7 * 20,
     },
 ]
 
 _t6: list[dict[str, Any]] = [
-    {"name": "Sanctuary Lauds", "stacks_of_rigor_sanguis": 43},
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 43 * 10},
-    {"name": "Death Knell", "stacks_of_rigor_sanguis": 43},
+    {"name": "Sanctuary Lauds", "stacks_of_rigor_sanguis": 15},
+    {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 15 * 10},
+    {"name": "Death Knell", "stacks_of_rigor_sanguis": 15},
     # Death Knell: Sextans gains 1 stack of Rigor Sanguis. For each Level of the target (Normal, Elite, Boss), gain 1 additional stack of Rigor Sanguis.
-    # Assuming target is a Boss, total Rigor Sanguis stacks is 43 (initial) + 1 (Death Knell) + 3 (Boss) = 47 stacks.
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 43 * 10},
+    # Assuming target is a Boss, total Rigor Sanguis stacks is 43 (initial) + 1 (Death Knell) + 3 (Boss) = 15 stacks (capped).
+    {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 15 * 10},
     # Target now has Blood Kiss from Sanctuary Lauds, so Death Knell will trigger Blood Kiss.
-    {"name": "Blood Kiss", "multiplier_of_death_knell": 120 + 43 * 10},
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 43 * 10},
+    {"name": "Blood Kiss", "multiplier_of_death_knell": 120 + 15 * 10},
+    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 15 * 10},
     # Death Knell: When the skill hits an enemy target, Sanguine Emblem is triggered. After using the skill, Sextans gains 2 stacks
     # of Rigor Sanguis.
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 47,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 0,
     },
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 47 * 4},
+    {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 15 * 4},
     # Passive - Requiem: When an enemy unit dies or is in Stability Break, Sextans gains 1 stack of Rigor Sanguis.
     # For each Level of the target (Normal, Elite, Boss), gain 1 additional stack of Rigor Sanguis.
     # Assume Boss is in Stability Break now, so increment the Rigor Sanguis stack count by 4 (1 for the passive trigger and 3 for the Boss level).
-    # Total Rigor Sanguis stacks is 47 (after Death Knell hit) + 2 (Death Knell completion) + 4 (Stability Break passive) = 53 stacks.
+    # Total Rigor Sanguis stacks is 47 (after Death Knell hit) + 2 (Death Knell completion) + 4 (Stability Break passive) = 15 stacks (capped).
     # Sanguine Emblem triggers when allied units (excluding Sextans) attack with a blade:
     # Assume:
     # 4x from Ullrid
     # 4x from Phaetusa
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 53,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 1,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 53 * 4 - 1 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 1 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 53,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 2,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 53 * 4 - 2 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 2 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 53,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 3,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 53 * 4 - 3 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 3 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 53,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 4,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 53 * 4 - 4 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 4 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 53,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 5,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 53 * 4 - 5 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 5 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 53,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 6,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 53 * 4 - 6 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 6 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 53,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 7,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 53 * 4 - 7 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 7 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 53,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 8,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 53 * 4 - 8 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 8 * 20,
     },
 ]
 
 _t7: list[dict[str, Any]] = [
-    # Passive: Starts with 53 stacks of Rigor Sanguis from previous turn.
-    {"name": "Midnight Vespers", "stacks_of_rigor_sanguis": 53},
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 53 * 10},
-    {"name": "Death Knell", "stacks_of_rigor_sanguis": 53},
+    # Passive: Starts with 15 stacks of Rigor Sanguis from previous turn (capped).
+    {"name": "Midnight Vespers", "stacks_of_rigor_sanguis": 15},
+    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 15 * 10},
+    {"name": "Death Knell", "stacks_of_rigor_sanguis": 15},
     # Death Knell: Sextans gains 1 stack of Rigor Sanguis. For each Level of the target (Normal, Elite, Boss), gain 1 additional stack of Rigor Sanguis.
-    # Assuming target is a Boss, total Rigor Sanguis stacks is 53 (initial) + 1 (Death Knell) + 3 (Boss) = 57 stacks.
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 53 * 10},
+    # Assuming target is a Boss, total Rigor Sanguis stacks is 53 (initial) + 1 (Death Knell) + 3 (Boss) = 15 stacks (capped).
+    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 15 * 10},
     # Target has Blood Kiss from the previous Sanctuary Lauds turn, so Death Knell triggers Blood Kiss.
-    {"name": "Blood Kiss", "multiplier_of_death_knell": 120 + 53 * 10},
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 53 * 10},
+    {"name": "Blood Kiss", "multiplier_of_death_knell": 120 + 15 * 10},
+    {"name": "Lacerating Wound", "original_damage_instance_potency": 120 + 15 * 10},
     # Death Knell: When the skill hits an enemy target, Sanguine Emblem is triggered. After using the skill, Sextans gains 2 stacks
-    # of Rigor Sanguis → 59 stacks.
+    # of Rigor Sanguis, but it remains at 15 due to the cap.
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 57,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 0,
     },
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 57 * 4},
+    {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 15 * 4},
     # Sanguine Emblem triggers when allied units (excluding Sextans) attack with a blade:
     # Assume:
     # 4x from Ullrid
     # 4x from Phaetusa
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 59,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 1,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 59 * 4 - 1 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 1 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 59,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 2,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 59 * 4 - 2 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 2 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 59,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 3,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 59 * 4 - 3 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 3 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 59,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 4,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 59 * 4 - 4 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 4 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 59,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 5,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 59 * 4 - 5 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 5 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 59,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 6,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 59 * 4 - 6 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 6 * 20,
     },
     {
         "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 59,
+        "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 7,
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 59 * 4 - 7 * 20,
+        "original_damage_instance_potency": 90 + 15 * 4 - 7 * 20,
     },
 ]
 

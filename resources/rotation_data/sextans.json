@@ -206,583 +206,583 @@
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 21,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 1
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 154
+          "original_damage_instance_potency": 130
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 21,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 2
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 134
+          "original_damage_instance_potency": 110
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 21,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 3
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 114
+          "original_damage_instance_potency": 90
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 21,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 4
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 94
+          "original_damage_instance_potency": 70
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 21,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 5
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 74
+          "original_damage_instance_potency": 50
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 21,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 6
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 54
+          "original_damage_instance_potency": 30
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 21,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 7
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 34
+          "original_damage_instance_potency": 10
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 21,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 8
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 14
+          "original_damage_instance_potency": -10
         }
       ],
       "3": [
         {
           "name": "Midnight Vespers",
-          "stacks_of_rigor_sanguis": 21
+          "stacks_of_rigor_sanguis": 15
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 330
+          "original_damage_instance_potency": 270
         },
         {
           "name": "Death Knell",
-          "stacks_of_rigor_sanguis": 21
+          "stacks_of_rigor_sanguis": 15
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 330
+          "original_damage_instance_potency": 270
         },
         {
           "name": "Blood Kiss",
-          "multiplier_of_death_knell": 330
+          "multiplier_of_death_knell": 270
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 330
+          "original_damage_instance_potency": 270
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 25,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 0
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 190
+          "original_damage_instance_potency": 150
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 27,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 1
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 178
+          "original_damage_instance_potency": 130
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 27,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 2
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 158
+          "original_damage_instance_potency": 110
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 27,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 3
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 138
+          "original_damage_instance_potency": 90
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 27,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 4
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 118
+          "original_damage_instance_potency": 70
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 27,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 5
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 98
+          "original_damage_instance_potency": 50
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 27,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 6
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 78
+          "original_damage_instance_potency": 30
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 27,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 7
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 58
+          "original_damage_instance_potency": 10
         }
       ],
       "4": [
         {
           "name": "Sanctuary Lauds",
-          "stacks_of_rigor_sanguis": 27
+          "stacks_of_rigor_sanguis": 15
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 360
+          "original_damage_instance_potency": 240
         },
         {
           "name": "Death Knell",
-          "stacks_of_rigor_sanguis": 27
+          "stacks_of_rigor_sanguis": 15
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 360
+          "original_damage_instance_potency": 240
         },
         {
           "name": "Blood Kiss",
-          "multiplier_of_death_knell": 390
+          "multiplier_of_death_knell": 270
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 390
+          "original_damage_instance_potency": 270
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 31,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 0
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 214
+          "original_damage_instance_potency": 150
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 37,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 1
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 218
+          "original_damage_instance_potency": 130
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 37,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 2
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 198
+          "original_damage_instance_potency": 110
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 37,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 3
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 178
+          "original_damage_instance_potency": 90
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 37,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 4
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 158
+          "original_damage_instance_potency": 70
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 37,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 5
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 138
+          "original_damage_instance_potency": 50
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 37,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 6
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 118
+          "original_damage_instance_potency": 30
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 37,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 7
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 98
+          "original_damage_instance_potency": 10
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 37,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 8
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 78
+          "original_damage_instance_potency": -10
         }
       ],
       "5": [
         {
           "name": "Midnight Vespers",
-          "stacks_of_rigor_sanguis": 37
+          "stacks_of_rigor_sanguis": 15
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 490
+          "original_damage_instance_potency": 270
         },
         {
           "name": "Death Knell",
-          "stacks_of_rigor_sanguis": 37
+          "stacks_of_rigor_sanguis": 15
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 490
+          "original_damage_instance_potency": 270
         },
         {
           "name": "Blood Kiss",
-          "multiplier_of_death_knell": 490
+          "multiplier_of_death_knell": 270
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 490
+          "original_damage_instance_potency": 270
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 41,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 0
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 254
+          "original_damage_instance_potency": 150
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 43,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 1
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 242
+          "original_damage_instance_potency": 130
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 43,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 2
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 222
+          "original_damage_instance_potency": 110
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 43,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 3
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 202
+          "original_damage_instance_potency": 90
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 43,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 4
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 182
+          "original_damage_instance_potency": 70
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 43,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 5
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 162
+          "original_damage_instance_potency": 50
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 43,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 6
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 142
+          "original_damage_instance_potency": 30
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 43,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 7
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 122
+          "original_damage_instance_potency": 10
         }
       ],
       "6": [
         {
           "name": "Sanctuary Lauds",
-          "stacks_of_rigor_sanguis": 43
+          "stacks_of_rigor_sanguis": 15
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 520
+          "original_damage_instance_potency": 240
         },
         {
           "name": "Death Knell",
-          "stacks_of_rigor_sanguis": 43
+          "stacks_of_rigor_sanguis": 15
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 520
+          "original_damage_instance_potency": 240
         },
         {
           "name": "Blood Kiss",
-          "multiplier_of_death_knell": 550
+          "multiplier_of_death_knell": 270
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 550
+          "original_damage_instance_potency": 270
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 47,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 0
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 278
+          "original_damage_instance_potency": 150
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 53,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 1
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 282
+          "original_damage_instance_potency": 130
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 53,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 2
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 262
+          "original_damage_instance_potency": 110
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 53,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 3
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 242
+          "original_damage_instance_potency": 90
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 53,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 4
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 222
+          "original_damage_instance_potency": 70
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 53,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 5
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 202
+          "original_damage_instance_potency": 50
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 53,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 6
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 182
+          "original_damage_instance_potency": 30
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 53,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 7
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 162
+          "original_damage_instance_potency": 10
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 53,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 8
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 142
+          "original_damage_instance_potency": -10
         }
       ],
       "7": [
         {
           "name": "Midnight Vespers",
-          "stacks_of_rigor_sanguis": 53
+          "stacks_of_rigor_sanguis": 15
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 650
+          "original_damage_instance_potency": 270
         },
         {
           "name": "Death Knell",
-          "stacks_of_rigor_sanguis": 53
+          "stacks_of_rigor_sanguis": 15
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 650
+          "original_damage_instance_potency": 270
         },
         {
           "name": "Blood Kiss",
-          "multiplier_of_death_knell": 650
+          "multiplier_of_death_knell": 270
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 650
+          "original_damage_instance_potency": 270
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 57,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 0
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 318
+          "original_damage_instance_potency": 150
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 59,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 1
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 306
+          "original_damage_instance_potency": 130
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 59,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 2
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 286
+          "original_damage_instance_potency": 110
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 59,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 3
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 266
+          "original_damage_instance_potency": 90
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 59,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 4
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 246
+          "original_damage_instance_potency": 70
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 59,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 5
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 226
+          "original_damage_instance_potency": 50
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 59,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 6
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 206
+          "original_damage_instance_potency": 30
         },
         {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 59,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 7
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 186
+          "original_damage_instance_potency": 10
         }
       ]
     }
@@ -1411,7 +1411,7 @@
         "turn": 2,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 21,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 1
         },
         "attacker": {
@@ -1431,7 +1431,7 @@
         "turn": 2,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 154
+          "original_damage_instance_potency": 130
         },
         "attacker": {
           "add_buffs": [],
@@ -1450,7 +1450,7 @@
         "turn": 2,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 21,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 2
         },
         "attacker": {
@@ -1470,7 +1470,7 @@
         "turn": 2,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 134
+          "original_damage_instance_potency": 110
         },
         "attacker": {
           "add_buffs": [],
@@ -1489,7 +1489,7 @@
         "turn": 2,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 21,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 3
         },
         "attacker": {
@@ -1509,7 +1509,7 @@
         "turn": 2,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 114
+          "original_damage_instance_potency": 90
         },
         "attacker": {
           "add_buffs": [],
@@ -1528,7 +1528,7 @@
         "turn": 2,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 21,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 4
         },
         "attacker": {
@@ -1548,7 +1548,7 @@
         "turn": 2,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 94
+          "original_damage_instance_potency": 70
         },
         "attacker": {
           "add_buffs": [],
@@ -1567,7 +1567,7 @@
         "turn": 2,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 21,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 5
         },
         "attacker": {
@@ -1587,7 +1587,7 @@
         "turn": 2,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 74
+          "original_damage_instance_potency": 50
         },
         "attacker": {
           "add_buffs": [],
@@ -1606,7 +1606,7 @@
         "turn": 2,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 21,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 6
         },
         "attacker": {
@@ -1626,7 +1626,7 @@
         "turn": 2,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 54
+          "original_damage_instance_potency": 30
         },
         "attacker": {
           "add_buffs": [],
@@ -1645,7 +1645,7 @@
         "turn": 2,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 21,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 7
         },
         "attacker": {
@@ -1665,7 +1665,7 @@
         "turn": 2,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 34
+          "original_damage_instance_potency": 10
         },
         "attacker": {
           "add_buffs": [],
@@ -1684,7 +1684,7 @@
         "turn": 2,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 21,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 8
         },
         "attacker": {
@@ -1704,7 +1704,7 @@
         "turn": 2,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 14
+          "original_damage_instance_potency": -10
         },
         "attacker": {
           "add_buffs": [],
@@ -1723,7 +1723,7 @@
         "turn": 3,
         "action": {
           "name": "Midnight Vespers",
-          "stacks_of_rigor_sanguis": 21
+          "stacks_of_rigor_sanguis": 15
         },
         "attacker": {
           "add_buffs": [],
@@ -1742,7 +1742,7 @@
         "turn": 3,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 330
+          "original_damage_instance_potency": 270
         },
         "attacker": {
           "add_buffs": [],
@@ -1761,7 +1761,7 @@
         "turn": 3,
         "action": {
           "name": "Death Knell",
-          "stacks_of_rigor_sanguis": 21
+          "stacks_of_rigor_sanguis": 15
         },
         "attacker": {
           "add_buffs": [],
@@ -1780,7 +1780,7 @@
         "turn": 3,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 330
+          "original_damage_instance_potency": 270
         },
         "attacker": {
           "add_buffs": [],
@@ -1799,7 +1799,7 @@
         "turn": 3,
         "action": {
           "name": "Blood Kiss",
-          "multiplier_of_death_knell": 330
+          "multiplier_of_death_knell": 270
         },
         "attacker": {
           "add_buffs": [],
@@ -1818,7 +1818,7 @@
         "turn": 3,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 330
+          "original_damage_instance_potency": 270
         },
         "attacker": {
           "add_buffs": [],
@@ -1837,7 +1837,7 @@
         "turn": 3,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 25,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 0
         },
         "attacker": {
@@ -1857,7 +1857,7 @@
         "turn": 3,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 190
+          "original_damage_instance_potency": 150
         },
         "attacker": {
           "add_buffs": [],
@@ -1876,7 +1876,7 @@
         "turn": 3,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 27,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 1
         },
         "attacker": {
@@ -1896,7 +1896,7 @@
         "turn": 3,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 178
+          "original_damage_instance_potency": 130
         },
         "attacker": {
           "add_buffs": [],
@@ -1915,7 +1915,7 @@
         "turn": 3,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 27,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 2
         },
         "attacker": {
@@ -1935,7 +1935,7 @@
         "turn": 3,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 158
+          "original_damage_instance_potency": 110
         },
         "attacker": {
           "add_buffs": [],
@@ -1954,7 +1954,7 @@
         "turn": 3,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 27,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 3
         },
         "attacker": {
@@ -1974,7 +1974,7 @@
         "turn": 3,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 138
+          "original_damage_instance_potency": 90
         },
         "attacker": {
           "add_buffs": [],
@@ -1993,7 +1993,7 @@
         "turn": 3,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 27,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 4
         },
         "attacker": {
@@ -2013,7 +2013,7 @@
         "turn": 3,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 118
+          "original_damage_instance_potency": 70
         },
         "attacker": {
           "add_buffs": [],
@@ -2032,7 +2032,7 @@
         "turn": 3,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 27,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 5
         },
         "attacker": {
@@ -2052,7 +2052,7 @@
         "turn": 3,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 98
+          "original_damage_instance_potency": 50
         },
         "attacker": {
           "add_buffs": [],
@@ -2071,7 +2071,7 @@
         "turn": 3,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 27,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 6
         },
         "attacker": {
@@ -2091,7 +2091,7 @@
         "turn": 3,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 78
+          "original_damage_instance_potency": 30
         },
         "attacker": {
           "add_buffs": [],
@@ -2110,7 +2110,7 @@
         "turn": 3,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 27,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 7
         },
         "attacker": {
@@ -2130,7 +2130,7 @@
         "turn": 3,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 58
+          "original_damage_instance_potency": 10
         },
         "attacker": {
           "add_buffs": [],
@@ -2149,7 +2149,7 @@
         "turn": 4,
         "action": {
           "name": "Sanctuary Lauds",
-          "stacks_of_rigor_sanguis": 27
+          "stacks_of_rigor_sanguis": 15
         },
         "attacker": {
           "add_buffs": [],
@@ -2168,7 +2168,7 @@
         "turn": 4,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 360
+          "original_damage_instance_potency": 240
         },
         "attacker": {
           "add_buffs": [],
@@ -2187,7 +2187,7 @@
         "turn": 4,
         "action": {
           "name": "Death Knell",
-          "stacks_of_rigor_sanguis": 27
+          "stacks_of_rigor_sanguis": 15
         },
         "attacker": {
           "add_buffs": [],
@@ -2206,7 +2206,7 @@
         "turn": 4,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 360
+          "original_damage_instance_potency": 240
         },
         "attacker": {
           "add_buffs": [],
@@ -2225,7 +2225,7 @@
         "turn": 4,
         "action": {
           "name": "Blood Kiss",
-          "multiplier_of_death_knell": 390
+          "multiplier_of_death_knell": 270
         },
         "attacker": {
           "add_buffs": [],
@@ -2244,7 +2244,7 @@
         "turn": 4,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 390
+          "original_damage_instance_potency": 270
         },
         "attacker": {
           "add_buffs": [],
@@ -2263,7 +2263,7 @@
         "turn": 4,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 31,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 0
         },
         "attacker": {
@@ -2283,7 +2283,7 @@
         "turn": 4,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 214
+          "original_damage_instance_potency": 150
         },
         "attacker": {
           "add_buffs": [],
@@ -2302,7 +2302,7 @@
         "turn": 4,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 37,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 1
         },
         "attacker": {
@@ -2322,7 +2322,7 @@
         "turn": 4,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 218
+          "original_damage_instance_potency": 130
         },
         "attacker": {
           "add_buffs": [],
@@ -2341,7 +2341,7 @@
         "turn": 4,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 37,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 2
         },
         "attacker": {
@@ -2361,7 +2361,7 @@
         "turn": 4,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 198
+          "original_damage_instance_potency": 110
         },
         "attacker": {
           "add_buffs": [],
@@ -2380,7 +2380,7 @@
         "turn": 4,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 37,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 3
         },
         "attacker": {
@@ -2400,7 +2400,7 @@
         "turn": 4,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 178
+          "original_damage_instance_potency": 90
         },
         "attacker": {
           "add_buffs": [],
@@ -2419,7 +2419,7 @@
         "turn": 4,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 37,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 4
         },
         "attacker": {
@@ -2439,7 +2439,7 @@
         "turn": 4,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 158
+          "original_damage_instance_potency": 70
         },
         "attacker": {
           "add_buffs": [],
@@ -2458,7 +2458,7 @@
         "turn": 4,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 37,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 5
         },
         "attacker": {
@@ -2478,7 +2478,7 @@
         "turn": 4,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 138
+          "original_damage_instance_potency": 50
         },
         "attacker": {
           "add_buffs": [],
@@ -2497,7 +2497,7 @@
         "turn": 4,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 37,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 6
         },
         "attacker": {
@@ -2517,7 +2517,7 @@
         "turn": 4,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 118
+          "original_damage_instance_potency": 30
         },
         "attacker": {
           "add_buffs": [],
@@ -2536,7 +2536,7 @@
         "turn": 4,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 37,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 7
         },
         "attacker": {
@@ -2556,7 +2556,7 @@
         "turn": 4,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 98
+          "original_damage_instance_potency": 10
         },
         "attacker": {
           "add_buffs": [],
@@ -2575,7 +2575,7 @@
         "turn": 4,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 37,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 8
         },
         "attacker": {
@@ -2595,7 +2595,7 @@
         "turn": 4,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 78
+          "original_damage_instance_potency": -10
         },
         "attacker": {
           "add_buffs": [],
@@ -2614,7 +2614,7 @@
         "turn": 5,
         "action": {
           "name": "Midnight Vespers",
-          "stacks_of_rigor_sanguis": 37
+          "stacks_of_rigor_sanguis": 15
         },
         "attacker": {
           "add_buffs": [],
@@ -2633,7 +2633,7 @@
         "turn": 5,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 490
+          "original_damage_instance_potency": 270
         },
         "attacker": {
           "add_buffs": [],
@@ -2652,7 +2652,7 @@
         "turn": 5,
         "action": {
           "name": "Death Knell",
-          "stacks_of_rigor_sanguis": 37
+          "stacks_of_rigor_sanguis": 15
         },
         "attacker": {
           "add_buffs": [],
@@ -2671,7 +2671,7 @@
         "turn": 5,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 490
+          "original_damage_instance_potency": 270
         },
         "attacker": {
           "add_buffs": [],
@@ -2690,7 +2690,7 @@
         "turn": 5,
         "action": {
           "name": "Blood Kiss",
-          "multiplier_of_death_knell": 490
+          "multiplier_of_death_knell": 270
         },
         "attacker": {
           "add_buffs": [],
@@ -2709,7 +2709,7 @@
         "turn": 5,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 490
+          "original_damage_instance_potency": 270
         },
         "attacker": {
           "add_buffs": [],
@@ -2728,7 +2728,7 @@
         "turn": 5,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 41,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 0
         },
         "attacker": {
@@ -2748,7 +2748,7 @@
         "turn": 5,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 254
+          "original_damage_instance_potency": 150
         },
         "attacker": {
           "add_buffs": [],
@@ -2767,7 +2767,7 @@
         "turn": 5,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 43,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 1
         },
         "attacker": {
@@ -2787,7 +2787,7 @@
         "turn": 5,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 242
+          "original_damage_instance_potency": 130
         },
         "attacker": {
           "add_buffs": [],
@@ -2806,7 +2806,7 @@
         "turn": 5,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 43,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 2
         },
         "attacker": {
@@ -2826,7 +2826,7 @@
         "turn": 5,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 222
+          "original_damage_instance_potency": 110
         },
         "attacker": {
           "add_buffs": [],
@@ -2845,7 +2845,7 @@
         "turn": 5,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 43,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 3
         },
         "attacker": {
@@ -2865,7 +2865,7 @@
         "turn": 5,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 202
+          "original_damage_instance_potency": 90
         },
         "attacker": {
           "add_buffs": [],
@@ -2884,7 +2884,7 @@
         "turn": 5,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 43,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 4
         },
         "attacker": {
@@ -2904,7 +2904,7 @@
         "turn": 5,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 182
+          "original_damage_instance_potency": 70
         },
         "attacker": {
           "add_buffs": [],
@@ -2923,7 +2923,7 @@
         "turn": 5,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 43,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 5
         },
         "attacker": {
@@ -2943,7 +2943,7 @@
         "turn": 5,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 162
+          "original_damage_instance_potency": 50
         },
         "attacker": {
           "add_buffs": [],
@@ -2962,7 +2962,7 @@
         "turn": 5,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 43,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 6
         },
         "attacker": {
@@ -2982,7 +2982,7 @@
         "turn": 5,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 142
+          "original_damage_instance_potency": 30
         },
         "attacker": {
           "add_buffs": [],
@@ -3001,7 +3001,7 @@
         "turn": 5,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 43,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 7
         },
         "attacker": {
@@ -3021,7 +3021,7 @@
         "turn": 5,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 122
+          "original_damage_instance_potency": 10
         },
         "attacker": {
           "add_buffs": [],
@@ -3040,7 +3040,7 @@
         "turn": 6,
         "action": {
           "name": "Sanctuary Lauds",
-          "stacks_of_rigor_sanguis": 43
+          "stacks_of_rigor_sanguis": 15
         },
         "attacker": {
           "add_buffs": [],
@@ -3059,7 +3059,7 @@
         "turn": 6,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 520
+          "original_damage_instance_potency": 240
         },
         "attacker": {
           "add_buffs": [],
@@ -3078,7 +3078,7 @@
         "turn": 6,
         "action": {
           "name": "Death Knell",
-          "stacks_of_rigor_sanguis": 43
+          "stacks_of_rigor_sanguis": 15
         },
         "attacker": {
           "add_buffs": [],
@@ -3097,7 +3097,7 @@
         "turn": 6,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 520
+          "original_damage_instance_potency": 240
         },
         "attacker": {
           "add_buffs": [],
@@ -3116,7 +3116,7 @@
         "turn": 6,
         "action": {
           "name": "Blood Kiss",
-          "multiplier_of_death_knell": 550
+          "multiplier_of_death_knell": 270
         },
         "attacker": {
           "add_buffs": [],
@@ -3135,7 +3135,7 @@
         "turn": 6,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 550
+          "original_damage_instance_potency": 270
         },
         "attacker": {
           "add_buffs": [],
@@ -3154,7 +3154,7 @@
         "turn": 6,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 47,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 0
         },
         "attacker": {
@@ -3174,7 +3174,7 @@
         "turn": 6,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 278
+          "original_damage_instance_potency": 150
         },
         "attacker": {
           "add_buffs": [],
@@ -3193,7 +3193,7 @@
         "turn": 6,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 53,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 1
         },
         "attacker": {
@@ -3213,7 +3213,7 @@
         "turn": 6,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 282
+          "original_damage_instance_potency": 130
         },
         "attacker": {
           "add_buffs": [],
@@ -3232,7 +3232,7 @@
         "turn": 6,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 53,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 2
         },
         "attacker": {
@@ -3252,7 +3252,7 @@
         "turn": 6,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 262
+          "original_damage_instance_potency": 110
         },
         "attacker": {
           "add_buffs": [],
@@ -3271,7 +3271,7 @@
         "turn": 6,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 53,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 3
         },
         "attacker": {
@@ -3291,7 +3291,7 @@
         "turn": 6,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 242
+          "original_damage_instance_potency": 90
         },
         "attacker": {
           "add_buffs": [],
@@ -3310,7 +3310,7 @@
         "turn": 6,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 53,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 4
         },
         "attacker": {
@@ -3330,7 +3330,7 @@
         "turn": 6,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 222
+          "original_damage_instance_potency": 70
         },
         "attacker": {
           "add_buffs": [],
@@ -3349,7 +3349,7 @@
         "turn": 6,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 53,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 5
         },
         "attacker": {
@@ -3369,7 +3369,7 @@
         "turn": 6,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 202
+          "original_damage_instance_potency": 50
         },
         "attacker": {
           "add_buffs": [],
@@ -3388,7 +3388,7 @@
         "turn": 6,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 53,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 6
         },
         "attacker": {
@@ -3408,7 +3408,7 @@
         "turn": 6,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 182
+          "original_damage_instance_potency": 30
         },
         "attacker": {
           "add_buffs": [],
@@ -3427,7 +3427,7 @@
         "turn": 6,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 53,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 7
         },
         "attacker": {
@@ -3447,7 +3447,7 @@
         "turn": 6,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 162
+          "original_damage_instance_potency": 10
         },
         "attacker": {
           "add_buffs": [],
@@ -3466,7 +3466,7 @@
         "turn": 6,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 53,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 8
         },
         "attacker": {
@@ -3486,7 +3486,7 @@
         "turn": 6,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 142
+          "original_damage_instance_potency": -10
         },
         "attacker": {
           "add_buffs": [],
@@ -3505,7 +3505,7 @@
         "turn": 7,
         "action": {
           "name": "Midnight Vespers",
-          "stacks_of_rigor_sanguis": 53
+          "stacks_of_rigor_sanguis": 15
         },
         "attacker": {
           "add_buffs": [],
@@ -3524,7 +3524,7 @@
         "turn": 7,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 650
+          "original_damage_instance_potency": 270
         },
         "attacker": {
           "add_buffs": [],
@@ -3543,7 +3543,7 @@
         "turn": 7,
         "action": {
           "name": "Death Knell",
-          "stacks_of_rigor_sanguis": 53
+          "stacks_of_rigor_sanguis": 15
         },
         "attacker": {
           "add_buffs": [],
@@ -3562,7 +3562,7 @@
         "turn": 7,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 650
+          "original_damage_instance_potency": 270
         },
         "attacker": {
           "add_buffs": [],
@@ -3581,7 +3581,7 @@
         "turn": 7,
         "action": {
           "name": "Blood Kiss",
-          "multiplier_of_death_knell": 650
+          "multiplier_of_death_knell": 270
         },
         "attacker": {
           "add_buffs": [],
@@ -3600,7 +3600,7 @@
         "turn": 7,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 650
+          "original_damage_instance_potency": 270
         },
         "attacker": {
           "add_buffs": [],
@@ -3619,7 +3619,7 @@
         "turn": 7,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 57,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 0
         },
         "attacker": {
@@ -3639,7 +3639,7 @@
         "turn": 7,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 318
+          "original_damage_instance_potency": 150
         },
         "attacker": {
           "add_buffs": [],
@@ -3658,7 +3658,7 @@
         "turn": 7,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 59,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 1
         },
         "attacker": {
@@ -3678,7 +3678,7 @@
         "turn": 7,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 306
+          "original_damage_instance_potency": 130
         },
         "attacker": {
           "add_buffs": [],
@@ -3697,7 +3697,7 @@
         "turn": 7,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 59,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 2
         },
         "attacker": {
@@ -3717,7 +3717,7 @@
         "turn": 7,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 286
+          "original_damage_instance_potency": 110
         },
         "attacker": {
           "add_buffs": [],
@@ -3736,7 +3736,7 @@
         "turn": 7,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 59,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 3
         },
         "attacker": {
@@ -3756,7 +3756,7 @@
         "turn": 7,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 266
+          "original_damage_instance_potency": 90
         },
         "attacker": {
           "add_buffs": [],
@@ -3775,7 +3775,7 @@
         "turn": 7,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 59,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 4
         },
         "attacker": {
@@ -3795,7 +3795,7 @@
         "turn": 7,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 246
+          "original_damage_instance_potency": 70
         },
         "attacker": {
           "add_buffs": [],
@@ -3814,7 +3814,7 @@
         "turn": 7,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 59,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 5
         },
         "attacker": {
@@ -3834,7 +3834,7 @@
         "turn": 7,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 226
+          "original_damage_instance_potency": 50
         },
         "attacker": {
           "add_buffs": [],
@@ -3853,7 +3853,7 @@
         "turn": 7,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 59,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 6
         },
         "attacker": {
@@ -3873,7 +3873,7 @@
         "turn": 7,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 206
+          "original_damage_instance_potency": 30
         },
         "attacker": {
           "add_buffs": [],
@@ -3892,7 +3892,7 @@
         "turn": 7,
         "action": {
           "name": "Sanguine Emblem",
-          "stacks_of_rigor_sanguis": 59,
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 7
         },
         "attacker": {
@@ -3912,7 +3912,7 @@
         "turn": 7,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 186
+          "original_damage_instance_potency": 10
         },
         "attacker": {
           "add_buffs": [],
