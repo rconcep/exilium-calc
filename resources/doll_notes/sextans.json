@@ -1,0 +1,125 @@
+{
+  "doll": "Sextans",
+  "sections": [
+    {
+      "kind": "markdown",
+      "key": "synopsis",
+      "title": "Synopsis",
+      "markdown": "Strong support for Leva-centered mono-Electric teams or comps with the blade-wielding crew. Very capable support in her base form; while her V2-V4 upgrades have attractive potency upgrades to her support capabilities, fortifications are mostly about turning her into a monster DPS at V6. Regardless, Sextans also happens to be a monster at Voltage tile creation."
+    },
+    {
+      "kind": "utility_table",
+      "key": "utility",
+      "title": "Utility",
+      "rows": [
+        {
+          "label": "Voltage tile generation",
+          "detail": "S2, Ultimate, Fixed Key 5"
+        },
+        {
+          "label": "Healing",
+          "detail": "(% attack) S1, S2"
+        },
+        {
+          "label": "Electric Boost II",
+          "detail": "(all allies) (V4) on Ultimate "
+        },
+        {
+          "label": "Increased damage dealt by Dolls wielding blades",
+          "detail": "(10%) Passive"
+        },
+        {
+          "label": "Increased Melee damage dealt",
+          "detail": "(15%) (V6) when Confectance Index is full, (3~45%) Amaranth Brand"
+        },
+        {
+          "label": "Increased Electric damage dealt",
+          "detail": "(3~45%) Amaranth Brand"
+        },
+        {
+          "label": "Increased damage dealt to targets in stability break",
+          "detail": "(7%) Fixed Key 4"
+        },
+        {
+          "label": "Increased Melee damage taken",
+          "detail": "(7~21%, 10~30% at V3) Carmine Emblem"
+        },
+        {
+          "label": "Increased stability damage dealt",
+          "detail": "(3, 5 at V2) Amaranth Brand, (1) Fixed Key 6"
+        },
+        {
+          "label": "Ignore stability index",
+          "detail": "(3, 5 at V2) Amaranth Brand"
+        },
+        {
+          "label": "Debuff cleanse",
+          "detail": "(1, 2 at V5) in AoE of S2"
+        },
+        {
+          "label": "Buff cleanse",
+          "detail": "(1) Fixed Key 3 - before performing Sanguine Emblem"
+        },
+        {
+          "label": "Lacerating Wound",
+          "detail": "In AoE of Ultimate"
+        },
+        {
+          "label": "Defense Down II",
+          "detail": "Fixed Key 2"
+        },
+        {
+          "label": "Increased mobility for Electric or blade-wielding Dolls",
+          "detail": "(1, 2 at V3) Passive"
+        },
+        {
+          "label": "Bypass (Phasing) for Electric or blade-wielding Dolls",
+          "detail": "(V3) Passive"
+        }
+      ]
+    },
+    {
+      "kind": "fortification_table",
+      "key": "fortification_upgrades",
+      "title": "Fortification Level upgrades",
+      "upgrades": [
+        {
+          "level": 1,
+          "description": "S2: add Sanguine Emblem trigger, add Confectance Index gain (1), add Rigor Sanguis stacks gain (2)"
+        },
+        {
+          "level": 2,
+          "description": "Ultimate: increase AoE. All Amaranth Brand effects enhanced."
+        },
+        {
+          "level": 3,
+          "description": "Passive: additional tile of movement and now grants Bypass (Phasing). Increased critical rate overflow cap for Rigor Sanguis to 45%. Increased damage for Sanguine Emblem. Enhanced increased damage taken effect for Carmine Emblem."
+        },
+        {
+          "level": 4,
+          "description": "Ultimate: now applies Electric Boost II to all allied units."
+        },
+        {
+          "level": 5,
+          "description": "S2: increased damage and healing and cleanses an additional debuff; no longer removes Blood Kiss."
+        },
+        {
+          "level": 6,
+          "description": "Passive: start combat with 5 stacks of Rigor Sanguis and increases its stack cap to 15. Sanguine Emblem damage multiplier increased, ignores some defense, and no longer consumes Confectance Index (i.e., no trigger limit). Increases melee damage dealt by all allies when Sextans' Confectance Index is full."
+        }
+      ]
+    },
+    {
+      "kind": "markdown",
+      "key": "team_notes",
+      "title": "Team notes",
+      "markdown": "Grants increased Electric and Melee damage dealt, applies increased Melee damage taken, and grants increased stability damage dealt and stability index ignored - Sextans is an MVP for Leva-carry Electric teams. Additionally, her strong support for melee, blade-wielding Dolls enables blade comps in all types of content. Note that Sanguine Emblem needs allied units attacking with a blade specifically to be triggered."
+    },
+    {
+      "kind": "markdown",
+      "key": "build_notes",
+      "title": "Build notes",
+      "markdown": "Healing is based on Sextans' attack. Build her like an Electric DPS. Her damage is 100% Electric- and Melee-typed: the Close Assault attachment set is recommended. Note that Sextans converts overflow critical hit rate into beneficial effects via the stacking Rigor Sanguis buff. Rigor Sanguis grants much more critical hit rate than the cap of overflow benefits. This doesn't really change BiS goals unless you want to try to drop critical hit rate attachment stats for health boosts for Ichor Conversion-maxing in her Remolding Pattern."
+    }
+  ]
+}

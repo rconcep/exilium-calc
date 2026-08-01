@@ -5,8 +5,8 @@ from core.types import DamageTag, FortificationLevel, ModifierType, SpecialAttri
 
 
 class TestSextansSkills:
-    def test_dreamscape_garrote(self):
-        result: DamageInstance = DreamscapeGarrote().execute()
+    def test_dreamscape_finale(self):
+        result: DamageInstance = DreamscapeFinale().execute()
 
         assert result.base_potency == 80
         assert DamageTag.ACTIVE in result.tags
@@ -14,24 +14,24 @@ class TestSextansSkills:
         assert DamageTag.MELEE in result.tags
         assert DamageTag.TARGETED in result.tags
         assert DamageTag.PHYSICAL in result.tags
-        assert result.group_name == "Dreamscape Garrote"
+        assert result.group_name == "Dreamscape Finale"
 
-    def test_sanctuary_lauds_scales_with_coagulation(self):
-        result: DamageInstance = SanctuaryLauds().execute(stacks_of_coagulation=6)
+    def test_sanctuary_lauds_scales_with_rigor_sanguis(self):
+        result: DamageInstance = SanctuaryLauds().execute(stacks_of_rigor_sanguis=6)
 
         assert result.base_potency == 150
         assert DamageTag.ELECTRIC in result.tags
         assert DamageTag.PHASE in result.tags
         assert result.group_name == "Sanctuary Lauds"
 
-    def test_sanctuary_lauds_caps_at_max_stacks(self):
-        result: DamageInstance = SanctuaryLauds().execute(stacks_of_coagulation=5000)
+    def test_sanctuary_lauds_caps_at_max_rigor_sanguis_stacks(self):
+        result: DamageInstance = SanctuaryLauds().execute(stacks_of_rigor_sanguis=5000)
 
-        assert result.base_potency == 10080
+        assert result.base_potency == 240
 
     def test_death_knell_and_v5_base_potency(self):
-        v0: DamageInstance = DeathKnell().execute(stacks_of_coagulation=2)
-        v5: DamageInstance = DeathKnellV5().execute(stacks_of_coagulation=2)
+        v0: DamageInstance = DeathKnell().execute(stacks_of_rigor_sanguis=2)
+        v5: DamageInstance = DeathKnellV5().execute(stacks_of_rigor_sanguis=2)
 
         assert v0.base_potency == 110
         assert v5.base_potency == 140
@@ -46,13 +46,13 @@ class TestSextansSkills:
         assert DamageTag.MELEE in result.tags
         assert result.group_name == "Blood Kiss"
 
-    def test_midnight_vesper(self):
-        result: DamageInstance = MidnightVesper().execute(stacks_of_coagulation=3)
+    def test_midnight_vespers(self):
+        result: DamageInstance = MidnightVespers().execute(stacks_of_rigor_sanguis=3)
 
         assert result.base_potency == 150
         assert DamageTag.ULTIMATE in result.tags
         assert DamageTag.AREA_OF_EFFECT in result.tags
-        assert result.group_name == "Midnight Vesper"
+        assert result.group_name == "Midnight Vespers"
 
     def test_lacerating_wound(self):
         result: DamageInstance = LaceratingWound().execute(
@@ -63,34 +63,34 @@ class TestSextansSkills:
         assert DamageTag.PASSIVE in result.tags
         assert result.group_name == "Lacerating Wound"
 
-    def test_blood_insignia_applies_stack_scaling_and_trigger_falloff(self):
-        result: DamageInstance = BloodInsignia().execute(
-            stacks_of_coagulation=5,
+    def test_sanguine_emblem_applies_stack_scaling_and_trigger_falloff(self):
+        result: DamageInstance = SanguineEmblem().execute(
+            stacks_of_rigor_sanguis=5,
             previous_triggers_this_round=2,
         )
 
         # 60 + (5 * 3) - (2 * 20)
         assert result.base_potency == 35
 
-    def test_blood_insignia_has_minimum_potency(self):
-        result: DamageInstance = BloodInsignia().execute(
-            stacks_of_coagulation=0,
+    def test_sanguine_emblem_has_minimum_potency(self):
+        result: DamageInstance = SanguineEmblem().execute(
+            stacks_of_rigor_sanguis=0,
             previous_triggers_this_round=99,
         )
 
         assert result.base_potency == 30
 
-    def test_blood_insignia_v3_scaling(self):
-        result: DamageInstance = BloodInsigniaV3().execute(
-            stacks_of_coagulation=5,
+    def test_sanguine_emblem_v3_scaling(self):
+        result: DamageInstance = SanguineEmblemV3().execute(
+            stacks_of_rigor_sanguis=5,
             previous_triggers_this_round=0,
         )
 
         assert result.base_potency == 80
 
-    def test_blood_insignia_v6_has_defense_ignore_buff(self):
-        result: DamageInstance = BloodInsigniaV6().execute(
-            stacks_of_coagulation=0,
+    def test_sanguine_emblem_v6_has_defense_ignore_buff(self):
+        result: DamageInstance = SanguineEmblemV6().execute(
+            stacks_of_rigor_sanguis=0,
             previous_triggers_this_round=0,
         )
 
@@ -107,11 +107,11 @@ class TestSextansFortification:
         doll: Sextans = Sextans()
         doll.set_to_v0()
 
-        assert isinstance(doll.dreamscape_garrote, DreamscapeGarrote)
+        assert isinstance(doll.dreamscape_finale, DreamscapeFinale)
         assert isinstance(doll.sanctuary_lauds, SanctuaryLauds)
         assert isinstance(doll.death_knell, DeathKnell)
-        assert isinstance(doll.midnight_vesper, MidnightVesper)
-        assert isinstance(doll.blood_insignia, BloodInsignia)
+        assert isinstance(doll.midnight_vespers, MidnightVespers)
+        assert isinstance(doll.sanguine_emblem, SanguineEmblem)
         assert isinstance(doll.lacerating_wound, LaceratingWound)
 
     def test_set_to_v3(self):
@@ -119,30 +119,30 @@ class TestSextansFortification:
         doll.set_to_v3()
 
         assert isinstance(doll.death_knell, DeathKnell)
-        assert isinstance(doll.blood_insignia, BloodInsigniaV3)
+        assert isinstance(doll.sanguine_emblem, SanguineEmblemV3)
 
     def test_set_to_v5(self):
         doll: Sextans = Sextans()
         doll.set_to_v5()
 
         assert isinstance(doll.death_knell, DeathKnellV5)
-        assert isinstance(doll.blood_insignia, BloodInsigniaV3)
+        assert isinstance(doll.sanguine_emblem, SanguineEmblemV3)
 
     def test_set_to_v6(self):
         doll: Sextans = Sextans()
         doll.set_to_v6()
 
         assert isinstance(doll.death_knell, DeathKnellV5)
-        assert isinstance(doll.blood_insignia, BloodInsigniaV6)
+        assert isinstance(doll.sanguine_emblem, SanguineEmblemV6)
 
     def test_set_fortification_level(self):
         doll: Sextans = Sextans()
 
         doll.set_fortification_level(FortificationLevel.SEGMENT04)
-        assert isinstance(doll.blood_insignia, BloodInsigniaV3)
+        assert isinstance(doll.sanguine_emblem, SanguineEmblemV3)
         assert isinstance(doll.death_knell, DeathKnell)
 
         doll.set_fortification_level(FortificationLevel.SEGMENT06)
         assert doll.fortification_level == FortificationLevel.SEGMENT06
         assert isinstance(doll.death_knell, DeathKnellV5)
-        assert isinstance(doll.blood_insignia, BloodInsigniaV6)
+        assert isinstance(doll.sanguine_emblem, SanguineEmblemV6)

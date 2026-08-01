@@ -1298,12 +1298,12 @@ class StoredCharge(Buff):
         self.tag = DamageTag.ELECTRIC
 
 
-class Coagulation(Buff):
+class RigorSanguis(Buff):
     """Sextans buff. This is the stacking critical rate buff; the critical rate overflow
     effects are handled in the damage calculation strategy for Sextans.
     """
 
-    display_name = "Coagulation (Sextans)"
+    display_name = "Rigor Sanguis (Sextans)"
     max_stack_count = 15
     stack_input_type = "select"
 
@@ -1324,63 +1324,63 @@ class Coagulation(Buff):
         self.tag = DamageTag.ALL
 
 
-class HolyBloodMarkElectric(Buff):
+class AmaranthBrandElectric(Buff):
     """Sextans buff. This is the version that increases Electric damage dealt.
     In reality, it is the same buff as the Melee damage version, but implementing
     them in the same Buff would cause double-dipping for Electric+Melee damage.
     """
 
-    display_name = "Holy Blood Mark (Electric) (Sextans)"
+    display_name = "Amaranth Brand (Electric) (Sextans)"
     max_stack_count = 15
     stack_input_type = "input"
 
     def __init__(
         self,
         sextans_fortification_level: FortificationLevel,
-        stacks_of_coagulation: int,
+        stacks_of_rigor_sanguis: int,
     ):
         """
         Arguments:
         sextans_fortification_level -- the Fortification Level of Sextans with this buff
-        stacks_of_coagulation -- the number of stacks of the Coagulation buff held by Sextans
+        stacks_of_rigor_sanguis -- the number of stacks of the Rigor Sanguis buff held by Sextans
         """
-        damage_boost_per_coagulation_stack: int = 3
+        damage_boost_per_rigor_sanguis_stack: int = 3
 
         if sextans_fortification_level >= FortificationLevel.SEGMENT02:
-            damage_boost_per_coagulation_stack = 5
+            damage_boost_per_rigor_sanguis_stack = 5
 
-        self.value = damage_boost_per_coagulation_stack * stacks_of_coagulation
+        self.value = damage_boost_per_rigor_sanguis_stack * stacks_of_rigor_sanguis
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = SpecialAttribute.DAMAGE_BOOST
         self.tag = DamageTag.ELECTRIC
 
 
-class HolyBloodMarkMelee(Buff):
+class AmaranthBrandMelee(Buff):
     """Sextans buff. This is the version that increases Melee damage dealt.
     In reality, it is the same buff as the Electric damage version, but implementing
     them in the same Buff would cause double-dipping for Electric+Melee damage.
     """
 
-    display_name = "Holy Blood Mark (Melee) (Sextans)"
+    display_name = "Amaranth Brand (Melee) (Sextans)"
     max_stack_count = 15
     stack_input_type = "number"
 
     def __init__(
         self,
         sextans_fortification_level: FortificationLevel,
-        stacks_of_coagulation: int,
+        stacks_of_rigor_sanguis: int,
     ):
         """
         Arguments:
         sextans_fortification_level -- the Fortification Level of Sextans with this buff
-        stacks_of_coagulation -- the number of stacks of the Coagulation buff held by Sextans
+        stacks_of_rigor_sanguis -- the number of stacks of the Rigor Sanguis buff held by Sextans
         """
-        damage_boost_per_coagulation_stack: int = 3
+        damage_boost_per_rigor_sanguis_stack: int = 3
 
         if sextans_fortification_level >= FortificationLevel.SEGMENT02:
-            damage_boost_per_coagulation_stack = 5
+            damage_boost_per_rigor_sanguis_stack = 5
 
-        self.value = damage_boost_per_coagulation_stack * stacks_of_coagulation
+        self.value = damage_boost_per_rigor_sanguis_stack * stacks_of_rigor_sanguis
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = SpecialAttribute.DAMAGE_BOOST
         self.tag = DamageTag.MELEE
@@ -2728,10 +2728,10 @@ class VoltageSag(Debuff):
         self.tag = DamageTag.ELECTRIC
 
 
-class ScarletInsignia(Debuff):
+class CarmineEmblem(Debuff):
     """Sextans debuff"""
 
-    display_name = "Scarlet Insignia (Sextans)"
+    display_name = "Carmine Emblem (Sextans)"
     max_stack_count = 3
     stack_input_type = "select"
 

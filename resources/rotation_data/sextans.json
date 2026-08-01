@@ -23,14 +23,14 @@
           "name": "Electric Boost II"
         },
         {
-          "name": "Coagulation (Sextans)",
+          "name": "Rigor Sanguis (Sextans)",
           "sextans_fortification_level": 6,
           "stacks": 15
         },
         {
-          "name": "Holy Blood Mark (Melee) (Sextans)",
+          "name": "Amaranth Brand (Melee) (Sextans)",
           "sextans_fortification_level": 6,
-          "stacks_of_coagulation": 15
+          "stacks_of_rigor_sanguis": 15
         }
       ]
     },
@@ -45,7 +45,7 @@
           "jiangyu_fortification_level": 6
         },
         {
-          "name": "Scarlet Insignia (Sextans)",
+          "name": "Carmine Emblem (Sextans)",
           "stacks": 3,
           "sextans_fortification_level": 6
         }
@@ -65,8 +65,8 @@
     "turns": {
       "1": [
         {
-          "name": "Midnight Vesper",
-          "stacks_of_coagulation": 5
+          "name": "Midnight Vespers",
+          "stacks_of_rigor_sanguis": 5
         },
         {
           "name": "Lacerating Wound",
@@ -74,7 +74,7 @@
         },
         {
           "name": "Death Knell",
-          "stacks_of_coagulation": 5
+          "stacks_of_rigor_sanguis": 5
         },
         {
           "name": "Lacerating Wound",
@@ -89,8 +89,8 @@
           "original_damage_instance_potency": 170
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 9,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 9,
           "previous_triggers_this_round": 0
         },
         {
@@ -98,8 +98,8 @@
           "original_damage_instance_potency": 126
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 11,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 11,
           "previous_triggers_this_round": 1
         },
         {
@@ -107,8 +107,8 @@
           "original_damage_instance_potency": 114
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 11,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 11,
           "previous_triggers_this_round": 2
         },
         {
@@ -116,8 +116,8 @@
           "original_damage_instance_potency": 94
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 11,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 11,
           "previous_triggers_this_round": 3
         },
         {
@@ -125,8 +125,8 @@
           "original_damage_instance_potency": 74
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 11,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 11,
           "previous_triggers_this_round": 4
         },
         {
@@ -134,8 +134,8 @@
           "original_damage_instance_potency": 54
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 11,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 11,
           "previous_triggers_this_round": 5
         },
         {
@@ -143,8 +143,8 @@
           "original_damage_instance_potency": 34
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 11,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 11,
           "previous_triggers_this_round": 6
         },
         {
@@ -152,8 +152,8 @@
           "original_damage_instance_potency": 30
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 11,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 11,
           "previous_triggers_this_round": 7
         },
         {
@@ -161,8 +161,8 @@
           "original_damage_instance_potency": 30
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 11,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 11,
           "previous_triggers_this_round": 8
         },
         {
@@ -173,7 +173,7 @@
       "2": [
         {
           "name": "Sanctuary Lauds",
-          "stacks_of_coagulation": 11
+          "stacks_of_rigor_sanguis": 11
         },
         {
           "name": "Lacerating Wound",
@@ -181,7 +181,7 @@
         },
         {
           "name": "Death Knell",
-          "stacks_of_coagulation": 11
+          "stacks_of_rigor_sanguis": 11
         },
         {
           "name": "Lacerating Wound",
@@ -196,8 +196,8 @@
           "original_damage_instance_potency": 230
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 15,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 0
         },
         {
@@ -205,8 +205,8 @@
           "original_damage_instance_potency": 150
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 21,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 21,
           "previous_triggers_this_round": 1
         },
         {
@@ -214,8 +214,8 @@
           "original_damage_instance_potency": 154
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 21,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 21,
           "previous_triggers_this_round": 2
         },
         {
@@ -223,8 +223,8 @@
           "original_damage_instance_potency": 134
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 21,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 21,
           "previous_triggers_this_round": 3
         },
         {
@@ -232,8 +232,8 @@
           "original_damage_instance_potency": 114
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 21,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 21,
           "previous_triggers_this_round": 4
         },
         {
@@ -241,8 +241,8 @@
           "original_damage_instance_potency": 94
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 21,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 21,
           "previous_triggers_this_round": 5
         },
         {
@@ -250,8 +250,8 @@
           "original_damage_instance_potency": 74
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 21,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 21,
           "previous_triggers_this_round": 6
         },
         {
@@ -259,8 +259,8 @@
           "original_damage_instance_potency": 54
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 21,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 21,
           "previous_triggers_this_round": 7
         },
         {
@@ -268,8 +268,8 @@
           "original_damage_instance_potency": 34
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 21,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 21,
           "previous_triggers_this_round": 8
         },
         {
@@ -279,8 +279,8 @@
       ],
       "3": [
         {
-          "name": "Midnight Vesper",
-          "stacks_of_coagulation": 21
+          "name": "Midnight Vespers",
+          "stacks_of_rigor_sanguis": 21
         },
         {
           "name": "Lacerating Wound",
@@ -288,7 +288,7 @@
         },
         {
           "name": "Death Knell",
-          "stacks_of_coagulation": 21
+          "stacks_of_rigor_sanguis": 21
         },
         {
           "name": "Lacerating Wound",
@@ -303,8 +303,8 @@
           "original_damage_instance_potency": 330
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 25,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 25,
           "previous_triggers_this_round": 0
         },
         {
@@ -312,8 +312,8 @@
           "original_damage_instance_potency": 190
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 27,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 27,
           "previous_triggers_this_round": 1
         },
         {
@@ -321,8 +321,8 @@
           "original_damage_instance_potency": 178
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 27,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 27,
           "previous_triggers_this_round": 2
         },
         {
@@ -330,8 +330,8 @@
           "original_damage_instance_potency": 158
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 27,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 27,
           "previous_triggers_this_round": 3
         },
         {
@@ -339,8 +339,8 @@
           "original_damage_instance_potency": 138
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 27,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 27,
           "previous_triggers_this_round": 4
         },
         {
@@ -348,8 +348,8 @@
           "original_damage_instance_potency": 118
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 27,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 27,
           "previous_triggers_this_round": 5
         },
         {
@@ -357,8 +357,8 @@
           "original_damage_instance_potency": 98
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 27,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 27,
           "previous_triggers_this_round": 6
         },
         {
@@ -366,8 +366,8 @@
           "original_damage_instance_potency": 78
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 27,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 27,
           "previous_triggers_this_round": 7
         },
         {
@@ -378,7 +378,7 @@
       "4": [
         {
           "name": "Sanctuary Lauds",
-          "stacks_of_coagulation": 27
+          "stacks_of_rigor_sanguis": 27
         },
         {
           "name": "Lacerating Wound",
@@ -386,7 +386,7 @@
         },
         {
           "name": "Death Knell",
-          "stacks_of_coagulation": 27
+          "stacks_of_rigor_sanguis": 27
         },
         {
           "name": "Lacerating Wound",
@@ -401,8 +401,8 @@
           "original_damage_instance_potency": 390
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 31,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 31,
           "previous_triggers_this_round": 0
         },
         {
@@ -410,8 +410,8 @@
           "original_damage_instance_potency": 214
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 37,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 37,
           "previous_triggers_this_round": 1
         },
         {
@@ -419,8 +419,8 @@
           "original_damage_instance_potency": 218
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 37,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 37,
           "previous_triggers_this_round": 2
         },
         {
@@ -428,8 +428,8 @@
           "original_damage_instance_potency": 198
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 37,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 37,
           "previous_triggers_this_round": 3
         },
         {
@@ -437,8 +437,8 @@
           "original_damage_instance_potency": 178
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 37,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 37,
           "previous_triggers_this_round": 4
         },
         {
@@ -446,8 +446,8 @@
           "original_damage_instance_potency": 158
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 37,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 37,
           "previous_triggers_this_round": 5
         },
         {
@@ -455,8 +455,8 @@
           "original_damage_instance_potency": 138
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 37,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 37,
           "previous_triggers_this_round": 6
         },
         {
@@ -464,8 +464,8 @@
           "original_damage_instance_potency": 118
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 37,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 37,
           "previous_triggers_this_round": 7
         },
         {
@@ -473,8 +473,8 @@
           "original_damage_instance_potency": 98
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 37,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 37,
           "previous_triggers_this_round": 8
         },
         {
@@ -484,8 +484,8 @@
       ],
       "5": [
         {
-          "name": "Midnight Vesper",
-          "stacks_of_coagulation": 37
+          "name": "Midnight Vespers",
+          "stacks_of_rigor_sanguis": 37
         },
         {
           "name": "Lacerating Wound",
@@ -493,7 +493,7 @@
         },
         {
           "name": "Death Knell",
-          "stacks_of_coagulation": 37
+          "stacks_of_rigor_sanguis": 37
         },
         {
           "name": "Lacerating Wound",
@@ -508,8 +508,8 @@
           "original_damage_instance_potency": 490
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 41,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 41,
           "previous_triggers_this_round": 0
         },
         {
@@ -517,8 +517,8 @@
           "original_damage_instance_potency": 254
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 43,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 43,
           "previous_triggers_this_round": 1
         },
         {
@@ -526,8 +526,8 @@
           "original_damage_instance_potency": 242
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 43,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 43,
           "previous_triggers_this_round": 2
         },
         {
@@ -535,8 +535,8 @@
           "original_damage_instance_potency": 222
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 43,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 43,
           "previous_triggers_this_round": 3
         },
         {
@@ -544,8 +544,8 @@
           "original_damage_instance_potency": 202
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 43,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 43,
           "previous_triggers_this_round": 4
         },
         {
@@ -553,8 +553,8 @@
           "original_damage_instance_potency": 182
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 43,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 43,
           "previous_triggers_this_round": 5
         },
         {
@@ -562,8 +562,8 @@
           "original_damage_instance_potency": 162
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 43,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 43,
           "previous_triggers_this_round": 6
         },
         {
@@ -571,8 +571,8 @@
           "original_damage_instance_potency": 142
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 43,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 43,
           "previous_triggers_this_round": 7
         },
         {
@@ -583,7 +583,7 @@
       "6": [
         {
           "name": "Sanctuary Lauds",
-          "stacks_of_coagulation": 43
+          "stacks_of_rigor_sanguis": 43
         },
         {
           "name": "Lacerating Wound",
@@ -591,7 +591,7 @@
         },
         {
           "name": "Death Knell",
-          "stacks_of_coagulation": 43
+          "stacks_of_rigor_sanguis": 43
         },
         {
           "name": "Lacerating Wound",
@@ -606,8 +606,8 @@
           "original_damage_instance_potency": 550
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 47,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 47,
           "previous_triggers_this_round": 0
         },
         {
@@ -615,8 +615,8 @@
           "original_damage_instance_potency": 278
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 53,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 53,
           "previous_triggers_this_round": 1
         },
         {
@@ -624,8 +624,8 @@
           "original_damage_instance_potency": 282
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 53,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 53,
           "previous_triggers_this_round": 2
         },
         {
@@ -633,8 +633,8 @@
           "original_damage_instance_potency": 262
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 53,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 53,
           "previous_triggers_this_round": 3
         },
         {
@@ -642,8 +642,8 @@
           "original_damage_instance_potency": 242
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 53,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 53,
           "previous_triggers_this_round": 4
         },
         {
@@ -651,8 +651,8 @@
           "original_damage_instance_potency": 222
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 53,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 53,
           "previous_triggers_this_round": 5
         },
         {
@@ -660,8 +660,8 @@
           "original_damage_instance_potency": 202
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 53,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 53,
           "previous_triggers_this_round": 6
         },
         {
@@ -669,8 +669,8 @@
           "original_damage_instance_potency": 182
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 53,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 53,
           "previous_triggers_this_round": 7
         },
         {
@@ -678,8 +678,8 @@
           "original_damage_instance_potency": 162
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 53,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 53,
           "previous_triggers_this_round": 8
         },
         {
@@ -689,8 +689,8 @@
       ],
       "7": [
         {
-          "name": "Midnight Vesper",
-          "stacks_of_coagulation": 53
+          "name": "Midnight Vespers",
+          "stacks_of_rigor_sanguis": 53
         },
         {
           "name": "Lacerating Wound",
@@ -698,7 +698,7 @@
         },
         {
           "name": "Death Knell",
-          "stacks_of_coagulation": 53
+          "stacks_of_rigor_sanguis": 53
         },
         {
           "name": "Lacerating Wound",
@@ -713,8 +713,8 @@
           "original_damage_instance_potency": 650
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 57,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 57,
           "previous_triggers_this_round": 0
         },
         {
@@ -722,8 +722,8 @@
           "original_damage_instance_potency": 318
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 59,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 59,
           "previous_triggers_this_round": 1
         },
         {
@@ -731,8 +731,8 @@
           "original_damage_instance_potency": 306
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 59,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 59,
           "previous_triggers_this_round": 2
         },
         {
@@ -740,8 +740,8 @@
           "original_damage_instance_potency": 286
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 59,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 59,
           "previous_triggers_this_round": 3
         },
         {
@@ -749,8 +749,8 @@
           "original_damage_instance_potency": 266
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 59,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 59,
           "previous_triggers_this_round": 4
         },
         {
@@ -758,8 +758,8 @@
           "original_damage_instance_potency": 246
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 59,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 59,
           "previous_triggers_this_round": 5
         },
         {
@@ -767,8 +767,8 @@
           "original_damage_instance_potency": 226
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 59,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 59,
           "previous_triggers_this_round": 6
         },
         {
@@ -776,8 +776,8 @@
           "original_damage_instance_potency": 206
         },
         {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 59,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 59,
           "previous_triggers_this_round": 7
         },
         {
@@ -792,8 +792,8 @@
       {
         "turn": 1,
         "action": {
-          "name": "Midnight Vesper",
-          "stacks_of_coagulation": 5
+          "name": "Midnight Vespers",
+          "stacks_of_rigor_sanguis": 5
         },
         "attacker": {
           "add_buffs": [],
@@ -831,7 +831,7 @@
         "turn": 1,
         "action": {
           "name": "Death Knell",
-          "stacks_of_coagulation": 5
+          "stacks_of_rigor_sanguis": 5
         },
         "attacker": {
           "add_buffs": [],
@@ -906,8 +906,8 @@
       {
         "turn": 1,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 9,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 9,
           "previous_triggers_this_round": 0
         },
         "attacker": {
@@ -945,8 +945,8 @@
       {
         "turn": 1,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 11,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 11,
           "previous_triggers_this_round": 1
         },
         "attacker": {
@@ -984,8 +984,8 @@
       {
         "turn": 1,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 11,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 11,
           "previous_triggers_this_round": 2
         },
         "attacker": {
@@ -1023,8 +1023,8 @@
       {
         "turn": 1,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 11,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 11,
           "previous_triggers_this_round": 3
         },
         "attacker": {
@@ -1062,8 +1062,8 @@
       {
         "turn": 1,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 11,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 11,
           "previous_triggers_this_round": 4
         },
         "attacker": {
@@ -1101,8 +1101,8 @@
       {
         "turn": 1,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 11,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 11,
           "previous_triggers_this_round": 5
         },
         "attacker": {
@@ -1140,8 +1140,8 @@
       {
         "turn": 1,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 11,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 11,
           "previous_triggers_this_round": 6
         },
         "attacker": {
@@ -1179,8 +1179,8 @@
       {
         "turn": 1,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 11,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 11,
           "previous_triggers_this_round": 7
         },
         "attacker": {
@@ -1218,8 +1218,8 @@
       {
         "turn": 1,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 11,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 11,
           "previous_triggers_this_round": 8
         },
         "attacker": {
@@ -1258,7 +1258,7 @@
         "turn": 2,
         "action": {
           "name": "Sanctuary Lauds",
-          "stacks_of_coagulation": 11
+          "stacks_of_rigor_sanguis": 11
         },
         "attacker": {
           "add_buffs": [],
@@ -1296,7 +1296,7 @@
         "turn": 2,
         "action": {
           "name": "Death Knell",
-          "stacks_of_coagulation": 11
+          "stacks_of_rigor_sanguis": 11
         },
         "attacker": {
           "add_buffs": [],
@@ -1371,8 +1371,8 @@
       {
         "turn": 2,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 15,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 15,
           "previous_triggers_this_round": 0
         },
         "attacker": {
@@ -1410,8 +1410,8 @@
       {
         "turn": 2,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 21,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 21,
           "previous_triggers_this_round": 1
         },
         "attacker": {
@@ -1449,8 +1449,8 @@
       {
         "turn": 2,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 21,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 21,
           "previous_triggers_this_round": 2
         },
         "attacker": {
@@ -1488,8 +1488,8 @@
       {
         "turn": 2,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 21,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 21,
           "previous_triggers_this_round": 3
         },
         "attacker": {
@@ -1527,8 +1527,8 @@
       {
         "turn": 2,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 21,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 21,
           "previous_triggers_this_round": 4
         },
         "attacker": {
@@ -1566,8 +1566,8 @@
       {
         "turn": 2,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 21,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 21,
           "previous_triggers_this_round": 5
         },
         "attacker": {
@@ -1605,8 +1605,8 @@
       {
         "turn": 2,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 21,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 21,
           "previous_triggers_this_round": 6
         },
         "attacker": {
@@ -1644,8 +1644,8 @@
       {
         "turn": 2,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 21,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 21,
           "previous_triggers_this_round": 7
         },
         "attacker": {
@@ -1683,8 +1683,8 @@
       {
         "turn": 2,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 21,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 21,
           "previous_triggers_this_round": 8
         },
         "attacker": {
@@ -1722,8 +1722,8 @@
       {
         "turn": 3,
         "action": {
-          "name": "Midnight Vesper",
-          "stacks_of_coagulation": 21
+          "name": "Midnight Vespers",
+          "stacks_of_rigor_sanguis": 21
         },
         "attacker": {
           "add_buffs": [],
@@ -1761,7 +1761,7 @@
         "turn": 3,
         "action": {
           "name": "Death Knell",
-          "stacks_of_coagulation": 21
+          "stacks_of_rigor_sanguis": 21
         },
         "attacker": {
           "add_buffs": [],
@@ -1836,8 +1836,8 @@
       {
         "turn": 3,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 25,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 25,
           "previous_triggers_this_round": 0
         },
         "attacker": {
@@ -1875,8 +1875,8 @@
       {
         "turn": 3,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 27,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 27,
           "previous_triggers_this_round": 1
         },
         "attacker": {
@@ -1914,8 +1914,8 @@
       {
         "turn": 3,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 27,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 27,
           "previous_triggers_this_round": 2
         },
         "attacker": {
@@ -1953,8 +1953,8 @@
       {
         "turn": 3,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 27,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 27,
           "previous_triggers_this_round": 3
         },
         "attacker": {
@@ -1992,8 +1992,8 @@
       {
         "turn": 3,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 27,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 27,
           "previous_triggers_this_round": 4
         },
         "attacker": {
@@ -2031,8 +2031,8 @@
       {
         "turn": 3,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 27,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 27,
           "previous_triggers_this_round": 5
         },
         "attacker": {
@@ -2070,8 +2070,8 @@
       {
         "turn": 3,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 27,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 27,
           "previous_triggers_this_round": 6
         },
         "attacker": {
@@ -2109,8 +2109,8 @@
       {
         "turn": 3,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 27,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 27,
           "previous_triggers_this_round": 7
         },
         "attacker": {
@@ -2149,7 +2149,7 @@
         "turn": 4,
         "action": {
           "name": "Sanctuary Lauds",
-          "stacks_of_coagulation": 27
+          "stacks_of_rigor_sanguis": 27
         },
         "attacker": {
           "add_buffs": [],
@@ -2187,7 +2187,7 @@
         "turn": 4,
         "action": {
           "name": "Death Knell",
-          "stacks_of_coagulation": 27
+          "stacks_of_rigor_sanguis": 27
         },
         "attacker": {
           "add_buffs": [],
@@ -2262,8 +2262,8 @@
       {
         "turn": 4,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 31,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 31,
           "previous_triggers_this_round": 0
         },
         "attacker": {
@@ -2301,8 +2301,8 @@
       {
         "turn": 4,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 37,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 37,
           "previous_triggers_this_round": 1
         },
         "attacker": {
@@ -2340,8 +2340,8 @@
       {
         "turn": 4,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 37,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 37,
           "previous_triggers_this_round": 2
         },
         "attacker": {
@@ -2379,8 +2379,8 @@
       {
         "turn": 4,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 37,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 37,
           "previous_triggers_this_round": 3
         },
         "attacker": {
@@ -2418,8 +2418,8 @@
       {
         "turn": 4,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 37,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 37,
           "previous_triggers_this_round": 4
         },
         "attacker": {
@@ -2457,8 +2457,8 @@
       {
         "turn": 4,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 37,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 37,
           "previous_triggers_this_round": 5
         },
         "attacker": {
@@ -2496,8 +2496,8 @@
       {
         "turn": 4,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 37,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 37,
           "previous_triggers_this_round": 6
         },
         "attacker": {
@@ -2535,8 +2535,8 @@
       {
         "turn": 4,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 37,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 37,
           "previous_triggers_this_round": 7
         },
         "attacker": {
@@ -2574,8 +2574,8 @@
       {
         "turn": 4,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 37,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 37,
           "previous_triggers_this_round": 8
         },
         "attacker": {
@@ -2613,8 +2613,8 @@
       {
         "turn": 5,
         "action": {
-          "name": "Midnight Vesper",
-          "stacks_of_coagulation": 37
+          "name": "Midnight Vespers",
+          "stacks_of_rigor_sanguis": 37
         },
         "attacker": {
           "add_buffs": [],
@@ -2652,7 +2652,7 @@
         "turn": 5,
         "action": {
           "name": "Death Knell",
-          "stacks_of_coagulation": 37
+          "stacks_of_rigor_sanguis": 37
         },
         "attacker": {
           "add_buffs": [],
@@ -2727,8 +2727,8 @@
       {
         "turn": 5,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 41,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 41,
           "previous_triggers_this_round": 0
         },
         "attacker": {
@@ -2766,8 +2766,8 @@
       {
         "turn": 5,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 43,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 43,
           "previous_triggers_this_round": 1
         },
         "attacker": {
@@ -2805,8 +2805,8 @@
       {
         "turn": 5,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 43,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 43,
           "previous_triggers_this_round": 2
         },
         "attacker": {
@@ -2844,8 +2844,8 @@
       {
         "turn": 5,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 43,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 43,
           "previous_triggers_this_round": 3
         },
         "attacker": {
@@ -2883,8 +2883,8 @@
       {
         "turn": 5,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 43,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 43,
           "previous_triggers_this_round": 4
         },
         "attacker": {
@@ -2922,8 +2922,8 @@
       {
         "turn": 5,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 43,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 43,
           "previous_triggers_this_round": 5
         },
         "attacker": {
@@ -2961,8 +2961,8 @@
       {
         "turn": 5,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 43,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 43,
           "previous_triggers_this_round": 6
         },
         "attacker": {
@@ -3000,8 +3000,8 @@
       {
         "turn": 5,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 43,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 43,
           "previous_triggers_this_round": 7
         },
         "attacker": {
@@ -3040,7 +3040,7 @@
         "turn": 6,
         "action": {
           "name": "Sanctuary Lauds",
-          "stacks_of_coagulation": 43
+          "stacks_of_rigor_sanguis": 43
         },
         "attacker": {
           "add_buffs": [],
@@ -3078,7 +3078,7 @@
         "turn": 6,
         "action": {
           "name": "Death Knell",
-          "stacks_of_coagulation": 43
+          "stacks_of_rigor_sanguis": 43
         },
         "attacker": {
           "add_buffs": [],
@@ -3153,8 +3153,8 @@
       {
         "turn": 6,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 47,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 47,
           "previous_triggers_this_round": 0
         },
         "attacker": {
@@ -3192,8 +3192,8 @@
       {
         "turn": 6,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 53,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 53,
           "previous_triggers_this_round": 1
         },
         "attacker": {
@@ -3231,8 +3231,8 @@
       {
         "turn": 6,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 53,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 53,
           "previous_triggers_this_round": 2
         },
         "attacker": {
@@ -3270,8 +3270,8 @@
       {
         "turn": 6,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 53,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 53,
           "previous_triggers_this_round": 3
         },
         "attacker": {
@@ -3309,8 +3309,8 @@
       {
         "turn": 6,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 53,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 53,
           "previous_triggers_this_round": 4
         },
         "attacker": {
@@ -3348,8 +3348,8 @@
       {
         "turn": 6,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 53,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 53,
           "previous_triggers_this_round": 5
         },
         "attacker": {
@@ -3387,8 +3387,8 @@
       {
         "turn": 6,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 53,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 53,
           "previous_triggers_this_round": 6
         },
         "attacker": {
@@ -3426,8 +3426,8 @@
       {
         "turn": 6,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 53,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 53,
           "previous_triggers_this_round": 7
         },
         "attacker": {
@@ -3465,8 +3465,8 @@
       {
         "turn": 6,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 53,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 53,
           "previous_triggers_this_round": 8
         },
         "attacker": {
@@ -3504,8 +3504,8 @@
       {
         "turn": 7,
         "action": {
-          "name": "Midnight Vesper",
-          "stacks_of_coagulation": 53
+          "name": "Midnight Vespers",
+          "stacks_of_rigor_sanguis": 53
         },
         "attacker": {
           "add_buffs": [],
@@ -3543,7 +3543,7 @@
         "turn": 7,
         "action": {
           "name": "Death Knell",
-          "stacks_of_coagulation": 53
+          "stacks_of_rigor_sanguis": 53
         },
         "attacker": {
           "add_buffs": [],
@@ -3618,8 +3618,8 @@
       {
         "turn": 7,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 57,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 57,
           "previous_triggers_this_round": 0
         },
         "attacker": {
@@ -3657,8 +3657,8 @@
       {
         "turn": 7,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 59,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 59,
           "previous_triggers_this_round": 1
         },
         "attacker": {
@@ -3696,8 +3696,8 @@
       {
         "turn": 7,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 59,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 59,
           "previous_triggers_this_round": 2
         },
         "attacker": {
@@ -3735,8 +3735,8 @@
       {
         "turn": 7,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 59,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 59,
           "previous_triggers_this_round": 3
         },
         "attacker": {
@@ -3774,8 +3774,8 @@
       {
         "turn": 7,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 59,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 59,
           "previous_triggers_this_round": 4
         },
         "attacker": {
@@ -3813,8 +3813,8 @@
       {
         "turn": 7,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 59,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 59,
           "previous_triggers_this_round": 5
         },
         "attacker": {
@@ -3852,8 +3852,8 @@
       {
         "turn": 7,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 59,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 59,
           "previous_triggers_this_round": 6
         },
         "attacker": {
@@ -3891,8 +3891,8 @@
       {
         "turn": 7,
         "action": {
-          "name": "Blood Insignia",
-          "stacks_of_coagulation": 59,
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 59,
           "previous_triggers_this_round": 7
         },
         "attacker": {

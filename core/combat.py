@@ -1829,11 +1829,11 @@ class SextansDamageCalculationStrategy(StandardDamageCalculationStrategy):
 
         # Only expecting to run this for Sextans
         if _is_doll_attacker(attacker):
-            # TODO: This effect is tied to having Coagulation, which is effectively all the time.
+            # TODO: This effect is tied to having Rigor Sanguis, which is effectively all the time.
             # For simplicity, just assume this is always active.
-            has_coagulation: bool = True
+            has_rigor_sanguis: bool = True
 
-            if has_coagulation:
+            if has_rigor_sanguis:
                 # Model the critical rate overflow effects here;
                 # critical rate increase per stack should be applied via Buffs
 

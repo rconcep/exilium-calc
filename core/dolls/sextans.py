@@ -19,16 +19,16 @@ from core.combat import (
 )
 
 
-MAX_STACKS_OF_COAGULATION: int = 999  # No known cap
-POTENCY_PER_STACK_OF_COAGULATION: int = 10
+MAX_STACKS_OF_RIGOR_SANGUIS: int = 15  # No known cap
+POTENCY_PER_STACK_OF_RIGOR_SANGUIS: int = 10
 
 
-class DreamscapeGarrote(CombatAction):
+class DreamscapeFinale(CombatAction):
     """Sextans Basic Attack."""
 
     @override
     def execute(self) -> DamageInstance:
-        label: str = "Dreamscape Garrote"
+        label: str = "Dreamscape Finale"
         base_potency: int = 80
 
         tags: set[DamageTag] = {
@@ -43,7 +43,7 @@ class DreamscapeGarrote(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Dreamscape Garrote",
+            group_name="Dreamscape Finale",
             damage_calculation_strategy=SextansDamageCalculationStrategy(),
         )
 
@@ -52,8 +52,8 @@ class SanctuaryLauds(CombatAction):
     """Sextans S1."""
 
     @override
-    def execute(self, stacks_of_coagulation: int) -> DamageInstance:
-        label: str = f"Sanctuary Lauds ({stacks_of_coagulation}x)"
+    def execute(self, stacks_of_rigor_sanguis: int) -> DamageInstance:
+        label: str = f"Sanctuary Lauds ({stacks_of_rigor_sanguis}x)"
         base_potency: int = 90
 
         tags: set[DamageTag] = {
@@ -65,8 +65,8 @@ class SanctuaryLauds(CombatAction):
         }
 
         base_potency += (
-            min(stacks_of_coagulation, MAX_STACKS_OF_COAGULATION)
-            * POTENCY_PER_STACK_OF_COAGULATION
+            min(stacks_of_rigor_sanguis, MAX_STACKS_OF_RIGOR_SANGUIS)
+            * POTENCY_PER_STACK_OF_RIGOR_SANGUIS
         )
 
         return DamageInstance(
@@ -82,8 +82,8 @@ class DeathKnell(CombatAction):
     """Sextans S2."""
 
     @override
-    def execute(self, stacks_of_coagulation: int) -> DamageInstance:
-        label: str = f"Death Knell ({stacks_of_coagulation}x)"
+    def execute(self, stacks_of_rigor_sanguis: int) -> DamageInstance:
+        label: str = f"Death Knell ({stacks_of_rigor_sanguis}x)"
         base_potency: int = 90
 
         tags: set[DamageTag] = {
@@ -95,8 +95,8 @@ class DeathKnell(CombatAction):
         }
 
         base_potency += (
-            min(stacks_of_coagulation, MAX_STACKS_OF_COAGULATION)
-            * POTENCY_PER_STACK_OF_COAGULATION
+            min(stacks_of_rigor_sanguis, MAX_STACKS_OF_RIGOR_SANGUIS)
+            * POTENCY_PER_STACK_OF_RIGOR_SANGUIS
         )
 
         return DamageInstance(
@@ -112,8 +112,8 @@ class DeathKnellV5(CombatAction):
     """Sextans S2 (V5)."""
 
     @override
-    def execute(self, stacks_of_coagulation: int) -> DamageInstance:
-        label: str = f"Death Knell ({stacks_of_coagulation}x)"
+    def execute(self, stacks_of_rigor_sanguis: int) -> DamageInstance:
+        label: str = f"Death Knell ({stacks_of_rigor_sanguis}x)"
         base_potency: int = 120
 
         tags: set[DamageTag] = {
@@ -125,8 +125,8 @@ class DeathKnellV5(CombatAction):
         }
 
         base_potency += (
-            min(stacks_of_coagulation, MAX_STACKS_OF_COAGULATION)
-            * POTENCY_PER_STACK_OF_COAGULATION
+            min(stacks_of_rigor_sanguis, MAX_STACKS_OF_RIGOR_SANGUIS)
+            * POTENCY_PER_STACK_OF_RIGOR_SANGUIS
         )
 
         return DamageInstance(
@@ -162,12 +162,12 @@ class BloodKiss(CombatAction):
         )
 
 
-class MidnightVesper(CombatAction):
+class MidnightVespers(CombatAction):
     """Sextans Ultimate."""
 
     @override
-    def execute(self, stacks_of_coagulation: int) -> DamageInstance:
-        label: str = f"Midnight Vesper ({stacks_of_coagulation}x)"
+    def execute(self, stacks_of_rigor_sanguis: int) -> DamageInstance:
+        label: str = f"Midnight Vespers ({stacks_of_rigor_sanguis}x)"
         base_potency: int = 120
 
         tags: set[DamageTag] = {
@@ -182,22 +182,22 @@ class MidnightVesper(CombatAction):
         buffs_before: list[Buff] = []
 
         base_potency += (
-            min(stacks_of_coagulation, MAX_STACKS_OF_COAGULATION)
-            * POTENCY_PER_STACK_OF_COAGULATION
+            min(stacks_of_rigor_sanguis, MAX_STACKS_OF_RIGOR_SANGUIS)
+            * POTENCY_PER_STACK_OF_RIGOR_SANGUIS
         )
 
         return DamageInstance(
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Midnight Vesper",
+            group_name="Midnight Vespers",
             buffs_before=buffs_before,
             damage_calculation_strategy=SextansDamageCalculationStrategy(),
         )
 
 
 class LaceratingWound(CombatAction):
-    """Effect from Lacerating Wound debuff applied from Midnight Vesper.
+    """Effect from Lacerating Wound debuff applied from Midnight Vespers.
     When taking damage, if the attacker used a blade, take an additional instance of damage equal to 40% of the original damage.
     Modeled as a separate instance taking in the original damage instance potency and using 40% of it.
     """
@@ -209,6 +209,7 @@ class LaceratingWound(CombatAction):
 
         tags: set[DamageTag] = {
             DamageTag.PASSIVE,
+            DamageTag.MELEE,
             DamageTag.ELECTRIC,
             DamageTag.PHASE,
         }
@@ -221,25 +222,26 @@ class LaceratingWound(CombatAction):
         )
 
 
-class BloodInsignia(CombatAction):
+class SanguineEmblem(CombatAction):
     """Effect when allied units other than Sextans attacks with a blade; consumes 1 point of Confectance Index."""
 
     @override
     def execute(
-        self, stacks_of_coagulation: int, previous_triggers_this_round: int
+        self, stacks_of_rigor_sanguis: int, previous_triggers_this_round: int
     ) -> DamageInstance:
-        label: str = f"Blood Insignia ({stacks_of_coagulation}x)"
+        label: str = f"Sanguine Emblem ({stacks_of_rigor_sanguis}x)"
         base_potency: int = 60
 
         tags: set[DamageTag] = {
             DamageTag.PASSIVE,
             DamageTag.ELECTRIC,
             DamageTag.PHASE,
+            DamageTag.MELEE,
         }
 
-        # for each stack of Coagulation, increase the damage multiplier of this effect by 3%
-        potency_per_stack_of_coagulation: int = 3
-        base_potency += max(0, stacks_of_coagulation) * potency_per_stack_of_coagulation
+        # for each stack of Rigor Sanguis, increase the damage multiplier of this effect by 3%
+        potency_per_stack_of_rigor_sanguis: int = 3
+        base_potency += max(0, stacks_of_rigor_sanguis) * potency_per_stack_of_rigor_sanguis
 
         # if this effect is triggered multiple times within a round, decrease the damage
         # multiplier of this effect by 20%, down to a minimum of 30%.
@@ -255,29 +257,30 @@ class BloodInsignia(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Blood Insignia",
+            group_name="Sanguine Emblem",
         )
 
 
-class BloodInsigniaV3(CombatAction):
+class SanguineEmblemV3(CombatAction):
     """Effect when allied units other than Sextans attacks with a blade; consumes 1 point of Confectance Index."""
 
     @override
     def execute(
-        self, stacks_of_coagulation: int, previous_triggers_this_round: int
+        self, stacks_of_rigor_sanguis: int, previous_triggers_this_round: int
     ) -> DamageInstance:
-        label: str = f"Blood Insignia ({stacks_of_coagulation}x)"
+        label: str = f"Sanguine Emblem ({stacks_of_rigor_sanguis}x)"
         base_potency: int = 60
 
         tags: set[DamageTag] = {
             DamageTag.PASSIVE,
             DamageTag.ELECTRIC,
             DamageTag.PHASE,
+            DamageTag.MELEE,
         }
 
-        # for each stack of Coagulation, increase the damage multiplier of this effect by 3%
-        potency_per_stack_of_coagulation: int = 4
-        base_potency += max(0, stacks_of_coagulation) * potency_per_stack_of_coagulation
+        # for each stack of Rigor Sanguis, increase the damage multiplier of this effect by 3%
+        potency_per_stack_of_rigor_sanguis: int = 4
+        base_potency += max(0, stacks_of_rigor_sanguis) * potency_per_stack_of_rigor_sanguis
 
         # if this effect is triggered multiple times within a round, decrease the damage
         # multiplier of this effect by 20%, down to a minimum of 30%.
@@ -293,24 +296,25 @@ class BloodInsigniaV3(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Blood Insignia",
+            group_name="Sanguine Emblem",
         )
 
 
-class BloodInsigniaV6(CombatAction):
-    """Effect when allied units other than Sextans attacks with a blade; consumes 1 point of Confectance Index."""
+class SanguineEmblemV6(CombatAction):
+    """Effect when allied units other than Sextans attacks with a blade"""
 
     @override
     def execute(
-        self, stacks_of_coagulation: int, previous_triggers_this_round: int
+        self, stacks_of_rigor_sanguis: int, previous_triggers_this_round: int
     ) -> DamageInstance:
-        label: str = f"Blood Insignia ({stacks_of_coagulation}x)"
+        label: str = f"Sanguine Emblem ({stacks_of_rigor_sanguis}x)"
         base_potency: int = 90
 
         tags: set[DamageTag] = {
             DamageTag.PASSIVE,
             DamageTag.ELECTRIC,
             DamageTag.PHASE,
+            DamageTag.MELEE,
         }
 
         buffs_before: list[Buff] = []
@@ -324,9 +328,9 @@ class BloodInsigniaV6(CombatAction):
             ),
         )
 
-        # for each stack of Coagulation, increase the damage multiplier of this effect by 3%
-        potency_per_stack_of_coagulation: int = 4
-        base_potency += max(0, stacks_of_coagulation) * potency_per_stack_of_coagulation
+        # for each stack of Rigor Sanguis, increase the damage multiplier of this effect by 3%
+        potency_per_stack_of_rigor_sanguis: int = 4
+        base_potency += max(0, stacks_of_rigor_sanguis) * potency_per_stack_of_rigor_sanguis
 
         # if this effect is triggered multiple times within a round, decrease the damage
         # multiplier of this effect by 20%, down to a minimum of 30%.
@@ -342,7 +346,7 @@ class BloodInsigniaV6(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Blood Insignia",
+            group_name="Sanguine Emblem",
             buffs_before=buffs_before,
         )
 
@@ -370,27 +374,27 @@ class Sextans(Doll):
         ]
     )
 
-    dreamscape_garrote: CombatAction = Field(default_factory=DreamscapeGarrote)
+    dreamscape_finale: CombatAction = Field(default_factory=DreamscapeFinale)
     sanctuary_lauds: CombatAction = Field(default_factory=SanctuaryLauds)
     death_knell: CombatAction = Field(default_factory=DeathKnell)
-    midnight_vesper: CombatAction = Field(default_factory=MidnightVesper)
-    blood_insignia: CombatAction = Field(default_factory=BloodInsignia)
+    midnight_vespers: CombatAction = Field(default_factory=MidnightVespers)
+    sanguine_emblem: CombatAction = Field(default_factory=SanguineEmblem)
     lacerating_wound: CombatAction = Field(default_factory=LaceratingWound)
 
     def set_to_v0(self) -> None:
         """Sets Fortification Level to Segment00."""
-        self.dreamscape_garrote = DreamscapeGarrote()
+        self.dreamscape_finale = DreamscapeFinale()
         self.sanctuary_lauds = SanctuaryLauds()
         self.death_knell = DeathKnell()
-        self.midnight_vesper = MidnightVesper()
-        self.blood_insignia = BloodInsignia()
+        self.midnight_vespers = MidnightVespers()
+        self.sanguine_emblem = SanguineEmblem()
         self.lacerating_wound = LaceratingWound()
 
     def set_to_v3(self) -> None:
         """Sets Fortification Level to Segment03."""
         self.set_to_v0()
 
-        self.blood_insignia = BloodInsigniaV3()
+        self.sanguine_emblem = SanguineEmblemV3()
 
     def set_to_v5(self) -> None:
         """Sets Fortification Level to Segment05."""
@@ -402,7 +406,7 @@ class Sextans(Doll):
         """Sets Fortification Level to Segment06."""
         self.set_to_v5()
 
-        self.blood_insignia = BloodInsigniaV6()
+        self.sanguine_emblem = SanguineEmblemV6()
 
     @override
     def set_fortification_level(self, level: FortificationLevel) -> None:
