@@ -181,6 +181,7 @@ _t2: list[dict[str, Any]] = [
         "name": "Lacerating Wound",
         "original_damage_instance_potency": 90 + 15 * 4 - 6 * 20,
     },
+    # Minimum potency of Sanguine Emblem is 30, so Lacerating Wound potency will be 30 at this point.
     {
         "name": "Sanguine Emblem",
         "stacks_of_rigor_sanguis": 15,
@@ -188,17 +189,16 @@ _t2: list[dict[str, Any]] = [
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 7 * 20,
+        "original_damage_instance_potency": 30,
     },
     {
         "name": "Sanguine Emblem",
         "stacks_of_rigor_sanguis": 15,
         "previous_triggers_this_round": 8,
     },
-    # Minimum potency of Sanguine Emblem is 30, so Lacerating Wound potency will be 30 at this point.
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 8 * 20,
+        "original_damage_instance_potency": 30,
     },
 ]
 
@@ -280,6 +280,7 @@ _t3: list[dict[str, Any]] = [
         "name": "Lacerating Wound",
         "original_damage_instance_potency": 90 + 15 * 4 - 6 * 20,
     },
+    # Minimum potency of Sanguine Emblem is 30, so Lacerating Wound potency will be 30 at this point.
     {
         "name": "Sanguine Emblem",
         "stacks_of_rigor_sanguis": 15,
@@ -287,7 +288,16 @@ _t3: list[dict[str, Any]] = [
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 7 * 20,
+        "original_damage_instance_potency": 30,
+    },
+        {
+        "name": "Sanguine Emblem",
+        "stacks_of_rigor_sanguis": 15,
+        "previous_triggers_this_round": 8,
+    },
+    {
+        "name": "Lacerating Wound",
+        "original_damage_instance_potency": 30,
     },
 ]
 
@@ -371,6 +381,7 @@ _t4: list[dict[str, Any]] = [
         "name": "Lacerating Wound",
         "original_damage_instance_potency": 90 + 15 * 4 - 6 * 20,
     },
+    # Minimum potency of Sanguine Emblem is 30, so Lacerating Wound potency will be 30 at this point.
     {
         "name": "Sanguine Emblem",
         "stacks_of_rigor_sanguis": 15,
@@ -378,7 +389,7 @@ _t4: list[dict[str, Any]] = [
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 7 * 20,
+        "original_damage_instance_potency": 30,
     },
     {
         "name": "Sanguine Emblem",
@@ -387,7 +398,7 @@ _t4: list[dict[str, Any]] = [
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 8 * 20,
+        "original_damage_instance_potency": 30,
     },
 ]
 
@@ -468,6 +479,7 @@ _t5: list[dict[str, Any]] = [
         "name": "Lacerating Wound",
         "original_damage_instance_potency": 90 + 15 * 4 - 6 * 20,
     },
+    # Minimum potency of Sanguine Emblem is 30, so Lacerating Wound potency will be 30 at this point.
     {
         "name": "Sanguine Emblem",
         "stacks_of_rigor_sanguis": 15,
@@ -475,7 +487,16 @@ _t5: list[dict[str, Any]] = [
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 7 * 20,
+        "original_damage_instance_potency": 30,
+    },
+        {
+        "name": "Sanguine Emblem",
+        "stacks_of_rigor_sanguis": 15,
+        "previous_triggers_this_round": 8,
+    },
+    {
+        "name": "Lacerating Wound",
+        "original_damage_instance_potency": 30,
     },
 ]
 
@@ -559,6 +580,7 @@ _t6: list[dict[str, Any]] = [
         "name": "Lacerating Wound",
         "original_damage_instance_potency": 90 + 15 * 4 - 6 * 20,
     },
+    # Minimum potency of Sanguine Emblem is 30, so Lacerating Wound potency will be 30 at this point.
     {
         "name": "Sanguine Emblem",
         "stacks_of_rigor_sanguis": 15,
@@ -566,7 +588,7 @@ _t6: list[dict[str, Any]] = [
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 7 * 20,
+        "original_damage_instance_potency": 30,
     },
     {
         "name": "Sanguine Emblem",
@@ -575,7 +597,7 @@ _t6: list[dict[str, Any]] = [
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 8 * 20,
+        "original_damage_instance_potency": 30,
     },
 ]
 
@@ -656,6 +678,7 @@ _t7: list[dict[str, Any]] = [
         "name": "Lacerating Wound",
         "original_damage_instance_potency": 90 + 15 * 4 - 6 * 20,
     },
+    # Minimum potency of Sanguine Emblem is 30, so Lacerating Wound potency will be 30 at this point.
     {
         "name": "Sanguine Emblem",
         "stacks_of_rigor_sanguis": 15,
@@ -663,7 +686,16 @@ _t7: list[dict[str, Any]] = [
     },
     {
         "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 7 * 20,
+        "original_damage_instance_potency": 30,
+    },
+        {
+        "name": "Sanguine Emblem",
+        "stacks_of_rigor_sanguis": 15,
+        "previous_triggers_this_round": 8,
+    },
+    {
+        "name": "Lacerating Wound",
+        "original_damage_instance_potency": 30,
     },
 ]
 

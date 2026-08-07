@@ -265,7 +265,7 @@
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 10
+          "original_damage_instance_potency": 30
         },
         {
           "name": "Sanguine Emblem",
@@ -274,7 +274,7 @@
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": -10
+          "original_damage_instance_potency": 30
         }
       ],
       "3": [
@@ -372,7 +372,16 @@
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 10
+          "original_damage_instance_potency": 30
+        },
+        {
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 15,
+          "previous_triggers_this_round": 8
+        },
+        {
+          "name": "Lacerating Wound",
+          "original_damage_instance_potency": 30
         }
       ],
       "4": [
@@ -470,7 +479,7 @@
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 10
+          "original_damage_instance_potency": 30
         },
         {
           "name": "Sanguine Emblem",
@@ -479,7 +488,7 @@
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": -10
+          "original_damage_instance_potency": 30
         }
       ],
       "5": [
@@ -577,7 +586,16 @@
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 10
+          "original_damage_instance_potency": 30
+        },
+        {
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 15,
+          "previous_triggers_this_round": 8
+        },
+        {
+          "name": "Lacerating Wound",
+          "original_damage_instance_potency": 30
         }
       ],
       "6": [
@@ -675,7 +693,7 @@
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 10
+          "original_damage_instance_potency": 30
         },
         {
           "name": "Sanguine Emblem",
@@ -684,7 +702,7 @@
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": -10
+          "original_damage_instance_potency": 30
         }
       ],
       "7": [
@@ -782,7 +800,16 @@
         },
         {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 10
+          "original_damage_instance_potency": 30
+        },
+        {
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 15,
+          "previous_triggers_this_round": 8
+        },
+        {
+          "name": "Lacerating Wound",
+          "original_damage_instance_potency": 30
         }
       ]
     }
@@ -1665,7 +1692,7 @@
         "turn": 2,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 10
+          "original_damage_instance_potency": 30
         },
         "attacker": {
           "add_buffs": [],
@@ -1704,7 +1731,7 @@
         "turn": 2,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": -10
+          "original_damage_instance_potency": 30
         },
         "attacker": {
           "add_buffs": [],
@@ -2130,7 +2157,46 @@
         "turn": 3,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 10
+          "original_damage_instance_potency": 30
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 15,
+          "previous_triggers_this_round": 8
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Lacerating Wound",
+          "original_damage_instance_potency": 30
         },
         "attacker": {
           "add_buffs": [],
@@ -2556,7 +2622,7 @@
         "turn": 4,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 10
+          "original_damage_instance_potency": 30
         },
         "attacker": {
           "add_buffs": [],
@@ -2595,7 +2661,7 @@
         "turn": 4,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": -10
+          "original_damage_instance_potency": 30
         },
         "attacker": {
           "add_buffs": [],
@@ -3021,7 +3087,46 @@
         "turn": 5,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 10
+          "original_damage_instance_potency": 30
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 15,
+          "previous_triggers_this_round": 8
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Lacerating Wound",
+          "original_damage_instance_potency": 30
         },
         "attacker": {
           "add_buffs": [],
@@ -3447,7 +3552,7 @@
         "turn": 6,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 10
+          "original_damage_instance_potency": 30
         },
         "attacker": {
           "add_buffs": [],
@@ -3486,7 +3591,7 @@
         "turn": 6,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": -10
+          "original_damage_instance_potency": 30
         },
         "attacker": {
           "add_buffs": [],
@@ -3912,7 +4017,46 @@
         "turn": 7,
         "action": {
           "name": "Lacerating Wound",
-          "original_damage_instance_potency": 10
+          "original_damage_instance_potency": 30
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Sanguine Emblem",
+          "stacks_of_rigor_sanguis": 15,
+          "previous_triggers_this_round": 8
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Lacerating Wound",
+          "original_damage_instance_potency": 30
         },
         "attacker": {
           "add_buffs": [],
