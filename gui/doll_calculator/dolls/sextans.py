@@ -11,7 +11,6 @@ from core.types import (
 )
 from core.dolls import sextans
 
-
 _t1: list[dict[str, Any]] = [
     # Passive: Start with 5 stacks of Rigor Sanguis.
     {"name": "Midnight Vespers", "stacks_of_rigor_sanguis": 5},
@@ -32,9 +31,6 @@ _t1: list[dict[str, Any]] = [
     },
     {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 9 * 4},
     # Sanguine Emblem triggers when allied units (excluding Sextans) attack with a blade:
-    # Assume:
-    # 4x from Ullrid
-    # 4x from Phaetusa
     {
         "name": "Sanguine Emblem",
         "stacks_of_rigor_sanguis": 11,
@@ -71,34 +67,6 @@ _t1: list[dict[str, Any]] = [
         "name": "Lacerating Wound",
         "original_damage_instance_potency": 90 + 11 * 4 - 4 * 20,
     },
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 11,
-        "previous_triggers_this_round": 5,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 11 * 4 - 5 * 20,
-    },
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 11,
-        "previous_triggers_this_round": 6,
-    },
-    # Minimum potency of Sanguine Emblem is 30, so Lacerating Wound potency will be 30 at this point.
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 30},
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 11,
-        "previous_triggers_this_round": 7,
-    },
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 30},
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 11,
-        "previous_triggers_this_round": 8,
-    },
-    {"name": "Lacerating Wound", "original_damage_instance_potency": 30},
 ]
 
 _t2: list[dict[str, Any]] = [
@@ -124,9 +92,6 @@ _t2: list[dict[str, Any]] = [
     # Assume Boss is in Stability Break now, so increment the Rigor Sanguis stack count by 4 (1 for the passive trigger and 3 for the Boss level).
     # Total Rigor Sanguis stacks is 17 (initial) + 1 (Death Knell) + 3 (Boss) = 15 stacks (capped).
     # Sanguine Emblem triggers when allied units (excluding Sextans) attack with a blade:
-    # Assume:
-    # 4x from Ullrid
-    # 4x from Phaetusa
     {
         "name": "Sanguine Emblem",
         "stacks_of_rigor_sanguis": 15,
@@ -162,43 +127,6 @@ _t2: list[dict[str, Any]] = [
     {
         "name": "Lacerating Wound",
         "original_damage_instance_potency": 90 + 15 * 4 - 4 * 20,
-    },
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 5,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 5 * 20,
-    },
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 6,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 6 * 20,
-    },
-    # Minimum potency of Sanguine Emblem is 30, so Lacerating Wound potency will be 30 at this point.
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 7,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 30,
-    },
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 8,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 30,
     },
 ]
 
@@ -223,9 +151,6 @@ _t3: list[dict[str, Any]] = [
     },
     {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 15 * 4},
     # Sanguine Emblem triggers when allied units (excluding Sextans) attack with a blade:
-    # Assume:
-    # 4x from Ullrid
-    # 4x from Phaetusa
     {
         "name": "Sanguine Emblem",
         "stacks_of_rigor_sanguis": 15,
@@ -261,43 +186,6 @@ _t3: list[dict[str, Any]] = [
     {
         "name": "Lacerating Wound",
         "original_damage_instance_potency": 90 + 15 * 4 - 4 * 20,
-    },
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 5,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 5 * 20,
-    },
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 6,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 6 * 20,
-    },
-    # Minimum potency of Sanguine Emblem is 30, so Lacerating Wound potency will be 30 at this point.
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 7,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 30,
-    },
-        {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 8,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 30,
     },
 ]
 
@@ -324,9 +212,6 @@ _t4: list[dict[str, Any]] = [
     # Assume Boss is in Stability Break now, so increment the Rigor Sanguis stack count by 4 (1 for the passive trigger and 3 for the Boss level).
     # Total Rigor Sanguis stacks is 31 (after Death Knell hit) + 2 (Death Knell completion) + 4 (Stability Break passive) = 15 stacks (capped).
     # Sanguine Emblem triggers when allied units (excluding Sextans) attack with a blade:
-    # Assume:
-    # 4x from Ullrid
-    # 4x from Phaetusa
     {
         "name": "Sanguine Emblem",
         "stacks_of_rigor_sanguis": 15,
@@ -362,43 +247,6 @@ _t4: list[dict[str, Any]] = [
     {
         "name": "Lacerating Wound",
         "original_damage_instance_potency": 90 + 15 * 4 - 4 * 20,
-    },
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 5,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 5 * 20,
-    },
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 6,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 6 * 20,
-    },
-    # Minimum potency of Sanguine Emblem is 30, so Lacerating Wound potency will be 30 at this point.
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 7,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 30,
-    },
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 8,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 30,
     },
 ]
 
@@ -422,9 +270,6 @@ _t5: list[dict[str, Any]] = [
     },
     {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 15 * 4},
     # Sanguine Emblem triggers when allied units (excluding Sextans) attack with a blade:
-    # Assume:
-    # 4x from Ullrid
-    # 4x from Phaetusa
     {
         "name": "Sanguine Emblem",
         "stacks_of_rigor_sanguis": 15,
@@ -460,43 +305,6 @@ _t5: list[dict[str, Any]] = [
     {
         "name": "Lacerating Wound",
         "original_damage_instance_potency": 90 + 15 * 4 - 4 * 20,
-    },
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 5,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 5 * 20,
-    },
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 6,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 6 * 20,
-    },
-    # Minimum potency of Sanguine Emblem is 30, so Lacerating Wound potency will be 30 at this point.
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 7,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 30,
-    },
-        {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 8,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 30,
     },
 ]
 
@@ -523,9 +331,6 @@ _t6: list[dict[str, Any]] = [
     # Assume Boss is in Stability Break now, so increment the Rigor Sanguis stack count by 4 (1 for the passive trigger and 3 for the Boss level).
     # Total Rigor Sanguis stacks is 47 (after Death Knell hit) + 2 (Death Knell completion) + 4 (Stability Break passive) = 15 stacks (capped).
     # Sanguine Emblem triggers when allied units (excluding Sextans) attack with a blade:
-    # Assume:
-    # 4x from Ullrid
-    # 4x from Phaetusa
     {
         "name": "Sanguine Emblem",
         "stacks_of_rigor_sanguis": 15,
@@ -561,43 +366,6 @@ _t6: list[dict[str, Any]] = [
     {
         "name": "Lacerating Wound",
         "original_damage_instance_potency": 90 + 15 * 4 - 4 * 20,
-    },
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 5,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 5 * 20,
-    },
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 6,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 6 * 20,
-    },
-    # Minimum potency of Sanguine Emblem is 30, so Lacerating Wound potency will be 30 at this point.
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 7,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 30,
-    },
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 8,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 30,
     },
 ]
 
@@ -621,9 +389,6 @@ _t7: list[dict[str, Any]] = [
     },
     {"name": "Lacerating Wound", "original_damage_instance_potency": 90 + 15 * 4},
     # Sanguine Emblem triggers when allied units (excluding Sextans) attack with a blade:
-    # Assume:
-    # 4x from Ullrid
-    # 4x from Phaetusa
     {
         "name": "Sanguine Emblem",
         "stacks_of_rigor_sanguis": 15,
@@ -660,43 +425,6 @@ _t7: list[dict[str, Any]] = [
         "name": "Lacerating Wound",
         "original_damage_instance_potency": 90 + 15 * 4 - 4 * 20,
     },
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 5,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 5 * 20,
-    },
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 6,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 90 + 15 * 4 - 6 * 20,
-    },
-    # Minimum potency of Sanguine Emblem is 30, so Lacerating Wound potency will be 30 at this point.
-    {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 7,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 30,
-    },
-        {
-        "name": "Sanguine Emblem",
-        "stacks_of_rigor_sanguis": 15,
-        "previous_triggers_this_round": 8,
-    },
-    {
-        "name": "Lacerating Wound",
-        "original_damage_instance_potency": 30,
-    },
 ]
 
 
@@ -719,7 +447,7 @@ class Sextans(DollCalculatorPage):
 
         self.doll = sextans.Sextans()
         self.doll.set_fortification_level(FortificationLevel.SEGMENT06)
-        self.doll_subtitle: str = """Melee / Tile / Blade Support
+        self.doll_subtitle: str = """Melee Damage / Buff / Tile
 
             Support / Electric"""
         self.dandegate_link: str = "https://www.dandegate.net/dolls/sextans"
@@ -894,7 +622,7 @@ class Sextans(DollCalculatorPage):
             ),
             ModelAssumption(
                 icon="bloodtype",
-                description="Sample rotation assumes 8 triggers of Sanguine Emblem from allied units.",
+                description="Sample rotation assumes 4 triggers of Sanguine Emblem from allied units.",
             ),
         ]
 
