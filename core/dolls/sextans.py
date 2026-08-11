@@ -18,8 +18,7 @@ from core.combat import (
     SextansDamageCalculationStrategy,
 )
 
-
-MAX_STACKS_OF_RIGOR_SANGUIS: int = 15  # No known cap
+MAX_STACKS_OF_RIGOR_SANGUIS: int = 15
 POTENCY_PER_STACK_OF_RIGOR_SANGUIS: int = 10
 
 
@@ -241,7 +240,9 @@ class SanguineEmblem(CombatAction):
 
         # for each stack of Rigor Sanguis, increase the damage multiplier of this effect by 3%
         potency_per_stack_of_rigor_sanguis: int = 3
-        base_potency += max(0, stacks_of_rigor_sanguis) * potency_per_stack_of_rigor_sanguis
+        base_potency += (
+            max(0, stacks_of_rigor_sanguis) * potency_per_stack_of_rigor_sanguis
+        )
 
         # if this effect is triggered multiple times within a round, decrease the damage
         # multiplier of this effect by 20%, down to a minimum of 30%.
@@ -280,7 +281,9 @@ class SanguineEmblemV3(CombatAction):
 
         # for each stack of Rigor Sanguis, increase the damage multiplier of this effect by 3%
         potency_per_stack_of_rigor_sanguis: int = 4
-        base_potency += max(0, stacks_of_rigor_sanguis) * potency_per_stack_of_rigor_sanguis
+        base_potency += (
+            max(0, stacks_of_rigor_sanguis) * potency_per_stack_of_rigor_sanguis
+        )
 
         # if this effect is triggered multiple times within a round, decrease the damage
         # multiplier of this effect by 20%, down to a minimum of 30%.
@@ -330,7 +333,9 @@ class SanguineEmblemV6(CombatAction):
 
         # for each stack of Rigor Sanguis, increase the damage multiplier of this effect by 3%
         potency_per_stack_of_rigor_sanguis: int = 4
-        base_potency += max(0, stacks_of_rigor_sanguis) * potency_per_stack_of_rigor_sanguis
+        base_potency += (
+            max(0, stacks_of_rigor_sanguis) * potency_per_stack_of_rigor_sanguis
+        )
 
         # if this effect is triggered multiple times within a round, decrease the damage
         # multiplier of this effect by 20%, down to a minimum of 30%.
