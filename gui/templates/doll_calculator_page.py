@@ -4,7 +4,7 @@ import copy
 import inspect
 from typing import final, Any
 from abc import ABC, abstractmethod
-from dataclasses import asdict
+
 from decimal import Decimal, ROUND_DOWN
 from pathlib import Path
 from pydantic import BaseModel
@@ -31,6 +31,7 @@ from gui.templates.doll_notes import (
 )
 from gui.styles.descriptions import get_tag_description, get_stat_description
 from gui.styles.graphs import get_bar_chart_template, get_donut_chart_template
+from core.general_combat_actions import get_elemental_tile_option_config
 
 
 class ModelAssumption(BaseModel):
@@ -44,6 +45,15 @@ class ModelAssumption(BaseModel):
 
 class DollCalculatorPage(ABC):
     """Template for each Doll's page."""
+
+    @classmethod
+    def add_elemental_tile_actions_for_element(
+        cls,
+        option_config: dict[str, dict[str, Any]],
+        element: DamageTag | str,
+    ) -> None:
+        """Adds every tile-related action for a given element, including polyphase tile variants."""
+        option_config.update(get_elemental_tile_option_config(element))
 
     actions_table_columns: list[dict] = [
         {

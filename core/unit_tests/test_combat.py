@@ -2,6 +2,23 @@ import pytest
 
 from core.buffs import Elsin
 from core.dolls.springfield import Springfield
+from core.general_combat_actions import (
+    BlitzLink,
+    RadiantEnergyTileTriggered,
+    RadiantEnergyTileTurnEnd,
+    ScaldingVaporsTileBurn,
+    ScaldingVaporsTileHydro,
+    SmolderingSuspireTileBurn,
+    SmolderingSuspireTileFreeze,
+    ThunderpoolTile,
+    ToxicMistTile,
+    ToxicQuagmireTile,
+    VenomfireTileTriggered,
+    VenomfireTileTurnEnd,
+    VoltageTile,
+    get_elemental_tile_actions_for_element,
+    get_elemental_tile_option_config,
+)
 
 from core.combat import *
 from core.combat import _calculate_effective_and_negative_defense
@@ -126,6 +143,158 @@ class TestSumDamageInstances:
             damage_instances, DamageTag.AREA_OF_EFFECT, do_exclude=True
         )
         assert combined_di.adjusted_potency == pytest.approx(52 + 111)
+
+
+class TestElementalTileCombatActions:
+    @pytest.mark.parametrize(
+        ("action", "level", "expected"),
+        [
+            (ToxicMistTile(), 1, 50),
+            (ToxicMistTile(), 2, 150),
+            (ToxicMistTile(), 3, 300),
+            (ToxicQuagmireTile(), 1, 50),
+            (ToxicQuagmireTile(), 2, 150),
+            (ToxicQuagmireTile(), 3, 300),
+            (VenomfireTileTurnEnd(), 1, 50),
+            (VenomfireTileTurnEnd(), 2, 150),
+            (VenomfireTileTurnEnd(), 3, 300),
+            (RadiantEnergyTileTurnEnd(), 1, 50),
+            (RadiantEnergyTileTurnEnd(), 2, 150),
+            (RadiantEnergyTileTurnEnd(), 3, 300),
+        ],
+    )
+    def test_fixed_tile_turn_end_potencies(self, action, level, expected):
+        result = action.execute(level)
+
+        assert isinstance(result, FixedDamageInstance)
+        assert result.base_potency == expected
+        assert result.group_name in {
+            "Toxic Mist Tile",
+            "Toxic Quagmire Tile",
+            "Venomfire Tile",
+            "Radiant Energy Tile",
+        }
+
+    @pytest.mark.parametrize(
+        (
+            "action",
+            "level",
+            "damage_taken_is_electric_or_hydro",
+            "is_large_target",
+            "expected",
+        ),
+        [
+            (VoltageTile(), 0, False, False, 30),
+            (VoltageTile(), 1, True, False, 60),
+            (VoltageTile(), 2, False, True, 60),
+            (VoltageTile(), 3, True, True, 120),
+            (ThunderpoolTile(), 0, False, False, 30),
+            (ThunderpoolTile(), 1, True, False, 60),
+            (ThunderpoolTile(), 2, False, True, 60),
+            (ThunderpoolTile(), 3, True, True, 120),
+            (RadiantEnergyTileTriggered(), 0, False, False, 30),
+            (RadiantEnergyTileTriggered(), 1, True, False, 60),
+            (RadiantEnergyTileTriggered(), 2, False, True, 60),
+            (RadiantEnergyTileTriggered(), 3, True, True, 120),
+            (VenomfireTileTriggered(), 1, None, None, 10),
+            (VenomfireTileTriggered(), 2, None, None, 25),
+            (VenomfireTileTriggered(), 3, None, None, 25),
+        ],
+    )
+    def test_triggered_tile_potencies(
+        self,
+        action,
+        level,
+        damage_taken_is_electric_or_hydro,
+        is_large_target,
+        expected,
+    ):
+        if isinstance(
+            action, (VoltageTile, ThunderpoolTile, RadiantEnergyTileTriggered)
+        ):
+            result = action.execute(
+                level,
+                damage_taken_is_electric_or_hydro,
+                is_large_target,
+            )
+        else:
+            result = action.execute(level)
+
+        assert isinstance(result, FixedDamageInstance)
+        assert result.base_potency == expected
+
+    @pytest.mark.parametrize(
+        ("action", "expected_tags", "expected_potency"),
+        [
+            (ScaldingVaporsTileBurn(), {DamageTag.PHASE, DamageTag.BURN}, 15),
+            (ScaldingVaporsTileHydro(), {DamageTag.PHASE, DamageTag.HYDRO}, 15),
+            (SmolderingSuspireTileBurn(), {DamageTag.PHASE, DamageTag.BURN}, 75),
+            (SmolderingSuspireTileFreeze(), {DamageTag.PHASE, DamageTag.FREEZE}, 75),
+        ],
+    )
+    def test_polyphase_activation_tags(self, action, expected_tags, expected_potency):
+        result = action.execute(2)
+
+        assert result.tags == expected_tags
+        assert result.base_potency == expected_potency
+
+    def test_blitz_link_potency_and_tags(self):
+        result = BlitzLink().execute(3, 2)
+
+        assert result.tags == {DamageTag.PHASE, DamageTag.ELECTRIC}
+        assert result.base_potency == 50 + 2 * 5
+        assert result.group_name == "Blitz Link"
+
+    def test_get_elemental_tile_actions_for_burn_and_freeze_include_polyphase_tiles(
+        self,
+    ):
+        burn_actions = get_elemental_tile_actions_for_element(DamageTag.BURN)
+        freeze_actions = get_elemental_tile_actions_for_element(DamageTag.FREEZE)
+
+        assert "Scalding Vapors Tile (Burn)" in burn_actions
+        assert "Venomfire Tile (Turn End)" in burn_actions
+        assert "Venomfire Tile (Triggered)" in burn_actions
+        assert "Smoldering Suspire Tile (Burn)" in burn_actions
+
+        assert "Smoldering Suspire Tile (Freeze)" in freeze_actions
+
+    def test_get_elemental_tile_option_config_builds_tile_fields(self):
+        config = get_elemental_tile_option_config(DamageTag.BURN)
+
+        assert "Scalding Vapors Tile (Burn)" in config
+        assert "Smoldering Suspire Tile (Burn)" in config
+        assert "Venomfire Tile (Triggered)" in config
+
+        burn_fields = config["Smoldering Suspire Tile (Burn)"]["fields"]
+        assert any(field["key"] == "tile_ascension_level" for field in burn_fields)
+        assert (
+            any(
+                field["key"] == "damage_taken_is_electric_or_hydro"
+                for field in burn_fields
+            )
+            is False
+        )
+
+        triggered_fields = config["Venomfire Tile (Triggered)"]["fields"]
+        assert any(field["key"] == "tile_ascension_level" for field in triggered_fields)
+
+    @pytest.mark.parametrize(
+        ("action", "level"),
+        [
+            (ToxicMistTile(), 0),
+            (ScaldingVaporsTileBurn(), 0),
+            (VenomfireTileTurnEnd(), 0),
+            (ToxicQuagmireTile(), 0),
+            (BlitzLink(), 0),
+            (RadiantEnergyTileTurnEnd(), 0),
+        ],
+    )
+    def test_invalid_tile_ascension_level_raises(self, action, level):
+        with pytest.raises(ValueError):
+            if isinstance(action, BlitzLink):
+                action.execute(level, 0)
+            else:
+                action.execute(level)
 
 
 class TestDamageCalculationStrategy:
