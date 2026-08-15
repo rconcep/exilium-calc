@@ -2,6 +2,7 @@ from nicegui import app, ui
 from typing import Callable
 
 from gui.doll_calculator.dolls import (
+    Asteria,
     Alva,
     Basti,
     Daiyan,
@@ -43,6 +44,7 @@ from gui.styles.theme import apply_exilium_theme
 from core.runtime_paths import get_resource_path, get_resources_root
 
 DOLL_PAGES: list[tuple[str, str, Callable[[], object]]] = [
+    ("Asteria", "/asteria", Asteria),
     ("Alva", "/alva", Alva),
     ("Basti", "/basti", Basti),
     ("Belka", "/belka", Belka),
