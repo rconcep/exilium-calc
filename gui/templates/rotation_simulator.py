@@ -6,6 +6,7 @@ import copy
 import hashlib
 import inspect
 import json
+from uuid import uuid4
 
 from nicegui import events, ui
 
@@ -1289,7 +1290,8 @@ class RotationSimulator:
             if item.get("_effect_kind") == "buff"
             else debuffs_option_config
         )
-        for field in option_config[item["name"]]["fields"]:
+        option_details = option_config.get(item["name"], {})
+        for field in option_details.get("fields", []):
             key: str = field["key"]
             value = item.get(key)
             if value in (None, "", False):
@@ -1321,12 +1323,24 @@ class RotationSimulator:
         digest = hashlib.sha1(signature_text.encode("utf-8")).hexdigest()[:12]
         return f"{effect_kind}:{payload.get('name', '')}:{occurrence_index}:{digest}"
 
+    def _ensure_effect_item_metadata(
+        self, item: dict[str, Any], effect_kind: str
+    ) -> dict[str, Any]:
+        option_config = (
+            buffs_option_config if effect_kind == "buff" else debuffs_option_config
+        )
+        config = option_config.get(item.get("name"), {})
+        item.setdefault("_instance_id", str(uuid4()))
+        item["_effect_kind"] = effect_kind
+        if "target_instance_id" in config:
+            item.setdefault("_target_instance_id", config["target_instance_id"])
+        return item
+
     def _clone_effect_item(
         self, item: dict[str, Any], effect_kind: str
     ) -> dict[str, Any]:
         cloned_item: dict[str, Any] = copy.deepcopy(item)
-        cloned_item["_effect_kind"] = effect_kind
-        return cloned_item
+        return self._ensure_effect_item_metadata(cloned_item, effect_kind)
 
     def _get_available_effect_instances_before_row(
         self,
@@ -1392,6 +1406,7 @@ class RotationSimulator:
         signature_counts: dict[tuple[tuple[str, str], ...], int] = {}
 
         for item in available_items:
+            item = self._ensure_effect_item_metadata(item, effect_kind)
             signature = self._effect_signature(item)
             signature_counts.setdefault(signature, 0)
             signature_counts[signature] += 1
@@ -1450,6 +1465,7 @@ class RotationSimulator:
         signature_counts: dict[tuple[tuple[str, str], ...], int] = {}
 
         for item in available_items:
+            item = self._ensure_effect_item_metadata(item, effect_kind)
             signature = self._effect_signature(item)
             signature_counts.setdefault(signature, 0)
             signature_counts[signature] += 1
