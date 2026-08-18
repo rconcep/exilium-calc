@@ -88,6 +88,11 @@ class Liushih(DollCalculatorPage):
             },
         }
 
+        self.add_elemental_tile_actions_for_element(
+            self.option_config,
+            DamageTag.HYDRO,
+        )
+
     @override
     def set_initial_values(self) -> None:
         # Using Springfield's stats as initial values

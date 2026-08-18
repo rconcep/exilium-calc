@@ -1695,6 +1695,23 @@ class Boldness(Buff):
         self.tag = DamageTag.ALL
 
 
+class Wellflow(Buff):
+    """Hydro buff. Max HP increased by 10%."""
+
+    display_name = "Wellflow"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        """
+        Arguments:
+        """
+        self.value = 10
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.HEALTH
+        self.tag = DamageTag.ALL
+
+
 class CompetitiveSpirit(Buff):
     """Klukai buff"""
 
@@ -2541,6 +2558,81 @@ class PhaseBoostII(Buff):
         self.tag = DamageTag.PHASE
 
 
+class ToxicQuagmire(Buff):
+    """The effect when friendly units are on a Toxic Quagmire tile.
+    TODO: Dandegate guide says "Corrosion Amplification" and "Hydro Amplification";
+    I am taking this to be damage boost.
+    """
+
+    display_name = "Toxic Quagmire"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self, tile_ascension_level: int):
+        self.value = 0
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.CORROSION
+
+        ret: list[Buff] = [
+            self,
+        ]
+
+        if tile_ascension_level >= 3:
+            self.value = 10
+
+            ret.append(
+                Buff(
+                    value=10,
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=SpecialAttribute.DAMAGE_BOOST,
+                    tag=DamageTag.HYDRO,
+                ),
+            )
+
+        return ret
+
+
+class Thunderpool(Buff):
+    """The effect when friendly units are on a Thunderpool tile."""
+
+    display_name = "Thunderpool"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, tile_ascension_level: int):
+        self.value = 0
+
+        if tile_ascension_level >= 3:
+            self.value = 10
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.PHYSICAL_SUMMON
+
+
+class Crystalveil(Buff):
+    """The effect when friendly units are on a Crystalveil tile."""
+
+    display_name = "Crystalveil"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, tile_ascension_level: int):
+        self.value = 0
+
+        # TODO: This is supposed to be only for units with shields.
+        # Applying this buff implies that the unit has a shield.
+        if tile_ascension_level >= 3:
+            self.value = 20
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.ALL
+
+
 class Crumble(Debuff):
     """When attacked by Voymastina, this unit's defense is reduced by 40%. Considered a debuff."""
 
@@ -2875,6 +2967,20 @@ class Frostbite(Debuff):
         self.tag = DamageTag.FREEZE
 
 
+class Debility(Debuff):
+    """Freeze debuff. Damage taken increased by 20%."""
+
+    display_name = "Debility"
+    max_stack_count = 1
+    stack_input_type = "input"
+
+    def __init__(self):
+        self.value = 20
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.ALL
+
+
 class FalseIntelligence(Debuff):
     """Springfield debuff. Increased Hydro damage taken when in Stability Break."""
 
@@ -3134,7 +3240,7 @@ class ScribbledFunnyFace(Debuff):
         self.tag = DamageTag.CORROSION
 
 
-class ReconstructionCorrosion(Buff):
+class ReconstructionCorrosion(Debuff):
     """Effect when OTs-14 has Reconstruction: Corrosion."""
 
     display_name = "Reconstruction: Corrosion (OTs-14)"
@@ -3153,6 +3259,52 @@ class ReconstructionCorrosion(Buff):
         # by the enemy unit.
         increased_damage_taken_per_debuff: int = 2
         self.value = increased_damage_taken_per_debuff * max(0, number_of_debuffs)
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.ALL
+
+
+class Meltdown(Debuff):
+    """After reaching 2 stacks, increases damage taken from basic attacks or active skills."""
+
+    display_name = "Meltdown"
+    max_stack_count = 1
+    stack_input_type = "input"
+
+    def __init__(self): ...
+
+    def get_buffs(
+        self,
+    ):
+        ret: list[Debuff] = []
+
+        self.value = 45
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.BASIC
+        ret.append(self)
+
+        ret.append(
+            Debuff(self.value, self.modifier_type, self.stat_type, DamageTag.ACTIVE)
+        )
+
+        return ret
+
+
+class ScaldingVapors(Debuff):
+    """The increased damage taken effect when units are on a Scalding Vapors tile."""
+
+    display_name = "Scalding Vapors"
+    max_stack_count = 1
+    stack_input_type = "input"
+
+    def __init__(self, tile_ascension_level: int):
+        self.value = 0
+
+        # Only active at tile ascension level III
+        if tile_ascension_level >= 3:
+            self.value = 15
+
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
         self.tag = DamageTag.ALL

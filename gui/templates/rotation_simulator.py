@@ -1315,9 +1315,7 @@ class RotationSimulator:
         and occurrence index among identical signatures before a timeline row.
         """
         payload = {
-            key: value
-            for key, value in item.items()
-            if not str(key).startswith("_")
+            key: value for key, value in item.items() if not str(key).startswith("_")
         }
         signature_text = json.dumps(payload, sort_keys=True, default=str)
         digest = hashlib.sha1(signature_text.encode("utf-8")).hexdigest()[:12]

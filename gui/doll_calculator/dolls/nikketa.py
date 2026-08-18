@@ -11,7 +11,6 @@ from core.types import (
 )
 from core.dolls import nikketa
 
-
 sample_rotation: dict[int, list[dict]] = {
     1: [
         {"name": "Judgment Strike", "has_fixed_key_3": False},
@@ -251,6 +250,11 @@ class Nikketa(DollCalculatorPage):
                 "function": self.doll.kulich_counterattack.execute,
             },
         }
+
+        self.add_elemental_tile_actions_for_element(
+            self.option_config,
+            DamageTag.HYDRO,
+        )
 
     @override
     def set_initial_values(self) -> None:

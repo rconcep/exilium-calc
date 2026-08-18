@@ -11,7 +11,6 @@ from core.types import (
 )
 from core.dolls import robella
 
-
 sample_rotation: dict[int, list[dict]] = {
     1: [
         {"name": "Unity: Enhanced"},
@@ -179,6 +178,11 @@ class Robella(DollCalculatorPage):
                 "function": self.doll.howling_cyclone.execute,
             },
         }
+
+        self.add_elemental_tile_actions_for_element(
+            self.option_config,
+            DamageTag.FREEZE,
+        )
 
     @override
     def set_initial_values(self) -> None:

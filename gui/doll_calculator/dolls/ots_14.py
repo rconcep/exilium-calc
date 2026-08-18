@@ -128,6 +128,31 @@ class OTs14(DollCalculatorPage):
             },
         }
 
+        self.add_elemental_tile_actions_for_element(
+            self.option_config,
+            DamageTag.BURN,
+        )
+
+        self.add_elemental_tile_actions_for_element(
+            self.option_config,
+            DamageTag.FREEZE,
+        )
+
+        self.add_elemental_tile_actions_for_element(
+            self.option_config,
+            DamageTag.HYDRO,
+        )
+
+        self.add_elemental_tile_actions_for_element(
+            self.option_config,
+            DamageTag.ELECTRIC,
+        )
+
+        self.add_elemental_tile_actions_for_element(
+            self.option_config,
+            DamageTag.CORROSION,
+        )
+
     @override
     def set_initial_values(self) -> None:
         self.doll.initial_stats.basic_attributes[StatType.ATTACK] = 4250

@@ -12,7 +12,6 @@ from core.types import (
 )
 from core.dolls import leva
 
-
 sample_rotation: dict[int, list[dict]] = {
     1: [
         {"name": "Emergency Support"},
@@ -185,6 +184,11 @@ class Leva(DollCalculatorPage):
                 "function": self.doll.overclocking_strike.execute,
             },
         }
+
+        self.add_elemental_tile_actions_for_element(
+            self.option_config,
+            DamageTag.ELECTRIC,
+        )
 
     @override
     def set_initial_values(self) -> None:

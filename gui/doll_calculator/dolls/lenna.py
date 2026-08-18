@@ -6,7 +6,6 @@ from typing import Any, cast, override
 from core.types import DamageTag, StatType, FortificationLevel, SpecialAttribute
 from core.dolls import lenna
 
-
 sample_rotation: dict[int, list[dict]] = {
     1: [
         {"name": "Leaping Pursuit", "confectance_index": 6},
@@ -146,6 +145,11 @@ class Lenna(DollCalculatorPage):
                 "function": doll.hunting_strategy.execute,
             },
         }
+
+        self.add_elemental_tile_actions_for_element(
+            self.option_config,
+            DamageTag.ELECTRIC,
+        )
 
     @override
     def set_initial_values(self) -> None:

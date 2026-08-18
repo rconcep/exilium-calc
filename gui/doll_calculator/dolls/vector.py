@@ -12,7 +12,6 @@ from core.types import (
 from core.dolls import vector
 from core.combat import Overburn
 
-
 sample_rotation: dict[int, list[dict]] = {
     1: [
         {"name": "Searing Finale"},
@@ -144,6 +143,11 @@ class Vector(DollCalculatorPage):
                 "function": Overburn().execute,
             },
         }
+
+        self.add_elemental_tile_actions_for_element(
+            self.option_config,
+            DamageTag.BURN,
+        )
 
     @override
     def set_initial_values(self) -> None:

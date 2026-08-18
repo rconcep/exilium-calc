@@ -11,7 +11,6 @@ from core.types import (
 )
 from core.dolls import alva
 
-
 sample_rotation: dict[int, list[dict]] = {
     1: [
         {"name": "Frosted Echo", "confectance_index": 6},
@@ -128,6 +127,11 @@ class Alva(DollCalculatorPage):
                 "function": doll.interception.execute,
             },
         }
+
+        self.add_elemental_tile_actions_for_element(
+            self.option_config,
+            DamageTag.FREEZE,
+        )
 
     @override
     def set_initial_values(self) -> None:

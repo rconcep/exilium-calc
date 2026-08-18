@@ -7,7 +7,6 @@ from core.types import DamageTag, FortificationLevel, SpecialAttribute, StatType
 from gui.templates.doll_calculator_page import DollCalculatorPage, ModelAssumption
 from gui.templates.rotation_planner import RotationPlanner
 
-
 _t1 = [
     {
         "name": "Dreamquake",
@@ -99,6 +98,11 @@ class Mechty(DollCalculatorPage):
                 "function": doll.dreamquake.execute,
             },
         }
+
+        self.add_elemental_tile_actions_for_element(
+            self.option_config,
+            DamageTag.CORROSION,
+        )
 
     @override
     def set_initial_values(self) -> None:

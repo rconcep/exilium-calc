@@ -139,6 +139,11 @@ class Loreley(DollCalculatorPage):
             },
         }
 
+        self.add_elemental_tile_actions_for_element(
+            self.option_config,
+            DamageTag.BURN,
+        )
+
     @override
     def set_initial_values(self) -> None:
         doll = cast(loreley.Loreley, self.doll)

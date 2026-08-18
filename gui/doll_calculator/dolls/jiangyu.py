@@ -11,7 +11,6 @@ from core.types import (
 )
 from core.dolls import jiangyu
 
-
 sample_rotation: dict[int, list[dict]] = {
     1: [
         {"name": "Thunderclap"},
@@ -138,6 +137,11 @@ class Jiangyu(DollCalculatorPage):
                 "function": doll.urge_to_perform.execute,
             },
         }
+
+        self.add_elemental_tile_actions_for_element(
+            self.option_config,
+            DamageTag.ELECTRIC,
+        )
 
     @override
     def set_initial_values(self) -> None:
