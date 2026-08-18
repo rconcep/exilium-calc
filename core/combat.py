@@ -663,11 +663,7 @@ def get_reportable_damage_tags(damage_instance: DamageInstance) -> set[DamageTag
         DamageTag.ELECTRIC,
         DamageTag.PHASE,
     }
-    return {
-        tag
-        for tag in damage_instance.tags
-        if tag not in omni_expanded_tags
-    }
+    return {tag for tag in damage_instance.tags if tag not in omni_expanded_tags}
 
 
 def sum_damage_instances(
@@ -1916,7 +1912,7 @@ class SoppoDamageCalculationStrategy(StandardDamageCalculationStrategy):
             attacker.additive_modifiers.special_attributes[
                 SpecialAttribute.DAMAGE_BOOST
             ].add_to_multiplier(
-                DamageTag.ALL,
+                DamageTag.ACTIVE,
                 damage_boost_from_passive,
             )
 

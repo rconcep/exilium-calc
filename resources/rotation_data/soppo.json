@@ -20,28 +20,6 @@
         {
           "name": "Unity: Enhanced",
           "robella_initial_attack": 4800
-        },
-        {
-          "name": "Feral Factor (Soppo)",
-          "stacks": 20
-        },
-        {
-          "name": "Feral Factor I (Soppo)",
-          "soppo_fortification_level": 6,
-          "tile_level": 1,
-          "stacks_of_feral_factor": 20
-        },
-        {
-          "name": "Feral Factor II (Soppo)",
-          "soppo_fortification_level": 6,
-          "number_of_freeze_and_burn_buffs": 5,
-          "stacks_of_feral_factor": 20
-        },
-        {
-          "name": "Feral Factor III (Soppo)",
-          "soppo_fortification_level": 6,
-          "tile_level": 1,
-          "stacks_of_feral_factor": 20
         }
       ]
     },
@@ -61,7 +39,7 @@
       "phase_weaknesses_exploited": 2,
       "stability_broken": true,
       "unit_level": "Boss",
-      "phase_tile_level": 0,
+      "phase_tile_level": 3,
       "basic_attributes": {
         "Defense": 5000.0,
         "Health": 11000000.0,
@@ -90,11 +68,23 @@
           "in_feral_form": true
         },
         {
+          "name": "Ferocious Bite",
+          "in_feral_form": true
+        },
+        {
           "name": "Predator's Pursuit",
           "in_feral_form": true
         },
         {
           "name": "Deadly Pounce (Passive)"
+        },
+        {
+          "name": "Smoldering Suspire Tile (Freeze)",
+          "tile_ascension_level": 3
+        },
+        {
+          "name": "Smoldering Suspire Tile (Burn)",
+          "tile_ascension_level": 3
         }
       ],
       "2": [
@@ -112,7 +102,7 @@
           "name": "Midnight Howl (Form Swap)",
           "in_feral_form": true,
           "num_targets": 1,
-          "target_tile_ascension_level": 1
+          "target_tile_ascension_level": 3
         },
         {
           "name": "Predator's Pursuit",
@@ -120,12 +110,20 @@
         },
         {
           "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 10,
+          "stacks_of_prey_mark": 8.0,
           "target_is_on_phase_tile": true,
-          "confectance_index": 4
+          "confectance_index": 5
         },
         {
           "name": "Deadly Pounce (Passive)"
+        },
+        {
+          "name": "Smoldering Suspire Tile (Freeze)",
+          "tile_ascension_level": 3
+        },
+        {
+          "name": "Smoldering Suspire Tile (Burn)",
+          "tile_ascension_level": 3
         }
       ],
       "3": [
@@ -153,12 +151,20 @@
         },
         {
           "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 9,
+          "stacks_of_prey_mark": 6.0,
           "target_is_on_phase_tile": true,
-          "confectance_index": 4
+          "confectance_index": 5
         },
         {
           "name": "Deadly Pounce (Passive)"
+        },
+        {
+          "name": "Smoldering Suspire Tile (Freeze)",
+          "tile_ascension_level": 3
+        },
+        {
+          "name": "Smoldering Suspire Tile (Burn)",
+          "tile_ascension_level": 3
         }
       ],
       "4": [
@@ -186,12 +192,20 @@
         },
         {
           "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 9,
+          "stacks_of_prey_mark": 6.0,
           "target_is_on_phase_tile": true,
-          "confectance_index": 4
+          "confectance_index": 5
         },
         {
           "name": "Deadly Pounce (Passive)"
+        },
+        {
+          "name": "Smoldering Suspire Tile (Freeze)",
+          "tile_ascension_level": 3
+        },
+        {
+          "name": "Smoldering Suspire Tile (Burn)",
+          "tile_ascension_level": 3
         }
       ],
       "5": [
@@ -219,12 +233,20 @@
         },
         {
           "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 9,
+          "stacks_of_prey_mark": 6.0,
           "target_is_on_phase_tile": true,
-          "confectance_index": 4
+          "confectance_index": 5
         },
         {
           "name": "Deadly Pounce (Passive)"
+        },
+        {
+          "name": "Smoldering Suspire Tile (Freeze)",
+          "tile_ascension_level": 3
+        },
+        {
+          "name": "Smoldering Suspire Tile (Burn)",
+          "tile_ascension_level": 3
         }
       ],
       "6": [
@@ -252,12 +274,20 @@
         },
         {
           "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 9,
+          "stacks_of_prey_mark": 6.0,
           "target_is_on_phase_tile": true,
-          "confectance_index": 4
+          "confectance_index": 5
         },
         {
           "name": "Deadly Pounce (Passive)"
+        },
+        {
+          "name": "Smoldering Suspire Tile (Freeze)",
+          "tile_ascension_level": 3
+        },
+        {
+          "name": "Smoldering Suspire Tile (Burn)",
+          "tile_ascension_level": 3
         }
       ],
       "7": [
@@ -285,12 +315,20 @@
         },
         {
           "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 9,
+          "stacks_of_prey_mark": 6.0,
           "target_is_on_phase_tile": true,
-          "confectance_index": 4
+          "confectance_index": 5
         },
         {
           "name": "Deadly Pounce (Passive)"
+        },
+        {
+          "name": "Smoldering Suspire Tile (Freeze)",
+          "tile_ascension_level": 3
+        },
+        {
+          "name": "Smoldering Suspire Tile (Burn)",
+          "tile_ascension_level": 3
         }
       ]
     }
@@ -304,7 +342,12 @@
           "in_feral_form": false
         },
         "attacker": {
-          "add_buffs": [],
+          "add_buffs": [
+            {
+              "name": "Feral Factor (Soppo)",
+              "stacks": 3
+            }
+          ],
           "remove_buffs": []
         },
         "target": {
@@ -313,7 +356,7 @@
           "phase_weaknesses_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "0"
         }
       },
       {
@@ -323,8 +366,23 @@
           "in_feral_form": false
         },
         "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
+          "add_buffs": [
+            {
+              "name": "Feral Factor I (Soppo)",
+              "soppo_fortification_level": 6,
+              "tile_level": 1.0,
+              "stacks_of_feral_factor": 5
+            },
+            {
+              "name": "Feral Factor (Soppo)",
+              "stacks": 5
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Feral Factor (Soppo):1:eccae31d2083"
+            }
+          ]
         },
         "target": {
           "add_debuffs": [],
@@ -332,7 +390,7 @@
           "phase_weaknesses_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "1"
         }
       },
       {
@@ -343,8 +401,29 @@
           "in_feral_form": false
         },
         "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
+          "add_buffs": [
+            {
+              "name": "Feral Factor (Soppo)",
+              "stacks": 7
+            },
+            {
+              "name": "Feral Factor II (Soppo)",
+              "soppo_fortification_level": 6,
+              "number_of_freeze_and_burn_buffs": 5.0,
+              "stacks_of_feral_factor": 7
+            },
+            {
+              "name": "Feral Factor III (Soppo)",
+              "soppo_fortification_level": 6,
+              "tile_level": 1.0,
+              "stacks_of_feral_factor": 7
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Feral Factor (Soppo):1:7d9aafe31ba6"
+            }
+          ]
         },
         "target": {
           "add_debuffs": [],
@@ -352,7 +431,7 @@
           "phase_weaknesses_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "1"
         }
       },
       {
@@ -377,12 +456,53 @@
       {
         "turn": 1,
         "action": {
+          "name": "Ferocious Bite",
+          "in_feral_form": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Feral Factor (Soppo)",
+              "stacks": 9
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Feral Factor (Soppo):1:850e468f75ed"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [
+            {
+              "name": "Conflagration"
+            }
+          ],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "1"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
           "name": "Predator's Pursuit",
           "in_feral_form": true
         },
         "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
+          "add_buffs": [
+            {
+              "name": "Feral Factor (Soppo)",
+              "stacks": 11
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Feral Factor (Soppo):1:61f77da0e529"
+            }
+          ]
         },
         "target": {
           "add_debuffs": [],
@@ -390,13 +510,60 @@
           "phase_weaknesses_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "1"
         }
       },
       {
         "turn": 1,
         "action": {
           "name": "Deadly Pounce (Passive)"
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Feral Factor (Soppo)",
+              "stacks": 17
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Feral Factor (Soppo):1:5a41e2bb6e62"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Smoldering Suspire Tile (Freeze)",
+          "tile_ascension_level": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Smoldering Suspire Tile (Burn)",
+          "tile_ascension_level": 3
         },
         "attacker": {
           "add_buffs": [],
@@ -457,7 +624,7 @@
           "name": "Midnight Howl (Form Swap)",
           "in_feral_form": true,
           "num_targets": 1,
-          "target_tile_ascension_level": 1
+          "target_tile_ascension_level": 3
         },
         "attacker": {
           "add_buffs": [],
@@ -495,9 +662,91 @@
         "turn": 2,
         "action": {
           "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 10,
+          "stacks_of_prey_mark": 8.0,
           "target_is_on_phase_tile": true,
-          "confectance_index": 4
+          "confectance_index": 5
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Feral Factor (Soppo)",
+              "stacks": 19
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Feral Factor (Soppo):1:248a42096e18"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Deadly Pounce (Passive)"
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Feral Factor (Soppo)",
+              "stacks": 20
+            },
+            {
+              "name": "Feral Factor I (Soppo)",
+              "soppo_fortification_level": 6,
+              "tile_level": 3.0,
+              "stacks_of_feral_factor": 20
+            },
+            {
+              "name": "Feral Factor II (Soppo)",
+              "soppo_fortification_level": 6,
+              "number_of_freeze_and_burn_buffs": 5.0,
+              "stacks_of_feral_factor": 20
+            },
+            {
+              "name": "Feral Factor III (Soppo)",
+              "soppo_fortification_level": 6,
+              "tile_level": 3.0,
+              "stacks_of_feral_factor": 20
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Feral Factor (Soppo):1:8feb620eb013"
+            },
+            {
+              "name": "buff:Feral Factor I (Soppo):1:c7607cba3e78"
+            },
+            {
+              "name": "buff:Feral Factor II (Soppo):1:4c0080c0b064"
+            },
+            {
+              "name": "buff:Feral Factor III (Soppo):1:1957b919efeb"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Smoldering Suspire Tile (Freeze)",
+          "tile_ascension_level": 3
         },
         "attacker": {
           "add_buffs": [],
@@ -515,7 +764,8 @@
       {
         "turn": 2,
         "action": {
-          "name": "Deadly Pounce (Passive)"
+          "name": "Smoldering Suspire Tile (Burn)",
+          "tile_ascension_level": 3
         },
         "attacker": {
           "add_buffs": [],
@@ -541,7 +791,11 @@
           "remove_buffs": []
         },
         "target": {
-          "add_debuffs": [],
+          "add_debuffs": [
+            {
+              "name": "Meltdown"
+            }
+          ],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
           "stability_override": "Baseline",
@@ -631,9 +885,9 @@
         "turn": 3,
         "action": {
           "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 9,
+          "stacks_of_prey_mark": 6.0,
           "target_is_on_phase_tile": true,
-          "confectance_index": 4
+          "confectance_index": 5
         },
         "attacker": {
           "add_buffs": [],
@@ -667,6 +921,44 @@
         }
       },
       {
+        "turn": 3,
+        "action": {
+          "name": "Smoldering Suspire Tile (Freeze)",
+          "tile_ascension_level": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Smoldering Suspire Tile (Burn)",
+          "tile_ascension_level": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
         "turn": 4,
         "action": {
           "name": "Ferocious Bite",
@@ -678,7 +970,11 @@
         },
         "target": {
           "add_debuffs": [],
-          "remove_debuffs": [],
+          "remove_debuffs": [
+            {
+              "name": "debuff:Meltdown:1:bd5172cdf223"
+            }
+          ],
           "phase_weaknesses_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
@@ -767,9 +1063,9 @@
         "turn": 4,
         "action": {
           "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 9,
+          "stacks_of_prey_mark": 6.0,
           "target_is_on_phase_tile": true,
-          "confectance_index": 4
+          "confectance_index": 5
         },
         "attacker": {
           "add_buffs": [],
@@ -803,6 +1099,44 @@
         }
       },
       {
+        "turn": 4,
+        "action": {
+          "name": "Smoldering Suspire Tile (Freeze)",
+          "tile_ascension_level": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Smoldering Suspire Tile (Burn)",
+          "tile_ascension_level": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
         "turn": 5,
         "action": {
           "name": "Ferocious Bite",
@@ -903,9 +1237,9 @@
         "turn": 5,
         "action": {
           "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 9,
+          "stacks_of_prey_mark": 6.0,
           "target_is_on_phase_tile": true,
-          "confectance_index": 4
+          "confectance_index": 5
         },
         "attacker": {
           "add_buffs": [],
@@ -939,6 +1273,44 @@
         }
       },
       {
+        "turn": 5,
+        "action": {
+          "name": "Smoldering Suspire Tile (Freeze)",
+          "tile_ascension_level": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Smoldering Suspire Tile (Burn)",
+          "tile_ascension_level": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
         "turn": 6,
         "action": {
           "name": "Ferocious Bite",
@@ -949,7 +1321,11 @@
           "remove_buffs": []
         },
         "target": {
-          "add_debuffs": [],
+          "add_debuffs": [
+            {
+              "name": "Meltdown"
+            }
+          ],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
           "stability_override": "Baseline",
@@ -1039,9 +1415,9 @@
         "turn": 6,
         "action": {
           "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 9,
+          "stacks_of_prey_mark": 6.0,
           "target_is_on_phase_tile": true,
-          "confectance_index": 4
+          "confectance_index": 5
         },
         "attacker": {
           "add_buffs": [],
@@ -1075,6 +1451,44 @@
         }
       },
       {
+        "turn": 6,
+        "action": {
+          "name": "Smoldering Suspire Tile (Freeze)",
+          "tile_ascension_level": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Smoldering Suspire Tile (Burn)",
+          "tile_ascension_level": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
         "turn": 7,
         "action": {
           "name": "Ferocious Bite",
@@ -1086,7 +1500,11 @@
         },
         "target": {
           "add_debuffs": [],
-          "remove_debuffs": [],
+          "remove_debuffs": [
+            {
+              "name": "debuff:Meltdown:1:bd5172cdf223"
+            }
+          ],
           "phase_weaknesses_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
@@ -1175,9 +1593,9 @@
         "turn": 7,
         "action": {
           "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 9,
+          "stacks_of_prey_mark": 6.0,
           "target_is_on_phase_tile": true,
-          "confectance_index": 4
+          "confectance_index": 5
         },
         "attacker": {
           "add_buffs": [],
@@ -1196,6 +1614,44 @@
         "turn": 7,
         "action": {
           "name": "Deadly Pounce (Passive)"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Smoldering Suspire Tile (Freeze)",
+          "tile_ascension_level": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Smoldering Suspire Tile (Burn)",
+          "tile_ascension_level": 3
         },
         "attacker": {
           "add_buffs": [],
