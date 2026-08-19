@@ -1,0 +1,120 @@
+{
+  "doll": "Asteria",
+  "sections": [
+    {
+      "kind": "markdown",
+      "key": "synopsis",
+      "title": "Synopsis",
+      "markdown": "Asteria is a role compression Doll that combines high personal damage with support capabilities that, until her release, had to be sourced from multiple team slots. Asteria greatly buffs the offensive stats of a single Physical DPS partner through the Bond/Sync mechanic. She can provide Reversed Assault which had been basically exclusive to Yoohee as well as increased Physical damage taken effects which had been exclusive to Faye. She can also guarantee ammo-type weakness which is effectively up to 10% more damage. Defensive utility is a bit lacking - she provides limited damage reduction/nullification and no healing. Immense damage potential at high fortification levels with large damage multipliers and numerous Blade of Sin lock-on attacks. "
+    },
+    {
+      "kind": "utility_table",
+      "key": "utility",
+      "title": "Utility",
+      "rows": [
+        {
+          "label": "Reduced damage taken",
+          "detail": "(~30%, 1) Bond; (20%, team) S1 (V4+)"
+        },
+        { "label": "Movement Down II", "detail": "(AoE) S2" },
+        {
+          "label": "Stun",
+          "detail": "(1 turn, AoE) S2 (V2+)"
+        },
+        {
+          "label": "Add all weapon weaknesses",
+          "detail": "Vindicator's Mark"
+        },
+        {
+          "label": "Reduced defense when taking Physical damage",
+          "detail": "(50%) Vindicator's Mark; (10~60%, when Asteria attacks only) Absolution"
+        },
+        {
+          "label": "Increased Physical damage taken",
+          "detail": "(20%) Vindicator's Mark; (30%) Absolution"
+        },
+        { "label": "Defense Down II", "detail": "(AoE) Ultimate" },
+        { "label": "Defense Down III", "detail": "(AoE) Ultimate (V6+)" },
+        {
+          "label": "Damage nullify (1)",
+          "detail": "(1 instance, 2 at V3) Shield of Punishment"
+        },
+        {
+          "label": "Add ammo type to non-ammo type Physical damage (team)",
+          "detail": "Passive"
+        },
+        {
+          "label": "Increased critical rate (Asteria+1)",
+          "detail": "(30%) Crime and Punishment"
+        },
+        {
+          "label": "Increased critical damage (Asteria+1)",
+          "detail": "(30%) Crime and Punishment; (30% of Asteria's initial) Sync (V2+)"
+        },
+        {
+          "label": "Increased critical damage (1)",
+          "detail": "(30% of Asteria's initial) Sync (V2+)"
+        },
+        {
+          "label": "Increased attack (Asteria+1)",
+          "detail": "(50%) Crime and Punishment"
+        },
+        {
+          "label": "Increased attack (1)",
+          "detail": "(~300) Bond; (~600) Sync (V2+)"
+        },
+        {
+          "label": "Increased out-of-turn Physical damage dealt",
+          "detail": "(10%) Fixed Key 1"
+        },
+        {
+          "label": "Reversed Assault (team)",
+          "detail": "Fixed Key 3 with Vindicator's Mark"
+        }
+      ]
+    },
+    {
+      "kind": "fortification_table",
+      "key": "fortification_upgrades",
+      "title": "Fortification Level upgrades",
+      "upgrades": [
+        {
+          "level": 1,
+          "description": "Ultimate: increases damage. Adds additional fixed damage effect when taking Physical damage to Vindicator's Mark - basically a 10% 'more' multiplier on Physical damage."
+        },
+        {
+          "level": 2,
+          "description": "S2: adds Stun. Adds critical damage share to Sync."
+        },
+        {
+          "level": 3,
+          "description": "Passive: Increases damage and trigger limit to Blade of Sin; adds one to trigger limit of Shield of Punishment."
+        },
+        {
+          "level": 4,
+          "description": "S1: Applies Damage Reduction II to all allied units when applying Sync."
+        },
+        {
+          "level": 5,
+          "description": "Passive: Blade of Sin now applies Absolution to target. Refreshes Crime and Punishment (for Asteria and Bond target) and Blade of Sin triggers (Bond target only) after Asteria acts."
+        },
+        {
+          "level": 6,
+          "description": "Ultimate: Now applies Defense Down III. Damage multiplier for Ultimate and Blade of Sin scales with Absolution stacks on target. Asteria gets an attack boost when refreshing Crime and Punishment."
+        }
+      ]
+    },
+    {
+      "kind": "markdown",
+      "key": "team_notes",
+      "title": "Team notes",
+      "markdown": "Works as a +1 to a Physical DPS package or an alternative or partner to Yoohee in a mono-Physical team. Asteria is the first alternative source of Reversed Assault to the whole team through her Fixed Key 3. Additionally, she is the first source of the 'increased Physical damage taken' effect since Faye. This role compression enables Asteria+Physical DPS packages. Compared to Yoohee, Asteria's buffing is strongly coupled to the unit that she applies Bond to. Universal team-wide offensive utility is limited to Defense Down and guaranteeing ammo-type weakness."
+    },
+    {
+      "kind": "markdown",
+      "key": "build_notes",
+      "title": "Build notes",
+      "markdown": "Build her like a Physical DPS - attack and critical. The attack buff granted from Bond/Sync is capped when Asteria has 3000 initial attack. At V2+, Sync also shares 30% of Asteria's initial critical damage. Asteria has a damage mix between active+AoE and passive+targeted so there's no reason to prioritize particular stats in her Remolding Core."
+    }
+  ]
+}

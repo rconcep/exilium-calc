@@ -1168,6 +1168,100 @@ class SenseOfSecurity(Buff):
         self.tag = DamageTag.ALL
 
 
+class Bond(Buff):
+    """Buff from Asteria."""
+
+    display_name = "Bond (Asteria)"
+    max_stack_count = 4000
+    stack_input_type = "number"
+
+    def __init__(self, asteria_initial_attack: int):
+        """
+        Arguments:
+        asteria_initial_attack -- the initial attack of Asteria
+        """
+        maximum_attack_gain: int = 300
+
+        self.value = min(0.10 * asteria_initial_attack, maximum_attack_gain)
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = StatType.ATTACK
+
+
+class Sync(Buff):
+    """Buff from Asteria."""
+
+    display_name = "Sync (Asteria)"
+    max_stack_count = 4000
+    stack_input_type = "number"
+
+    def __init__(self): ...
+
+    def get_buffs(
+        self,
+        asteria_initial_attack: int,
+        asteria_initial_critical_damage: int,
+        asteria_fortification_level: FortificationLevel,
+    ):
+        """
+        Arguments:
+        asteria_initial_attack -- the initial attack of Asteria
+        asteria_initial_critical_damage -- the initial critical damage of Asteria
+        asteria_fortification_level -- the Fortification Level of Asteria granting this buff
+        """
+        maximum_attack_gain: int = 600
+
+        self.value = min(0.10 * asteria_initial_attack, maximum_attack_gain)
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = StatType.ATTACK
+
+        ret: list[Buff] = []
+        ret.append(self)
+
+        if asteria_fortification_level >= FortificationLevel.SEGMENT02:
+            self.value = 0.30 * asteria_initial_critical_damage
+            self.modifier_type = ModifierType.ADDITIVE
+            self.stat_type = StatType.CRIT_DAMAGE
+
+            ret.append(
+                Buff(
+                    0.30 * asteria_initial_critical_damage,
+                    ModifierType.ADDITIVE,
+                    StatType.CRIT_DAMAGE,
+                    DamageTag.ALL,
+                )
+            )
+
+        return ret
+
+
+class CrimeAndPunishment(Buff):
+    """Buff from Asteria. This covers the stat increases."""
+
+    display_name = "Crime and Punishment (Asteria)"
+    max_stack_count = 0
+    stack_input_type = "number"
+
+    def __init__(self): ...
+
+    def get_buffs(
+        self,
+    ):
+        """
+        Arguments:
+        """
+        self.value = 50
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.ATTACK
+
+        ret: list[Buff] = []
+        ret.append(self)
+
+        ret.append(Buff(30, ModifierType.ADDITIVE, StatType.CRIT_RATE, DamageTag.ALL))
+        ret.append(Buff(30, ModifierType.ADDITIVE, StatType.CRIT_DAMAGE, DamageTag.ALL))
+
+        return ret
+
+
 class UnshakableConfidence(Buff):
     """Buff granted to Mosin-Nagant after support actions."""
 
@@ -2752,6 +2846,111 @@ class Bullseye(Debuff):
         self.tag = DamageTag.PHYSICAL
 
 
+class VindicatorsMark(Debuff):
+    """Debuff applied by Asteria.
+    The effect of adding all weapon weaknesses is not modeled here - it should
+    manifest as adding a phase weakness exploited count to the target.
+    The additional fixed damage dealt at V1 is not modeled here either."""
+
+    display_name = "Vindicator's Mark (Asteria)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self):
+        """
+        Arguments:
+        """
+        # When taking Physical damage, defense is reduced by 50%.
+        self.value = -50
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.DEFENSE
+        self.tag = DamageTag.PHYSICAL
+
+        ret: list[Debuff] = []
+        ret.append(self)
+
+        # Physical damage taken is increased by 20%.
+        ret.append(
+            Debuff(
+                value=20,
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=SpecialAttribute.INCREASE_DAMAGE_TAKEN,
+                tag=DamageTag.PHYSICAL,
+            )
+        )
+
+        return ret
+
+
+class Absolution(Debuff):
+    """Debuff applied by Asteria.
+    The stacking critical damage taken is modeled as a general increased damage taken - no critical damage taken check is performed.
+    This will artificially inflate expected damage dealt for critical rates less than 100%.
+    The parameter for Asteria being the attacker is so that this debuff can be applied even when Asteria is not the attacker.
+    In those scenarios, the non-stacking Physical damage taken effect is still applied but the stacking effects are not.
+    """
+
+    display_name = "Absolution (Asteria)"
+    max_stack_count = 6
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(
+        self,
+        stacks: int,
+        asteria_fortification_level: FortificationLevel,
+        is_asteria_attacker: bool,
+    ):
+        """
+        Arguments:
+        stacks -- the number of stacks of this debuff, up to a maximum of 6
+        asteria_fortification_level -- the Fortification Level of the Asteria applying this debuff
+        is_asteria_attacker -- whether Asteria is the attacker in this scenario
+        """
+        ret: list[Debuff] = []
+
+        # This debuff only exists at V5+
+        if asteria_fortification_level >= FortificationLevel.SEGMENT05:
+            # Physical damage taken increased by 30%.
+            self.value = 30
+            self.modifier_type = ModifierType.ADDITIVE
+            self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+            self.tag = DamageTag.PHYSICAL
+
+            ret: list[Debuff] = []
+            ret.append(self)
+
+            if is_asteria_attacker:
+                critical_damage_taken_per_stack: int = 10
+
+                critical_damage_taken_effect: Debuff = Debuff(
+                    critical_damage_taken_per_stack
+                    * min(max(0, stacks), Absolution.max_stack_count),
+                    ModifierType.ADDITIVE,
+                    SpecialAttribute.INCREASE_DAMAGE_TAKEN,
+                    DamageTag.ALL,
+                )
+
+                ret.append(critical_damage_taken_effect)
+
+                defense_reduction_per_stack: int = -10
+
+                defense_reduction_effect: Debuff = Debuff(
+                    defense_reduction_per_stack
+                    * min(max(0, stacks), Absolution.max_stack_count),
+                    ModifierType.MULTIPLICATIVE,
+                    StatType.DEFENSE,
+                    DamageTag.ALL,
+                )
+
+                ret.append(defense_reduction_effect)
+
+        return ret
+
+
 class SugarOverdose(Debuff):
     """Damage taken from Makiatto is increased by 15%."""
 
@@ -3141,6 +3340,19 @@ class DefenseDownII(Debuff):
 
     def __init__(self):
         self.value = -30
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.DEFENSE
+
+
+class DefenseDownIII(Debuff):
+    """Reduce defense by 40%. Considered a defense buff."""
+
+    display_name = "Defense Down III"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        self.value = -40
         self.modifier_type = ModifierType.MULTIPLICATIVE
         self.stat_type = StatType.DEFENSE
 
