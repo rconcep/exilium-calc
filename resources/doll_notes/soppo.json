@@ -1,0 +1,78 @@
+{
+  "doll": "Soppo",
+  "sections": [
+    {
+      "kind": "markdown",
+      "key": "synopsis",
+      "title": "Synopsis",
+      "markdown": "The first dual-element Doll, Soppo is a lively DPS true to her nature that showcases the evolution of the elemental tiles system. She is able to leap to Frost or Incineration tiles anywhere on the field and generate or bestow generation of tiles to her teammates and gains bonuses when attacking targets on elemental tiles. She is able to take multiple actions per turn through Extra Command/Action granted by her abilities. Many of her skills hit in large areas or multiple targets at once. While she requires ramping of her Feral Factor buffs, Soppo can store stacks of her exclusive Prey Mark for timely bursts with her ultimate."
+    },
+    {
+      "kind": "utility_table",
+      "key": "utility",
+      "title": "Utility",
+      "rows": [
+        {
+          "label": "Incineration tile generation",
+          "detail": "S1 (Feral Form)"
+        },
+        {
+          "label": "Frost tile generation",
+          "detail": "S1 (Hunter Form); Fixed Key 3"
+        },
+        {
+          "label": "Bestow Frost tile generation on attack",
+          "detail": "Slaughter Trail"
+        },
+        { "label": "Buff cleanse", "detail": "Fixed Key 2" },
+        {
+          "label": "Interception",
+          "detail": "Up to once per turn"
+        }
+      ]
+    },
+    {
+      "kind": "fortification_table",
+      "key": "fortification_upgrades",
+      "title": "Fortification Level upgrades",
+      "upgrades": [
+        {
+          "level": 1,
+          "description": "S1: increased damage multiplier, adds Prey Mark generation (Hunter Form), and changes Extra Command to Extra Action (cycles cooldowns faster, etc.)."
+        },
+        {
+          "level": 2,
+          "description": "S2: Adds damage instances dealt to nearby targets based on the tile leapt to, adds Prey Mark generation (Feral Form)."
+        },
+        {
+          "level": 3,
+          "description": "S2: Slaughter Trail: increases area of Frost tiles generated and adds Feral Factor generation; increases the damage multiplier when used while in Feral Form."
+        },
+        {
+          "level": 4,
+          "description": "Passive: increases damage bonus when having 3+ Burn or Freeze Dolls in the team and no longer requires the target to have Freeze/Burn debuffs OR increases the permanent Prey Mark stacks to 4."
+        },
+        {
+          "level": 5,
+          "description": "Ultimate: increases the damage multiplier per Prey Mark and Confectance Index consumed (now consumes all Confectance Index on use), refunds some Confectance Index on use; interception: adds Prey Mark generation and increases damage multiplier."
+        },
+        {
+          "level": 6,
+          "description": "Passive: increases cap of Feral Factor, battle start: gain 3 Feral Factor, additional Feral Factor generation on active attack; adds offensive enhancements to Feral Factor I, II, III upon reaching the new cap."
+        }
+      ]
+    },
+    {
+      "kind": "markdown",
+      "key": "team_notes",
+      "title": "Team notes",
+      "markdown": "Soppo's passive specifically gives bonuses for having 3+ Burn or Freeze Dolls in the team but also provisions an alternate benefit when neither condition is met. Soppo, at higher fortification levels, is primarily a Freeze DPS so she works well with Alva and Robella. Note that her kit is innately loaded with damage boosts and increased critical damage - sources of flat attack or attack boosts like from Robella are particularly welcome. Alva's Confectance Index generation is useful at higher fortification levels, but at lower fortification levels, Confectance Index is likely to be overcapped. Also, Soppo by herself is able to generate both Incineration and Frost tiles, allowing her to create the polyphase tile in mono-Burn or Freeze teams."
+    },
+    {
+      "kind": "markdown",
+      "key": "build_notes",
+      "title": "Build notes",
+      "markdown": "Burn+Freeze DPS - Attack Boost, Attack, Crit. At lower fortification levels, Burn damage is more prominent in her damage profile; at higher fortification levels, Freeze damage dominates the damage share. Phase Strike attachment sets are acceptable but absolute min-maxers with V6 Soppo will probably want Freeze Boost for the tiniest of edges. Soppo's kit also evenly splits between AoE and targeted damage - no real opportunity for optimization in her Remolding Core stats."
+    }
+  ]
+}

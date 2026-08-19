@@ -561,6 +561,7 @@ class Unity(Buff):
         self.value = 0.10 * robella_initial_attack
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = StatType.ATTACK
+        self.tag = DamageTag.FREEZE
 
 
 class UnityEnhanced(Buff):
@@ -578,6 +579,7 @@ class UnityEnhanced(Buff):
         self.value = 0.15 * robella_initial_attack
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = StatType.ATTACK
+        self.tag = DamageTag.FREEZE
 
 
 class SenseWeakness(Buff):

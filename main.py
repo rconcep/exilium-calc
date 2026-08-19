@@ -207,6 +207,12 @@ Scenario Comparison and Stat Increment Analysis are also available in Rotation S
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
                     ui.timeline_entry(
+                        "Added actions, buffs, and debuffs for the Elemental Tile Transformation update. Dolls that can generate tiles now have actions available based on the tiles they can generate. Also, added an early preview of Asteria - the sample rotation is highly speculative as I'm unsure of the mechanics of Blade of Sin (do all procs get executed by Asteria? etc.)",
+                        title="Added Elemental Tile Transformation update",
+                        subtitle="August 18, 2026",
+                        icon="person_add",
+                    )
+                    ui.timeline_entry(
                         "Updated Sextans's localizations and sample rotation; added cap of 15 to Rigor Sanguis.",
                         title="",
                         subtitle="August 11, 2026",
