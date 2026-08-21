@@ -1,0 +1,1039 @@
+{
+  "metadata": {
+    "version": 1,
+    "doll_name": "Nemesis: Gnosis"
+  },
+  "baseline": {
+    "attacker": {
+      "buffs": [
+        {
+          "name": "Attack Up II"
+        },
+        {
+          "name": "Insignia of Camaraderie (Basti)",
+          "basti_fortification_level": 6
+        },
+        {
+          "name": "Star Trail Insight (Nemesis: Gnosis)",
+          "tiles_from_target": 6.0,
+          "nemesis_fortification_level": 6
+        },
+        {
+          "name": "Judicial Privilege (Nemesis: Gnosis)",
+          "nemesis_fortification_level": 6
+        }
+      ]
+    },
+    "target": {
+      "debuffs": [
+        {
+          "name": "Scribbled Funny Face (Basti)",
+          "basti_fortification_level": 6
+        },
+        {
+          "name": "Acid Corrosion II"
+        },
+        {
+          "name": "Toxin Inundation"
+        }
+      ],
+      "phase_weaknesses_exploited": 2,
+      "stability_broken": true,
+      "unit_level": "Boss",
+      "phase_tile_level": 0,
+      "basic_attributes": {
+        "Defense": 5000.0,
+        "Health": 11000000.0,
+        "Stability Damage Reduction": 60.0
+      }
+    }
+  },
+  "planner": {
+    "turns": {
+      "1": [
+        {
+          "name": "Calamity Resonance"
+        },
+        {
+          "name": "Fate's Reprise",
+          "confectance_index_consumed": 6,
+          "has_fifth_prophecy": true,
+          "has_sixth_prophecy": false
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        }
+      ],
+      "2": [
+        {
+          "name": "Fate's Reprise",
+          "confectance_index_consumed": 6,
+          "has_fifth_prophecy": true,
+          "has_sixth_prophecy": false
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        }
+      ],
+      "3": [
+        {
+          "name": "Calamity Resonance"
+        },
+        {
+          "name": "Fate's Reprise",
+          "confectance_index_consumed": 6,
+          "has_fifth_prophecy": true,
+          "has_sixth_prophecy": false
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        }
+      ],
+      "4": [
+        {
+          "name": "Fate's Reprise",
+          "confectance_index_consumed": 6,
+          "has_fifth_prophecy": true,
+          "has_sixth_prophecy": false
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        }
+      ],
+      "5": [
+        {
+          "name": "Calamity Resonance"
+        },
+        {
+          "name": "Fate's Reprise",
+          "confectance_index_consumed": 6,
+          "has_fifth_prophecy": true,
+          "has_sixth_prophecy": false
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        }
+      ],
+      "6": [
+        {
+          "name": "Fate's Reprise",
+          "confectance_index_consumed": 6,
+          "has_fifth_prophecy": true,
+          "has_sixth_prophecy": false
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        }
+      ],
+      "7": [
+        {
+          "name": "Calamity Resonance"
+        },
+        {
+          "name": "Fate's Reprise",
+          "confectance_index_consumed": 6,
+          "has_fifth_prophecy": true,
+          "has_sixth_prophecy": false
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        }
+      ]
+    }
+  },
+  "timeline": {
+    "actions": [
+      {
+        "turn": 1,
+        "action": {
+          "name": "Calamity Resonance"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Fate's Reprise",
+          "confectance_index_consumed": 6,
+          "has_fifth_prophecy": true,
+          "has_sixth_prophecy": false
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "First Prophecy: Resonance (Nemesis: Gnosis)"
+            }
+          ],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 1,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 2,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Concentration (Nemesis: Gnosis):1:38561ef892bf"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 3,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Concentration (Nemesis: Gnosis):1:ae68014e9d50"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Fate's Reprise",
+          "confectance_index_consumed": 6,
+          "has_fifth_prophecy": true,
+          "has_sixth_prophecy": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 4,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Concentration (Nemesis: Gnosis):1:c330e8c88265"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 5,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Concentration (Nemesis: Gnosis):1:42079f0f34f9"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 6,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Concentration (Nemesis: Gnosis):1:3775a7f9a566"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Calamity Resonance"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Fate's Reprise",
+          "confectance_index_consumed": 6,
+          "has_fifth_prophecy": true,
+          "has_sixth_prophecy": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 7,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Concentration (Nemesis: Gnosis):1:67d37cc779aa"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 8,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Concentration (Nemesis: Gnosis):1:c37cc4c1e145"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 9,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Concentration (Nemesis: Gnosis):1:7f5d4ddbc9ff"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Fate's Reprise",
+          "confectance_index_consumed": 6,
+          "has_fifth_prophecy": true,
+          "has_sixth_prophecy": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 10,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Concentration (Nemesis: Gnosis):1:06ec4b7bb214"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 11,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Concentration (Nemesis: Gnosis):1:27025ad97c2f"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 12,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Concentration (Nemesis: Gnosis):1:5c66dd12e206"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Calamity Resonance"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Fate's Reprise",
+          "confectance_index_consumed": 6,
+          "has_fifth_prophecy": true,
+          "has_sixth_prophecy": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 13,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Concentration (Nemesis: Gnosis):1:b60f3a48fc9b"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 14,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Concentration (Nemesis: Gnosis):1:758783a32138"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 15,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Concentration (Nemesis: Gnosis):1:a07d186399d4"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Fate's Reprise",
+          "confectance_index_consumed": 6,
+          "has_fifth_prophecy": true,
+          "has_sixth_prophecy": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 16,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Concentration (Nemesis: Gnosis):1:c23853f8d60e"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 17,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Concentration (Nemesis: Gnosis):1:ec861d7d644b"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 18,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Concentration (Nemesis: Gnosis):1:b15d8485520a"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Calamity Resonance"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Fate's Reprise",
+          "confectance_index_consumed": 6,
+          "has_fifth_prophecy": true,
+          "has_sixth_prophecy": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 19,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Concentration (Nemesis: Gnosis):1:aeab42def7a2"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 20,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Concentration (Nemesis: Gnosis):1:6ad01e4afec2"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Support Action",
+          "has_judicial_privilege": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Concentration (Nemesis: Gnosis)",
+              "stacks": 21,
+              "nemesis_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Concentration (Nemesis: Gnosis):1:ebbb2d75bf58"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      }
+    ]
+  }
+}

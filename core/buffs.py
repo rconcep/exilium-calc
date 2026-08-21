@@ -2170,6 +2170,135 @@ class CutieDetonation(Buff):
         self.tag = DamageTag.ALL
 
 
+class FirstProphecy(Buff):
+    """Nemesis: Gnosis buff."""
+
+    display_name = "First Prophecy: Resonance (Nemesis: Gnosis)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        self.value = 50
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.SUPPORT_ACTION
+
+
+class SecondProphecy(Buff):
+    """Nemesis: Gnosis buff."""
+
+    display_name = "Second Prophecy: Solitude (Nemesis: Gnosis)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, no_ally_within_four_tiles: bool):
+        self.value = 0
+        if no_ally_within_four_tiles:
+            self.value = 60
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.ALL
+
+
+class JudicialPrivilege(Buff):
+    """Nemesis: Gnosis buff granted by Fourth Prophecy: Judgment."""
+
+    display_name = "Judicial Privilege (Nemesis: Gnosis)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self, nemesis_fortification_level: FortificationLevel):
+        # TODO: Buffs should also apply for attacking Elite enemies, not just Bosses.
+        ignore_defense_amount: int = 30
+        critical_damage_increase: int = 35
+
+        ret: list[Buff] = []
+
+        if nemesis_fortification_level >= FortificationLevel.SEGMENT05:
+            ignore_defense_amount = 35
+            critical_damage_increase = 40
+
+        self.value = ignore_defense_amount
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DEFENSE_IGNORE
+        self.tag = DamageTag.BOSS
+
+        ret.append(self)
+        ret.append(
+            Buff(
+                value=critical_damage_increase,
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=SpecialAttribute.CRITICAL_DAMAGE,
+                tag=DamageTag.BOSS,
+            )
+        )
+
+        if nemesis_fortification_level >= FortificationLevel.SEGMENT05:
+            ret.append(
+                Buff(
+                    20,
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=SpecialAttribute.DAMAGE_BOOST,
+                    tag=DamageTag.BOSS,
+                )
+            )
+
+        return ret
+
+
+class StarTrailInsight(Buff):
+    """Nemesis: Gnosis buff granted by Fifth Prophecy: Star Trail."""
+
+    display_name = "Star Trail Insight (Nemesis: Gnosis)"
+    max_stack_count = 6
+    stack_input_type = "select"
+
+    def __init__(
+        self, tiles_from_target: int, nemesis_fortification_level: FortificationLevel
+    ):
+        damage_boost_per_tile: int = 5
+        maximum_damage_boost: int = 30
+
+        if nemesis_fortification_level >= FortificationLevel.SEGMENT06:
+            damage_boost_per_tile = 10
+            maximum_damage_boost = 60
+
+        self.value = max(
+            0, min(tiles_from_target * damage_boost_per_tile, maximum_damage_boost)
+        )
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.ALL
+
+        # The effect of ignoring Cover protection is not modeled here.
+
+
+class Concentration(Buff):
+    """Nemesis: Gnosis stacking buff granted before Nemesis launches a Support Action while under
+    the effect of First Prophecy: Resonance."""
+
+    display_name = "Concentration (Nemesis: Gnosis)"
+    max_stack_count = 99
+    stack_input_type = "input"
+
+    def __init__(self, stacks: int, nemesis_fortification_level: FortificationLevel):
+        critical_damage_per_stack: int = 5
+        maximum_stacks: int = 6
+
+        if nemesis_fortification_level >= FortificationLevel.SEGMENT03:
+            maximum_stacks = Concentration.max_stack_count
+
+        self.value = 0
+        if stacks > 0:
+            self.value = min(max(0, stacks), maximum_stacks) * critical_damage_per_stack
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.CRITICAL_DAMAGE
+        self.tag = DamageTag.ALL
+
+
 class CoverMode(Buff):
     """Buff granted to allies when OTs-14 is in Cover Mode."""
 
