@@ -204,7 +204,7 @@ class TestNemesisGnosisSkills:
         ]
 
     def test_support_action(self):
-        result = SupportAction().execute(has_judicial_privilege=False)
+        result = SupportAction().execute(has_verdict_privilege=False)
 
         assert result.base_potency == 60
         assert result.tags == {
@@ -217,28 +217,28 @@ class TestNemesisGnosisSkills:
         }
         assert result.group_name == "Support Action"
 
-    def test_support_action_with_judicial_privilege(self):
-        result = SupportAction().execute(has_judicial_privilege=True)
+    def test_support_action_with_verdict_privilege(self):
+        result = SupportAction().execute(has_verdict_privilege=True)
 
         assert result.base_potency == 90
 
     def test_support_action_v1(self):
-        result = SupportActionV1().execute(has_judicial_privilege=False)
+        result = SupportActionV1().execute(has_verdict_privilege=False)
 
         assert result.base_potency == 110
 
-    def test_support_action_v1_with_judicial_privilege(self):
-        result = SupportActionV1().execute(has_judicial_privilege=True)
+    def test_support_action_v1_with_verdict_privilege(self):
+        result = SupportActionV1().execute(has_verdict_privilege=True)
 
         assert result.base_potency == 140
 
     def test_support_action_v5(self):
-        result = SupportActionV5().execute(has_judicial_privilege=False)
+        result = SupportActionV5().execute(has_verdict_privilege=False)
 
         assert result.base_potency == 110
 
-    def test_support_action_v5_with_judicial_privilege(self):
-        result = SupportActionV5().execute(has_judicial_privilege=True)
+    def test_support_action_v5_with_verdict_privilege(self):
+        result = SupportActionV5().execute(has_verdict_privilege=True)
 
         assert result.base_potency == 150
 

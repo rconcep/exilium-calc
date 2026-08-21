@@ -14,12 +14,12 @@
           "basti_fortification_level": 6
         },
         {
-          "name": "Star Trail Insight (Nemesis: Gnosis)",
+          "name": "Startrail Insight (Nemesis: Gnosis)",
           "tiles_from_target": 6.0,
           "nemesis_fortification_level": 6
         },
         {
-          "name": "Judicial Privilege (Nemesis: Gnosis)",
+          "name": "Verdict Privilege (Nemesis: Gnosis)",
           "nemesis_fortification_level": 6
         }
       ]
@@ -62,15 +62,15 @@
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         }
       ],
       "2": [
@@ -82,15 +82,15 @@
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         }
       ],
       "3": [
@@ -105,15 +105,15 @@
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         }
       ],
       "4": [
@@ -125,15 +125,15 @@
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         }
       ],
       "5": [
@@ -148,15 +148,15 @@
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         }
       ],
       "6": [
@@ -168,15 +168,15 @@
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         }
       ],
       "7": [
@@ -191,15 +191,15 @@
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         }
       ]
     }
@@ -253,7 +253,7 @@
         "turn": 1,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [
@@ -278,7 +278,7 @@
         "turn": 1,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [
@@ -307,7 +307,7 @@
         "turn": 1,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [
@@ -357,7 +357,7 @@
         "turn": 2,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [
@@ -386,7 +386,7 @@
         "turn": 2,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [
@@ -415,7 +415,7 @@
         "turn": 2,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [
@@ -483,7 +483,7 @@
         "turn": 3,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [
@@ -512,7 +512,7 @@
         "turn": 3,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [
@@ -541,7 +541,7 @@
         "turn": 3,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [
@@ -591,7 +591,7 @@
         "turn": 4,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [
@@ -620,7 +620,7 @@
         "turn": 4,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [
@@ -649,7 +649,7 @@
         "turn": 4,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [
@@ -717,7 +717,7 @@
         "turn": 5,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [
@@ -746,7 +746,7 @@
         "turn": 5,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [
@@ -775,7 +775,7 @@
         "turn": 5,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [
@@ -825,7 +825,7 @@
         "turn": 6,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [
@@ -854,7 +854,7 @@
         "turn": 6,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [
@@ -883,7 +883,7 @@
         "turn": 6,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [
@@ -951,7 +951,7 @@
         "turn": 7,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [
@@ -980,7 +980,7 @@
         "turn": 7,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [
@@ -1009,7 +1009,7 @@
         "turn": 7,
         "action": {
           "name": "Support Action",
-          "has_judicial_privilege": true
+          "has_verdict_privilege": true
         },
         "attacker": {
           "add_buffs": [

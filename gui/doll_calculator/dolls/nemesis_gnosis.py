@@ -14,7 +14,7 @@ _fates_reprise: dict = {
     "has_fifth_prophecy": True,
     "has_sixth_prophecy": False,
 }
-_support_action: dict = {"name": "Support Action", "has_judicial_privilege": True}
+_support_action: dict = {"name": "Support Action", "has_verdict_privilege": True}
 
 sample_rotation: dict[int, list[dict]] = {
     1: [
@@ -89,7 +89,7 @@ class NemesisGnosis(DollCalculatorPage):
                     {
                         "key": "has_second_prophecy",
                         "type": "checkbox",
-                        "label": "Second Prophecy: Solitude",
+                        "label": "Second Prophecy: Aloofness",
                         "default": True,
                     },
                     {
@@ -113,7 +113,7 @@ class NemesisGnosis(DollCalculatorPage):
                     {
                         "key": "has_fifth_prophecy",
                         "type": "checkbox",
-                        "label": "Fifth Prophecy: Star Trail",
+                        "label": "Fifth Prophecy: Startrail",
                         "default": True,
                     },
                     {
@@ -128,9 +128,9 @@ class NemesisGnosis(DollCalculatorPage):
             "Support Action": {
                 "fields": [
                     {
-                        "key": "has_judicial_privilege",
+                        "key": "has_verdict_privilege",
                         "type": "checkbox",
-                        "label": "Judicial Privilege",
+                        "label": "Verdict Privilege",
                         "default": True,
                     },
                 ],

@@ -277,7 +277,7 @@ class SupportAction(CombatAction):
     """Support Action from Doomguide."""
 
     @override
-    def execute(self, has_judicial_privilege: bool) -> DamageInstance:
+    def execute(self, has_verdict_privilege: bool) -> DamageInstance:
         base_potency: int = 60
         label: str = "Support Action"
         tags: set[DamageTag] = {
@@ -289,7 +289,7 @@ class SupportAction(CombatAction):
             DamageTag.PHASE,
         }
 
-        if has_judicial_privilege:
+        if has_verdict_privilege:
             base_potency += 30
 
         return DamageInstance(
@@ -304,7 +304,7 @@ class SupportActionV1(CombatAction):
     """Support Action from Doomguide (V1)."""
 
     @override
-    def execute(self, has_judicial_privilege: bool) -> DamageInstance:
+    def execute(self, has_verdict_privilege: bool) -> DamageInstance:
         base_potency: int = 110
         label: str = "Support Action"
         tags: set[DamageTag] = {
@@ -316,7 +316,7 @@ class SupportActionV1(CombatAction):
             DamageTag.PHASE,
         }
 
-        if has_judicial_privilege:
+        if has_verdict_privilege:
             base_potency += 30
 
         return DamageInstance(
@@ -331,7 +331,7 @@ class SupportActionV5(CombatAction):
     """Support Action from Doomguide (V5)."""
 
     @override
-    def execute(self, has_judicial_privilege: bool) -> DamageInstance:
+    def execute(self, has_verdict_privilege: bool) -> DamageInstance:
         base_potency: int = 110
         label: str = "Support Action"
         tags: set[DamageTag] = {
@@ -343,7 +343,7 @@ class SupportActionV5(CombatAction):
             DamageTag.PHASE,
         }
 
-        if has_judicial_privilege:
+        if has_verdict_privilege:
             base_potency += 40
 
         return DamageInstance(
@@ -356,7 +356,7 @@ class SupportActionV5(CombatAction):
 
 class ThirdProphecy(CombatAction):
     """Damage instance triggered when Nemesis: Gnosis deals targeted damage and the target does not die
-    while she has Third Prophecy: Calamity."""
+    while she has Third Prophecy: Cataclysm."""
 
     @override
     def execute(self, triggered_out_of_turn: bool) -> DamageInstance:
@@ -382,7 +382,7 @@ class ThirdProphecy(CombatAction):
 
 class ThirdProphecyV5(CombatAction):
     """Damage instance triggered when Nemesis: Gnosis deals targeted damage and the target does not die
-    while she has Third Prophecy: Calamity."""
+    while she has Third Prophecy: Cataclysm."""
 
     @override
     def execute(self, triggered_out_of_turn: bool) -> DamageInstance:

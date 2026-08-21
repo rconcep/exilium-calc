@@ -2187,7 +2187,7 @@ class FirstProphecy(Buff):
 class SecondProphecy(Buff):
     """Nemesis: Gnosis buff."""
 
-    display_name = "Second Prophecy: Solitude (Nemesis: Gnosis)"
+    display_name = "Second Prophecy: Aloofness (Nemesis: Gnosis)"
     max_stack_count = 1
     stack_input_type = "select"
 
@@ -2200,10 +2200,10 @@ class SecondProphecy(Buff):
         self.tag = DamageTag.ALL
 
 
-class JudicialPrivilege(Buff):
-    """Nemesis: Gnosis buff granted by Fourth Prophecy: Judgment."""
+class VerdictPrivilege(Buff):
+    """Nemesis: Gnosis buff granted by Fourth Prophecy: Verdict."""
 
-    display_name = "Judicial Privilege (Nemesis: Gnosis)"
+    display_name = "Verdict Privilege (Nemesis: Gnosis)"
     max_stack_count = 1
     stack_input_type = "select"
 
@@ -2248,10 +2248,10 @@ class JudicialPrivilege(Buff):
         return ret
 
 
-class StarTrailInsight(Buff):
-    """Nemesis: Gnosis buff granted by Fifth Prophecy: Star Trail."""
+class StartrailInsight(Buff):
+    """Nemesis: Gnosis buff granted by Fifth Prophecy: Startrail."""
 
-    display_name = "Star Trail Insight (Nemesis: Gnosis)"
+    display_name = "Startrail Insight (Nemesis: Gnosis)"
     max_stack_count = 6
     stack_input_type = "select"
 

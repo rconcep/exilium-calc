@@ -14,15 +14,15 @@
       "rows": [
         {
           "label": "Increased basic and active skill range (Sniper Rifle allies)",
-          "detail": "(1) Fifth Prophecy: Star Trail"
+          "detail": "(1) Fifth Prophecy: Startrail"
         },
         {
           "label": "Increased damage dealt per tile of distance (Sniper Rifle allies)",
-          "detail": "(5~60%) Fifth Prophecy: Star Trail"
+          "detail": "(5~60%) Fifth Prophecy: Startrail"
         },
         {
           "label": "Ignore cover protection (Sniper Rifle allies)",
-          "detail": "Fifth Prophecy: Star Trail"
+          "detail": "Fifth Prophecy: Startrail"
         },
         {
           "label": "Movement Denied on hit (Sniper Rifle allies)",
@@ -62,7 +62,7 @@
         },
         {
           "level": 6,
-          "description": "Fifth Prophecy: Star Trail Insight now ignores Cover at all distances and the damage boost per tile of distance is increased; Sixth Prophecy: the first Support Action per turn is converted into an Ultimate as if it consumed all Confectance Index."
+          "description": "Fifth Prophecy: Startrail Insight now ignores Cover at all distances and the damage boost per tile of distance is increased; Sixth Prophecy: the first Support Action per turn is converted into an Ultimate as if it consumed all Confectance Index."
         }
       ]
     },
