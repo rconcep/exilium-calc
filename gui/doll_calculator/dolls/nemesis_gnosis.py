@@ -119,7 +119,7 @@ class NemesisGnosis(DollCalculatorPage):
                     {
                         "key": "has_sixth_prophecy",
                         "type": "checkbox",
-                        "label": "Sixth Prophecy: Event Horizon",
+                        "label": "Sixth Prophecy: Vision",
                         "default": True,
                     },
                 ],
