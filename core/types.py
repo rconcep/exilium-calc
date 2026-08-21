@@ -19,7 +19,8 @@ class DamageTag(StrEnum, boundary=STRICT):
     FREEZE = "Freeze"
     HYDRO = "Hydro"
     ELECTRIC = "Electric"
-    OMNI = "Omni"
+    RESONANCE = "Resonance"
+    OMNI = "Resonance"
 
     MELEE = "Melee"
     LIGHT_AMMO = "Light Ammo"

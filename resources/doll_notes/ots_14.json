@@ -14,71 +14,71 @@
       "rows": [
         {
           "label": "Increased critical damage",
-          "detail": "(10-15% of OTs-14's initial critical damage) Cover Mode"
+          "detail": "(10-15% of OTs-14's initial critical damage) Cover Order"
         },
         {
           "label": "Incineration tile generation",
-          "detail": "(V6) Reconstruction: Burn - on S1"
+          "detail": "(V6) Reconfiguration - Burn - on S1"
         },
         {
           "label": "Thermal Conduction + Embers",
-          "detail": "Reconstruction: Burn"
+          "detail": "Reconfiguration - Burn"
         },
         {
           "label": "Searing Flame accumulation",
-          "detail": "(13) Reconstruction: Burn - on S1"
+          "detail": "(13) Reconfiguration - Burn - on S1"
         },
         {
           "label": "Debuff cleanse",
-          "detail": "(V6) (1) Reconstruction: Burn - on ember gain"
+          "detail": "(V6) (1) Reconfiguration - Burn - on ember gain"
         },
         {
           "label": "Voltage tile generation",
-          "detail": "(V6) Reconstruction: Electric - on S1"
+          "detail": "(V6) Reconfiguration - Electric - on S1"
         },
         {
           "label": "Increased damage against targets in stability break",
-          "detail": "(15%) Reconstruction: Electric"
+          "detail": "(15%) Reconfiguration - Electric"
         },
         {
           "label": "Stability recovery",
-          "detail": "(V6) (1) Reconstruction: Electric - on stability break"
+          "detail": "(V6) (1) Reconfiguration - Electric - on stability break"
         },
         {
           "label": "Frost tile generation",
-          "detail": "(V6) Reconstruction: Freeze - on S1"
+          "detail": "(V6) Reconfiguration - Freeze - on S1"
         },
         {
           "label": "Increased damage while possessing a shield",
-          "detail": "(15%) Reconstruction: Freeze"
+          "detail": "(15%) Reconfiguration - Freeze"
         },
         {
           "label": "Increased attack",
-          "detail": "(V6) (10% of own shield value) Reconstruction: Freeze"
+          "detail": "(V6) (10% of own shield value) Reconfiguration - Freeze"
         },
         {
           "label": "Toxic Mist tile generation",
-          "detail": "(V6) Reconstruction: Corrosion - on S1"
+          "detail": "(V6) Reconfiguration - Corrosion - on S1"
         },
         {
           "label": "Increased damage taken",
-          "detail": "(2% per debuff) Reconstruction: Corrosion"
+          "detail": "(2% per debuff) Reconfiguration - Corrosion"
         },
         {
           "label": "Corrosion debuff trigger",
-          "detail": "(V6) Reconstruction: Corrosion - on S1"
+          "detail": "(V6) Reconfiguration - Corrosion - on S1"
         },
         {
           "label": "Tideway tile generation",
-          "detail": "(V6) Reconstruction: Hydro - on S1"
+          "detail": "(V6) Reconfiguration - Hydro - on S1"
         },
         {
           "label": "Increased damage",
-          "detail": "(2% per friendly unit) Reconstruction: Hydro"
+          "detail": "(2% per friendly unit) Reconfiguration - Hydro"
         },
         {
           "label": "Increased attack and max health for Physical Summons",
-          "detail": "(V6) (1%) Reconstruction: Hydro"
+          "detail": "(V6) (1%) Reconfiguration - Hydro"
         },
         {
           "label": "Movement Down III",
@@ -97,7 +97,7 @@
       "upgrades": [
         {
           "level": 1,
-          "description": "Increase critical damage and attack buffs from Cover Mode and Demolition Mode, respectively."
+          "description": "Increase critical damage and attack buffs from Cover Order and Demolition Order, respectively."
         },
         {
           "level": 2,
@@ -105,19 +105,19 @@
         },
         {
           "level": 3,
-          "description": "Damage multiplier and range increase for Critical Splash."
+          "description": "Damage multiplier and range increase for Critical Blast."
         },
         {
           "level": 4,
-          "description": "Adds ramping multiplier effects for each use of Critical Splash in the same round."
+          "description": "Adds ramping multiplier effects for each use of Critical Blast in the same round."
         },
         {
           "level": 5,
-          "description": "Adds to S1: more damage accumulated while in Cover Mode and increased damage multiplier while in Demolition Mode."
+          "description": "Adds to S1: more damage accumulated while in Cover Order and increased damage multiplier while in Demolition Order."
         },
         {
           "level": 6,
-          "description": "Enhances each Reconstruction effect - adds tile generation to S1 (when applicable) and an additional effect."
+          "description": "Enhances each Reconfiguration effect - adds tile generation to S1 (when applicable) and an additional effect."
         }
       ]
     },
@@ -125,13 +125,13 @@
       "kind": "markdown",
       "key": "team_notes",
       "title": "Team notes",
-      "markdown": "Basically a staple in every team. Note that a majority of the team needs to be the same element to activate each Reconstruction effect, so the composition becomes 3 element core + OTs-14 + flex."
+          "markdown": "Basically a staple in every team. Note that a majority of the team needs to be the same element to activate each Reconfiguration effect, so the composition becomes 3 element core + OTs-14 + flex."
     },
     {
       "kind": "markdown",
       "key": "build_notes",
       "title": "Build notes",
-      "markdown": "Find sources for increased fixed damage dealt - OTs-14's common key is a must. Otherwise, her personal damage is all active + AoE + Omni and the majority is basic attack. For Omni damage scaling, use any elemental boosts (excluding Physical) or general phase damage boosts."
+          "markdown": "Find sources for increased fixed damage dealt - OTs-14's common key is a must. Otherwise, her personal damage is all active + AoE + Resonance and the majority is basic attack. For Resonance damage scaling, use any elemental boosts (excluding Physical) or general phase damage boosts."
     }
   ]
 }

@@ -2171,9 +2171,9 @@ class CutieDetonation(Buff):
 
 
 class CoverMode(Buff):
-    """Buff granted to allies when OTs-14 is in Cover Mode."""
+    """Buff granted to allies when OTs-14 is in Cover Order."""
 
-    display_name = "Cover Mode (OTs-14)"
+    display_name = "Cover Order (OTs-14)"
     max_stack_count = 175
     stack_input_type = "input"
 
@@ -2198,9 +2198,9 @@ class CoverMode(Buff):
 
 
 class DemolitionMode(Buff):
-    """Buff granted to self when OTs-14 is in Demolition Mode."""
+    """Buff granted to self when OTs-14 is in Demolition Order."""
 
-    display_name = "Demolition Mode (OTs-14)"
+    display_name = "Demolition Order (OTs-14)"
     max_stack_count = 17000
     stack_input_type = "input"
 
@@ -2225,9 +2225,9 @@ class DemolitionMode(Buff):
 
 
 class ReconstructionElectric(Buff):
-    """Buff granted to friendly units when OTs-14 has Reconstruction: Electric."""
+    """Buff granted to friendly units when OTs-14 has Reconfiguration - Electric."""
 
-    display_name = "Reconstruction: Electric (OTs-14)"
+    display_name = "Reconfiguration - Electric (OTs-14)"
     max_stack_count = 1
     stack_input_type = "input"
 
@@ -2246,9 +2246,9 @@ class ReconstructionElectric(Buff):
 
 
 class ReconstructionFreeze(Buff):
-    """Buff granted to friendly units when OTs-14 has Reconstruction: Freeze."""
+    """Buff granted to friendly units when OTs-14 has Reconfiguration - Freeze."""
 
-    display_name = "Reconstruction: Freeze (OTs-14)"
+    display_name = "Reconfiguration - Freeze (OTs-14)"
     max_stack_count = 1
     stack_input_type = "select"
 
@@ -2288,9 +2288,9 @@ class ReconstructionFreeze(Buff):
 
 
 class ReconstructionHydro(Buff):
-    """Buff granted to friendly units when OTs-14 has Reconstruction: Hydro."""
+    """Buff granted to friendly units when OTs-14 has Reconfiguration - Hydro."""
 
-    display_name = "Reconstruction: Hydro (OTs-14)"
+    display_name = "Reconfiguration - Hydro (OTs-14)"
     max_stack_count = 4
     stack_input_type = "input"
 
@@ -2341,9 +2341,9 @@ class ReconstructionHydro(Buff):
 
 
 class ReconstructionZero(Buff):
-    """Buff granted to OTs-14 when she has Reconstruction: Zero."""
+    """Buff granted to OTs-14 when she has Reconfiguration - Zero."""
 
-    display_name = "Reconstruction: Zero (OTs-14)"
+    display_name = "Reconfiguration - Zero (OTs-14)"
     max_stack_count = 6
     stack_input_type = "select"
 
@@ -2361,7 +2361,7 @@ class ReconstructionZero(Buff):
         if ots14_fortification_level >= FortificationLevel.SEGMENT06:
             attack_boost_magnitude = 50
 
-        # While under Demolition Mode, attack is increased by 30%
+        # While under Demolition Order, attack is increased by 30%
         if is_in_demolition_mode:
             self.value = attack_boost_magnitude
             self.modifier_type = ModifierType.MULTIPLICATIVE
@@ -3455,9 +3455,9 @@ class ScribbledFunnyFace(Debuff):
 
 
 class ReconstructionCorrosion(Debuff):
-    """Effect when OTs-14 has Reconstruction: Corrosion."""
+    """Effect when OTs-14 has Reconfiguration - Corrosion."""
 
-    display_name = "Reconstruction: Corrosion (OTs-14)"
+    display_name = "Reconfiguration - Corrosion (OTs-14)"
     max_stack_count = 1
     stack_input_type = "input"
 

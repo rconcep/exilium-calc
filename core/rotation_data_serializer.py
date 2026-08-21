@@ -4,6 +4,7 @@ import json
 from enum import Enum
 from typing import Any
 
+from core.rotation_name_aliases import canonical_action_name, canonical_effect_name
 from core.types import StatType, UnitLevel
 
 
@@ -129,6 +130,8 @@ def _normalize_effect_chip(chip_raw: Any, context: str) -> dict[str, Any]:
     if not isinstance(name, str) or not name:
         raise RotationDataError(f"{context} item is missing a valid 'name'")
 
+    chip["name"] = canonical_effect_name(name)
+
     return chip
 
 
@@ -138,7 +141,8 @@ def _normalize_action_chip(
     context: str,
 ) -> dict[str, Any]:
     chip = _normalize_effect_chip(chip_raw, context)
-    action_name = chip["name"]
+    action_name = canonical_action_name(chip["name"])
+    chip["name"] = action_name
 
     if action_name not in option_config:
         raise RotationDataError(

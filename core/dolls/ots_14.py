@@ -12,12 +12,12 @@ from core.combat import (
 from core.types import DamageTag, Doll, FortificationLevel, SummonedUnit
 
 
-class CombatInstinct(CombatAction):
+class ShootingInstinct(CombatAction):
     """OTs-14 basic attack."""
 
     @override
     def execute(self) -> DamageInstance:
-        label: str = "Combat Instinct"
+        label: str = "Shooting Instinct"
         base_potency: int = 90
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -31,16 +31,16 @@ class CombatInstinct(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Combat Instinct",
+            group_name="Shooting Instinct",
         )
 
 
-class CriticalSplash(CombatAction):
+class CriticalBlast(CombatAction):
     """OTs-14 basic attack available only when OTs-14 is in Reverse Assimilation."""
 
     @override
     def execute(self, previous_uses: int) -> DamageInstance:
-        label: str = "Critical Splash"
+        label: str = "Critical Blast"
         base_potency: int = 150
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -53,16 +53,16 @@ class CriticalSplash(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Critical Splash",
+            group_name="Critical Blast",
         )
 
 
-class CriticalSplashV3(CombatAction):
+class CriticalBlastV3(CombatAction):
     """OTs-14 basic attack available only when OTs-14 is in Reverse Assimilation (V3)."""
 
     @override
     def execute(self, previous_uses: int) -> DamageInstance:
-        label: str = "Critical Splash"
+        label: str = "Critical Blast"
         base_potency: int = 200
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -75,16 +75,16 @@ class CriticalSplashV3(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Critical Splash",
+            group_name="Critical Blast",
         )
 
 
-class CriticalSplashV4(CombatAction):
+class CriticalBlastV4(CombatAction):
     """OTs-14 basic attack available only when OTs-14 is in Reverse Assimilation (V4)."""
 
     @override
     def execute(self, previous_uses: int) -> DamageInstance:
-        label: str = f"Critical Splash ({previous_uses})"
+        label: str = f"Critical Blast ({previous_uses})"
         base_potency: int = 200
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -100,12 +100,12 @@ class CriticalSplashV4(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Critical Splash",
+            group_name="Critical Blast",
         )
 
 
 class OverloadPulse(CombatAction):
-    """Fixed damage from consuming Overload Pulse via Critical Splash."""
+    """Fixed damage from consuming Overload Pulse via Critical Blast."""
 
     @override
     def execute(
@@ -125,7 +125,7 @@ class OverloadPulse(CombatAction):
 
 
 class OverloadPulseV4(CombatAction):
-    """Fixed damage from consuming Overload Pulse via Critical Splash (V4)."""
+    """Fixed damage from consuming Overload Pulse via Critical Blast (V4)."""
 
     @override
     def execute(
@@ -234,6 +234,12 @@ class TotalSuppressionV5(CombatAction):
         return ret_di
 
 
+CombatInstinct = ShootingInstinct
+CriticalSplash = CriticalBlast
+CriticalSplashV3 = CriticalBlastV3
+CriticalSplashV4 = CriticalBlastV4
+
+
 class OTs14(Doll):
     """OTs-14."""
 
@@ -251,15 +257,15 @@ class OTs14(Doll):
         DamageTag.PHYSICAL_SUMMON,
     }
 
-    combat_instinct: CombatAction = Field(default_factory=CombatInstinct)
-    critical_splash: CombatAction = Field(default_factory=CriticalSplash)
+    combat_instinct: CombatAction = Field(default_factory=ShootingInstinct)
+    critical_splash: CombatAction = Field(default_factory=CriticalBlast)
     overload_pulse: CombatAction = Field(default_factory=OverloadPulse)
     total_suppression: CombatAction = Field(default_factory=TotalSuppression)
 
     def set_to_v0(self) -> None:
         """Sets Fortification Level to Segment00."""
-        self.combat_instinct = CombatInstinct()
-        self.critical_splash = CriticalSplash()
+        self.combat_instinct = ShootingInstinct()
+        self.critical_splash = CriticalBlast()
         self.overload_pulse = OverloadPulse()
         self.total_suppression = TotalSuppression()
 
@@ -271,12 +277,12 @@ class OTs14(Doll):
     def set_to_v3(self) -> None:
         """Sets Fortification Level to Segment03."""
         self.set_to_v2()
-        self.critical_splash = CriticalSplashV3()
+        self.critical_splash = CriticalBlastV3()
 
     def set_to_v4(self) -> None:
         """Sets Fortification Level to Segment04."""
         self.set_to_v3()
-        self.critical_splash = CriticalSplashV4()
+        self.critical_splash = CriticalBlastV4()
         self.overload_pulse = OverloadPulseV4()
 
     def set_to_v5(self) -> None:
@@ -305,6 +311,10 @@ class OTs14(Doll):
 
 
 __all__ = [
+    "ShootingInstinct",
+    "CriticalBlast",
+    "CriticalBlastV3",
+    "CriticalBlastV4",
     "CombatInstinct",
     "CriticalSplash",
     "CriticalSplashV3",

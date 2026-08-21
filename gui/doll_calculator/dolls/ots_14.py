@@ -11,43 +11,43 @@ _t1: list[dict[str, Any]] = [
 ]
 
 _t2: list[dict[str, Any]] = [
-    {"name": "Critical Splash", "previous_uses": 0},
+    {"name": "Critical Blast", "previous_uses": 0},
     {
         "name": "Overload Pulse",
         "accumulated_damage": 1800000,
         "uses_of_critical_splash": 0,
     },
-    {"name": "Critical Splash", "previous_uses": 1},
+    {"name": "Critical Blast", "previous_uses": 1},
     {
         "name": "Overload Pulse",
         "accumulated_damage": 1800000,
         "uses_of_critical_splash": 1,
     },
-    {"name": "Critical Splash", "previous_uses": 2},
+    {"name": "Critical Blast", "previous_uses": 2},
     {
         "name": "Overload Pulse",
         "accumulated_damage": 1800000,
         "uses_of_critical_splash": 2,
     },
-    {"name": "Critical Splash", "previous_uses": 3},
+    {"name": "Critical Blast", "previous_uses": 3},
     {
         "name": "Overload Pulse",
         "accumulated_damage": 1800000,
         "uses_of_critical_splash": 3,
     },
-    {"name": "Critical Splash", "previous_uses": 4},
+    {"name": "Critical Blast", "previous_uses": 4},
     {
         "name": "Overload Pulse",
         "accumulated_damage": 1800000,
         "uses_of_critical_splash": 4,
     },
-    {"name": "Critical Splash", "previous_uses": 5},
+    {"name": "Critical Blast", "previous_uses": 5},
     {
         "name": "Overload Pulse",
         "accumulated_damage": 1800000,
         "uses_of_critical_splash": 5,
     },
-    {"name": "Critical Splash", "previous_uses": 6},
+    {"name": "Critical Blast", "previous_uses": 6},
     {
         "name": "Overload Pulse",
         "accumulated_damage": 1800000,
@@ -76,23 +76,23 @@ class OTs14(DollCalculatorPage):
         self.doll.set_fortification_level(FortificationLevel.SEGMENT06)
         self.doll_subtitle: str = """Burst / Fixed-Damage Follow-up
 
-            Sentinel / Omni"""
+            Sentinel / Resonance"""
         self.dandegate_link: str = "https://www.dandegate.net/dolls/ots-14"
         self.doll_portrait: str = "resources/ots-14.webp"
 
     @override
     def update_doll_abilities(self) -> None:
         self.option_config: dict[str, dict[str, Any]] = {
-            "Combat Instinct": {
+            "Shooting Instinct": {
                 "fields": [],
                 "function": self.doll.combat_instinct.execute,
             },
-            "Critical Splash": {
+            "Critical Blast": {
                 "fields": [
                     {
                         "key": "previous_uses",
                         "type": "number",
-                        "label": "Previous Critical Splash Uses",
+                        "label": "Previous Critical Blast Uses",
                         "default": 0,
                     },
                 ],
@@ -109,7 +109,7 @@ class OTs14(DollCalculatorPage):
                     {
                         "key": "uses_of_critical_splash",
                         "type": "number",
-                        "label": "Uses of Critical Splash",
+                        "label": "Uses of Critical Blast",
                         "default": 0,
                     },
                 ],
@@ -120,7 +120,7 @@ class OTs14(DollCalculatorPage):
                     {
                         "key": "is_in_demolition_mode",
                         "type": "checkbox",
-                        "label": "Demolition Mode",
+                        "label": "Demolition Order",
                         "default": True,
                     },
                 ],

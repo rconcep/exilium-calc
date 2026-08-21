@@ -18,7 +18,8 @@ class TestOTs14Skills:
         assert DamageTag.MEDIUM_AMMO in di.tags
         assert DamageTag.TARGETED in di.tags
         assert DamageTag.OMNI in di.tags
-        assert di.group_name == "Combat Instinct"
+        assert di.label == "Shooting Instinct"
+        assert di.group_name == "Shooting Instinct"
 
     def test_critical_splash_versions(self):
         base: DamageInstance = ots_14.CriticalSplash().execute(previous_uses=0)
