@@ -11,19 +11,14 @@
         },
         {
           "name": "Brumal Barrier (Alva)",
-          "alva_fortification_level": 5,
+          "alva_fortification_level": 6,
           "shield_size": 9000
-        },
-        {
-          "name": "Late Bloomer (Alva)",
-          "stacks_of_battle_prep_consumed": 6
         },
         {
           "name": "Covering Mode (Alva)"
         },
         {
-          "name": "Unity: Enhanced",
-          "robella_initial_attack": 4800
+          "name": "Slaughter Trail (Soppo)"
         }
       ]
     },
@@ -34,10 +29,7 @@
         },
         {
           "name": "Hypothermia",
-          "alva_fortification_level": 5
-        },
-        {
-          "name": "Frostbite"
+          "alva_fortification_level": 6
         }
       ],
       "phase_weaknesses_exploited": 2,
@@ -63,7 +55,8 @@
           "confectance_index": 6
         },
         {
-          "name": "Interception"
+          "name": "Hoarfrost Break",
+          "shield_value": 20000
         },
         {
           "name": "Interception"
@@ -72,7 +65,7 @@
           "name": "Interception"
         },
         {
-          "name": "Hoarfrost Break"
+          "name": "Interception"
         }
       ],
       "2": [
@@ -81,7 +74,8 @@
           "confectance_index": 6
         },
         {
-          "name": "Interception"
+          "name": "Hoarfrost Break",
+          "shield_value": 20000
         },
         {
           "name": "Interception"
@@ -90,7 +84,7 @@
           "name": "Interception"
         },
         {
-          "name": "Hoarfrost Break"
+          "name": "Interception"
         }
       ],
       "3": [
@@ -99,7 +93,8 @@
           "confectance_index": 6
         },
         {
-          "name": "Interception"
+          "name": "Hoarfrost Break",
+          "shield_value": 20000
         },
         {
           "name": "Interception"
@@ -108,7 +103,7 @@
           "name": "Interception"
         },
         {
-          "name": "Hoarfrost Break"
+          "name": "Interception"
         }
       ],
       "4": [
@@ -121,7 +116,8 @@
           "confectance_index": 6
         },
         {
-          "name": "Interception"
+          "name": "Hoarfrost Break",
+          "shield_value": 20000
         },
         {
           "name": "Interception"
@@ -130,7 +126,7 @@
           "name": "Interception"
         },
         {
-          "name": "Hoarfrost Break"
+          "name": "Interception"
         }
       ],
       "5": [
@@ -139,7 +135,8 @@
           "confectance_index": 6
         },
         {
-          "name": "Interception"
+          "name": "Hoarfrost Break",
+          "shield_value": 20000
         },
         {
           "name": "Interception"
@@ -148,7 +145,7 @@
           "name": "Interception"
         },
         {
-          "name": "Hoarfrost Break"
+          "name": "Interception"
         }
       ],
       "6": [
@@ -157,7 +154,8 @@
           "confectance_index": 6
         },
         {
-          "name": "Interception"
+          "name": "Hoarfrost Break",
+          "shield_value": 20000
         },
         {
           "name": "Interception"
@@ -166,7 +164,7 @@
           "name": "Interception"
         },
         {
-          "name": "Hoarfrost Break"
+          "name": "Interception"
         }
       ],
       "7": [
@@ -179,7 +177,8 @@
           "confectance_index": 6
         },
         {
-          "name": "Interception"
+          "name": "Hoarfrost Break",
+          "shield_value": 20000
         },
         {
           "name": "Interception"
@@ -188,7 +187,7 @@
           "name": "Interception"
         },
         {
-          "name": "Hoarfrost Break"
+          "name": "Interception"
         }
       ]
     }
@@ -221,11 +220,57 @@
           "confectance_index": 6
         },
         "attacker": {
+          "add_buffs": [
+            {
+              "name": "Late Bloomer (Alva)",
+              "stacks_of_battle_prep_consumed": 3
+            }
+          ],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Hoarfrost Break",
+          "shield_value": 20000
+        },
+        "attacker": {
           "add_buffs": [],
           "remove_buffs": []
         },
         "target": {
           "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Interception"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [
+            {
+              "name": "Frostbite"
+            }
+          ],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
           "stability_override": "Baseline",
@@ -255,42 +300,6 @@
         "turn": 1,
         "action": {
           "name": "Interception"
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 1,
-        "action": {
-          "name": "Interception"
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 1,
-        "action": {
-          "name": "Hoarfrost Break"
         },
         "attacker": {
           "add_buffs": [],
@@ -317,6 +326,51 @@
         },
         "target": {
           "add_debuffs": [],
+          "remove_debuffs": [
+            {
+              "name": "debuff:Frostbite:1:d68ee4aff24d"
+            }
+          ],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Hoarfrost Break",
+          "shield_value": 20000
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Interception"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [
+            {
+              "name": "Frostbite"
+            }
+          ],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
           "stability_override": "Baseline",
@@ -346,42 +400,6 @@
         "turn": 2,
         "action": {
           "name": "Interception"
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 2,
-        "action": {
-          "name": "Interception"
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 2,
-        "action": {
-          "name": "Hoarfrost Break"
         },
         "attacker": {
           "add_buffs": [],
@@ -408,6 +426,51 @@
         },
         "target": {
           "add_debuffs": [],
+          "remove_debuffs": [
+            {
+              "name": "debuff:Frostbite:1:d68ee4aff24d"
+            }
+          ],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Hoarfrost Break",
+          "shield_value": 20000
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Interception"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [
+            {
+              "name": "Frostbite"
+            }
+          ],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
           "stability_override": "Baseline",
@@ -437,42 +500,6 @@
         "turn": 3,
         "action": {
           "name": "Interception"
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 3,
-        "action": {
-          "name": "Interception"
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 3,
-        "action": {
-          "name": "Hoarfrost Break"
         },
         "attacker": {
           "add_buffs": [],
@@ -499,7 +526,11 @@
         },
         "target": {
           "add_debuffs": [],
-          "remove_debuffs": [],
+          "remove_debuffs": [
+            {
+              "name": "debuff:Frostbite:1:d68ee4aff24d"
+            }
+          ],
           "phase_weaknesses_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
@@ -513,11 +544,61 @@
           "confectance_index": 6
         },
         "attacker": {
+          "add_buffs": [
+            {
+              "name": "Late Bloomer (Alva)",
+              "stacks_of_battle_prep_consumed": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Late Bloomer (Alva):1:31b960b11e72"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Hoarfrost Break",
+          "shield_value": 20000
+        },
+        "attacker": {
           "add_buffs": [],
           "remove_buffs": []
         },
         "target": {
           "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Interception"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [
+            {
+              "name": "Frostbite"
+            }
+          ],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
           "stability_override": "Baseline",
@@ -547,42 +628,6 @@
         "turn": 4,
         "action": {
           "name": "Interception"
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 4,
-        "action": {
-          "name": "Interception"
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 4,
-        "action": {
-          "name": "Hoarfrost Break"
         },
         "attacker": {
           "add_buffs": [],
@@ -609,6 +654,51 @@
         },
         "target": {
           "add_debuffs": [],
+          "remove_debuffs": [
+            {
+              "name": "debuff:Frostbite:1:d68ee4aff24d"
+            }
+          ],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Hoarfrost Break",
+          "shield_value": 20000
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Interception"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [
+            {
+              "name": "Frostbite"
+            }
+          ],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
           "stability_override": "Baseline",
@@ -638,42 +728,6 @@
         "turn": 5,
         "action": {
           "name": "Interception"
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 5,
-        "action": {
-          "name": "Interception"
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 5,
-        "action": {
-          "name": "Hoarfrost Break"
         },
         "attacker": {
           "add_buffs": [],
@@ -700,6 +754,51 @@
         },
         "target": {
           "add_debuffs": [],
+          "remove_debuffs": [
+            {
+              "name": "debuff:Frostbite:1:d68ee4aff24d"
+            }
+          ],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Hoarfrost Break",
+          "shield_value": 20000
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Interception"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [
+            {
+              "name": "Frostbite"
+            }
+          ],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
           "stability_override": "Baseline",
@@ -729,42 +828,6 @@
         "turn": 6,
         "action": {
           "name": "Interception"
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 6,
-        "action": {
-          "name": "Interception"
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 6,
-        "action": {
-          "name": "Hoarfrost Break"
         },
         "attacker": {
           "add_buffs": [],
@@ -791,7 +854,11 @@
         },
         "target": {
           "add_debuffs": [],
-          "remove_debuffs": [],
+          "remove_debuffs": [
+            {
+              "name": "debuff:Frostbite:1:d68ee4aff24d"
+            }
+          ],
           "phase_weaknesses_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
@@ -820,7 +887,8 @@
       {
         "turn": 7,
         "action": {
-          "name": "Interception"
+          "name": "Hoarfrost Break",
+          "shield_value": 20000
         },
         "attacker": {
           "add_buffs": [],
@@ -828,6 +896,28 @@
         },
         "target": {
           "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Interception"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [
+            {
+              "name": "Frostbite"
+            }
+          ],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
           "stability_override": "Baseline",
@@ -857,24 +947,6 @@
         "turn": 7,
         "action": {
           "name": "Interception"
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 7,
-        "action": {
-          "name": "Hoarfrost Break"
         },
         "attacker": {
           "add_buffs": [],

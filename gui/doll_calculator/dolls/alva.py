@@ -15,54 +15,54 @@ sample_rotation: dict[int, list[dict]] = {
     1: [
         {"name": "Frosted Echo", "confectance_index": 6},
         {"name": "Nix Requiem", "confectance_index": 6},
+        {"name": "Hoarfrost Break", "shield_value": 20000},
         {"name": "Interception"},
         {"name": "Interception"},
         {"name": "Interception"},
-        {"name": "Hoarfrost Break"},
     ],
     2: [
         {"name": "Nix Requiem", "confectance_index": 6},
+        {"name": "Hoarfrost Break", "shield_value": 20000},
         {"name": "Interception"},
         {"name": "Interception"},
         {"name": "Interception"},
-        {"name": "Hoarfrost Break"},
     ],
     3: [
         {"name": "Nix Requiem", "confectance_index": 6},
+        {"name": "Hoarfrost Break", "shield_value": 20000},
         {"name": "Interception"},
         {"name": "Interception"},
         {"name": "Interception"},
-        {"name": "Hoarfrost Break"},
     ],
     4: [
         {"name": "Frosted Echo", "confectance_index": 6},
         {"name": "Nix Requiem", "confectance_index": 6},
+        {"name": "Hoarfrost Break", "shield_value": 20000},
         {"name": "Interception"},
         {"name": "Interception"},
         {"name": "Interception"},
-        {"name": "Hoarfrost Break"},
     ],
     5: [
         {"name": "Nix Requiem", "confectance_index": 6},
+        {"name": "Hoarfrost Break", "shield_value": 20000},
         {"name": "Interception"},
         {"name": "Interception"},
         {"name": "Interception"},
-        {"name": "Hoarfrost Break"},
     ],
     6: [
         {"name": "Nix Requiem", "confectance_index": 6},
+        {"name": "Hoarfrost Break", "shield_value": 20000},
         {"name": "Interception"},
         {"name": "Interception"},
         {"name": "Interception"},
-        {"name": "Hoarfrost Break"},
     ],
     7: [
         {"name": "Frosted Echo", "confectance_index": 6},
         {"name": "Nix Requiem", "confectance_index": 6},
+        {"name": "Hoarfrost Break", "shield_value": 20000},
         {"name": "Interception"},
         {"name": "Interception"},
         {"name": "Interception"},
-        {"name": "Hoarfrost Break"},
     ],
 }
 
@@ -107,7 +107,14 @@ class Alva(DollCalculatorPage):
                 "function": doll.frosted_echo.execute,
             },
             "Hoarfrost Break": {
-                "fields": [],
+                "fields": [
+                    {
+                        "key": "shield_value",
+                        "type": "number",
+                        "label": "Shield Value",
+                        "default": 20000,
+                    },
+                ],
                 "function": doll.hoarfrost_break.execute,
             },
             "Nix Requiem": {
@@ -156,7 +163,7 @@ class Alva(DollCalculatorPage):
             {"name": "Attack Up II"},
             {
                 "name": "Brumal Barrier (Alva)",
-                "alva_fortification_level": FortificationLevel.SEGMENT05,
+                "alva_fortification_level": FortificationLevel.SEGMENT06,
                 "shield_size": 9000,
             },
             {
@@ -172,7 +179,7 @@ class Alva(DollCalculatorPage):
             {"name": "Defense Down II"},
             {
                 "name": "Hypothermia",
-                "alva_fortification_level": FortificationLevel.SEGMENT05,
+                "alva_fortification_level": FortificationLevel.SEGMENT06,
             },
             {
                 "name": "Frostbite",
@@ -183,12 +190,14 @@ class Alva(DollCalculatorPage):
     def get_model_assumptions(self) -> list[ModelAssumption]:
         return [
             ModelAssumption(
-                icon="visibility",
-                description="Covering Mode is always active (for the critical hit rate buff).",
+                icon="key",
+                description="Expansion Key - Alpha Successor is active.",
+                link_label="Dandegate",
+                link_target="https://www.dandegate.net/dolls/alva/keys/expansion-key-alpha-successor",
             ),
             ModelAssumption(
-                icon="shield",
-                description="Hoarfrost Break (the attack triggered when Hoarfrost shield is broken) assumes the maximum shield size.",
+                icon="visibility",
+                description="Covering Mode is always active (for the critical hit rate buff).",
             ),
         ]
 

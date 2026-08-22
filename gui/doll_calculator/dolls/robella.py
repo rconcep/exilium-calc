@@ -301,6 +301,12 @@ class Robella(DollCalculatorPage):
     def get_model_assumptions(self) -> list[ModelAssumption]:
         return [
             ModelAssumption(
+                icon="key",
+                description="Expansion Key - Justice Execution Algorithm is active.",
+                link_label="Dandegate",
+                link_target="https://www.dandegate.net/dolls/robella/keys/expansion-key-justice-execution-algorithm",
+            ),
+            ModelAssumption(
                 icon="ac_unit",
                 description="Sample rotation assumes Alva is V2+ (for confectance index gain) and is the Light of Bond recipient, performing an active attack or interception to proc each Unity: Enhanced instance.",
             ),

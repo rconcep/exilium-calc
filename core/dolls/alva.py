@@ -11,7 +11,11 @@ from core.types import (
     SummonedUnit,
 )
 from core.buffs import Buff
-from core.combat import DamageInstance, CombatAction
+from core.combat import (
+    AlvaHoarfrostBreakDamageCalculationStrategy,
+    DamageInstance,
+    CombatAction,
+)
 
 
 class Laceration(CombatAction):
@@ -114,7 +118,7 @@ class HoarfrostBreak(CombatAction):
     """Alva's attack when an enemy's Hoarfrost shield is broken."""
 
     @override
-    def execute(self) -> DamageInstance:
+    def execute(self, shield_value: int) -> DamageInstance:
         label: str = "Hoarfrost Break"
         tags: set[DamageTag] = {
             DamageTag.PASSIVE,
@@ -123,14 +127,16 @@ class HoarfrostBreak(CombatAction):
             DamageTag.PHASE,
         }
 
-        # Shield size is up to 500% of Alva's Attack, so this is essentially a 200 potency attack at max shield size.
-        base_potency: int = 200
+        base_potency: int = 80
 
         return DamageInstance(
             label=label,
             base_potency=base_potency,
             tags=tags,
             group_name="Hoarfrost Break",
+            damage_calculation_strategy=AlvaHoarfrostBreakDamageCalculationStrategy(
+                shield_value
+            ),
         )
 
 
@@ -138,7 +144,7 @@ class HoarfrostBreakV5(CombatAction):
     """Alva's attack when an enemy's Hoarfrost shield is broken (V5)."""
 
     @override
-    def execute(self) -> DamageInstance:
+    def execute(self, shield_value: int) -> DamageInstance:
         label: str = "Hoarfrost Break"
         tags: set[DamageTag] = {
             DamageTag.PASSIVE,
@@ -147,14 +153,16 @@ class HoarfrostBreakV5(CombatAction):
             DamageTag.PHASE,
         }
 
-        # Shield size is up to 500% of Alva's Attack, so this is essentially a 300 potency attack at max shield size.
-        base_potency: int = 300
+        base_potency: int = 120
 
         return DamageInstance(
             label=label,
             base_potency=base_potency,
             tags=tags,
             group_name="Hoarfrost Break",
+            damage_calculation_strategy=AlvaHoarfrostBreakDamageCalculationStrategy(
+                shield_value
+            ),
         )
 
 

@@ -460,23 +460,19 @@ class BrumalBarrier(Buff):
         ret: list[Buff] = []
 
         freeze_damage_boost_per_shield: float = (
-            1.5 / 1000
-        )  # 2% for every 1000 points of Shield HP
+            1.5 / 500
+        )  # 1.5% for every 500 points of Shield HP
         critical_damage_per_shield: float = (
-            0 / 1000
-        )  # 1% for every 1000 points of Shield HP
+            0 / 500
+        )  # 0% for every 500 points of Shield HP
 
-        if alva_fortification_level >= FortificationLevel.SEGMENT05:
+        if alva_fortification_level >= FortificationLevel.SEGMENT06:
             freeze_damage_boost_per_shield = (
-                3 / 1000
-            )  # 3% for every 1000 points of Shield HP
-            critical_damage_per_shield = (
-                2 / 1000
-            )  # 2% for every 1000 points of Shield HP
+                3 / 500
+            )  # 3% for every 500 points of Shield HP
+            critical_damage_per_shield = 2 / 500  # 2% for every 500 points of Shield HP
         elif alva_fortification_level >= FortificationLevel.SEGMENT03:
-            critical_damage_per_shield = (
-                1 / 1000
-            )  # 1% for every 1000 points of Shield HP
+            critical_damage_per_shield = 1 / 500  # 1% for every 500 points of Shield HP
 
         self.value = freeze_damage_boost_per_shield * shield_size
         self.modifier_type = ModifierType.ADDITIVE

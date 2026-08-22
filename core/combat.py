@@ -2033,3 +2033,45 @@ class OverloadPulseDamageCalculationStrategy(StandardDamageCalculationStrategy):
             effective_defense=0,
             negative_defense=0,
         )
+
+
+class AlvaHoarfrostBreakDamageCalculationStrategy(DamageCalculationStrategy):
+    """Implements the damage formula where effective attack is replaced by the shield value."""
+
+    shield_value: float = Field(default=0)
+
+    def __init__(self, shield_value: float = 0):
+        """
+        Arguments:
+        shield_value -- the shield value to use as the surrogate Attack stat in the damage formula
+        """
+        self.shield_value = shield_value
+
+    @final
+    @override
+    def calculate_base_damage(
+        self, attacker: Unit, target: Unit, damage_instance: DamageInstance
+    ) -> tuple[float, float, float, float]:
+        """Returns the term in the damage formula that is a function of attacker attack
+        and target defense. In addition, returns the effective attack, effective defense,
+        and any defense reduced/ignored beyond 0.
+
+        Arguments:
+        attacker -- the attacking Unit
+        target -- the target of the attack
+        damage_instance -- describes the action
+        """
+        effective_atk: float = self.shield_value
+
+        effective_def, negative_def = _calculate_effective_and_negative_defense(
+            attacker=attacker,
+            target=target,
+            damage_instance=damage_instance,
+        )
+
+        return (
+            effective_atk,
+            effective_def,
+            negative_def,
+            effective_atk / (1 + effective_def / effective_atk),
+        )
