@@ -1,0 +1,82 @@
+{
+  "doll": "Nemesis: Gnosis",
+  "sections": [
+    {
+      "kind": "markdown",
+      "key": "synopsis",
+      "title": "Synopsis",
+      "markdown": "Corrosion sub-DPS that can provide unique support capabilities to Sniper Rifle compositions through her Fifth and Sixth Prophecy buffs. Nemesis can perform Support Actions 2-3 times per turn, allowing her to perform as a Klukai Confectance Index battery. Her personal DPS is noticeably higher than standard pool Dolls but won't be replacing limited Dolls at similar fortification levels - Nemesis: Gnosis is about what one would expect for a free Doll with free fortifications."
+    },
+    {
+      "kind": "utility_table",
+      "key": "utility",
+      "title": "Utility",
+      "rows": [
+        {
+          "label": "Increased basic and active skill range (Sniper Rifle allies)",
+          "detail": "(1) Fifth Prophecy: Startrail"
+        },
+        {
+          "label": "Increased damage dealt per tile of distance (Sniper Rifle allies)",
+          "detail": "(5~60%) Fifth Prophecy: Startrail"
+        },
+        {
+          "label": "Ignore cover protection (Sniper Rifle allies)",
+          "detail": "Fifth Prophecy: Startrail"
+        },
+        {
+          "label": "Movement Denied on hit (Sniper Rifle allies)",
+          "detail": "(1 turn) Sixth Prophecy: Vision"
+        },
+        { "label": "Buff cleanse", "detail": "Fixed Key 4, on Support Action" },
+        {
+          "label": "Support Action",
+          "detail": "(2, 3 at V1) Doomguide"
+        }
+      ]
+    },
+    {
+      "kind": "fortification_table",
+      "key": "fortification_upgrades",
+      "title": "Fortification Level upgrades",
+      "upgrades": [
+        {
+          "level": 1,
+          "description": "Increases damage multiplier, max number of triggers, and Confectance Index gain of Support Actions."
+        },
+        {
+          "level": 2,
+          "description": "Ultimate: removes cooldown and increases damage."
+        },
+        {
+          "level": 3,
+          "description": "Removes stack of limit of Concentration and lets it persist even if Nemesis moves. Changes Second Prophecy's damage reduction effect to damage immunity."
+        },
+        {
+          "level": 4,
+          "description": "S2: increases damage and HP recovered."
+        },
+        {
+          "level": 5,
+          "description": "Third Prophecy: increases damage and AoE; Fourth Prophecy: increases damage multiplier of Support Actions and increases defense ignore, critical damage, and damage boost effects when attacking an Elite or Boss."
+        },
+        {
+          "level": 6,
+          "description": "Fifth Prophecy: Startrail Insight now ignores Cover at all distances and the damage boost per tile of distance is increased; Sixth Prophecy: the first Support Action per turn is converted into an Ultimate as if it consumed all Confectance Index."
+        }
+      ]
+    },
+    {
+      "kind": "markdown",
+      "key": "team_notes",
+      "title": "Team notes",
+      "markdown": "At least two Sniper Rifle or Corrosion Dolls to activate Fifth Prophecy. Although similar in role to Phaetusa, Nemesis's Support Actions are not AoE and thus do not benefit from Mechty's support as much as Phaetusa does. Basti is still a good partner, however. Sixth Prophecy requires at least four Sniper Rifle Dolls to be present; this composition is basically for mobbing stages since the Prophecy bestows Movement Denied on hit although it does give a nice boost to Nemesis's damage at V6."
+    },
+    {
+      "kind": "markdown",
+      "key": "build_notes",
+      "title": "Build notes",
+      "markdown": "Corrosion DPS - Attack Boost, Attack, Crit. All Corrosion damage so Corrosion Boost attachments is recommended. About 2/3 of her damage comes from her Support Actions and a similar proportion is targeted damage. When Third Prophecy is active (when Normal-level enemies are present), Nemesis does additional instances of AoE damage; likewise, when Sixth Prophecy is active (>= 4 Sniper Rifle Dolls are present), AoE damage gains a larger share of her output."
+    }
+  ]
+}
