@@ -9,6 +9,7 @@ from .asteria import Asteria
 from .basti import Basti
 from .belka import Belka
 from .cheyanne import Cheyanne
+from .faelynn import Faelynn
 from .helen import Helen
 from .lainie import Lainie
 from .liushih import Liushih
@@ -50,6 +51,7 @@ __all__ = [
     "Belka",
     "Cheyanne",
     "Daiyan",
+    "Faelynn",
     "Helen",
     "Dushevnaya",
     "Faye",

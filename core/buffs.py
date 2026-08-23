@@ -2295,6 +2295,47 @@ class Concentration(Buff):
         self.tag = DamageTag.ALL
 
 
+class HuntersTracking(Buff):
+    """Faelynn's stacking buff."""
+
+    display_name = "Hunter's Tracking (Faelynn)"
+    max_stack_count = 6
+    stack_input_type = "input"
+
+    def __init__(self, stacks: int, faelynn_fortification_level: FortificationLevel):
+        damage_boost_per_stack: int = 3
+        maximum_stacks: int = 3
+
+        if faelynn_fortification_level >= FortificationLevel.SEGMENT03:
+            damage_boost_per_stack = 5
+            maximum_stacks = HuntersTracking.max_stack_count
+
+        self.value = 0
+        if stacks > 0:
+            self.value = min(max(0, stacks), maximum_stacks) * damage_boost_per_stack
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.CORROSION
+
+
+class RovingBloodlust(Buff):
+    """Faelynn's buff."""
+
+    display_name = "Roving Bloodlust (Faelynn)"
+    max_stack_count = 1
+    stack_input_type = "input"
+
+    def __init__(self, faelynn_fortification_level: FortificationLevel):
+        self.value = 10
+
+        if faelynn_fortification_level >= FortificationLevel.SEGMENT01:
+            self.value = 30
+
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.ATTACK
+        self.tag = DamageTag.ALL
+
+
 class CoverMode(Buff):
     """Buff granted to allies when OTs-14 is in Cover Order."""
 
@@ -3598,6 +3639,52 @@ class ReconstructionCorrosion(Debuff):
         # by the enemy unit.
         increased_damage_taken_per_debuff: int = 2
         self.value = increased_damage_taken_per_debuff * max(0, number_of_debuffs)
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.ALL
+
+
+class CollarBrand(Debuff):
+    """Faelynn's exclusive mark. Removed when caster's action ends."""
+
+    display_name = "Collar Brand (Faelynn)"
+    max_stack_count = 1
+    stack_input_type = "input"
+
+    def __init__(
+        self,
+        faelynn_fortification_level: FortificationLevel,
+    ):
+        # No effect at lower fortification levels
+        self.value = 0
+
+        if faelynn_fortification_level >= FortificationLevel.SEGMENT03:
+            self.value = 30
+
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.CORROSION
+
+
+class ScentMark(Debuff):
+    """Faelynn's mark. Increases damage taken from Faelynn.
+    Does not check if Faelynn is the attacker. Do not use when Faelynn
+    is not the attacker.
+    """
+
+    display_name = "Scent Mark (Faelynn)"
+    max_stack_count = 1
+    stack_input_type = "input"
+
+    def __init__(
+        self,
+        faelynn_fortification_level: FortificationLevel,
+    ):
+        self.value = 15
+
+        if faelynn_fortification_level >= FortificationLevel.SEGMENT05:
+            self.value = 30
+
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
         self.tag = DamageTag.ALL
