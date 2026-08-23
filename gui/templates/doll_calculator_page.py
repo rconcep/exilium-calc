@@ -13,9 +13,6 @@ from core.types import *
 from core.runtime_paths import get_resource_path
 from core.rotation_data_serializer import (
     RotationDataError,
-    build_payload_from_planner_defaults,
-    normalize_payload,
-    payload_to_string,
     string_to_payload,
 )
 from core.stat_serializer import SerializationError, StatsSerializer
@@ -191,7 +188,7 @@ class DollCalculatorPage(ABC):
     ) -> None:
         """Applies Damage Calculator defaults from the stored sample rotation data."""
         if payload is None:
-            payload = self._load_or_create_rotation_sample_payload()
+            return
         baseline_target = payload["baseline"]["target"]
         damage_calculator = getattr(self, "damage_calculator", None)
         if damage_calculator is None:
@@ -204,16 +201,12 @@ class DollCalculatorPage(ABC):
             copy.deepcopy(baseline_target["debuffs"])
         )
 
-    def get_default_rotation_simulator_actions(self) -> dict[int, list[dict[str, Any]]]:
-        """Returns default action selections for the Rotation Simulator prototype."""
-        return self.rotation_planner.get_data()
-
     def apply_default_rotation_simulator_selections(
         self, payload: dict[str, Any] | None = None
     ) -> None:
         """Applies Rotation Simulator defaults from the stored sample rotation data."""
         if payload is None:
-            payload = self._load_or_create_rotation_sample_payload()
+            return
         rotation_simulator = getattr(self, "rotation_simulator", None)
         if rotation_simulator is None:
             return
@@ -225,6 +218,17 @@ class DollCalculatorPage(ABC):
                 type="negative",
             )
 
+    def apply_default_rotation_planner_selections(
+        self, payload: dict[str, Any] | None = None
+    ) -> None:
+        """Populates the Rotation Potency planner from the sample data's planner section."""
+        if payload is None:
+            return
+        turns_raw = payload["planner"]["turns"]
+        self.rotation_planner.set_data(
+            {int(turn): actions for turn, actions in turns_raw.items()}
+        )
+
     def _rotation_data_dir(self) -> Path:
         return get_resource_path("rotation_data")
 
@@ -235,49 +239,29 @@ class DollCalculatorPage(ABC):
         ).strip("_")
         return self._rotation_data_dir() / f"{safe_name or 'doll'}.json"
 
-    def _build_rotation_sample_payload_from_legacy_defaults(self) -> dict[str, Any]:
-        planner_turns = copy.deepcopy(self.get_default_rotation_simulator_actions())
-        payload = build_payload_from_planner_defaults(
-            doll_name=self.doll.name,
-            planner_turns=planner_turns,
-            baseline_buffs=copy.deepcopy(self.get_default_damage_calculator_buffs()),
-            baseline_debuffs=copy.deepcopy(
-                self.get_default_damage_calculator_debuffs()
-            ),
-        )
-
-        return normalize_payload(
-            payload,
-            option_config=self.option_config,
-            expected_doll_name=self.doll.name,
-        )
-
-    def _load_or_create_rotation_sample_payload(self) -> dict[str, Any]:
+    def _load_rotation_sample_payload(self) -> dict[str, Any] | None:
+        """Loads sample rotation data if present; otherwise leaves the page blank."""
         if self._cached_rotation_sample_payload is not None:
             return copy.deepcopy(self._cached_rotation_sample_payload)
 
-        data_dir = self._rotation_data_dir()
-        data_dir.mkdir(parents=True, exist_ok=True)
         file_path = self._rotation_data_file_path()
+        if not file_path.exists():
+            return None
 
-        if file_path.exists():
-            try:
-                raw_json = file_path.read_text(encoding="utf-8")
-                payload = string_to_payload(
-                    raw_json,
-                    option_config=self.option_config,
-                    expected_doll_name=self.doll.name,
-                )
-                self._cached_rotation_sample_payload = copy.deepcopy(payload)
-                return copy.deepcopy(payload)
-            except (OSError, RotationDataError) as exc:
-                ui.notify(
-                    f"Rotation sample data invalid; regenerating ({exc})",
-                    type="warning",
-                )
+        try:
+            raw_json = file_path.read_text(encoding="utf-8")
+            payload = string_to_payload(
+                raw_json,
+                option_config=self.option_config,
+                expected_doll_name=self.doll.name,
+            )
+        except (OSError, RotationDataError) as exc:
+            ui.notify(
+                f"Rotation sample data invalid; leaving rotation tools blank ({exc})",
+                type="warning",
+            )
+            return None
 
-        payload = self._build_rotation_sample_payload_from_legacy_defaults()
-        file_path.write_text(payload_to_string(payload), encoding="utf-8")
         self._cached_rotation_sample_payload = copy.deepcopy(payload)
         return copy.deepcopy(payload)
 
@@ -1705,7 +1689,8 @@ class DollCalculatorPage(ABC):
                                 for section in bullet_sections:
                                     render_notes_card(section)
 
-        sample_payload = self._load_or_create_rotation_sample_payload()
+        sample_payload = self._load_rotation_sample_payload()
+        self.apply_default_rotation_planner_selections(sample_payload)
 
         def ensure_damage_calculator_initialized() -> None:
             if self._damage_calculator_initialized:
