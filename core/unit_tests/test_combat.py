@@ -1255,6 +1255,119 @@ class TestDamageCalculationStrategy:
         ].get_multiplier(DamageTag.MELEE) == pytest.approx(0)
 
 
+class TestWelrodDamageCalculationStrategy:
+    def test_resolve_buffs_reduces_crit_rate_and_boosts_health_below_v6(self):
+        g = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT00
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.CORROSION})
+
+        WelrodStandardDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        assert g.additive_modifiers.basic_attributes[
+            StatType.CRIT_RATE
+        ] == pytest.approx(-100)
+        assert g.multiplicative_modifiers.basic_attributes[
+            StatType.HEALTH
+        ] == pytest.approx(50)
+
+    def test_resolve_buffs_boosts_health_more_at_v6(self):
+        g = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT06
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.CORROSION})
+
+        WelrodStandardDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        assert g.multiplicative_modifiers.basic_attributes[
+            StatType.HEALTH
+        ] == pytest.approx(150)
+
+    def test_resolve_buffs_ignores_non_doll_attackers(self):
+        g = Unit()
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.CORROSION})
+
+        WelrodStandardDamageCalculationStrategy().resolve_buffs(g, t, di)
+
+        assert g.additive_modifiers.basic_attributes[
+            StatType.CRIT_RATE
+        ] == pytest.approx(0)
+        assert g.multiplicative_modifiers.basic_attributes[
+            StatType.HEALTH
+        ] == pytest.approx(0)
+
+    def test_conviction_and_punishment_scales_potency_with_max_health_increase(self):
+        g = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT00
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.CORROSION})
+
+        strategy = WelrodConvictionAndPunishmentDamageCalculationStrategy(1, 60)
+        strategy.do_adjust_potency(g, t, di)
+
+        # Welrod's passive HP boost (50%, below V6) contributes 50 bonus potency.
+        assert di.base_potency == pytest.approx(150)
+
+    def test_conviction_and_punishment_caps_potency_increase(self):
+        g = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT06
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.CORROSION})
+
+        # V6 HP boost of 150% would normally add 150 potency for a 1:1 ratio, but is
+        # capped at 60.
+        strategy = WelrodConvictionAndPunishmentDamageCalculationStrategy(1, 60)
+        strategy.do_adjust_potency(g, t, di)
+
+        assert di.base_potency == pytest.approx(160)
+
+    def test_conviction_and_punishment_v4_uses_higher_ratio_and_cap(self):
+        g = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT06
+        )
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=120, tags={DamageTag.CORROSION})
+
+        # 150% max HP increase * 1.5 potency-per-percent = 225, capped at 150.
+        strategy = WelrodConvictionAndPunishmentDamageCalculationStrategy(1.5, 150)
+        strategy.do_adjust_potency(g, t, di)
+
+        assert di.base_potency == pytest.approx(120 + 150)
+
+    def test_crime_backlash_base_damage_uses_accumulated_damage_and_max_health(self):
+        g = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT00
+        )
+        g.initial_stats.basic_attributes[StatType.HEALTH] = 4000
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.CORROSION})
+
+        strategy = WelrodCrimeBacklashDamageCalculationStrategy(1000, 0.25, 0.15)
+        effective_atk, effective_def, negative_def, term = (
+            strategy.calculate_base_damage(g, t, di)
+        )
+
+        assert effective_atk == pytest.approx(0.25 * 1000 + 0.15 * 4000)
+
+    def test_crime_backlash_uses_v3_fractions(self):
+        g = TestDamageCalculationStrategy.construct_doll_attacker(
+            FortificationLevel.SEGMENT03
+        )
+        g.initial_stats.basic_attributes[StatType.HEALTH] = 4000
+        t = TestDamageCalculationStrategy.construct_defender()
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.CORROSION})
+
+        strategy = WelrodCrimeBacklashDamageCalculationStrategy(1000, 0.50, 0.30)
+        effective_atk, _, _, _ = strategy.calculate_base_damage(g, t, di)
+
+        assert effective_atk == pytest.approx(0.50 * 1000 + 0.30 * 4000)
+
+
 class TestLainieBonusDamageCalculations:
     @staticmethod
     def construct_unit_for_bonus_damage(
