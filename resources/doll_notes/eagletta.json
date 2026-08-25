@@ -1,0 +1,97 @@
+{
+  "doll": "Eagletta",
+  "sections": [
+    {
+      "kind": "markdown",
+      "key": "synopsis",
+      "title": "Synopsis",
+      "markdown": "Freeze sub-DPS with potent crowd-control capabilities that likes to fight up close. Eagletta has a wide area taunt that also reduces enemy attack range to 1 tile - combine this with Frost tiles limiting mobility and this effectively locks down groups of enemies. She can also Shock enemies, preventing them from acting when they wander into her vicinity and trigger Predation. Offensive utility-wise, Eagletta brings the rare Vulnerable II debuff. In terms of bossing, her baseline and top-end (V6) personal damage are solid, but middle-of-the-pack among the newer damage dealer Dolls."
+    },
+    {
+      "kind": "utility_table",
+      "key": "utility",
+      "title": "Utility",
+      "rows": [
+        {
+          "label": "Frost tile generation",
+          "detail": "Passive: at the end of the allied round"
+        },
+        {
+          "label": "Increased damage taken",
+          "detail": "(10~40%) (V6) External Threat"
+        },
+        {
+          "label": "Vulnerable II",
+          "detail": "(two rounds) Stoop Strike"
+        },
+        {
+          "label": "Defense Down II",
+          "detail": "(two turns) Fixed Key 5: before Swift Eagle Strike"
+        },
+        {
+          "label": "Shock",
+          "detail": "(one round) Fixed Key 1: on Rending Talons or Predation"
+        },
+        {
+          "label": "Taunt",
+          "detail": "(two rounds) Stoop Strike"
+        },
+        {
+          "label": "Reduce range of all basic attacks to 1 tile",
+          "detail": "(two rounds) Airborne Monarch"
+        },
+        {
+          "label": "Buff cleanse",
+          "detail": "Fixed Key 2: before making an active attack"
+        },
+        {
+          "label": "Interception / Lock on Attack",
+          "detail": "(twice per turn) Predation"
+        }
+      ]
+    },
+    {
+      "kind": "fortification_table",
+      "key": "fortification_upgrades",
+      "title": "Fortification Level upgrades",
+      "upgrades": [
+        {
+          "level": 1,
+          "description": "Passive: start battle with one stack of External Threat, adds Feathers of War generation, and reduces cooldown of Ultimate by a turn."
+        },
+        {
+          "level": 2,
+          "description": "Gain Feathers of War for each unused Predation trigger each turn. Increases damage of her basic attacks and Predation."
+        },
+        {
+          "level": 3,
+          "description": "S2: increased damage, larger AoE for applying Airborne Monarch, and increased damage reduction effect for Airborne Monarch."
+        },
+        {
+          "level": 4,
+          "description": "Ultimate: increased magnitude of effects depending on Feathers of War expended."
+        },
+        {
+          "level": 5,
+          "description": "Passive: generate External Threat for fewer Feathers of War expended."
+        },
+        {
+          "level": 6,
+          "description": "Passive: increased magnitude of effects for both stances, increased damage of Swift Eagle Strike, increased damage of Ultimate, add 'increased damage dealt' and 'increased damage taken' effects to External Threat."
+        }
+      ]
+    },
+    {
+      "kind": "markdown",
+      "key": "team_notes",
+      "title": "Team notes",
+      "markdown": "Eagletta benefits from the standard Freeze supports. With Stoop Strike and her Fixed Key 1, she can provide crowd control as a sub-DPS. Bossing utility-wise, Eagletta can apply the relatively rare Vulnerability II debuff; and at V6, she provides another source of 'increased damage taken' via External Threat."
+    },
+    {
+      "kind": "markdown",
+      "key": "build_notes",
+      "title": "Build notes",
+      "markdown": "Freeze DPS - Attack Boost, Attack, Crit. Freeze Boost attachment set recommended. The majority of Eagletta's damage is targeted damage, so look for Pinpoint Specialization or Precision Blow main stat pieces for her Remolding Core for small optimization."
+    }
+  ]
+}

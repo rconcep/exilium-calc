@@ -860,6 +860,145 @@ class FrostStrike(Buff):
         self.stat_type = StatType.ATTACK
 
 
+class EagleStrikeStance(Buff):
+    """Buff when Eagletta is in Eagle Strike Stance."""
+
+    display_name = "Eagle Strike Stance (Eagletta)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(
+        self,
+        eagletta_fortification_level: FortificationLevel,
+    ):
+        """
+        Arguments:
+        eagletta_fortification_level -- the Fortification Level of Eagletta
+        """
+        self.value = 5
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.ATTACK
+        self.tag = DamageTag.ALL
+
+        if eagletta_fortification_level >= FortificationLevel.SEGMENT06:
+            self.value = 20
+
+
+class TheWildWithin(Buff):
+    """The effect from Eagletta's passive, The Wild Within, where damage dealt
+    and critical damage is increased the closer the target is to Eagletta."""
+
+    display_name = "The Wild Within (Eagletta)"
+    max_stack_count = 4
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self, force_full_effect: bool, tile_distance_from_eagletta: int):
+        """
+        Arguments:
+        force_full_effect -- true if the buff should be applied at its full effect regardless of distance;
+          if target has a control effect, Frigid, Paralysis, or is a large unit
+        tile_distance_from_eagletta -- the distance of the target away from the 3x3 area around Eagletta
+        """
+        ret: list[Buff] = []
+
+        damage_boost_dropoff_per_tile: int = 5
+        critical_damage_dropoff_per_tile: int = 3
+
+        if force_full_effect:
+            damage_boost_dropoff_per_tile = 0
+            critical_damage_dropoff_per_tile = 0
+
+        damage_boost: int = max(
+            0, 20 - damage_boost_dropoff_per_tile * max(0, tile_distance_from_eagletta)
+        )
+        critical_damage: int = max(
+            0,
+            15 - critical_damage_dropoff_per_tile * max(0, tile_distance_from_eagletta),
+        )
+
+        if damage_boost > 0:
+            ret.append(
+                Buff(
+                    damage_boost,
+                    ModifierType.ADDITIVE,
+                    SpecialAttribute.DAMAGE_BOOST,
+                    DamageTag.ALL,
+                )
+            )
+
+        if critical_damage > 0:
+            ret.append(
+                Buff(
+                    critical_damage,
+                    ModifierType.ADDITIVE,
+                    SpecialAttribute.CRITICAL_DAMAGE,
+                    DamageTag.ALL,
+                )
+            )
+
+        return ret
+
+
+class ExternalThreatAttacker(Buff):
+    """The effects for the holder of the External Threat stacking buff (attack, critical rate, damage dealt)."""
+
+    display_name = "External Threat (Eagletta)"
+    max_stack_count = 4
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self, stacks: int, eagletta_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        stacks -- the number of stacks of the External Threat buff, up to 4
+        eagletta_fortification_level -- the fortification level of Eagletta
+        """
+        ret: list[Buff] = []
+
+        attack_boost_per_stack: int = 5
+        damage_boost_per_stack: int = 0
+
+        # Increases attack by 5% per stack
+        ret.append(
+            Buff(
+                attack_boost_per_stack
+                * min(max(0, stacks), ExternalThreatAttacker.max_stack_count),
+                ModifierType.MULTIPLICATIVE,
+                StatType.ATTACK,
+                DamageTag.ALL,
+            )
+        )
+
+        # With 1 or more stacks, critical rate is increased by 25%
+        if stacks > 0:
+            ret.append(
+                Buff(
+                    25,
+                    ModifierType.ADDITIVE,
+                    StatType.CRIT_RATE,
+                    DamageTag.ALL,
+                )
+            )
+
+        # At V6, damage dealt is increased by 10% per stack
+        if eagletta_fortification_level >= 6 and stacks > 0:
+            damage_boost_per_stack = 10
+            ret.append(
+                Buff(
+                    damage_boost_per_stack
+                    * min(max(0, stacks), ExternalThreatAttacker.max_stack_count),
+                    ModifierType.ADDITIVE,
+                    SpecialAttribute.DAMAGE_BOOST,
+                    DamageTag.ALL,
+                )
+            )
+
+        return ret
+
+
 class Tuning(Buff):
     """Daiyan buff. This is for the non-permanent Tuning stacks."""
 
@@ -3302,6 +3441,35 @@ class Debility(Debuff):
 
     def __init__(self):
         self.value = 20
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
+        self.tag = DamageTag.ALL
+
+
+class ExternalThreatTarget(Debuff):
+    """The effect when Eagletta has External Threat at V6 where enemies take
+    increased damage when standing on a Freeze tile."""
+
+    display_name = "External Threat (Eagletta)"
+    max_stack_count = 4
+    stack_input_type = "input"
+
+    def __init__(
+        self,
+        stacks: int,
+        eagletta_fortification_level: FortificationLevel,
+        is_on_freeze_tile: bool,
+    ):
+        increased_damage_taken_per_stack: int = 10
+
+        if (
+            eagletta_fortification_level >= FortificationLevel.SEGMENT06
+            and is_on_freeze_tile
+        ):
+            self.value = increased_damage_taken_per_stack * stacks
+        else:
+            self.value = 0
+
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = SpecialAttribute.INCREASE_DAMAGE_TAKEN
         self.tag = DamageTag.ALL

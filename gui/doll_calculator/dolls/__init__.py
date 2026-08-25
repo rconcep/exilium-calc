@@ -16,6 +16,7 @@ from .loreley import Loreley
 from .alva import Alva
 from .faye import Faye
 from .dushevnaya import Dushevnaya
+from .eagletta import Eagletta
 from .jiangyu import Jiangyu
 from .klukai import Klukai
 from .leva import Leva
@@ -52,6 +53,7 @@ __all__ = [
     "Daiyan",
     "Helen",
     "Dushevnaya",
+    "Eagletta",
     "Faye",
     "Jiangyu",
     "Klukai",
