@@ -8,95 +8,6 @@ from gui.templates.doll_calculator_page import DollCalculatorPage, ModelAssumpti
 from gui.templates.rotation_planner import RotationPlanner
 
 
-_t1: list[dict[str, Any]] = [
-    {
-        "name": "Ferocious Bite",
-        "in_feral_form": False,
-    },
-    {
-        "name": "Predator's Pursuit",
-        "in_feral_form": False,
-    },
-    {
-        "name": "Midnight Howl",
-        "tile_target": soppo.MidnightHowlTileTargetType.FROST,
-        "in_feral_form": False,
-    },
-    {
-        "name": "Predator's Pursuit",
-        "in_feral_form": True,
-    },
-    {
-        "name": "Predator's Pursuit",
-        "in_feral_form": True,
-    },
-    {
-        "name": "Deadly Pounce (Passive)",
-    },
-]
-
-
-_t2: list[dict[str, Any]] = [
-    {
-        "name": "Midnight Howl",
-        "tile_target": soppo.MidnightHowlTileTargetType.FROST,
-        "in_feral_form": True,
-    },
-    {
-        "name": "Midnight Howl",
-        "tile_target": soppo.MidnightHowlTileTargetType.INCINERATION,
-        "in_feral_form": True,
-    },
-    {
-        "name": "Midnight Howl (Form Swap)",
-        "in_feral_form": True,
-        "num_targets": 1,
-        "target_tile_ascension_level": 1,
-    },
-    {"name": "Predator's Pursuit", "in_feral_form": True},
-    {
-        "name": "Deadly Pounce",
-        "stacks_of_prey_mark": 10,
-        "target_is_on_phase_tile": True,
-        "confectance_index": 4,
-    },
-    {"name": "Deadly Pounce (Passive)"},
-]
-
-_t3: list[dict[str, Any]] = [
-    {"name": "Ferocious Bite", "in_feral_form": False},
-    {"name": "Predator's Pursuit", "in_feral_form": False},
-    {
-        "name": "Midnight Howl",
-        "tile_target": soppo.MidnightHowlTileTargetType.FROST,
-        "in_feral_form": False,
-    },
-    {
-        "name": "Midnight Howl",
-        "tile_target": soppo.MidnightHowlTileTargetType.INCINERATION,
-        "in_feral_form": False,
-    },
-    {"name": "Predator's Pursuit", "in_feral_form": True},
-    {
-        "name": "Deadly Pounce",
-        "stacks_of_prey_mark": 9,
-        "target_is_on_phase_tile": True,
-        "confectance_index": 4,
-    },
-    {"name": "Deadly Pounce (Passive)"},
-]
-
-sample_rotation: dict[int, list[dict[str, Any]]] = {
-    1: _t1,
-    2: _t2,
-    3: _t3,
-    4: _t3,
-    5: _t3,
-    6: _t3,
-    7: _t3,
-}
-
-
 class Soppo(DollCalculatorPage):
     """Page for Soppo."""
 
@@ -116,56 +27,56 @@ class Soppo(DollCalculatorPage):
         doll = cast(soppo.Soppo, self.doll)
 
         self.option_config: dict[str, dict[str, Any]] = {
-            "Predator's Pursuit": {
+            "Hunting Fang": {
                 "fields": [
                     {
                         "key": "in_feral_form",
                         "type": "checkbox",
-                        "label": "In Feral Form",
+                        "label": "In Mad Dog Mode",
                         "default": False,
                     }
                 ],
-                "function": doll.predators_pursuit.execute,
+                "function": doll.hunting_fang.execute,
             },
-            "Ferocious Bite": {
+            "Vicious Bite": {
                 "fields": [
                     {
                         "key": "in_feral_form",
                         "type": "checkbox",
-                        "label": "In Feral Form",
+                        "label": "In Mad Dog Mode",
                         "default": False,
                     }
                 ],
-                "function": doll.ferocious_bite.execute,
+                "function": doll.vicious_bite.execute,
             },
-            "Midnight Howl": {
+            "Lunar Howl": {
                 "fields": [
                     {
                         "key": "tile_target",
                         "type": "select",
                         "label": "Target Tile",
-                        "default": soppo.MidnightHowlTileTargetType.FROST,
+                        "default": soppo.LunarHowlTileTargetType.FROST,
                         "options": [
-                            soppo.MidnightHowlTileTargetType.FROST,
-                            soppo.MidnightHowlTileTargetType.INCINERATION,
-                            # soppo.MidnightHowlTileTargetType.ASHEN_BREATH,
+                            soppo.LunarHowlTileTargetType.FROST,
+                            soppo.LunarHowlTileTargetType.INCINERATION,
+                            # soppo.LunarHowlTileTargetType.SMOLDERING_SUSPIRE,
                         ],
                     },
                     {
                         "key": "in_feral_form",
                         "type": "checkbox",
-                        "label": "In Feral Form",
+                        "label": "In Mad Dog Mode",
                         "default": False,
                     },
                 ],
-                "function": doll.midnight_howl.execute,
+                "function": doll.lunar_howl.execute,
             },
-            "Midnight Howl (Form Swap)": {
+            "Lunar Howl (Form Swap)": {
                 "fields": [
                     {
                         "key": "in_feral_form",
                         "type": "checkbox",
-                        "label": "In Feral Form",
+                        "label": "In Mad Dog Mode",
                         "default": True,
                     },
                     {
@@ -182,14 +93,14 @@ class Soppo(DollCalculatorPage):
                         "options": [n for n in range(0, 4)],
                     },
                 ],
-                "function": doll.midnight_howl_form_swap.execute,
+                "function": doll.lunar_howl_form_swap.execute,
             },
-            "Deadly Pounce": {
+            "Fatal Pounce": {
                 "fields": [
                     {
                         "key": "stacks_of_prey_mark",
                         "type": "number",
-                        "label": "Prey Mark Stacks",
+                        "label": "Hunting Mark Stacks",
                         "default": 9,
                     },
                     {
@@ -206,11 +117,11 @@ class Soppo(DollCalculatorPage):
                         "options": [n for n in range(7)],
                     },
                 ],
-                "function": doll.deadly_pounce_active.execute,
+                "function": doll.fatal_pounce_active.execute,
             },
-            "Deadly Pounce (Passive)": {
+            "Fatal Pounce (Passive)": {
                 "fields": [],
-                "function": doll.deadly_pounce_passive.execute,
+                "function": doll.fatal_pounce_passive.execute,
             },
         }
 
@@ -303,55 +214,12 @@ class Soppo(DollCalculatorPage):
             8 + 3.6 + 3
         )
 
-    def get_default_damage_calculator_buffs(self) -> list[dict[str, Any]]:
-        return [
-            {"name": "Blazing Assault II"},
-            {"name": "Frost Strike"},
-            {
-                "name": "Brumal Barrier (Alva)",
-                "alva_fortification_level": FortificationLevel.SEGMENT05,
-                "shield_size": 9000,
-            },
-            {"name": "Unity: Enhanced", "robella_initial_attack": 4800},
-            {"name": "Feral Factor (Soppo)", "stacks": 20},
-            {
-                "name": "Feral Factor I (Soppo)",
-                "soppo_fortification_level": FortificationLevel.SEGMENT06,
-                "tile_level": 1,
-                "stacks_of_feral_factor": 20,
-            },
-            {
-                "name": "Feral Factor II (Soppo)",
-                "soppo_fortification_level": FortificationLevel.SEGMENT06,
-                "number_of_freeze_and_burn_buffs": 5,
-                "stacks_of_feral_factor": 20,
-            },
-            {
-                "name": "Feral Factor III (Soppo)",
-                "soppo_fortification_level": FortificationLevel.SEGMENT06,
-                "tile_level": 1,
-                "stacks_of_feral_factor": 20,
-            },
-        ]
-
-    def get_default_damage_calculator_debuffs(self) -> list[dict[str, Any]]:
-        return [
-            {"name": "Defense Down II"},
-            {
-                "name": "Hypothermia",
-                "alva_fortification_level": FortificationLevel.SEGMENT05,
-            },
-            {
-                "name": "Frostbite",
-            },
-        ]
-
     @override
     def get_model_assumptions(self) -> list[ModelAssumption]:
         return [
             ModelAssumption(
                 icon="info",
-                description="Ashen Breath should be modeled as two Midnight Howl actions (one Frost tile and one Incineration tile).",
+                description="Landing on a Smoldering Suspire tile for Lunar Howl should be modeled as two Lunar Howl actions (one Frost tile and one Incineration tile).",
             ),
             ModelAssumption(
                 icon="rule",
@@ -369,4 +237,3 @@ class Soppo(DollCalculatorPage):
 
             ui.button("Update", on_click=update_all).classes("w-full")
             self.rotation_planner = RotationPlanner(options_config=self.option_config)
-            self.rotation_planner.set_data(sample_rotation)

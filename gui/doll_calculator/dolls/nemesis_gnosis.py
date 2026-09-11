@@ -59,7 +59,7 @@ class NemesisGnosis(DollCalculatorPage):
 
         self.doll = nemesis_gnosis.NemesisGnosis()
         self.doll.set_fortification_level(FortificationLevel.SEGMENT06)
-        self.doll_subtitle: str = """Burst Damage / Prophecy Stacking
+        self.doll_subtitle: str = """Sustained Damage / Mixed Damage / Assist
 
             Sentinel / Corrosion"""
         self.dandegate_link: str = "https://www.dandegate.net/dolls/nemesis-gnosis"

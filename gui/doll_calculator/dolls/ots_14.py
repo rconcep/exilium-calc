@@ -74,7 +74,7 @@ class OTs14(DollCalculatorPage):
 
         self.doll: ots_14.OTs14 = ots_14.OTs14()
         self.doll.set_fortification_level(FortificationLevel.SEGMENT06)
-        self.doll_subtitle: str = """Burst / Fixed-Damage Follow-up
+        self.doll_subtitle: str = """Accumulated Damage / Burst Damage
 
             Sentinel / Resonance"""
         self.dandegate_link: str = "https://www.dandegate.net/dolls/ots-14"

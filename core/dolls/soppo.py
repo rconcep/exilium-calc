@@ -15,15 +15,13 @@ from core.buffs import Buff, MAX_TILE_ASCENSION_LEVEL
 from core.combat import DamageInstance, CombatAction, SoppoDamageCalculationStrategy
 
 
-class PredatorsPursuit(CombatAction):
+class HuntingFang(CombatAction):
     """Soppo basic attack."""
 
     @override
     def execute(self, in_feral_form: bool = False) -> DamageInstance:
         label: str = (
-            "Predator's Pursuit (Freeze)"
-            if not in_feral_form
-            else "Predator's Pursuit (Burn)"
+            "Hunting Fang (Freeze)" if not in_feral_form else "Hunting Fang (Burn)"
         )
         base_potency: int = 80
         tags: set[DamageTag] = {
@@ -35,7 +33,7 @@ class PredatorsPursuit(CombatAction):
             DamageTag.PHASE,
         }
 
-        # If in Feral Form, deals Burn damage instead.
+        # If in Mad Dog Mode, deals Burn damage instead.
         if in_feral_form:
             tags.remove(DamageTag.FREEZE)
             tags.add(DamageTag.BURN)
@@ -44,18 +42,18 @@ class PredatorsPursuit(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Predator's Pursuit",
+            group_name="Hunting Fang",
             damage_calculation_strategy=SoppoDamageCalculationStrategy(),
         )
 
 
-class FerociousBite(CombatAction):
+class ViciousBite(CombatAction):
     """Soppo S1."""
 
     @override
     def execute(self, in_feral_form: bool = False) -> DamageInstance:
         label: str = (
-            "Ferocious Bite (Freeze)" if not in_feral_form else "Ferocious Bite (Burn)"
+            "Vicious Bite (Freeze)" if not in_feral_form else "Vicious Bite (Burn)"
         )
         base_potency: int = 80
         tags: set[DamageTag] = {
@@ -66,7 +64,7 @@ class FerociousBite(CombatAction):
             DamageTag.PHASE,
         }
 
-        # If in Feral Form, deals Burn damage instead.
+        # If in Mad Dog Mode, deals Burn damage instead.
         if in_feral_form:
             tags.remove(DamageTag.FREEZE)
             tags.add(DamageTag.BURN)
@@ -75,18 +73,18 @@ class FerociousBite(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Ferocious Bite",
+            group_name="Vicious Bite",
             damage_calculation_strategy=SoppoDamageCalculationStrategy(),
         )
 
 
-class FerociousBiteV1(CombatAction):
+class ViciousBiteV1(CombatAction):
     """Soppo S1 (V1)."""
 
     @override
     def execute(self, in_feral_form: bool = False) -> DamageInstance:
         label: str = (
-            "Ferocious Bite (Freeze)" if not in_feral_form else "Ferocious Bite (Burn)"
+            "Vicious Bite (Freeze)" if not in_feral_form else "Vicious Bite (Burn)"
         )
         base_potency: int = 130
         tags: set[DamageTag] = {
@@ -97,7 +95,7 @@ class FerociousBiteV1(CombatAction):
             DamageTag.PHASE,
         }
 
-        # If in Feral Form, deals Burn damage instead.
+        # If in Mad Dog Mode, deals Burn damage instead.
         if in_feral_form:
             tags.remove(DamageTag.FREEZE)
             tags.add(DamageTag.BURN)
@@ -106,29 +104,29 @@ class FerociousBiteV1(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Ferocious Bite",
+            group_name="Vicious Bite",
             damage_calculation_strategy=SoppoDamageCalculationStrategy(),
         )
 
 
-class MidnightHowlTileTargetType(StrEnum):
-    """The type of tile Soppo leaps to for Midnight Howl."""
+class LunarHowlTileTargetType(StrEnum):
+    """The type of tile Soppo leaps to for Lunar Howl."""
 
     FROST = "Frost"
     INCINERATION = "Incineration"
-    ASHEN_BREATH = "Ashen Breath"
+    SMOLDERING_SUSPIRE = "Smoldering Suspire"
 
 
-class MidnightHowl(CombatAction):
+class LunarHowl(CombatAction):
     """Soppo S2."""
 
     @override
     def execute(
         self,
-        tile_target: MidnightHowlTileTargetType,
+        tile_target: LunarHowlTileTargetType,
         in_feral_form: bool = False,
     ) -> DamageInstance:
-        label: str = "Midnight Howl"
+        label: str = "Lunar Howl"
         base_potency: int = 0
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -143,22 +141,22 @@ class MidnightHowl(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Midnight Howl",
+            group_name="Lunar Howl",
             damage_calculation_strategy=SoppoDamageCalculationStrategy(),
         )
 
 
-class MidnightHowlV2(CombatAction):
+class LunarHowlV2(CombatAction):
     """Soppo S2 (V2)."""
 
     @override
     def execute(
-        self, tile_target: MidnightHowlTileTargetType, in_feral_form: bool = False
+        self, tile_target: LunarHowlTileTargetType, in_feral_form: bool = False
     ) -> DamageInstance:
         label: str = (
-            "Midnight Howl (Freeze)"
-            if tile_target == MidnightHowlTileTargetType.FROST
-            else "Midnight Howl (Burn)"
+            "Lunar Howl (Freeze)"
+            if tile_target == LunarHowlTileTargetType.FROST
+            else "Lunar Howl (Burn)"
         )
         base_potency: int = 80
         tags: set[DamageTag] = {
@@ -169,15 +167,15 @@ class MidnightHowlV2(CombatAction):
         }
 
         # If the tile targeted is a Frost tile, deals Freeze damage. If the tile targeted is an Incineration tile,
-        # deals Burn damage. If the tile targeted is an Ashen Breath tile, deals both Freeze and Burn damage.
+        # deals Burn damage. If the tile targeted is a Smoldering Suspire tile, deals both Freeze and Burn damage.
         # (Just create a second damage instance with the other element in this case.)
         match tile_target:
-            case MidnightHowlTileTargetType.FROST:
+            case LunarHowlTileTargetType.FROST:
                 tags.add(DamageTag.FREEZE)
-            case MidnightHowlTileTargetType.INCINERATION:
+            case LunarHowlTileTargetType.INCINERATION:
                 tags.add(DamageTag.BURN)
-            case MidnightHowlTileTargetType.ASHEN_BREATH:
-                # Ashen Breath applies both elements in-game; model this as two separate
+            case LunarHowlTileTargetType.SMOLDERING_SUSPIRE:
+                # Smoldering Suspire applies both elements in-game; model this as two separate
                 # action instances (one Frost-targeted and one Incineration-targeted).
                 pass
 
@@ -185,13 +183,13 @@ class MidnightHowlV2(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Midnight Howl",
+            group_name="Lunar Howl",
             damage_calculation_strategy=SoppoDamageCalculationStrategy(),
         )
 
 
-class MidnightHowlFormSwap(CombatAction):
-    """Component of Soppo S2 when Soppo is already in Feral Form on use."""
+class LunarHowlFormSwap(CombatAction):
+    """Component of Soppo S2 when Soppo is already in Mad Dog Mode on use."""
 
     @override
     def execute(
@@ -200,7 +198,7 @@ class MidnightHowlFormSwap(CombatAction):
         num_targets: int = 1,
         target_tile_ascension_level: int = 1,
     ) -> DamageInstance:
-        label: str = "Midnight Howl (Form Swap)"
+        label: str = "Lunar Howl (Form Swap)"
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
             DamageTag.CONFECTANCE,
@@ -209,7 +207,7 @@ class MidnightHowlFormSwap(CombatAction):
             DamageTag.PHASE,
         }
 
-        # Only deals damage if Soppo is already in Feral Form
+        # Only deals damage if Soppo is already in Mad Dog Mode
         # Evenly distributed among all targets within the area.
         base_potency: int = 120 if in_feral_form else 0
         if num_targets > 1:
@@ -219,13 +217,13 @@ class MidnightHowlFormSwap(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Midnight Howl (Form Swap)",
+            group_name="Lunar Howl (Form Swap)",
             damage_calculation_strategy=SoppoDamageCalculationStrategy(),
         )
 
 
-class MidnightHowlFormSwapV3(CombatAction):
-    """Component of Soppo S2 when Soppo is already in Feral Form on use."""
+class LunarHowlFormSwapV3(CombatAction):
+    """Component of Soppo S2 when Soppo is already in Mad Dog Mode on use."""
 
     @override
     def execute(
@@ -234,7 +232,7 @@ class MidnightHowlFormSwapV3(CombatAction):
         num_targets: int = 1,
         target_tile_ascension_level: int = 1,
     ) -> DamageInstance:
-        label: str = "Midnight Howl (Form Swap)"
+        label: str = "Lunar Howl (Form Swap)"
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
             DamageTag.CONFECTANCE,
@@ -243,7 +241,7 @@ class MidnightHowlFormSwapV3(CombatAction):
             DamageTag.PHASE,
         }
 
-        # Only deals damage if Soppo is already in Feral Form
+        # Only deals damage if Soppo is already in Mad Dog Mode
         # Evenly distributed among all targets within the area.
         base_potency: int = 150 if in_feral_form else 0
 
@@ -263,12 +261,12 @@ class MidnightHowlFormSwapV3(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Midnight Howl (Form Swap)",
+            group_name="Lunar Howl (Form Swap)",
             damage_calculation_strategy=SoppoDamageCalculationStrategy(),
         )
 
 
-class DeadlyPounceActive(CombatAction):
+class FatalPounceActive(CombatAction):
     """Soppo Ultimate (active component)."""
 
     @override
@@ -278,7 +276,7 @@ class DeadlyPounceActive(CombatAction):
         target_is_on_phase_tile: bool = False,
         confectance_index: int = 4,
     ) -> DamageInstance:
-        label: str = f"Deadly Pounce ({stacks_of_prey_mark} Prey Mark)"
+        label: str = f"Fatal Pounce ({stacks_of_prey_mark} Hunting Mark)"
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
             DamageTag.FREEZE,
@@ -301,11 +299,11 @@ class DeadlyPounceActive(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Deadly Pounce",
+            group_name="Fatal Pounce",
         )
 
 
-class DeadlyPounceActiveV5(CombatAction):
+class FatalPounceActiveV5(CombatAction):
     """Soppo Ultimate (active component)."""
 
     @override
@@ -315,7 +313,7 @@ class DeadlyPounceActiveV5(CombatAction):
         target_is_on_phase_tile: bool = False,
         confectance_index: int = 4,
     ) -> DamageInstance:
-        label: str = f"Deadly Pounce ({stacks_of_prey_mark} Prey Mark)"
+        label: str = f"Fatal Pounce ({stacks_of_prey_mark} Hunting Mark)"
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
             DamageTag.FREEZE,
@@ -343,17 +341,17 @@ class DeadlyPounceActiveV5(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Deadly Pounce",
+            group_name="Fatal Pounce",
         )
 
 
-class DeadlyPouncePassive(CombatAction):
+class FatalPouncePassive(CombatAction):
     """Soppo Ultimate (passive component)."""
 
     @override
     def execute(self) -> DamageInstance:
         base_potency: int = 30
-        label: str = "Deadly Pounce (Passive)"
+        label: str = "Fatal Pounce (Passive)"
         tags: set[DamageTag] = {
             DamageTag.PASSIVE,
             DamageTag.FREEZE,
@@ -367,17 +365,17 @@ class DeadlyPouncePassive(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Deadly Pounce (passive)",
+            group_name="Fatal Pounce (passive)",
         )
 
 
-class DeadlyPouncePassiveV5(CombatAction):
+class FatalPouncePassiveV5(CombatAction):
     """Soppo Ultimate (passive component)."""
 
     @override
     def execute(self) -> DamageInstance:
         base_potency: int = 60
-        label: str = "Deadly Pounce (Passive)"
+        label: str = "Fatal Pounce (Passive)"
         tags: set[DamageTag] = {
             DamageTag.PASSIVE,
             DamageTag.FREEZE,
@@ -391,7 +389,7 @@ class DeadlyPouncePassiveV5(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Deadly Pounce (passive)",
+            group_name="Fatal Pounce (passive)",
         )
 
 
@@ -416,46 +414,46 @@ class Soppo(Doll):
         ]
     )
 
-    predators_pursuit: CombatAction = Field(default_factory=PredatorsPursuit)
-    ferocious_bite: CombatAction = Field(default_factory=FerociousBite)
-    midnight_howl: CombatAction = Field(default_factory=MidnightHowl)
-    midnight_howl_form_swap: CombatAction = Field(default_factory=MidnightHowlFormSwap)
-    deadly_pounce_active: CombatAction = Field(default_factory=DeadlyPounceActive)
-    deadly_pounce_passive: CombatAction = Field(default_factory=DeadlyPouncePassive)
+    hunting_fang: CombatAction = Field(default_factory=HuntingFang)
+    vicious_bite: CombatAction = Field(default_factory=ViciousBite)
+    lunar_howl: CombatAction = Field(default_factory=LunarHowl)
+    lunar_howl_form_swap: CombatAction = Field(default_factory=LunarHowlFormSwap)
+    fatal_pounce_active: CombatAction = Field(default_factory=FatalPounceActive)
+    fatal_pounce_passive: CombatAction = Field(default_factory=FatalPouncePassive)
 
     def set_to_v0(self) -> None:
         """Sets Fortification Level to Segment00."""
-        self.predators_pursuit = PredatorsPursuit()
-        self.ferocious_bite = FerociousBite()
-        self.midnight_howl = MidnightHowl()
-        self.midnight_howl_form_swap = MidnightHowlFormSwap()
-        self.deadly_pounce_active = DeadlyPounceActive()
-        self.deadly_pounce_passive = DeadlyPouncePassive()
+        self.hunting_fang = HuntingFang()
+        self.vicious_bite = ViciousBite()
+        self.lunar_howl = LunarHowl()
+        self.lunar_howl_form_swap = LunarHowlFormSwap()
+        self.fatal_pounce_active = FatalPounceActive()
+        self.fatal_pounce_passive = FatalPouncePassive()
 
     def set_to_v1(self) -> None:
         """Sets Fortification Level to Segment01."""
         self.set_to_v0()
 
-        self.ferocious_bite: CombatAction = FerociousBiteV1()
+        self.vicious_bite: CombatAction = ViciousBiteV1()
 
     def set_to_v2(self) -> None:
         """Sets Fortification Level to Segment02."""
         self.set_to_v1()
 
-        self.midnight_howl: CombatAction = MidnightHowlV2()
+        self.lunar_howl: CombatAction = LunarHowlV2()
 
     def set_to_v3(self) -> None:
         """Sets Fortification Level to Segment03."""
         self.set_to_v2()
 
-        self.midnight_howl_form_swap: CombatAction = MidnightHowlFormSwapV3()
+        self.lunar_howl_form_swap: CombatAction = LunarHowlFormSwapV3()
 
     def set_to_v5(self) -> None:
         """Sets Fortification Level to Segment05."""
         self.set_to_v3()
 
-        self.deadly_pounce_active: CombatAction = DeadlyPounceActiveV5()
-        self.deadly_pounce_passive: CombatAction = DeadlyPouncePassiveV5()
+        self.fatal_pounce_active: CombatAction = FatalPounceActiveV5()
+        self.fatal_pounce_passive: CombatAction = FatalPouncePassiveV5()
 
     @override
     def set_fortification_level(self, level: FortificationLevel):

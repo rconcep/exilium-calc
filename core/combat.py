@@ -1897,7 +1897,7 @@ class SoppoDamageCalculationStrategy(StandardDamageCalculationStrategy):
 
         # Only expecting to run this for Soppo
         if _is_doll_attacker(attacker):
-            # Passive - Mad Dog Syndrome
+            # Passive - Vampup Syndrome
             # V0: If there are 3 or more Burn-attribute ally Dolls, damage dealt using certain skills
             # is increased against enemy units with Burn debuffs is increased by 100%.
             # If there are 3 or more Freeze-attribute ally dolls, same but with Freeze debuffs.

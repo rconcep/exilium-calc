@@ -686,10 +686,10 @@ class FrostchillDrive(Buff):
         self.tag = DamageTag.FREEZE
 
 
-class FeralFactor(Buff):
+class RabidFactor(Buff):
     """Soppo buff"""
 
-    display_name = "Feral Factor (Soppo)"
+    display_name = "Rabid Factor (Soppo)"
     max_stack_count = 20
     stack_input_type = "select"
 
@@ -697,17 +697,17 @@ class FeralFactor(Buff):
         critical_damage_per_stack: int = 5
 
         self.value = critical_damage_per_stack * min(
-            FeralFactor.max_stack_count, stacks
+            RabidFactor.max_stack_count, stacks
         )
         self.modifier_type = ModifierType.ADDITIVE
         self.stat_type = StatType.CRIT_DAMAGE
         self.tag = DamageTag.ALL
 
 
-class FeralFactorI(Buff):
+class RabidFactorI(Buff):
     """Soppo buff"""
 
-    display_name = "Feral Factor I (Soppo)"
+    display_name = "Rabid Factor I (Soppo)"
     max_stack_count = 20
     stack_input_type = "select"
 
@@ -721,7 +721,7 @@ class FeralFactorI(Buff):
         Arguments:
         soppo_fortification_level -- the Fortification Level of Soppo
         tile_level -- the level of the phase tile the target is on (0 if not on a phase tile)
-        stacks_of_feral_factor -- the number of stacks of Feral Factor (Soppo) the target has, up to 20
+        stacks_of_feral_factor -- the number of stacks of Rabid Factor (Soppo) the target has, up to 20
         """
         self.value = 10
         if (
@@ -742,10 +742,10 @@ class FeralFactorI(Buff):
             )
 
 
-class FeralFactorII(Buff):
+class RabidFactorII(Buff):
     """Soppo buff"""
 
-    display_name = "Feral Factor II (Soppo)"
+    display_name = "Rabid Factor II (Soppo)"
     max_stack_count = 20
     stack_input_type = "select"
 
@@ -761,13 +761,13 @@ class FeralFactorII(Buff):
         Arguments:
         soppo_fortification_level -- the Fortification Level of Soppo
         number_of_freeze_and_burn_buffs -- the number of Freeze and Burn buffs Soppo has
-        stacks_of_feral_factor -- the number of stacks of Feral Factor (Soppo) the target has, up to 20
+        stacks_of_feral_factor -- the number of stacks of Rabid Factor (Soppo) the target has, up to 20
         """
         ret: list[Buff] = []
 
         damage_boost_per_freeze_and_burn_buff: int = 5
 
-        # V6: If the target has 20 stacks of Feral Factor, increase damage dealt by 5%.
+        # V6: If the target has 20 stacks of Rabid Factor, increase damage dealt by 5%.
         if (
             soppo_fortification_level >= FortificationLevel.SEGMENT06
             and stacks_of_feral_factor >= 20
@@ -795,10 +795,10 @@ class FeralFactorII(Buff):
         return ret
 
 
-class FeralFactorIII(Buff):
+class RabidFactorIII(Buff):
     """Soppo buff"""
 
-    display_name = "Feral Factor III (Soppo)"
+    display_name = "Rabid Factor III (Soppo)"
     max_stack_count = 20
     stack_input_type = "select"
 
@@ -812,7 +812,7 @@ class FeralFactorIII(Buff):
         Arguments:
         soppo_fortification_level -- the Fortification Level of Soppo
         tile_level -- the level of the phase tile the target is on (0 if not on a phase tile)
-        stacks_of_feral_factor -- the number of stacks of Feral Factor (Soppo) the target has, up to 20
+        stacks_of_feral_factor -- the number of stacks of Rabid Factor (Soppo) the target has, up to 20
         """
         self.value = 15
         self.modifier_type = ModifierType.ADDITIVE
@@ -847,10 +847,10 @@ class SlaughterTrail(Buff):
         self.tag = DamageTag.ON_PHASE_TILE
 
 
-class FrostStrike(Buff):
+class BorealAssault(Buff):
     """Increases attack by 10%."""
 
-    display_name = "Frost Strike"
+    display_name = "Boreal Assault"
     max_stack_count = 1
     stack_input_type = "select"
 

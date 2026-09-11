@@ -3,6 +3,12 @@
 ACTION_NAME_ALIASES: dict[str, str] = {
     "Combat Instinct": "Shooting Instinct",
     "Critical Splash": "Critical Blast",
+    "Predator's Pursuit": "Hunting Fang",
+    "Ferocious Bite": "Vicious Bite",
+    "Midnight Howl": "Lunar Howl",
+    "Midnight Howl (Form Swap)": "Lunar Howl (Form Swap)",
+    "Deadly Pounce": "Fatal Pounce",
+    "Deadly Pounce (Passive)": "Fatal Pounce (Passive)",
 }
 
 EFFECT_NAME_ALIASES: dict[str, str] = {
@@ -14,6 +20,12 @@ EFFECT_NAME_ALIASES: dict[str, str] = {
     "Reconstruction: Hydro (OTs-14)": "Reconfiguration - Hydro (OTs-14)",
     "Reconstruction: Zero (OTs-14)": "Reconfiguration - Zero (OTs-14)",
     "Reconstruction: Corrosion (OTs-14)": "Reconfiguration - Corrosion (OTs-14)",
+    "Concentration (Nemesis: Gnosis)": "Mindfulness (Nemesis: Gnosis)",
+    "Feral Factor (Soppo)": "Rabid Factor (Soppo)",
+    "Feral Factor I (Soppo)": "Rabid Factor I (Soppo)",
+    "Feral Factor II (Soppo)": "Rabid Factor II (Soppo)",
+    "Feral Factor III (Soppo)": "Rabid Factor III (Soppo)",
+    "Frost Strike": "Boreal Assault",
 }
 
 
