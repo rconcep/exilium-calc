@@ -1,0 +1,77 @@
+{
+  "doll": "Faelynn",
+  "sections": [
+    {
+      "kind": "markdown",
+      "key": "synopsis",
+      "title": "Synopsis",
+      "markdown": "Corrosion DPS that builds up combo points through active skills to spend them on a combo burst - a sequence of active attack skills woven with Extra Movement opportunities. Faelynn benefits from fighting on phase tiles and alongside allies who can generate them together with her. She hits in large areas from a decent range, making her effective on mobbing stages but her single-target DPS is still solid, just not top tier."
+    },
+    {
+      "kind": "utility_table",
+      "key": "utility",
+      "title": "Utility",
+      "rows": [
+        {
+          "label": "Toxic Mist tile generation",
+          "detail": "S1, ultimate, Fixed Key 3, Fixed Key 4"
+        },
+        {
+          "label": "Infatuated",
+          "detail": "(2 turns) S1"
+        },
+        {
+          "label": "Increased damage taken",
+          "detail": "(15%) Fixed Key 3 - The Last Coo"
+        },
+        {
+          "label": "Buff cleanse",
+          "detail": "(1) Fixed Key 2 - before using Hunter's Instinct skills"
+        }
+      ]
+    },
+    {
+      "kind": "fortification_table",
+      "key": "fortification_upgrades",
+      "title": "Fortification Level upgrades",
+      "upgrades": [
+        {
+          "level": 1,
+          "description": "S2: Extends duration of Dog-Eared Radar by one turn (ensures it's still up when it can be refreshed) and increases attack boost of Roving Bloodlust."
+        },
+        {
+          "level": 2,
+          "description": "S1: Increase damage and range. Damage dealt when Scent Mark is applied to the same target is increased."
+        },
+        {
+          "level": 3,
+          "description": "Ult: Increases damage of Hunter's Instinct. Adds increased Corrosion damage taken effect to Collar Brand. Bestows Collar Brand on hit if Hunter's Instinct II kills a target afflicted with Collar Brand."
+        },
+        {
+          "level": 4,
+          "description": "Passive: Start with 4 stacks of Hunter's Tracking each turn and increases stack limit to 6; increases damage boost per stack of Hunter's Tracking."
+        },
+        {
+          "level": 5,
+          "description": "S1: Increases damage and adds a follow-up attack when hitting >= 3 targets or a Boss. Adds an increased damage taken from Faelynn effect to Scent Mark."
+        },
+        {
+          "level": 6,
+          "description": "Ult: Increased damage of Ult and Hunter's Instinct attacks. Hunter's Instinct deals damage twice. Gain Combo Pounce if Hunter's Instinct III results in a kill."
+        }
+      ]
+    },
+    {
+      "kind": "markdown",
+      "key": "team_notes",
+      "title": "Team notes",
+      "markdown": "Dog-Eared Radar converts tile generation into Scent Marks into damage instances which compose a significant portion of her overall damage output. It can be triggered up to four times per round. Typically, since Faelynn generates tiles by herself 1-2 times per round, look for 2-3 additional tile generator sources. Coincidentally, Basti fulfills this role effectively."
+    },
+    {
+      "kind": "markdown",
+      "key": "build_notes",
+      "title": "Build notes",
+      "markdown": "Corrosion DPS - Attack Boost, Attack, Crit. Note that her damage profile is 100% AoE and Corrosion - Corrosion Boost attachment set is recommended. For Remolding Core, look for AoE damage and critical boosts (e.g., 2x Attack Boost, Thronebreaker, Area Specialization). Because of her multiple attacks per turn, a niche common key choice could be Peri's key."
+    }
+  ]
+}
