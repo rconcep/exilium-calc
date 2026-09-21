@@ -10,7 +10,7 @@
           "name": "Blazing Assault II"
         },
         {
-          "name": "Frost Strike"
+          "name": "Boreal Assault"
         },
         {
           "name": "Brumal Barrier (Alva)",
@@ -20,6 +20,16 @@
         {
           "name": "Unity: Enhanced",
           "robella_initial_attack": 4800
+        },
+        {
+          "name": "Rabid Factor (Soppo)",
+          "stacks": 5
+        },
+        {
+          "name": "Rabid Factor I (Soppo)",
+          "soppo_fortification_level": 6,
+          "tile_level": 0,
+          "stacks_of_feral_factor": 5
         }
       ]
     },
@@ -51,32 +61,20 @@
     "turns": {
       "1": [
         {
-          "name": "Ferocious Bite",
+          "name": "Vicious Bite",
           "in_feral_form": false
         },
         {
-          "name": "Predator's Pursuit",
+          "name": "Hunting Fang",
           "in_feral_form": false
         },
         {
-          "name": "Midnight Howl",
+          "name": "Lunar Howl",
           "tile_target": "Frost",
           "in_feral_form": false
         },
         {
-          "name": "Predator's Pursuit",
-          "in_feral_form": true
-        },
-        {
-          "name": "Ferocious Bite",
-          "in_feral_form": true
-        },
-        {
-          "name": "Predator's Pursuit",
-          "in_feral_form": true
-        },
-        {
-          "name": "Deadly Pounce (Passive)"
+          "name": "Fatal Pounce (Passive)"
         },
         {
           "name": "Smoldering Suspire Tile (Freeze)",
@@ -89,33 +87,31 @@
       ],
       "2": [
         {
-          "name": "Midnight Howl",
-          "tile_target": "Frost",
-          "in_feral_form": true
-        },
-        {
-          "name": "Midnight Howl",
-          "tile_target": "Incineration",
-          "in_feral_form": true
-        },
-        {
-          "name": "Midnight Howl (Form Swap)",
+          "name": "Lunar Howl (Form Swap)",
           "in_feral_form": true,
           "num_targets": 1,
           "target_tile_ascension_level": 3
         },
         {
-          "name": "Predator's Pursuit",
+          "name": "Lunar Howl",
+          "tile_target": "Frost",
           "in_feral_form": true
         },
         {
-          "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 8.0,
-          "target_is_on_phase_tile": true,
-          "confectance_index": 5
+          "name": "Lunar Howl",
+          "tile_target": "Incineration",
+          "in_feral_form": true
         },
         {
-          "name": "Deadly Pounce (Passive)"
+          "name": "Hunting Fang",
+          "in_feral_form": true
+        },
+        {
+          "name": "Vicious Bite",
+          "in_feral_form": true
+        },
+        {
+          "name": "Fatal Pounce (Passive)"
         },
         {
           "name": "Smoldering Suspire Tile (Freeze)",
@@ -128,35 +124,33 @@
       ],
       "3": [
         {
-          "name": "Ferocious Bite",
-          "in_feral_form": false
+          "name": "Lunar Howl (Form Swap)",
+          "in_feral_form": true,
+          "num_targets": 1,
+          "target_tile_ascension_level": 3
         },
         {
-          "name": "Predator's Pursuit",
-          "in_feral_form": false
-        },
-        {
-          "name": "Midnight Howl",
+          "name": "Lunar Howl",
           "tile_target": "Frost",
-          "in_feral_form": false
-        },
-        {
-          "name": "Midnight Howl",
-          "tile_target": "Incineration",
-          "in_feral_form": false
-        },
-        {
-          "name": "Predator's Pursuit",
           "in_feral_form": true
         },
         {
-          "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 6.0,
-          "target_is_on_phase_tile": true,
-          "confectance_index": 5
+          "name": "Lunar Howl",
+          "tile_target": "Incineration",
+          "in_feral_form": true
         },
         {
-          "name": "Deadly Pounce (Passive)"
+          "name": "Hunting Fang",
+          "in_feral_form": true
+        },
+        {
+          "name": "Fatal Pounce",
+          "stacks_of_prey_mark": 16.0,
+          "target_is_on_phase_tile": true,
+          "confectance_index": 6
+        },
+        {
+          "name": "Fatal Pounce (Passive)"
         },
         {
           "name": "Smoldering Suspire Tile (Freeze)",
@@ -169,35 +163,25 @@
       ],
       "4": [
         {
-          "name": "Ferocious Bite",
+          "name": "Vicious Bite",
           "in_feral_form": false
         },
         {
-          "name": "Predator's Pursuit",
+          "name": "Hunting Fang",
           "in_feral_form": false
         },
         {
-          "name": "Midnight Howl",
+          "name": "Lunar Howl",
           "tile_target": "Frost",
           "in_feral_form": false
         },
         {
-          "name": "Midnight Howl",
+          "name": "Lunar Howl",
           "tile_target": "Incineration",
           "in_feral_form": false
         },
         {
-          "name": "Predator's Pursuit",
-          "in_feral_form": true
-        },
-        {
-          "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 6.0,
-          "target_is_on_phase_tile": true,
-          "confectance_index": 5
-        },
-        {
-          "name": "Deadly Pounce (Passive)"
+          "name": "Fatal Pounce (Passive)"
         },
         {
           "name": "Smoldering Suspire Tile (Freeze)",
@@ -210,35 +194,33 @@
       ],
       "5": [
         {
-          "name": "Ferocious Bite",
-          "in_feral_form": false
+          "name": "Lunar Howl (Form Swap)",
+          "in_feral_form": true,
+          "num_targets": 1,
+          "target_tile_ascension_level": 3
         },
         {
-          "name": "Predator's Pursuit",
-          "in_feral_form": false
-        },
-        {
-          "name": "Midnight Howl",
+          "name": "Lunar Howl",
           "tile_target": "Frost",
-          "in_feral_form": false
+          "in_feral_form": true
         },
         {
-          "name": "Midnight Howl",
+          "name": "Lunar Howl",
           "tile_target": "Incineration",
           "in_feral_form": false
         },
         {
-          "name": "Predator's Pursuit",
+          "name": "Hunting Fang",
           "in_feral_form": true
         },
         {
-          "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 6.0,
+          "name": "Fatal Pounce",
+          "stacks_of_prey_mark": 11.0,
           "target_is_on_phase_tile": true,
-          "confectance_index": 5
+          "confectance_index": 6
         },
         {
-          "name": "Deadly Pounce (Passive)"
+          "name": "Fatal Pounce (Passive)"
         },
         {
           "name": "Smoldering Suspire Tile (Freeze)",
@@ -251,35 +233,25 @@
       ],
       "6": [
         {
-          "name": "Ferocious Bite",
+          "name": "Vicious Bite",
           "in_feral_form": false
         },
         {
-          "name": "Predator's Pursuit",
+          "name": "Hunting Fang",
           "in_feral_form": false
         },
         {
-          "name": "Midnight Howl",
+          "name": "Lunar Howl",
           "tile_target": "Frost",
           "in_feral_form": false
         },
         {
-          "name": "Midnight Howl",
+          "name": "Lunar Howl",
           "tile_target": "Incineration",
           "in_feral_form": false
         },
         {
-          "name": "Predator's Pursuit",
-          "in_feral_form": true
-        },
-        {
-          "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 6.0,
-          "target_is_on_phase_tile": true,
-          "confectance_index": 5
-        },
-        {
-          "name": "Deadly Pounce (Passive)"
+          "name": "Fatal Pounce (Passive)"
         },
         {
           "name": "Smoldering Suspire Tile (Freeze)",
@@ -292,35 +264,33 @@
       ],
       "7": [
         {
-          "name": "Ferocious Bite",
-          "in_feral_form": false
+          "name": "Lunar Howl (Form Swap)",
+          "in_feral_form": true,
+          "num_targets": 1,
+          "target_tile_ascension_level": 3
         },
         {
-          "name": "Predator's Pursuit",
-          "in_feral_form": false
-        },
-        {
-          "name": "Midnight Howl",
+          "name": "Lunar Howl",
           "tile_target": "Frost",
-          "in_feral_form": false
-        },
-        {
-          "name": "Midnight Howl",
-          "tile_target": "Incineration",
-          "in_feral_form": false
-        },
-        {
-          "name": "Predator's Pursuit",
           "in_feral_form": true
         },
         {
-          "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 6.0,
-          "target_is_on_phase_tile": true,
-          "confectance_index": 5
+          "name": "Lunar Howl",
+          "tile_target": "Incineration",
+          "in_feral_form": true
         },
         {
-          "name": "Deadly Pounce (Passive)"
+          "name": "Hunting Fang",
+          "in_feral_form": true
+        },
+        {
+          "name": "Fatal Pounce",
+          "stacks_of_prey_mark": 11.0,
+          "target_is_on_phase_tile": true,
+          "confectance_index": 6
+        },
+        {
+          "name": "Fatal Pounce (Passive)"
         },
         {
           "name": "Smoldering Suspire Tile (Freeze)",
@@ -338,16 +308,11 @@
       {
         "turn": 1,
         "action": {
-          "name": "Ferocious Bite",
+          "name": "Vicious Bite",
           "in_feral_form": false
         },
         "attacker": {
-          "add_buffs": [
-            {
-              "name": "Feral Factor (Soppo)",
-              "stacks": 3
-            }
-          ],
+          "add_buffs": [],
           "remove_buffs": []
         },
         "target": {
@@ -362,25 +327,25 @@
       {
         "turn": 1,
         "action": {
-          "name": "Predator's Pursuit",
+          "name": "Hunting Fang",
           "in_feral_form": false
         },
         "attacker": {
           "add_buffs": [
             {
-              "name": "Feral Factor I (Soppo)",
-              "soppo_fortification_level": 6,
-              "tile_level": 1.0,
-              "stacks_of_feral_factor": 5
+              "name": "Rabid Factor (Soppo)",
+              "stacks": 7
             },
             {
-              "name": "Feral Factor (Soppo)",
-              "stacks": 5
+              "name": "Rabid Factor II (Soppo)",
+              "soppo_fortification_level": 6,
+              "number_of_freeze_and_burn_buffs": 5.0,
+              "stacks_of_feral_factor": 7
             }
           ],
           "remove_buffs": [
             {
-              "name": "buff:Feral Factor (Soppo):1:eccae31d2083"
+              "name": "buff:Rabid Factor (Soppo):1:fd8f2f97ff01"
             }
           ]
         },
@@ -396,53 +361,28 @@
       {
         "turn": 1,
         "action": {
-          "name": "Midnight Howl",
+          "name": "Lunar Howl",
           "tile_target": "Frost",
           "in_feral_form": false
         },
         "attacker": {
           "add_buffs": [
             {
-              "name": "Feral Factor (Soppo)",
-              "stacks": 7
+              "name": "Rabid Factor (Soppo)",
+              "stacks": 9
             },
             {
-              "name": "Feral Factor II (Soppo)",
-              "soppo_fortification_level": 6,
-              "number_of_freeze_and_burn_buffs": 5.0,
-              "stacks_of_feral_factor": 7
-            },
-            {
-              "name": "Feral Factor III (Soppo)",
+              "name": "Rabid Factor III (Soppo)",
               "soppo_fortification_level": 6,
               "tile_level": 1.0,
-              "stacks_of_feral_factor": 7
+              "stacks_of_feral_factor": 9
             }
           ],
           "remove_buffs": [
             {
-              "name": "buff:Feral Factor (Soppo):1:7d9aafe31ba6"
+              "name": "buff:Rabid Factor (Soppo):1:33b8df1e1414"
             }
           ]
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "1"
-        }
-      },
-      {
-        "turn": 1,
-        "action": {
-          "name": "Predator's Pursuit",
-          "in_feral_form": true
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
         },
         "target": {
           "add_debuffs": [],
@@ -456,78 +396,27 @@
       {
         "turn": 1,
         "action": {
-          "name": "Ferocious Bite",
-          "in_feral_form": true
+          "name": "Fatal Pounce (Passive)"
         },
         "attacker": {
           "add_buffs": [
             {
-              "name": "Feral Factor (Soppo)",
-              "stacks": 9
+              "name": "Rabid Factor (Soppo)",
+              "stacks": 12
+            },
+            {
+              "name": "Rabid Factor III (Soppo)",
+              "soppo_fortification_level": 6,
+              "tile_level": 3.0,
+              "stacks_of_feral_factor": 12
             }
           ],
           "remove_buffs": [
             {
-              "name": "buff:Feral Factor (Soppo):1:850e468f75ed"
-            }
-          ]
-        },
-        "target": {
-          "add_debuffs": [
+              "name": "buff:Rabid Factor (Soppo):1:2adee07c1a2a"
+            },
             {
-              "name": "Conflagration"
-            }
-          ],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "1"
-        }
-      },
-      {
-        "turn": 1,
-        "action": {
-          "name": "Predator's Pursuit",
-          "in_feral_form": true
-        },
-        "attacker": {
-          "add_buffs": [
-            {
-              "name": "Feral Factor (Soppo)",
-              "stacks": 11
-            }
-          ],
-          "remove_buffs": [
-            {
-              "name": "buff:Feral Factor (Soppo):1:61f77da0e529"
-            }
-          ]
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "1"
-        }
-      },
-      {
-        "turn": 1,
-        "action": {
-          "name": "Deadly Pounce (Passive)"
-        },
-        "attacker": {
-          "add_buffs": [
-            {
-              "name": "Feral Factor (Soppo)",
-              "stacks": 17
-            }
-          ],
-          "remove_buffs": [
-            {
-              "name": "buff:Feral Factor (Soppo):1:5a41e2bb6e62"
+              "name": "buff:Rabid Factor III (Soppo):1:073baeba530b"
             }
           ]
         },
@@ -581,7 +470,37 @@
       {
         "turn": 2,
         "action": {
-          "name": "Midnight Howl",
+          "name": "Lunar Howl (Form Swap)",
+          "in_feral_form": true,
+          "num_targets": 1,
+          "target_tile_ascension_level": 3
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Rabid Factor (Soppo)",
+              "stacks": 17
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Rabid Factor (Soppo):1:ad0092348c08"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Lunar Howl",
           "tile_target": "Frost",
           "in_feral_form": true
         },
@@ -601,7 +520,7 @@
       {
         "turn": 2,
         "action": {
-          "name": "Midnight Howl",
+          "name": "Lunar Howl",
           "tile_target": "Incineration",
           "in_feral_form": true
         },
@@ -621,7 +540,445 @@
       {
         "turn": 2,
         "action": {
-          "name": "Midnight Howl (Form Swap)",
+          "name": "Hunting Fang",
+          "in_feral_form": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Rabid Factor (Soppo)",
+              "stacks": 19
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Rabid Factor (Soppo):1:2fcb24970c7d"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Vicious Bite",
+          "in_feral_form": true
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Rabid Factor (Soppo)",
+              "stacks": 20
+            },
+            {
+              "name": "Rabid Factor I (Soppo)",
+              "soppo_fortification_level": 6,
+              "tile_level": 3.0,
+              "stacks_of_feral_factor": 20
+            },
+            {
+              "name": "Rabid Factor II (Soppo)",
+              "soppo_fortification_level": 6,
+              "number_of_freeze_and_burn_buffs": 5.0,
+              "stacks_of_feral_factor": 20
+            },
+            {
+              "name": "Rabid Factor III (Soppo)",
+              "soppo_fortification_level": 6,
+              "tile_level": 3.0,
+              "stacks_of_feral_factor": 20
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Rabid Factor (Soppo):1:d604242496c4"
+            },
+            {
+              "name": "buff:Rabid Factor I (Soppo):1:aabc95d91cbd"
+            },
+            {
+              "name": "buff:Rabid Factor II (Soppo):1:70b183b3200c"
+            },
+            {
+              "name": "buff:Rabid Factor III (Soppo):1:8048fd4177a3"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Fatal Pounce (Passive)"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Smoldering Suspire Tile (Freeze)",
+          "tile_ascension_level": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Smoldering Suspire Tile (Burn)",
+          "tile_ascension_level": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Lunar Howl (Form Swap)",
+          "in_feral_form": true,
+          "num_targets": 1,
+          "target_tile_ascension_level": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [
+            {
+              "name": "Meltdown"
+            }
+          ],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Lunar Howl",
+          "tile_target": "Frost",
+          "in_feral_form": true
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Lunar Howl",
+          "tile_target": "Incineration",
+          "in_feral_form": true
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Hunting Fang",
+          "in_feral_form": true
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Fatal Pounce",
+          "stacks_of_prey_mark": 16.0,
+          "target_is_on_phase_tile": true,
+          "confectance_index": 6
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Fatal Pounce (Passive)"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Smoldering Suspire Tile (Freeze)",
+          "tile_ascension_level": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Smoldering Suspire Tile (Burn)",
+          "tile_ascension_level": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Vicious Bite",
+          "in_feral_form": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [
+            {
+              "name": "debuff:Meltdown:1:bd5172cdf223"
+            }
+          ],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Hunting Fang",
+          "in_feral_form": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Lunar Howl",
+          "tile_target": "Frost",
+          "in_feral_form": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Lunar Howl",
+          "tile_target": "Incineration",
+          "in_feral_form": false
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Fatal Pounce (Passive)"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Smoldering Suspire Tile (Freeze)",
+          "tile_ascension_level": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Smoldering Suspire Tile (Burn)",
+          "tile_ascension_level": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Lunar Howl (Form Swap)",
           "in_feral_form": true,
           "num_targets": 1,
           "target_tile_ascension_level": 3
@@ -640,9 +997,10 @@
         }
       },
       {
-        "turn": 2,
+        "turn": 5,
         "action": {
-          "name": "Predator's Pursuit",
+          "name": "Lunar Howl",
+          "tile_target": "Frost",
           "in_feral_form": true
         },
         "attacker": {
@@ -659,545 +1017,9 @@
         }
       },
       {
-        "turn": 2,
-        "action": {
-          "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 8.0,
-          "target_is_on_phase_tile": true,
-          "confectance_index": 5
-        },
-        "attacker": {
-          "add_buffs": [
-            {
-              "name": "Feral Factor (Soppo)",
-              "stacks": 19
-            }
-          ],
-          "remove_buffs": [
-            {
-              "name": "buff:Feral Factor (Soppo):1:248a42096e18"
-            }
-          ]
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 2,
-        "action": {
-          "name": "Deadly Pounce (Passive)"
-        },
-        "attacker": {
-          "add_buffs": [
-            {
-              "name": "Feral Factor (Soppo)",
-              "stacks": 20
-            },
-            {
-              "name": "Feral Factor I (Soppo)",
-              "soppo_fortification_level": 6,
-              "tile_level": 3.0,
-              "stacks_of_feral_factor": 20
-            },
-            {
-              "name": "Feral Factor II (Soppo)",
-              "soppo_fortification_level": 6,
-              "number_of_freeze_and_burn_buffs": 5.0,
-              "stacks_of_feral_factor": 20
-            },
-            {
-              "name": "Feral Factor III (Soppo)",
-              "soppo_fortification_level": 6,
-              "tile_level": 3.0,
-              "stacks_of_feral_factor": 20
-            }
-          ],
-          "remove_buffs": [
-            {
-              "name": "buff:Feral Factor (Soppo):1:8feb620eb013"
-            },
-            {
-              "name": "buff:Feral Factor I (Soppo):1:c7607cba3e78"
-            },
-            {
-              "name": "buff:Feral Factor II (Soppo):1:4c0080c0b064"
-            },
-            {
-              "name": "buff:Feral Factor III (Soppo):1:1957b919efeb"
-            }
-          ]
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 2,
-        "action": {
-          "name": "Smoldering Suspire Tile (Freeze)",
-          "tile_ascension_level": 3
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 2,
-        "action": {
-          "name": "Smoldering Suspire Tile (Burn)",
-          "tile_ascension_level": 3
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 3,
-        "action": {
-          "name": "Ferocious Bite",
-          "in_feral_form": false
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [
-            {
-              "name": "Meltdown"
-            }
-          ],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 3,
-        "action": {
-          "name": "Predator's Pursuit",
-          "in_feral_form": false
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 3,
-        "action": {
-          "name": "Midnight Howl",
-          "tile_target": "Frost",
-          "in_feral_form": false
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 3,
-        "action": {
-          "name": "Midnight Howl",
-          "tile_target": "Incineration",
-          "in_feral_form": false
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 3,
-        "action": {
-          "name": "Predator's Pursuit",
-          "in_feral_form": true
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 3,
-        "action": {
-          "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 6.0,
-          "target_is_on_phase_tile": true,
-          "confectance_index": 5
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 3,
-        "action": {
-          "name": "Deadly Pounce (Passive)"
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 3,
-        "action": {
-          "name": "Smoldering Suspire Tile (Freeze)",
-          "tile_ascension_level": 3
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 3,
-        "action": {
-          "name": "Smoldering Suspire Tile (Burn)",
-          "tile_ascension_level": 3
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 4,
-        "action": {
-          "name": "Ferocious Bite",
-          "in_feral_form": false
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [
-            {
-              "name": "debuff:Meltdown:1:bd5172cdf223"
-            }
-          ],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 4,
-        "action": {
-          "name": "Predator's Pursuit",
-          "in_feral_form": false
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 4,
-        "action": {
-          "name": "Midnight Howl",
-          "tile_target": "Frost",
-          "in_feral_form": false
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 4,
-        "action": {
-          "name": "Midnight Howl",
-          "tile_target": "Incineration",
-          "in_feral_form": false
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 4,
-        "action": {
-          "name": "Predator's Pursuit",
-          "in_feral_form": true
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 4,
-        "action": {
-          "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 6.0,
-          "target_is_on_phase_tile": true,
-          "confectance_index": 5
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 4,
-        "action": {
-          "name": "Deadly Pounce (Passive)"
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 4,
-        "action": {
-          "name": "Smoldering Suspire Tile (Freeze)",
-          "tile_ascension_level": 3
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 4,
-        "action": {
-          "name": "Smoldering Suspire Tile (Burn)",
-          "tile_ascension_level": 3
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
         "turn": 5,
         "action": {
-          "name": "Ferocious Bite",
-          "in_feral_form": false
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 5,
-        "action": {
-          "name": "Predator's Pursuit",
-          "in_feral_form": false
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 5,
-        "action": {
-          "name": "Midnight Howl",
-          "tile_target": "Frost",
-          "in_feral_form": false
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 5,
-        "action": {
-          "name": "Midnight Howl",
+          "name": "Lunar Howl",
           "tile_target": "Incineration",
           "in_feral_form": false
         },
@@ -1217,7 +1039,7 @@
       {
         "turn": 5,
         "action": {
-          "name": "Predator's Pursuit",
+          "name": "Hunting Fang",
           "in_feral_form": true
         },
         "attacker": {
@@ -1236,10 +1058,10 @@
       {
         "turn": 5,
         "action": {
-          "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 6.0,
+          "name": "Fatal Pounce",
+          "stacks_of_prey_mark": 11.0,
           "target_is_on_phase_tile": true,
-          "confectance_index": 5
+          "confectance_index": 6
         },
         "attacker": {
           "add_buffs": [],
@@ -1257,7 +1079,7 @@
       {
         "turn": 5,
         "action": {
-          "name": "Deadly Pounce (Passive)"
+          "name": "Fatal Pounce (Passive)"
         },
         "attacker": {
           "add_buffs": [],
@@ -1313,7 +1135,7 @@
       {
         "turn": 6,
         "action": {
-          "name": "Ferocious Bite",
+          "name": "Vicious Bite",
           "in_feral_form": false
         },
         "attacker": {
@@ -1336,7 +1158,7 @@
       {
         "turn": 6,
         "action": {
-          "name": "Predator's Pursuit",
+          "name": "Hunting Fang",
           "in_feral_form": false
         },
         "attacker": {
@@ -1355,7 +1177,7 @@
       {
         "turn": 6,
         "action": {
-          "name": "Midnight Howl",
+          "name": "Lunar Howl",
           "tile_target": "Frost",
           "in_feral_form": false
         },
@@ -1375,7 +1197,7 @@
       {
         "turn": 6,
         "action": {
-          "name": "Midnight Howl",
+          "name": "Lunar Howl",
           "tile_target": "Incineration",
           "in_feral_form": false
         },
@@ -1395,47 +1217,7 @@
       {
         "turn": 6,
         "action": {
-          "name": "Predator's Pursuit",
-          "in_feral_form": true
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 6,
-        "action": {
-          "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 6.0,
-          "target_is_on_phase_tile": true,
-          "confectance_index": 5
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 6,
-        "action": {
-          "name": "Deadly Pounce (Passive)"
+          "name": "Fatal Pounce (Passive)"
         },
         "attacker": {
           "add_buffs": [],
@@ -1491,8 +1273,10 @@
       {
         "turn": 7,
         "action": {
-          "name": "Ferocious Bite",
-          "in_feral_form": false
+          "name": "Lunar Howl (Form Swap)",
+          "in_feral_form": true,
+          "num_targets": 1,
+          "target_tile_ascension_level": 3
         },
         "attacker": {
           "add_buffs": [],
@@ -1514,66 +1298,8 @@
       {
         "turn": 7,
         "action": {
-          "name": "Predator's Pursuit",
-          "in_feral_form": false
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 7,
-        "action": {
-          "name": "Midnight Howl",
+          "name": "Lunar Howl",
           "tile_target": "Frost",
-          "in_feral_form": false
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 7,
-        "action": {
-          "name": "Midnight Howl",
-          "tile_target": "Incineration",
-          "in_feral_form": false
-        },
-        "attacker": {
-          "add_buffs": [],
-          "remove_buffs": []
-        },
-        "target": {
-          "add_debuffs": [],
-          "remove_debuffs": [],
-          "phase_weaknesses_override": "Baseline",
-          "stability_override": "Baseline",
-          "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
-        }
-      },
-      {
-        "turn": 7,
-        "action": {
-          "name": "Predator's Pursuit",
           "in_feral_form": true
         },
         "attacker": {
@@ -1592,10 +1318,9 @@
       {
         "turn": 7,
         "action": {
-          "name": "Deadly Pounce",
-          "stacks_of_prey_mark": 6.0,
-          "target_is_on_phase_tile": true,
-          "confectance_index": 5
+          "name": "Lunar Howl",
+          "tile_target": "Incineration",
+          "in_feral_form": true
         },
         "attacker": {
           "add_buffs": [],
@@ -1613,7 +1338,47 @@
       {
         "turn": 7,
         "action": {
-          "name": "Deadly Pounce (Passive)"
+          "name": "Hunting Fang",
+          "in_feral_form": true
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Fatal Pounce",
+          "stacks_of_prey_mark": 11.0,
+          "target_is_on_phase_tile": true,
+          "confectance_index": 6
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Fatal Pounce (Passive)"
         },
         "attacker": {
           "add_buffs": [],

@@ -16,7 +16,7 @@ class Soppo(DollCalculatorPage):
 
         self.doll = soppo.Soppo()
         self.doll.set_fortification_level(FortificationLevel.SEGMENT06)
-        self.doll_subtitle: str = """Element Swap / Tile Interaction / Interception
+        self.doll_subtitle: str = """AoE Damage / Tile / Agile Combat
 
             Sentinel / Freeze"""
         self.dandegate_link: str = "https://www.dandegate.net/dolls/soppo"
@@ -138,27 +138,22 @@ class Soppo(DollCalculatorPage):
     def set_initial_values(self) -> None:
         doll = cast(soppo.Soppo, self.doll)
 
-        self.doll.initial_stats.basic_attributes[StatType.ATTACK] = 4830
-        self.doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 81
-        self.doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 154.5
+        self.doll.initial_stats.basic_attributes[StatType.ATTACK] = 4556
+        self.doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 99.5
+        self.doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 175
 
         # Attachments, common keys, imagoform, specialized traits
 
-        # imagoform: 5+12
-        # CQC elite: 0.4
         # Alva 6P33: 10
-        # Imagoform (Shoot): 4+3
         # Dushevnaya Expansion Key: 10
         # Dushevnaya Passive: 10
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
-        ].set_multiplier(DamageTag.ALL, 17 + 0.4 + 10 + 4 + 3 + 10 + 10)
+        ].set_multiplier(DamageTag.ALL, 10 + 10 + 10)
 
-        # weapon: 15
         # attachment: 20
-        # imagoform: 5
-        # freeze boost: 1.5
-        # Alva Brumal Barrier: <Alva Attack>*2/1000*1.5 = 11.4 at 3800 attack
+        # freeze boost: 0.8
+        # Alva Brumal Barrier: <Alva Attack>*2/500*1.5 = 22.8 at 3800 attack
         # Alva Covering Mode: 20
         # Freeze Unity: 0.9
         # Dushevnaya Expansion Key: 15+10
@@ -168,44 +163,51 @@ class Soppo(DollCalculatorPage):
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
         ].set_multiplier(
-            DamageTag.FREEZE, 15 + 20 + 5 + 1.5 + 11.4 + 20 + 0.9 + 15 + 10 + 10 + 3
+            DamageTag.FREEZE, 20 + 0.8 + 22.8 + 20 + 0.9 + 15 + 10 + 10 + 3
         )
 
-        # keys: 30
+        # Imagoform: 8
+        # Capitoline: 20
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
-        ].set_multiplier(DamageTag.PHASE, 30)
+        ].set_multiplier(DamageTag.ACTIVE, 8 + 20)
 
-        # weapon: 14
-        # raid stance: 1
+        # keys: 30
+        # imagoform: 5
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
-        ].set_multiplier(DamageTag.PASSIVE, 14 + 1)
+        ].set_multiplier(DamageTag.PHASE, 30 + 5)
 
         # imagoform: 10
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
         ].set_multiplier(DamageTag.STABILITY_BROKEN, 10)
 
-        # thronebreaker: 5
+        # thronebreaker: 5.5
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
-        ].set_multiplier(DamageTag.BOSS, 5)
+        ].set_multiplier(DamageTag.BOSS, 5.5)
 
         # smite boost: 2.4
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.CRITICAL_DAMAGE
         ].set_multiplier(DamageTag.ALL, 2.4)
 
-        # ambush mastery: 0.2
+        # beheading blade: 3
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.CRITICAL_DAMAGE
-        ].set_multiplier(DamageTag.PASSIVE, 0.2)
+        ].set_multiplier(DamageTag.BOSS, 3)
 
         # Alva 6P33: 10
+        # freezing smite: 0.4
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.CRITICAL_DAMAGE
         ].set_multiplier(DamageTag.FREEZE, 10)
+
+        # Capitoline: 20
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DEFENSE_IGNORE
+        ].set_multiplier(DamageTag.ALL, 20)
 
         # imagoform: 8
         # attack boost: 3.6

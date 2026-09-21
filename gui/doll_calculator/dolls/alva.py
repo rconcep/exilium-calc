@@ -191,7 +191,7 @@ class Alva(DollCalculatorPage):
         return [
             ModelAssumption(
                 icon="key",
-                description="Expansion Key - Alpha Successor is active.",
+                description="Expansion Key - Inheritor of the Alpha Wolf is active.",
                 link_label="Dandegate",
                 link_target="https://www.dandegate.net/dolls/alva/keys/expansion-key-alpha-successor",
             ),
