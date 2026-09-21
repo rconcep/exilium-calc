@@ -528,7 +528,7 @@ class DamageCalculationStrategy(ABC):
         else:
             critical_damage: float = crit_dmg_multiplier * non_critical_damage
 
-            effective_crit_rate: float = min(1.0, crit_rate)
+            effective_crit_rate: float = min(1.0, max(0.0, crit_rate))
 
             expected_damage: float = (
                 effective_crit_rate * critical_damage
@@ -2062,6 +2062,165 @@ class AlvaHoarfrostBreakDamageCalculationStrategy(DamageCalculationStrategy):
         damage_instance -- describes the action
         """
         effective_atk: float = self.shield_value
+
+        effective_def, negative_def = _calculate_effective_and_negative_defense(
+            attacker=attacker,
+            target=target,
+            damage_instance=damage_instance,
+        )
+
+        return (
+            effective_atk,
+            effective_def,
+            negative_def,
+            effective_atk / (1 + effective_def / effective_atk),
+        )
+
+
+class WelrodDamageCalculationStrategy(DamageCalculationStrategy):
+    """Damage calculation strategy for Welrod, implementing her passive effects.
+    Used to implement her critical rate deduction and max HP increase.
+    """
+
+    @override
+    def resolve_buffs(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> None:
+        """Apply effect of Welrod's abilities."""
+        super().resolve_buffs(
+            attacker, target, damage_instance, buffs_before, debuffs_before
+        )
+
+        # Only expecting to run this for Welrod
+        if _is_doll_attacker(attacker):
+            # Welrod's critical rate is reduced by 100%
+            attacker.additive_modifiers.basic_attributes[StatType.CRIT_RATE] -= 100
+
+            # Below V6, Welrod's max HP is increased by 50%. Above, it is increased by 150%.
+            health_bonus: int = (
+                150
+                if attacker.fortification_level >= FortificationLevel.SEGMENT06
+                else 50
+            )
+
+            attacker.multiplicative_modifiers.basic_attributes[
+                StatType.HEALTH
+            ] += health_bonus
+
+
+class WelrodStandardDamageCalculationStrategy(
+    WelrodDamageCalculationStrategy, StandardDamageCalculationStrategy
+):
+    """Standard damage calculation strategy for Welrod, incorporating her passive effects, but
+    for actions that follow the standard damage calculation rules (i.e., specified as dealing a % of her attack).
+    """
+
+    ...
+
+
+class WelrodConvictionAndPunishmentDamageCalculationStrategy(
+    WelrodStandardDamageCalculationStrategy
+):
+    """Damage calculation strategy for Welrod's Conviction and Punishment skill.
+    Adjusts the base potency based on increases to max HP.
+    """
+
+    potency_to_max_health_increase: float = Field(default=1.0)
+    maximum_potency_increase: int = Field(default=60)
+
+    def __init__(
+        self,
+        potency_to_max_health_increase: float = 1.0,
+        maximum_potency_increase: int = 60,
+    ):
+        """
+        Initialize the damage calculation strategy for Welrod's Conviction and Punishment skill.
+
+        Args:
+            potency_to_max_health_increase (float): The increase in potency per 1% increase in max HP.
+            maximum_potency_increase (int): The maximum allowed increase in potency.
+
+        """
+        self.potency_to_max_health_increase = potency_to_max_health_increase
+        self.maximum_potency_increase = maximum_potency_increase
+
+    @override
+    def calculate_adjusted_potency(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+    ) -> float:
+        # Calculate the increase in max HP compared to initial HP
+        max_hp_increase_percentage: float = (
+            attacker.multiplicative_modifiers.basic_attributes[StatType.HEALTH]
+        )
+
+        # Adjust the base potency based on the max HP increase
+        bonus_damage_multiplier: int = int(
+            (max_hp_increase_percentage // 1) * self.potency_to_max_health_increase
+        )
+
+        # Cap the adjusted potency to the maximum allowed increase
+        damage_instance.base_potency += min(
+            bonus_damage_multiplier, self.maximum_potency_increase
+        )
+
+        return super().calculate_adjusted_potency(attacker, target, damage_instance)
+
+
+class WelrodCrimeBacklashDamageCalculationStrategy(WelrodDamageCalculationStrategy):
+    """Damage calculation strategy for Welrod's Conviction and Punishment skill.
+    Adjusts the base potency based on increases to max HP.
+    """
+
+    accumulated_damage: int = Field(default=1000)
+    fraction_of_accumulated_damage: float = Field(default=0.25)
+    fraction_of_maximum_health: float = Field(default=0.15)
+
+    def __init__(
+        self,
+        accumulated_damage: int = 1000,
+        fraction_of_accumulated_damage: float = 0.25,
+        fraction_of_maximum_health: float = 0.15,
+    ):
+        """
+        Initialize the damage calculation strategy for Welrod's Crime Backlash damage effect.
+
+        Args:
+            accumulated_damage (int): The accumulated damage threshold.
+            fraction_of_accumulated_damage (float): The fraction of accumulated damage to consider.
+            fraction_of_maximum_health (float): The fraction of the target's maximum health to consider.
+
+        """
+        self.accumulated_damage = accumulated_damage
+        self.fraction_of_accumulated_damage = fraction_of_accumulated_damage
+        self.fraction_of_maximum_health = fraction_of_maximum_health
+
+    @override
+    @final
+    def calculate_base_damage(
+        self, attacker: Unit, target: Unit, damage_instance: DamageInstance
+    ) -> tuple[float, float, float, float]:
+        """Returns the term in the damage formula that is a function of attacker attack
+        and target defense. In addition, returns the effective attack, effective defense,
+        and any defense reduced/ignored beyond 0.
+
+        Arguments:
+        attacker -- the attacking Unit
+        target -- the target of the attack
+        damage_instance -- describes the action
+        """
+        effective_atk: float = (
+            self.fraction_of_accumulated_damage * self.accumulated_damage
+            + self.fraction_of_maximum_health
+            * attacker.get_basic_attribute(StatType.HEALTH, [DamageTag.ALL])
+        )
 
         effective_def, negative_def = _calculate_effective_and_negative_defense(
             attacker=attacker,

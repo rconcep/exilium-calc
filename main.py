@@ -40,6 +40,7 @@ from gui.doll_calculator.dolls import (
     Yoohee,
     Vector,
     Vepley,
+    Welrod,
 )
 from gui.styles.theme import apply_exilium_theme
 from core.runtime_paths import get_resource_path, get_resources_root
@@ -83,6 +84,7 @@ DOLL_PAGES: list[tuple[str, str, Callable[[], object]]] = [
     ("Vector", "/vector", Vector),
     ("Yoohee", "/yoohee", Yoohee),
     ("Vepley", "/vepley", Vepley),
+    ("Welrod", "/welrod", Welrod),
 ]
 
 

@@ -41,6 +41,7 @@ from .ullrid import Ullrid
 from .vector import Vector
 from .vepley import Vepley
 from .voymastina import Voymastina
+from .welrod import Welrod
 from .yoohee import Yoohee
 
 __all__ = [
@@ -81,5 +82,6 @@ __all__ = [
     "Vector",
     "Vepley",
     "Voymastina",
+    "Welrod",
     "Yoohee",
 ]

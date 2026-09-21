@@ -1,0 +1,78 @@
+{
+  "doll": "Welrod",
+  "sections": [
+    {
+      "kind": "markdown",
+      "key": "synopsis",
+      "title": "Synopsis",
+      "markdown": "A tank that increases team survivability by regularly taunting in a large AoE and deferring most damage taken to instead take over time. Welrod is self-sufficient, bringing her own recovery and survivability tools, including a one turn 'cheat death' buff with her ultimate. She deals damage with a combination of accumulated damage taken and her own attack/health stats. Welrod should be a useful pick in difficult mobbing stages but is less likely to earn a spot in any bossing content."
+    },
+    {
+      "kind": "utility_table",
+      "key": "utility",
+      "title": "Utility",
+      "rows": [
+        {
+          "label": "Toxic Mist tile generation",
+          "detail": "S2"
+        },
+
+        {
+          "label": "Buff cleanse",
+          "detail": "Fixed Key 2, before an active attack"
+        },
+
+        { "label": "Heal", "detail": "(one ally) S1 (V1)" },
+        { "label": "Shelter", "detail": "(one ally, 2 stacks) S1 (V1)" },
+
+        {
+          "label": "Taunt",
+          "detail": "(6 tile radius) Passive: at the end of each turn"
+        }
+      ]
+    },
+    {
+      "kind": "fortification_table",
+      "key": "fortification_upgrades",
+      "title": "Fortification Level upgrades",
+      "upgrades": [
+        {
+          "level": 1,
+          "description": "S1: Adds heal and Shelter to one ally with the lowest HP; Deductive Obsession: healing received increased, damage taken reduced, and adds Corrosion damage dealt effect."
+        },
+        {
+          "level": 2,
+          "description": "Passive: Welrod triggers damage at the end of allied Dolls' actions in addition to her own; increases capacity of Detective's Immunity."
+        },
+        {
+          "level": 3,
+          "description": "Ult: Increased damage multiplier of Ult and Crime Backlash; cooldown of V3 Protection reduced by 1 round."
+        },
+        {
+          "level": 4,
+          "description": "S2: Increased damage multiplier and scaling with max HP increases."
+        },
+        {
+          "level": 5,
+          "description": "Ult: Damage is now increased based on instances of damage taken and for each enemy hit; damage dealt by Suspect is also increased."
+        },
+        {
+          "level": 6,
+          "description": "Passive: Max HP increase; attack now increases for each instance of damage taken."
+        }
+      ]
+    },
+    {
+      "kind": "markdown",
+      "key": "team_notes",
+      "title": "Team notes",
+      "markdown": "Welrod as a tank is mostly self-sufficient - she provides some health recovery to herself and external healing is less effective due to Detective's Immunity - only her S2 can 'shed' some of the accumulated damage. Healing can help with the upfront damage, certainly. "
+    },
+    {
+      "kind": "markdown",
+      "key": "build_notes",
+      "title": "Build notes",
+      "markdown": "The accumulated damage capacity of Detective's Immunity is based on Welrod's max HP and attack. This capacity also affects her damage indirectly as some portion of her output is based on the stored damage. Given her role, it is recommended to focus on maximizing her survivability - health, defense, then attack."
+    }
+  ]
+}

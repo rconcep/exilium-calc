@@ -2295,6 +2295,62 @@ class Concentration(Buff):
         self.tag = DamageTag.ALL
 
 
+class DeductiveObsession(Buff):
+    """Welrod buff."""
+
+    display_name = "Deductive Obsession (Welrod)"
+    max_stack_count = 1
+    stack_input_type = "input"
+
+    def __init__(self, welrod_fortification_level: FortificationLevel):
+        self.value = 0
+        if welrod_fortification_level > FortificationLevel.SEGMENT00:
+            self.value = 30
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.CORROSION
+
+
+class V3Protection(Buff):
+    """Welrod buff."""
+
+    display_name = "V3 Protection (Welrod)"
+    max_stack_count = 1
+    stack_input_type = "input"
+
+    def __init__(self):
+        self.value = 20
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.HEALTH
+        self.tag = DamageTag.ALL
+
+
+class CaseDetective(Buff):
+    """Part of Welrod's passive Case Detective that increases attack for every instance of damage taken (V6)."""
+
+    display_name = "Case Detective (Welrod)"
+    max_stack_count = 50
+    stack_input_type = "select"
+
+    def __init__(
+        self,
+        number_of_instances_of_damage_taken: int,
+        welrod_fortification_level: FortificationLevel,
+    ):
+        attack_increase_per_instance: int = 1
+
+        if welrod_fortification_level < FortificationLevel.SEGMENT06:
+            attack_increase_per_instance = 0
+
+        self.value = min(
+            CaseDetective.max_stack_count,
+            max(0, number_of_instances_of_damage_taken) * attack_increase_per_instance,
+        )
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.ATTACK
+        self.tag = DamageTag.ALL
+
+
 class CoverMode(Buff):
     """Buff granted to allies when OTs-14 is in Cover Order."""
 
