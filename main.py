@@ -215,6 +215,12 @@ Scenario Comparison and Stat Increment Analysis are also available in Rotation S
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
                     ui.timeline_entry(
+                        "Updated Soppo's localization and sample rotation. Added previews for: Welrod, Faelynn, Eagletta.",
+                        title="",
+                        subtitle="September 20, 2026",
+                        icon="person_add",
+                    )
+                    ui.timeline_entry(
                         "Updated OTs-14's localization. Added Nemesis: Gnosis. Implemented Expansion Keys for Robella and Alva.",
                         title="",
                         subtitle="August 22, 2026",
