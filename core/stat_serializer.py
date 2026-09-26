@@ -23,7 +23,10 @@ from pydantic import BaseModel
 from .types import (
     DamageTag,
     DamageTagMultipliers,
+    ElementalAttribute,
+    ElementalTagMultipliers,
     FinalStatModifiers,
+    PHASE_ELEMENT_TAGS,
     SpecialAttribute,
     StatSheet,
     StatType,
@@ -119,6 +122,15 @@ class StatsSerializer:
                 ): StatsSerializer.serialize_damage_tag_multipliers(multipliers)
                 for attr, multipliers in sheet.special_attributes.items()
             },
+            "elemental_attributes": {
+                StatsSerializer._enum_to_dict(
+                    attribute
+                ): {
+                    StatsSerializer._enum_to_dict(tag): value
+                    for tag, value in multipliers.multipliers.items()
+                }
+                for attribute, multipliers in sheet.elemental_attributes.items()
+            },
         }
 
     @staticmethod
@@ -128,6 +140,7 @@ class StatsSerializer:
         sheet.basic_attributes = {}
         sheet.conditional_basic_attributes = {}
         sheet.special_attributes = {}
+        sheet.elemental_attributes = {}
 
         # Deserialize basic attributes
         if "basic_attributes" in data:
@@ -160,6 +173,24 @@ class StatsSerializer:
                         )
                     )
 
+        # Deserialize elemental attributes, if present. Older snapshots omit this.
+        if "elemental_attributes" in data:
+            for attribute_name, multipliers_data in data[
+                "elemental_attributes"
+            ].items():
+                attribute = StatsSerializer._dict_to_enum(
+                    ElementalAttribute, attribute_name
+                )
+                if attribute is None:
+                    continue
+
+                multipliers = ElementalTagMultipliers()
+                for tag_name, value in multipliers_data.items():
+                    tag = StatsSerializer._dict_to_enum(DamageTag, tag_name)
+                    if tag in PHASE_ELEMENT_TAGS:
+                        multipliers.set_multiplier(tag, value)
+                sheet.elemental_attributes[attribute] = multipliers
+
         # Fill in missing values with defaults
         for stat in StatType:
             if stat not in sheet.basic_attributes:
@@ -176,6 +207,10 @@ class StatsSerializer:
                 sheet.special_attributes[attr].multipliers = {
                     tag: 0 for tag in DamageTag
                 }
+
+        for attribute in ElementalAttribute:
+            if attribute not in sheet.elemental_attributes:
+                sheet.elemental_attributes[attribute] = ElementalTagMultipliers()
 
         return sheet
 

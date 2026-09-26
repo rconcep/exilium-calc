@@ -1,6 +1,6 @@
 from core.combat import DamageInstance
 from core.dolls.soppo import *
-from core.types import DamageTag, FortificationLevel
+from core.types import DamageTag, FortificationLevel, ElementalPhaseTile
 
 
 class TestSoppoSkills:
@@ -24,13 +24,13 @@ class TestSoppoSkills:
 
     def test_lunar_howl_v2_tile_tags(self):
         frost: DamageInstance = LunarHowlV2().execute(
-            tile_target=LunarHowlTileTargetType.FROST
+            tile_target=ElementalPhaseTile.FROST
         )
         incineration: DamageInstance = LunarHowlV2().execute(
-            tile_target=LunarHowlTileTargetType.INCINERATION
+            tile_target=ElementalPhaseTile.INCINERATION
         )
         ashen_breath: DamageInstance = LunarHowlV2().execute(
-            tile_target=LunarHowlTileTargetType.SMOLDERING_SUSPIRE
+            tile_target=ElementalPhaseTile.SMOLDERING_SUSPIRE
         )
 
         assert frost.base_potency == 80

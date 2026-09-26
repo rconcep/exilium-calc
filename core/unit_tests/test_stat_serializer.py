@@ -17,6 +17,7 @@ from unittest import TestCase
 from core.types import (
     DamageTag,
     DamageTagMultipliers,
+    ElementalAttribute,
     SpecialAttribute,
     StatSheet,
     StatType,
@@ -42,6 +43,12 @@ class TestStatsSerializer(TestCase):
         self.unit.initial_stats.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
         ].set_multiplier(DamageTag.ALL, 5.0)
+        self.unit.initial_stats.elemental_attributes[
+            ElementalAttribute.ELEMENTAL_BOOST
+        ].set_multiplier(DamageTag.BURN, 40.0)
+        self.unit.additive_modifiers.elemental_attributes[
+            ElementalAttribute.ELEMENTAL_RESISTANCE
+        ].set_multiplier(DamageTag.FREEZE, 25.0)
 
         # Set additive modifiers
         self.unit.additive_modifiers.basic_attributes[StatType.ATTACK] = 20.0
@@ -118,6 +125,18 @@ class TestStatsSerializer(TestCase):
             self.unit.additive_modifiers.conditional_basic_attributes[
                 StatType.ATTACK
             ].get_multiplier(DamageTag.FREEZE),
+        )
+        self.assertEqual(
+            loaded_unit.initial_stats.elemental_attributes[
+                ElementalAttribute.ELEMENTAL_BOOST
+            ].get_multiplier(DamageTag.BURN),
+            40.0,
+        )
+        self.assertEqual(
+            loaded_unit.additive_modifiers.elemental_attributes[
+                ElementalAttribute.ELEMENTAL_RESISTANCE
+            ].get_multiplier(DamageTag.FREEZE),
+            25.0,
         )
 
         # Verify metadata

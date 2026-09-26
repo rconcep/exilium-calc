@@ -24,8 +24,18 @@ from core.rotation_data_serializer import (
     payload_to_string,
     string_to_payload,
 )
-from core.types import DamageTag, Doll, SpecialAttribute, StatType, Unit, UnitLevel
-from gui.styles.descriptions import get_stat_description
+from core.types import (
+    DamageTag,
+    Doll,
+    SpecialAttribute,
+    ElementalAttribute,
+    StatType,
+    Unit,
+    UnitLevel,
+    ElementalPhaseTile,
+    PHASE_ELEMENT_TAGS,
+)
+from gui.styles.descriptions import get_stat_description, get_tag_description
 from gui.styles.graphs import get_bar_chart_template, get_donut_chart_template
 from gui.templates.rotation_planner import RotationPlanner
 from gui.templates.selectable_chips_editor import SelectableChipsEditor
@@ -73,9 +83,12 @@ class RotationSimulator:
         self.baseline_buffs_selector: SelectableChipsEditor
         self.baseline_debuffs_selector: SelectableChipsEditor
         self.baseline_phase_weaknesses: ui.select
+        self.baseline_ammo_weakness_level: ui.select
+        self.baseline_phase_weakness_level: ui.select
         self.baseline_stability_broken: ui.switch
         self.baseline_unit_level: ui.select
         self.baseline_phase_tile_level: ui.select
+        self.baseline_elemental_phase_tile: ui.select
 
         self.timeline_rows_container: ui.column
         self.timeline_rows: list[dict[str, Any]] = []
@@ -158,7 +171,7 @@ class RotationSimulator:
                 icon="tune",
             ).classes("w-full"):
                 with ui.row().classes("w-full gap-4 items-start"):
-                    with ui.card().classes("w-80 h-180 exilium-panel"):
+                    with ui.card().classes("w-80 h-220 exilium-panel"):
                         ui.label("Rotation Actions").classes("text-h6")
                         ui.label(
                             "Build your sequence by turn, then click Sync Timeline. This will re-build the action timeline and erase any per-action modifications."
@@ -174,7 +187,7 @@ class RotationSimulator:
                                 icon="timeline",
                             ).props("color=primary unelevated")
 
-                    with ui.card().classes("w-230 h-180 exilium-panel"):
+                    with ui.card().classes("w-270 exilium-panel"):
                         self._baseline_state_section()
 
             with ui.expansion(
@@ -297,6 +310,16 @@ class RotationSimulator:
             with ui.card().classes("w-full exilium-panel"):
                 ui.label("Target").classes("text-subtitle2")
                 ui.separator()
+
+                self.baseline_debuffs_selector = SelectableChipsEditor(
+                    options=list(debuffs_option_config.keys()),
+                    option_config=debuffs_option_config,
+                    title="Debuffs",
+                    allow_duplicates=True,
+                    button_text="Add Debuff",
+                    clear_button_text="Clear Debuffs",
+                )
+
                 with ui.grid(columns="70% auto").classes("w-full"):
                     self.baseline_phase_weaknesses = ui.select(
                         options=[0, 1, 2],
@@ -318,8 +341,28 @@ class RotationSimulator:
                         value=0,
                         label="Phase Tile Level",
                     )
+                    self.baseline_elemental_phase_tile = ui.select(
+                        options={
+                            "None": "None",
+                            **{tile.value: tile.value for tile in ElementalPhaseTile},
+                        },
+                        value="None",
+                        label="Elemental Phase Tile",
+                    )
+                    self.baseline_phase_weakness_level = ui.select(
+                        options=[0, 1, 2, 3],
+                        value=0,
+                        label="Phase Weakness Level",
+                    )
+                    self.baseline_ammo_weakness_level = ui.select(
+                        options=[0, 1, 2, 3, 4, 5],
+                        value=0,
+                        label="Ammo Weakness Level",
+                    )
 
-                with ui.expansion("Target Stats", value=False).classes("w-full"):
+                with ui.expansion(
+                    "Target Stats", value=False, group="target_stats"
+                ).classes("w-full"):
                     with ui.list().props("bordered dense separator").classes("w-full"):
                         for stat in get_relevant_target_stats():
                             with ui.item():
@@ -334,14 +377,24 @@ class RotationSimulator:
                                         stat,
                                     )
 
-                self.baseline_debuffs_selector = SelectableChipsEditor(
-                    options=list(debuffs_option_config.keys()),
-                    option_config=debuffs_option_config,
-                    title="Debuffs",
-                    allow_duplicates=True,
-                    button_text="Add Debuff",
-                    clear_button_text="Clear Debuffs",
-                )
+                with ui.expansion(
+                    "Phase Resistance", value=False, group="target_stats"
+                ).classes("w-full"):
+                    with ui.list().props("bordered dense separator").classes("w-full"):
+                        for tag in PHASE_ELEMENT_TAGS:
+                            with ui.item():
+                                with ui.item_section().props("no-wrap"):
+                                    ui.item_label(tag)
+                                    ui.item_label(get_tag_description(tag)).props(
+                                        "caption"
+                                    )
+                                with ui.item_section().props("side"):
+                                    ui.number(value=0, min=0, precision=1).bind_value(
+                                        self.target.initial_stats.elemental_attributes[
+                                            ElementalAttribute.ELEMENTAL_RESISTANCE
+                                        ].multipliers,
+                                        tag,
+                                    )
 
     def _summary_section(self) -> None:
         ui.label("Run Simulation").classes("text-h6")
@@ -583,12 +636,27 @@ class RotationSimulator:
                         "phase_tile_override": self._get_row_override_value(
                             row, "phase_tile_override"
                         ),
+                        "elemental_phase_tile_override": self._get_row_override_value(
+                            row, "elemental_phase_tile_override"
+                        ),
+                        "phase_weakness_level_override": self._get_row_override_value(
+                            row, "phase_weakness_level_override"
+                        ),
+                        "ammo_weakness_level_override": self._get_row_override_value(
+                            row, "ammo_weakness_level_override"
+                        ),
                     },
                 }
             )
 
         payload["baseline"]["target"]["phase_weaknesses_exploited"] = int(
             self.baseline_phase_weaknesses.value or 0
+        )
+        payload["baseline"]["target"]["ammo_weakness_level"] = int(
+            self.baseline_ammo_weakness_level.value or 0
+        )
+        payload["baseline"]["target"]["phase_weakness_level"] = int(
+            self.baseline_phase_weakness_level.value or 0
         )
         payload["baseline"]["target"]["stability_broken"] = bool(
             self.baseline_stability_broken.value
@@ -599,9 +667,20 @@ class RotationSimulator:
         payload["baseline"]["target"]["phase_tile_level"] = int(
             self.baseline_phase_tile_level.value or 0
         )
+        payload["baseline"]["target"]["elemental_phase_tile"] = str(
+            self.baseline_elemental_phase_tile.value or "None"
+        )
         payload["baseline"]["target"]["basic_attributes"] = {
             stat.value: float(self.target.initial_stats.basic_attributes[stat])
             for stat in get_relevant_target_stats()
+        }
+        payload["baseline"]["target"]["elemental_resistance"] = {
+            tag.value: float(
+                self.target.initial_stats.elemental_attributes[
+                    ElementalAttribute.ELEMENTAL_RESISTANCE
+                ].multipliers[tag]
+            )
+            for tag in PHASE_ELEMENT_TAGS
         }
         payload["timeline"]["actions"] = timeline_actions
 
@@ -630,15 +709,30 @@ class RotationSimulator:
         self.baseline_phase_weaknesses.value = int(
             baseline_target["phase_weaknesses_exploited"]
         )
+        self.baseline_ammo_weakness_level.value = int(
+            baseline_target["ammo_weakness_level"]
+        )
+        self.baseline_phase_weakness_level.value = int(
+            baseline_target["phase_weakness_level"]
+        )
         self.baseline_stability_broken.value = bool(baseline_target["stability_broken"])
         self.baseline_unit_level.value = str(baseline_target["unit_level"])
         self.baseline_phase_tile_level.value = int(baseline_target["phase_tile_level"])
+        self.baseline_elemental_phase_tile.value = baseline_target[
+            "elemental_phase_tile"
+        ]
 
         basic_attributes = baseline_target["basic_attributes"]
         for stat in get_relevant_target_stats():
             self.target.initial_stats.basic_attributes[stat] = float(
                 basic_attributes[stat.value]
             )
+
+        elemental_resistance = baseline_target["elemental_resistance"]
+        for tag in PHASE_ELEMENT_TAGS:
+            self.target.initial_stats.elemental_attributes[
+                ElementalAttribute.ELEMENTAL_RESISTANCE
+            ].multipliers[tag] = float(elemental_resistance[tag.value])
 
         turns_raw = normalized_payload["planner"]["turns"]
         planner_turns: dict[int, list[dict[str, Any]]] = {
@@ -710,6 +804,21 @@ class RotationSimulator:
                 row,
                 "phase_tile_override",
                 str(timeline_action["target"]["phase_tile_override"]),
+            )
+            self._set_row_override_value(
+                row,
+                "elemental_phase_tile_override",
+                str(timeline_action["target"]["elemental_phase_tile_override"]),
+            )
+            self._set_row_override_value(
+                row,
+                "phase_weakness_level_override",
+                str(timeline_action["target"]["phase_weakness_level_override"]),
+            )
+            self._set_row_override_value(
+                row,
+                "ammo_weakness_level_override",
+                str(timeline_action["target"]["ammo_weakness_level_override"]),
             )
 
         self._refresh_all_removal_selectors()
@@ -1222,6 +1331,15 @@ class RotationSimulator:
         phase_tile_override: str = self._get_row_override_value(
             timeline_row, "phase_tile_override"
         )
+        elemental_phase_tile_override: str = self._get_row_override_value(
+            timeline_row, "elemental_phase_tile_override"
+        )
+        phase_weakness_level_override: str = self._get_row_override_value(
+            timeline_row, "phase_weakness_level_override"
+        )
+        ammo_weakness_level_override: str = self._get_row_override_value(
+            timeline_row, "ammo_weakness_level_override"
+        )
 
         if weaknesses_override == "Baseline":
             phase_weaknesses_exploited = self.baseline_phase_weaknesses.value
@@ -1244,11 +1362,34 @@ class RotationSimulator:
         else:
             phase_tile_level = int(phase_tile_override)
 
+        if elemental_phase_tile_override == "Baseline":
+            elemental_phase_tile_value = self.baseline_elemental_phase_tile.value
+        else:
+            elemental_phase_tile_value = elemental_phase_tile_override
+        elemental_phase_tile = (
+            None
+            if elemental_phase_tile_value in (None, "None")
+            else ElementalPhaseTile(str(elemental_phase_tile_value))
+        )
+
+        if phase_weakness_level_override == "Baseline":
+            phase_weakness_level = int(self.baseline_phase_weakness_level.value or 0)
+        else:
+            phase_weakness_level = int(phase_weakness_level_override)
+
+        if ammo_weakness_level_override == "Baseline":
+            ammo_weakness_level = int(self.baseline_ammo_weakness_level.value or 0)
+        else:
+            ammo_weakness_level = int(ammo_weakness_level_override)
+
         return TargetCombatState(
             is_stability_broken=is_stability_broken,
             phase_weaknesses_exploited=phase_weaknesses_exploited,
+            ammo_weakness_level=ammo_weakness_level,
+            phase_weakness_level=phase_weakness_level,
             unit_level=unit_level,
             is_on_phase_tile=phase_tile_level > 0,
+            elemental_phase_tile=elemental_phase_tile,
             phase_tile_ascension_level=phase_tile_level,
         )
 
@@ -1675,7 +1816,49 @@ class RotationSimulator:
                             value=self._get_row_override_value(
                                 row, "phase_tile_override"
                             ),
-                            label="Phase Tile",
+                            label="Phase Tile Level",
+                        )
+                        row["elemental_phase_tile_override"] = ui.select(
+                            options={
+                                "Baseline": "Baseline",
+                                "None": "None",
+                                **{
+                                    tile.value: tile.value
+                                    for tile in ElementalPhaseTile
+                                },
+                            },
+                            value=self._get_row_override_value(
+                                row, "elemental_phase_tile_override"
+                            ),
+                            label="Elemental Phase Tile",
+                        )
+                        row["phase_weakness_level_override"] = ui.select(
+                            options={
+                                "Baseline": "Baseline",
+                                "0": "0",
+                                "1": "1",
+                                "2": "2",
+                                "3": "3",
+                            },
+                            value=self._get_row_override_value(
+                                row, "phase_weakness_level_override"
+                            ),
+                            label="Phase Weakness Level",
+                        )
+                        row["ammo_weakness_level_override"] = ui.select(
+                            options={
+                                "Baseline": "Baseline",
+                                "0": "0",
+                                "1": "1",
+                                "2": "2",
+                                "3": "3",
+                                "4": "4",
+                                "5": "5",
+                            },
+                            value=self._get_row_override_value(
+                                row, "ammo_weakness_level_override"
+                            ),
+                            label="Ammo Weakness Level",
                         )
 
         # Seed controls from stored row state for rows that were not previously initialized.
@@ -1789,6 +1972,9 @@ class RotationSimulator:
                     "stability_override_value": "Baseline",
                     "unit_level_override_value": "Baseline",
                     "phase_tile_override_value": "Baseline",
+                    "elemental_phase_tile_override_value": "Baseline",
+                    "phase_weakness_level_override_value": "Baseline",
+                    "ammo_weakness_level_override_value": "Baseline",
                     "details_initialized": False,
                 }
 

@@ -109,6 +109,7 @@ class DollCalculatorPage(ABC):
             StatType, dict[DamageTag, ui.number]
         ] = {stat: {} for stat in StatType}
         self.additive_mod_damage_boost_number_inputs: dict[DamageTag, ui.number] = {}
+        self.additive_elemental_boost_number_inputs: dict[DamageTag, ui.number] = {}
         self.additive_mod_critical_damage_number_inputs: dict[DamageTag, ui.number] = {}
         self.additive_mod_defense_ignore_number_inputs: dict[DamageTag, ui.number] = {}
 
@@ -302,7 +303,7 @@ class DollCalculatorPage(ABC):
 
     def get_rotation_analysis(self) -> None:
         """Generates the Rotation Analysis section."""
-        with ui.grid(columns="50% auto").classes("w-full h-150"):
+        with ui.grid(columns="50% auto").classes("w-full"):
             self.actions_table = ui.table(
                 columns=DollCalculatorPage.actions_table_columns,
                 rows=self.actions_table_data,
@@ -450,6 +451,25 @@ class DollCalculatorPage(ABC):
                 ].multipliers.get(
                     tag, 0
                 )
+
+        # Elemental attributes (Phase-element tags)
+        for attribute in ElementalAttribute:
+            for tag in PHASE_ELEMENT_TAGS:
+                self.doll.initial_stats.elemental_attributes[
+                    attribute
+                ].multipliers[tag] = loaded.initial_stats.elemental_attributes[
+                    attribute
+                ].multipliers.get(tag, 0)
+                self.doll.additive_modifiers.elemental_attributes[
+                    attribute
+                ].multipliers[tag] = loaded.additive_modifiers.elemental_attributes[
+                    attribute
+                ].multipliers.get(tag, 0)
+                self.doll.multiplicative_modifiers.elemental_attributes[
+                    attribute
+                ].multipliers[tag] = loaded.multiplicative_modifiers.elemental_attributes[
+                    attribute
+                ].multipliers.get(tag, 0)
 
     def rebind_doll(self) -> None:
         """Binds UI elements to new Doll's stats."""
@@ -602,6 +622,17 @@ class DollCalculatorPage(ABC):
                 "change", self.stats_update_callback
             )
 
+        for tag in PHASE_ELEMENT_TAGS:
+            self.additive_elemental_boost_number_inputs[tag].bind_value(
+                self.doll.additive_modifiers.elemental_attributes[
+                    ElementalAttribute.ELEMENTAL_BOOST
+                ].multipliers,
+                tag,
+            )
+            self.additive_elemental_boost_number_inputs[tag].on(
+                "change", self.stats_update_callback
+            )
+
     @abstractmethod
     def set_initial_values(self) -> None:
         """Initializes Doll's stats to specified values."""
@@ -724,7 +755,7 @@ class DollCalculatorPage(ABC):
         ]
 
         with ui.row().classes("w-full exilium-dashboard"):
-            with ui.card().classes("w-100 h-150 exilium-panel"):
+            with ui.card().classes("w-110 h-150 exilium-panel"):
                 self.doll_header()
                 with ui.scroll_area().classes("w-full h-full"):
                     self.render_model_assumptions()
@@ -749,7 +780,7 @@ class DollCalculatorPage(ABC):
             with ui.card().classes("w-75 h-150 exilium-panel exilium-portrait-panel"):
                 ui.image(self.doll_portrait)
 
-            with ui.card().classes("w-160 h-150 exilium-panel"):
+            with ui.card().classes("w-180 h-150 exilium-panel"):
                 with ui.tabs().classes("w-full exilium-top-tabs") as tabs:
                     basic_stats_tab = ui.tab("Basic").tooltip(
                         "Initial values of basic stats as seen in Refitting Room or Formation."
@@ -1061,6 +1092,19 @@ class DollCalculatorPage(ABC):
                                             ui.item_label(
                                                 "Freeze damage dealt is increased by 1.4%."
                                             ).props("caption")
+                                    with ui.item():
+                                        with ui.item_section():
+                                            ui.item_label(
+                                                "Apex Chassis (Heavy Ordinance Corps)"
+                                            )
+                                        with ui.item_section():
+                                            ui.item_label("All-Elemental Boost").props(
+                                                "caption"
+                                            )
+                                        with ui.item_section():
+                                            ui.item_label("Phase Enhancement").props(
+                                                "caption"
+                                            )
 
                             ui.separator()
 
@@ -1145,6 +1189,31 @@ class DollCalculatorPage(ABC):
                                                     suffix="%",
                                                     precision=1,
                                                     format="%.1f",
+                                                )
+
+                            with ui.expansion(
+                                text="Phase Enhancement",
+                                group="additive_mods",
+                            ).classes("w-full"):
+                                with ui.list().props(
+                                    "bordered dense separator"
+                                ).classes("w-full"):
+                                    for tag in PHASE_ELEMENT_TAGS:
+                                        with ui.item():
+                                            with ui.item_section().props("no-wrap"):
+                                                ui.item_label(tag)
+                                                ui.item_label(
+                                                    get_tag_description(tag)
+                                                ).props("caption")
+                                            with ui.item_section().props("side"):
+                                                self.additive_elemental_boost_number_inputs[
+                                                    tag
+                                                ] = ui.number(
+                                                    value=100,
+                                                    min=0,
+                                                    suffix="",
+                                                    precision=1,
+                                                    format="%d",
                                                 )
 
                             with ui.expansion(
@@ -1545,7 +1614,7 @@ class DollCalculatorPage(ABC):
                                 auto_upload=True,
                             ).props("accept=.json outlined")
 
-        ui.separator().classes("w-330 exilium-divider")
+        ui.separator().classes("w-380 exilium-divider")
 
         self.set_initial_values()
         self.update_doll_abilities()
@@ -1558,18 +1627,18 @@ class DollCalculatorPage(ABC):
             notes_tab = ui.tab("Doll Notes")
 
         with ui.tab_panels(tabs, value=basic_stats_tab).classes(
-            "w-340 h-full exilium-tab-panels"
+            "w-380 h-full exilium-tab-panels"
         ):
-            with ui.tab_panel(basic_stats_tab).classes("w-full h-400"):
+            with ui.tab_panel(basic_stats_tab).classes("w-full"):
                 with ui.grid(columns="25% auto").classes("w-full h-full"):
                     self.get_rotation_planner()
                     self.get_rotation_analysis()
 
-            with ui.tab_panel(damage_calculator_tab).classes("w-full h-650"):
+            with ui.tab_panel(damage_calculator_tab).classes("w-full"):
                 with ui.column().classes("w-full h-full") as damage_calculator_panel:
                     ui.skeleton().classes("w-full")
 
-            with ui.tab_panel(rotation_simulator_tab).classes("w-full h-650"):
+            with ui.tab_panel(rotation_simulator_tab).classes("w-full"):
                 with ui.column().classes("w-full h-full") as rotation_simulator_panel:
                     ui.skeleton().classes("w-full")
 

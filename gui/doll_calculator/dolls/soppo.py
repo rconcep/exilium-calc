@@ -3,7 +3,13 @@ from typing import Any, cast, override
 from nicegui import ui
 
 from core.dolls import soppo
-from core.types import DamageTag, FortificationLevel, SpecialAttribute, StatType
+from core.types import (
+    DamageTag,
+    FortificationLevel,
+    SpecialAttribute,
+    StatType,
+    ElementalPhaseTile,
+)
 from gui.templates.doll_calculator_page import DollCalculatorPage, ModelAssumption
 from gui.templates.rotation_planner import RotationPlanner
 
@@ -55,11 +61,11 @@ class Soppo(DollCalculatorPage):
                         "key": "tile_target",
                         "type": "select",
                         "label": "Target Tile",
-                        "default": soppo.LunarHowlTileTargetType.FROST,
+                        "default": ElementalPhaseTile.FROST,
                         "options": [
-                            soppo.LunarHowlTileTargetType.FROST,
-                            soppo.LunarHowlTileTargetType.INCINERATION,
-                            # soppo.LunarHowlTileTargetType.SMOLDERING_SUSPIRE,
+                            ElementalPhaseTile.FROST,
+                            ElementalPhaseTile.INCINERATION,
+                            # ElementalPhaseTile.SMOLDERING_SUSPIRE,
                         ],
                     },
                     {

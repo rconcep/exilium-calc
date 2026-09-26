@@ -5,7 +5,7 @@ from enum import Enum
 from typing import Any
 
 from core.rotation_name_aliases import canonical_action_name, canonical_effect_name
-from core.types import StatType, UnitLevel
+from core.types import ElementalPhaseTile, PHASE_ELEMENT_TAGS, StatType, UnitLevel
 
 
 class RotationDataError(ValueError):
@@ -17,21 +17,28 @@ NUMBER_OF_TURNS: int = 7
 
 DEFAULT_BASELINE_TARGET: dict[str, Any] = {
     "phase_weaknesses_exploited": 2,
+    "ammo_weakness_level": 0,
+    "phase_weakness_level": 0,
     "stability_broken": True,
     "unit_level": UnitLevel.BOSS.value,
     "phase_tile_level": 0,
+    "elemental_phase_tile": "None",
     "basic_attributes": {
         StatType.DEFENSE.value: 5000,
         StatType.HEALTH.value: 11e6,
         StatType.STABILITY_DAMAGE_REDUCTION.value: 60,
     },
+    "elemental_resistance": {tag.value: 0 for tag in PHASE_ELEMENT_TAGS},
 }
 
 DEFAULT_TARGET_OVERRIDES: dict[str, str] = {
     "phase_weaknesses_override": "Baseline",
+    "ammo_weakness_level_override": "Baseline",
+    "phase_weakness_level_override": "Baseline",
     "stability_override": "Baseline",
     "unit_level_override": "Baseline",
     "phase_tile_override": "Baseline",
+    "elemental_phase_tile_override": "Baseline",
 }
 
 
@@ -247,6 +254,22 @@ def _normalize_baseline(baseline_raw: Any) -> dict[str, Any]:
                 f"baseline.target.basic_attributes.{key} must be numeric"
             ) from exc
 
+    elemental_resistance_raw = target_raw.get("elemental_resistance", {})
+    if not isinstance(elemental_resistance_raw, dict):
+        elemental_resistance_raw = {}
+
+    elemental_resistance: dict[str, float] = {}
+    for tag in PHASE_ELEMENT_TAGS:
+        value = elemental_resistance_raw.get(
+            tag.value, DEFAULT_BASELINE_TARGET["elemental_resistance"][tag.value]
+        )
+        try:
+            elemental_resistance[tag.value] = float(value)
+        except (TypeError, ValueError) as exc:
+            raise RotationDataError(
+                f"baseline.target.elemental_resistance.{tag.value} must be numeric"
+            ) from exc
+
     try:
         phase_weaknesses_exploited = int(
             target_raw.get(
@@ -257,6 +280,22 @@ def _normalize_baseline(baseline_raw: Any) -> dict[str, Any]:
     except (TypeError, ValueError) as exc:
         raise RotationDataError(
             "baseline.target.phase_weaknesses_exploited must be an integer"
+        ) from exc
+
+    try:
+        ammo_weakness_level = int(
+            target_raw.get(
+                "ammo_weakness_level", DEFAULT_BASELINE_TARGET["ammo_weakness_level"]
+            )
+        )
+        phase_weakness_level = int(
+            target_raw.get(
+                "phase_weakness_level", DEFAULT_BASELINE_TARGET["phase_weakness_level"]
+            )
+        )
+    except (TypeError, ValueError) as exc:
+        raise RotationDataError(
+            "baseline.target weakness levels must be integers"
         ) from exc
 
     stability_broken = bool(
@@ -280,6 +319,18 @@ def _normalize_baseline(baseline_raw: Any) -> dict[str, Any]:
             "baseline.target.phase_tile_level must be an integer"
         ) from exc
 
+    elemental_phase_tile = str(
+        target_raw.get(
+            "elemental_phase_tile", DEFAULT_BASELINE_TARGET["elemental_phase_tile"]
+        )
+    )
+    if elemental_phase_tile != "None" and elemental_phase_tile not in {
+        tile.value for tile in ElementalPhaseTile
+    }:
+        raise RotationDataError(
+            f"baseline.target.elemental_phase_tile '{elemental_phase_tile}' is invalid"
+        )
+
     return {
         "attacker": {
             "buffs": [
@@ -293,10 +344,14 @@ def _normalize_baseline(baseline_raw: Any) -> dict[str, Any]:
                 for item in debuffs_raw
             ],
             "phase_weaknesses_exploited": phase_weaknesses_exploited,
+            "ammo_weakness_level": ammo_weakness_level,
+            "phase_weakness_level": phase_weakness_level,
             "stability_broken": stability_broken,
             "unit_level": unit_level,
             "phase_tile_level": phase_tile_level,
+            "elemental_phase_tile": elemental_phase_tile,
             "basic_attributes": basic_attributes,
+            "elemental_resistance": elemental_resistance,
         },
     }
 
@@ -362,6 +417,18 @@ def _normalize_timeline(
                 DEFAULT_TARGET_OVERRIDES["phase_weaknesses_override"],
             )
         )
+        ammo_weakness_level_override = str(
+            target_raw.get(
+                "ammo_weakness_level_override",
+                DEFAULT_TARGET_OVERRIDES["ammo_weakness_level_override"],
+            )
+        )
+        phase_weakness_level_override = str(
+            target_raw.get(
+                "phase_weakness_level_override",
+                DEFAULT_TARGET_OVERRIDES["phase_weakness_level_override"],
+            )
+        )
         stability_override = str(
             target_raw.get(
                 "stability_override", DEFAULT_TARGET_OVERRIDES["stability_override"]
@@ -377,6 +444,21 @@ def _normalize_timeline(
                 "phase_tile_override", DEFAULT_TARGET_OVERRIDES["phase_tile_override"]
             )
         )
+        elemental_phase_tile_override = str(
+            target_raw.get(
+                "elemental_phase_tile_override",
+                DEFAULT_TARGET_OVERRIDES["elemental_phase_tile_override"],
+            )
+        )
+        if (
+            elemental_phase_tile_override != "Baseline"
+            and elemental_phase_tile_override != "None"
+            and elemental_phase_tile_override
+            not in {tile.value for tile in ElementalPhaseTile}
+        ):
+            raise RotationDataError(
+                f"{context}.target.elemental_phase_tile_override is invalid"
+            )
 
         normalized_actions.append(
             {
@@ -402,9 +484,12 @@ def _normalize_timeline(
                         for item in remove_debuffs_raw
                     ],
                     "phase_weaknesses_override": phase_weaknesses_override,
+                    "ammo_weakness_level_override": ammo_weakness_level_override,
+                    "phase_weakness_level_override": phase_weakness_level_override,
                     "stability_override": stability_override,
                     "unit_level_override": unit_level_override,
                     "phase_tile_override": phase_tile_override,
+                    "elemental_phase_tile_override": elemental_phase_tile_override,
                 },
             }
         )

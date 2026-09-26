@@ -10,6 +10,7 @@ from core.types import (
     FortificationLevel,
     StatType,
     SummonedUnit,
+    ElementalPhaseTile,
 )
 from core.buffs import Buff, MAX_TILE_ASCENSION_LEVEL
 from core.combat import DamageInstance, CombatAction, SoppoDamageCalculationStrategy
@@ -109,21 +110,13 @@ class ViciousBiteV1(CombatAction):
         )
 
 
-class LunarHowlTileTargetType(StrEnum):
-    """The type of tile Soppo leaps to for Lunar Howl."""
-
-    FROST = "Frost"
-    INCINERATION = "Incineration"
-    SMOLDERING_SUSPIRE = "Smoldering Suspire"
-
-
 class LunarHowl(CombatAction):
     """Soppo S2."""
 
     @override
     def execute(
         self,
-        tile_target: LunarHowlTileTargetType,
+        tile_target: ElementalPhaseTile,
         in_feral_form: bool = False,
     ) -> DamageInstance:
         label: str = "Lunar Howl"
@@ -151,11 +144,11 @@ class LunarHowlV2(CombatAction):
 
     @override
     def execute(
-        self, tile_target: LunarHowlTileTargetType, in_feral_form: bool = False
+        self, tile_target: ElementalPhaseTile, in_feral_form: bool = False
     ) -> DamageInstance:
         label: str = (
             "Lunar Howl (Freeze)"
-            if tile_target == LunarHowlTileTargetType.FROST
+            if tile_target == ElementalPhaseTile.FROST
             else "Lunar Howl (Burn)"
         )
         base_potency: int = 80
@@ -170,11 +163,11 @@ class LunarHowlV2(CombatAction):
         # deals Burn damage. If the tile targeted is a Smoldering Suspire tile, deals both Freeze and Burn damage.
         # (Just create a second damage instance with the other element in this case.)
         match tile_target:
-            case LunarHowlTileTargetType.FROST:
+            case ElementalPhaseTile.FROST:
                 tags.add(DamageTag.FREEZE)
-            case LunarHowlTileTargetType.INCINERATION:
+            case ElementalPhaseTile.INCINERATION:
                 tags.add(DamageTag.BURN)
-            case LunarHowlTileTargetType.SMOLDERING_SUSPIRE:
+            case ElementalPhaseTile.SMOLDERING_SUSPIRE:
                 # Smoldering Suspire applies both elements in-game; model this as two separate
                 # action instances (one Frost-targeted and one Incineration-targeted).
                 pass

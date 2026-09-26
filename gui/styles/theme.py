@@ -188,6 +188,11 @@ def apply_exilium_theme() -> None:
             gap: 0.4rem;
           }
 
+          .exilium-tab-panels,
+          .exilium-tab-panels .q-tab-panel {
+            background: transparent !important;
+          }
+
           .q-tab {
             border-radius: 0.8rem;
             color: var(--ex-muted);

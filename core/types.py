@@ -137,6 +137,74 @@ class SpecialAttribute(Enum):
     INCREASE_DAMAGE_TAKEN = "Increased Damage Taken"
 
 
+class ElementalAttribute(Enum):
+    """Special attribute indexed by Phase Elements."""
+
+    ELEMENTAL_BOOST = "Elemental Boost"
+    ELEMENTAL_RESISTANCE = "Elemental Resistance"
+
+
+# The Phase-element subset of DamageTag (Corrosion through Electric).
+PHASE_ELEMENT_TAGS: tuple[DamageTag, ...] = (
+    DamageTag.CORROSION,
+    DamageTag.BURN,
+    DamageTag.FREEZE,
+    DamageTag.HYDRO,
+    DamageTag.ELECTRIC,
+)
+
+
+class ElementalPhaseTile(StrEnum):
+    """Represents the different types of elemental phase tiles."""
+
+    INCINERATION = "Incineration"
+    TOXIC_MIST = "Toxic Mist"
+    VOLTAGE = "Voltage"
+    FROST = "Frost"
+    TIDEWAY = "Tideway"
+    SCALDING_VAPORS = "Scalding Vapors"
+    VENOMFIRE = "Venomfire"
+    SMOLDERING_SUSPIRE = "Smoldering Suspire"
+    TOXIC_QUAGMIRE = "Toxic Quagmire"
+    THUNDERPOOL = "Thunderpool"
+    RADIANT_ENERGY = "Radiant Energy"
+    CRYSTALVEIL = "Crystalveil"
+    CRACKLING_FLARE = "Crackling Flare"
+
+
+class ElementalTagMultipliers(DamageTagMultipliers):
+    """Contains multipliers keyed only by the Phase-element tags (Corrosion through Electric)."""
+
+    multipliers: dict[DamageTag, float] = Field(
+        default_factory=lambda: {tag: 0.0 for tag in PHASE_ELEMENT_TAGS}
+    )
+
+    def set_multiplier(self, tag: DamageTag, val: float) -> None:
+        if tag not in PHASE_ELEMENT_TAGS:
+            raise ValueError(f"{tag} is not a Phase-element tag")
+        super().set_multiplier(tag, val)
+
+    def add_to_multiplier(self, tag: DamageTag, val: float) -> None:
+        if tag not in PHASE_ELEMENT_TAGS:
+            raise ValueError(f"{tag} is not a Phase-element tag")
+        super().add_to_multiplier(tag, val)
+
+    def get_total_multiplier(self, tags: list[DamageTag] | set[DamageTag]) -> float:
+        return sum(self.multipliers.get(tag, 0.0) for tag in tags)
+
+    def __add__(self, other):
+        if not isinstance(other, ElementalTagMultipliers):
+            return NotImplemented
+
+        ret: ElementalTagMultipliers = ElementalTagMultipliers()
+        ret.multipliers = {
+            tag: self.multipliers[tag] + other.multipliers[tag]
+            for tag in PHASE_ELEMENT_TAGS
+        }
+
+        return ret
+
+
 class StatSheet(BaseModel):
     """Contains all attributes."""
 
@@ -145,6 +213,9 @@ class StatSheet(BaseModel):
         default_factory=dict
     )
     special_attributes: Dict[SpecialAttribute, DamageTagMultipliers] = Field(
+        default_factory=dict
+    )
+    elemental_attributes: Dict[ElementalAttribute, ElementalTagMultipliers] = Field(
         default_factory=dict
     )
 
@@ -162,6 +233,9 @@ class StatSheet(BaseModel):
             for sp in SpecialAttribute:
                 self.special_attributes[sp] = DamageTagMultipliers()
                 self.special_attributes[sp].multipliers = {tag: 0 for tag in DamageTag}
+        if not self.elemental_attributes:
+            for attribute in ElementalAttribute:
+                self.elemental_attributes[attribute] = ElementalTagMultipliers()
         return self
 
 
@@ -185,6 +259,9 @@ class FinalStatModifiers(StatSheet):
             for sp in SpecialAttribute:
                 self.special_attributes[sp] = DamageTagMultipliers()
                 self.special_attributes[sp].multipliers = {tag: 0 for tag in DamageTag}
+        if not self.elemental_attributes:
+            for attribute in ElementalAttribute:
+                self.elemental_attributes[attribute] = ElementalTagMultipliers()
         return self
 
 
@@ -287,6 +364,36 @@ class Unit(BaseModel):
                 SpecialAttribute.CRITICAL_DAMAGE
             ]
         ).get_total_multiplier(tags)
+
+    def get_elemental_attribute(
+        self, elemental_attribute: ElementalAttribute, tag: DamageTag
+    ) -> float:
+        """Returns the final value of elemental_attribute[tag]."""
+        initial_value: float = self.initial_stats.elemental_attributes[
+            elemental_attribute
+        ].get_multiplier(tag)
+        additive_modifier: float = self.additive_modifiers.elemental_attributes[
+            elemental_attribute
+        ].get_multiplier(tag)
+        multiplicative_modifier: float = (
+            self.multiplicative_modifiers.elemental_attributes[
+                elemental_attribute
+            ].get_multiplier(tag)
+        )
+
+        return (initial_value + additive_modifier) * (1 + multiplicative_modifier / 100)
+
+    def get_effective_elemental_attribute(
+        self, elemental_attribute: ElementalAttribute
+    ) -> ElementalTagMultipliers:
+        """Returns the combined value of elemental_attribute across all Phase-element tags."""
+        effective_multipliers: ElementalTagMultipliers = ElementalTagMultipliers()
+        for tag in PHASE_ELEMENT_TAGS:
+            effective_multipliers.set_multiplier(
+                tag, self.get_elemental_attribute(elemental_attribute, tag)
+            )
+
+        return effective_multipliers
 
 
 def _copy_physical_summon_tagged_modifiers(

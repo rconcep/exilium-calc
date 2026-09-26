@@ -15,6 +15,9 @@ from core.types import (
     StatType,
     ModifierType,
     SpecialAttribute,
+    ElementalAttribute,
+    PHASE_ELEMENT_TAGS,
+    ElementalPhaseTile,
     DefenseIgnoreMultipliers,
     IncreasedDamageMultipliers,
     SummonedUnit,
@@ -93,6 +96,16 @@ def resolve_reversed_assault(
     return bonus_increased_damage
 
 
+def _resolve_phase_element_tag(damage_instance: DamageInstance) -> DamageTag:
+    """Returns the single Phase-element tag present on damage_instance's tags."""
+    matched_tags: set[DamageTag] = damage_instance.tags & set(PHASE_ELEMENT_TAGS)
+    if len(matched_tags) != 1:
+        raise ValueError(
+            f"Expected exactly one Phase-element tag on damage_instance, found {matched_tags}"
+        )
+    return next(iter(matched_tags))
+
+
 class DamageCalculationStrategy(ABC):
     """Strategy pattern for damage calculation. This allows for different versions of the damage formula to be used"""
 
@@ -163,6 +176,11 @@ class DamageCalculationStrategy(ABC):
             debuffs_before=debuffs_before,
         )
 
+        # Apply ammo weakness damage boost
+        ammo_weakness_damage_boost: float = self.get_ammo_weakness_damage_boost(state)
+        effective_dmg_multiplier += ammo_weakness_damage_boost
+        total_increased_damage_pct += ammo_weakness_damage_boost * 100
+
         # Resolve "increased damage taken" effects (disregard for fixed damage)
         increased_damage_taken: float = (
             0
@@ -175,6 +193,21 @@ class DamageCalculationStrategy(ABC):
         non_critical_damage: float = (
             effective_dmg_multiplier * term1 + bonus_damage
         ) * (1 + increased_damage_taken / 100)
+
+        # Resolve elemental resistance for single-element phase damage. OMNI expands
+        # into every phase element for conditional-stat calculations and therefore
+        # has no single elemental resistance value to resolve here.
+        phase_resistance_multiplier: float = 1.0
+
+        if (
+            DamageTag.PHASE in damage_instance.tags
+            and DamageTag.OMNI not in damage_instance.tags
+        ):
+            phase_resistance_multiplier = self.resolve_elemental_resistance(
+                attacker, target, state, damage_instance
+            )
+
+        non_critical_damage *= phase_resistance_multiplier
 
         # Apply stability damage reduction (disregard for fixed damage)
         if not state.is_stability_broken and not is_fixed_damage:
@@ -454,6 +487,36 @@ class DamageCalculationStrategy(ABC):
         return adjusted_potency
 
     @final
+    def get_ammo_weakness_damage_boost(
+        self,
+        target_combat_state: TargetCombatState,
+    ) -> float:
+        """Returns the additional damage boost based on the target's ammo weakness level.
+
+        Use of ammo weakness level > 0 implies that the damage instance is of the
+        corresponding ammo type.
+
+        Source:
+        https://www.dandegate.net/guides/damage-formula#dmgmult
+
+        Arguments:
+        attacker -- the attacking Unit
+        target -- the target of the attack
+        target_combat_state -- the combat state of the target
+        """
+        ammo_weakness_damage_boost: dict[int, float] = {
+            0: 0,
+            1: 0,
+            2: 0.07,
+            3: 0.11,
+            4: 0.17,
+            5: 0.25,
+        }
+
+        ammo_weakness_level: int = target_combat_state.ammo_weakness_level
+        return ammo_weakness_damage_boost.get(ammo_weakness_level, 0)
+
+    @final
     def get_effective_multiplier(
         self,
         attacker: Unit,
@@ -564,6 +627,99 @@ class DamageCalculationStrategy(ABC):
 
         return increased_damage_taken_mult.get_total_multiplier(damage_instance.tags)
 
+    @final
+    def resolve_elemental_resistance(
+        self,
+        attacker: Unit,
+        target: Unit,
+        target_state: TargetCombatState,
+        damage_instance: DamageInstance,
+    ) -> float:
+        """Returns the modification to final damage based on the attacker's elemental damage boost,
+        target elemental resistance, and target combat state.
+
+        Reference: https://www.dandegate.net/guides/damage-formula#resmult
+
+        Arguments:
+        attacker -- the attacking Unit
+        target -- the target of the attack
+        target_state -- the combat state of the target
+        damage_instance -- describes the action
+        """
+        # Multiplier to attacker's elemental boost when elemental boost exceeds target's elemental resistance
+        resistance_pierce: dict[int, float] = {
+            0: 0.0,
+            1: 1.50,
+            2: 2.50,
+            3: 6.00,
+        }
+
+        # Multiplier to target's elemental resistance when it exceeds the attacker's elemental boost
+        resistance_shred: dict[int, float] = {
+            0: 1.00,
+            1: 0.90,
+            2: 0.80,
+            3: 0.60,
+        }
+
+        # Special reduction to elemental resistance when the target is on a Venomfire III tile
+        target_is_on_venomfire_iii_tile: bool = (
+            target_state.is_on_phase_tile
+            and target_state.elemental_phase_tile == ElementalPhaseTile.VENOMFIRE
+            and target_state.phase_tile_ascension_level == 3
+        )
+        venomfire_reduction: float = 0.95 if target_is_on_venomfire_iii_tile else 1.0
+
+        resistance_term_multiplier: float = 1.0
+
+        phase_weakness_level: int = target_state.phase_weakness_level
+
+        damage_instance_element: DamageTag = _resolve_phase_element_tag(damage_instance)
+        attacker_elemental_boost: float = attacker.get_elemental_attribute(
+            ElementalAttribute.ELEMENTAL_BOOST, damage_instance_element
+        )
+        target_elemental_resistance: float = target.get_elemental_attribute(
+            ElementalAttribute.ELEMENTAL_RESISTANCE, damage_instance_element
+        )
+        target_elemental_resistance_shred: float = resistance_shred.get(
+            phase_weakness_level, 1.0
+        )
+
+        # FinalRES = RES x RESShred
+        final_resistance: float = (
+            target_elemental_resistance * target_elemental_resistance_shred
+        )
+
+        boost_res_term: float = (
+            attacker_elemental_boost * resistance_pierce.get(phase_weakness_level, 0)
+            - target_elemental_resistance * venomfire_reduction
+        )
+
+        if target_elemental_resistance <= attacker_elemental_boost:
+            resistance_term_multiplier = 1 + (boost_res_term) / (
+                4 * boost_res_term + 1200
+            )
+        elif final_resistance <= attacker_elemental_boost < target_elemental_resistance:
+            boost_res_term = (
+                attacker_elemental_boost
+                - target_elemental_resistance
+                * target_elemental_resistance_shred
+                * venomfire_reduction
+            )
+            resistance_term_multiplier = 1 + (boost_res_term) / (
+                4 * boost_res_term + 1200
+            )
+        elif final_resistance > attacker_elemental_boost:
+            boost_res_term = (
+                target_elemental_resistance
+                * target_elemental_resistance_shred
+                * venomfire_reduction
+                - attacker_elemental_boost
+            )
+            resistance_term_multiplier = 150 / (150 + (boost_res_term))
+
+        return resistance_term_multiplier
+
 
 class StandardDamageCalculationStrategy(DamageCalculationStrategy):
     """Implements the standard damage formula where base damage is solely a function of attack and defense."""
@@ -647,7 +803,10 @@ class TargetCombatState(BaseModel):
     phase_weaknesses_exploited: int = 0
     unit_level: UnitLevel = UnitLevel.BOSS
     is_on_phase_tile: bool = False
+    elemental_phase_tile: ElementalPhaseTile | None = None
     phase_tile_ascension_level: int = Field(default=0, ge=0, le=3)
+    ammo_weakness_level: int = Field(default=0, ge=0, le=5)
+    phase_weakness_level: int = Field(default=0, ge=0, le=3)
 
 
 def get_reportable_damage_tags(damage_instance: DamageInstance) -> set[DamageTag]:

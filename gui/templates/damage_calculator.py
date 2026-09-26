@@ -9,6 +9,9 @@ from core.types import (
     StatType,
     DamageTag,
     SpecialAttribute,
+    ElementalAttribute,
+    ElementalPhaseTile,
+    PHASE_ELEMENT_TAGS,
 )
 from core.types import UnitLevel
 from core.combat import DamageInstance, CombatSummary, TargetCombatState
@@ -47,9 +50,12 @@ class DamageCalculator:
         self.initialize_target()
 
         self.target_phase_weaknesses_exploited: ui.select
+        self.target_ammo_weakness_level: ui.select
+        self.target_phase_weakness_level: ui.select
         self.target_stability_broken: ui.switch
         self.target_unit_level: ui.select
         self.target_phase_tile_level: ui.select
+        self.target_elemental_phase_tile: ui.select
 
         # self.bar_chart_plot: ui.plotly
         self.combat_summary: CombatSummary = CombatSummary()
@@ -144,11 +150,11 @@ class DamageCalculator:
         with ui.row().classes("h-full w-full"):
             with ui.column().classes("w-full gap-6"):
                 with ui.row().classes("w-full gap-6 items-start"):
-                    with ui.card().classes("w-120 h-180 exilium-panel"):
+                    with ui.card().classes("w-120 h-200 exilium-panel"):
                         self._attacker_section()
-                    with ui.card().classes("w-80 h-180 exilium-panel"):
+                    with ui.card().classes("w-90 h-200 exilium-panel"):
                         self._results_section()
-                    with ui.card().classes("w-120 h-180 exilium-panel"):
+                    with ui.card().classes("w-150 exilium-panel"):
                         self._target_section()
 
                 with ui.card().classes("w-full exilium-panel"):
@@ -166,13 +172,24 @@ class DamageCalculator:
         """Builds TargetCombatState from current target UI controls."""
         stability_broken: bool = self.target_stability_broken.value
         phase_weaknesses_exploited: int = self.target_phase_weaknesses_exploited.value  # type: ignore
+        ammo_weakness_level: int = self.target_ammo_weakness_level.value  # type: ignore
+        phase_weakness_level: int = self.target_phase_weakness_level.value  # type: ignore
         phase_tile_level: int = self.target_phase_tile_level.value  # type: ignore
+        elemental_phase_tile_value: str | None = self.target_elemental_phase_tile.value  # type: ignore
+        elemental_phase_tile = (
+            None
+            if elemental_phase_tile_value in (None, "None")
+            else ElementalPhaseTile(elemental_phase_tile_value)
+        )
 
         return TargetCombatState(
             is_stability_broken=stability_broken,
             phase_weaknesses_exploited=phase_weaknesses_exploited,
+            ammo_weakness_level=ammo_weakness_level,
+            phase_weakness_level=phase_weakness_level,
             unit_level=UnitLevel(self.target_unit_level.value),  # type: ignore
             is_on_phase_tile=phase_tile_level > 0,
+            elemental_phase_tile=elemental_phase_tile,
             phase_tile_ascension_level=phase_tile_level,
         )
 
@@ -833,6 +850,20 @@ class DamageCalculator:
             self.target_phase_tile_level = ui.select(
                 options=[0, 1, 2, 3], value=0, label="Phase Tile Level"
             )
+            self.target_elemental_phase_tile = ui.select(
+                options={
+                    "None": "None",
+                    **{tile.value: tile.value for tile in ElementalPhaseTile},
+                },
+                value="None",
+                label="Elemental Phase Tile",
+            )
+            self.target_phase_weakness_level = ui.select(
+                options=[0, 1, 2, 3], value=0, label="Phase Weakness Level"
+            )
+            self.target_ammo_weakness_level = ui.select(
+                options=[0, 1, 2, 3, 4, 5], value=0, label="Ammo Weakness Level"
+            )
 
         self.debuffs_selector: SelectableChipsEditor = SelectableChipsEditor(
             options=list(debuffs_option_config.keys()),
@@ -841,32 +872,46 @@ class DamageCalculator:
             allow_duplicates=True,
         )
 
-        with ui.scroll_area().classes("w-full h-full"):
+        with ui.list().props("bordered dense separator").classes("w-full"):
+            ui.separator()
+            for stat in get_relevant_target_stats():
+                with ui.item():
+                    with ui.item_section().props(""):
+                        ui.item_label(stat)
+                        ui.item_label(get_stat_description(stat)).props("caption")
+                    with ui.item_section().props("side"):
+                        ui.number(value=0, min=0, precision=2).bind_value(
+                            self.target.initial_stats.basic_attributes, stat
+                        )
+
+        with ui.expansion(text="Increased Damage Taken", group="target").classes(
+            "w-full"
+        ):
             with ui.list().props("bordered dense separator").classes("w-full"):
-                ui.separator()
-                for stat in get_relevant_target_stats():
+                for tag in self.relevant_damage_tags:
                     with ui.item():
-                        with ui.item_section().props(""):
-                            ui.item_label(stat)
-                            ui.item_label(get_stat_description(stat)).props("caption")
+                        with ui.item_section().props("no-wrap"):
+                            ui.item_label(tag)
+                            ui.item_label(get_tag_description(tag)).props("caption")
                         with ui.item_section().props("side"):
                             ui.number(value=0, min=0, precision=2).bind_value(
-                                self.target.initial_stats.basic_attributes, stat
+                                self.target.initial_stats.special_attributes[
+                                    SpecialAttribute.INCREASE_DAMAGE_TAKEN
+                                ].multipliers,
+                                tag,
                             )
 
-            with ui.expansion(text="Increased Damage Taken", group="target").classes(
-                "w-full"
-            ):
-                with ui.list().props("bordered dense separator").classes("w-full"):
-                    for tag in self.relevant_damage_tags:
-                        with ui.item():
-                            with ui.item_section().props("no-wrap"):
-                                ui.item_label(tag)
-                                ui.item_label(get_tag_description(tag)).props("caption")
-                            with ui.item_section().props("side"):
-                                ui.number(value=0, min=0, precision=2).bind_value(
-                                    self.target.initial_stats.special_attributes[
-                                        SpecialAttribute.INCREASE_DAMAGE_TAKEN
-                                    ].multipliers,
-                                    tag,
-                                )
+        with ui.expansion(text="Phase Resistance", group="target").classes("w-full"):
+            with ui.list().props("bordered dense separator").classes("w-full"):
+                for tag in PHASE_ELEMENT_TAGS:
+                    with ui.item():
+                        with ui.item_section().props("no-wrap"):
+                            ui.item_label(tag)
+                            ui.item_label(get_tag_description(tag)).props("caption")
+                        with ui.item_section().props("side"):
+                            ui.number(value=0, min=0, precision=2).bind_value(
+                                self.target.initial_stats.elemental_attributes[
+                                    ElementalAttribute.ELEMENTAL_RESISTANCE
+                                ].multipliers,
+                                tag,
+                            )

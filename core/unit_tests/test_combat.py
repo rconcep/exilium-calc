@@ -826,6 +826,27 @@ class TestDamageCalculationStrategy:
             ),
         ).non_critical_damage == pytest.approx(8230.914)
 
+    def test_ammo_weakness_damage_boost_is_additive_with_damage_boost(self):
+        g = TestDamageCalculationStrategy.construct_attacker()
+        t = TestDamageCalculationStrategy.construct_defender()
+        g.initial_stats.special_attributes[SpecialAttribute.DAMAGE_BOOST] = (
+            IncreasedDamageMultipliers()
+        )
+        g.initial_stats.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.ALL, 20)
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.PHYSICAL})
+
+        summary = StandardDamageCalculationStrategy().calculate_damage(
+            attacker=g,
+            target=t,
+            damage_instance=di,
+            target_combat_state=TargetCombatState(ammo_weakness_level=2),
+        )
+
+        assert summary.effective_damage_multiplier == pytest.approx(1.27)
+        assert summary.total_increased_damage_pct == pytest.approx(27)
+
     def test_lainie_resolve_buffs_adds_crit_rate_from_health(self):
         t = TestDamageCalculationStrategy.construct_defender()
         di = DamageInstance(label="", base_potency=100, tags={DamageTag.PHYSICAL})
@@ -2065,3 +2086,310 @@ class TestHelenDamageCalculationStrategy:
 
         # effective attack = 3000 + 1820 = 4820
         assert summary.effective_attack == pytest.approx(4820)
+
+
+class TestResolveElementalResistance:
+    """Tests for DamageCalculationStrategy.resolve_elemental_resistance."""
+
+    @staticmethod
+    def construct_units(
+        elemental_boost: float, elemental_resistance: float, tag: DamageTag
+    ) -> tuple[Unit, Unit]:
+        """Returns (attacker, target) with elemental boost/resistance set for tag."""
+        attacker: Unit = Unit()
+        attacker.initial_stats.elemental_attributes[
+            ElementalAttribute.ELEMENTAL_BOOST
+        ].set_multiplier(tag, elemental_boost)
+
+        target: Unit = Unit()
+        target.initial_stats.elemental_attributes[
+            ElementalAttribute.ELEMENTAL_RESISTANCE
+        ].set_multiplier(tag, elemental_resistance)
+
+        return attacker, target
+
+    def test_resistance_le_boost_uses_pierce(self):
+        """RES <= EleBoost at phase weakness level 0 (no pierce, no shred)."""
+        attacker, target = TestResolveElementalResistance.construct_units(
+            elemental_boost=100, elemental_resistance=100, tag=DamageTag.BURN
+        )
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.BURN})
+
+        result = StandardDamageCalculationStrategy().resolve_elemental_resistance(
+            attacker=attacker,
+            target=target,
+            target_state=TargetCombatState(phase_weakness_level=0),
+            damage_instance=di,
+        )
+
+        assert result == pytest.approx(0.875, abs=1e-6)
+
+    def test_resistance_le_boost_uses_pierce_at_max_level(self):
+        """RES <= EleBoost at phase weakness level 3 applies 600% RESPierce."""
+        attacker, target = TestResolveElementalResistance.construct_units(
+            elemental_boost=100, elemental_resistance=100, tag=DamageTag.FREEZE
+        )
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.FREEZE})
+
+        result = StandardDamageCalculationStrategy().resolve_elemental_resistance(
+            attacker=attacker,
+            target=target,
+            target_state=TargetCombatState(phase_weakness_level=3),
+            damage_instance=di,
+        )
+
+        assert result == pytest.approx(1.15625, abs=1e-6)
+
+    def test_final_resistance_le_boost_lt_resistance_uses_shred(self):
+        """FinalRES <= EleBoost < RES applies RESShred against RES."""
+        attacker, target = TestResolveElementalResistance.construct_units(
+            elemental_boost=250, elemental_resistance=300, tag=DamageTag.HYDRO
+        )
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.HYDRO})
+
+        result = StandardDamageCalculationStrategy().resolve_elemental_resistance(
+            attacker=attacker,
+            target=target,
+            target_state=TargetCombatState(phase_weakness_level=2),
+            damage_instance=di,
+        )
+
+        assert result == pytest.approx(1.008064516, abs=1e-6)
+
+    def test_final_resistance_gt_boost_applies_penalty(self):
+        """FinalRES > EleBoost (no shred) applies the 150/(150+...) penalty formula."""
+        attacker, target = TestResolveElementalResistance.construct_units(
+            elemental_boost=50, elemental_resistance=200, tag=DamageTag.CORROSION
+        )
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.CORROSION})
+
+        result = StandardDamageCalculationStrategy().resolve_elemental_resistance(
+            attacker=attacker,
+            target=target,
+            target_state=TargetCombatState(phase_weakness_level=0),
+            damage_instance=di,
+        )
+
+        assert result == pytest.approx(0.5, abs=1e-6)
+
+    def test_final_resistance_gt_boost_after_shred(self):
+        """FinalRES > EleBoost must account for RES x RESShred, not RESShred alone.
+
+        Regression test: with RES=300, EleBoost=100, and shred=0.9 (level 1),
+        FinalRES must equal 270 (RES x RESShred), not 0.9 (RESShred alone),
+        which would incorrectly route this case into the RES > EleBoost < RES branch.
+        """
+        attacker, target = TestResolveElementalResistance.construct_units(
+            elemental_boost=100, elemental_resistance=300, tag=DamageTag.ELECTRIC
+        )
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.ELECTRIC})
+
+        result = StandardDamageCalculationStrategy().resolve_elemental_resistance(
+            attacker=attacker,
+            target=target,
+            target_state=TargetCombatState(phase_weakness_level=1),
+            damage_instance=di,
+        )
+
+        assert result == pytest.approx(0.46875, abs=1e-6)
+
+    def test_raises_when_damage_instance_has_no_phase_element_tag(self):
+        """Should raise if damage_instance has zero or multiple Phase-element tags."""
+        attacker, target = TestResolveElementalResistance.construct_units(
+            elemental_boost=100, elemental_resistance=100, tag=DamageTag.BURN
+        )
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.PHYSICAL})
+
+        with pytest.raises(ValueError):
+            StandardDamageCalculationStrategy().resolve_elemental_resistance(
+                attacker=attacker,
+                target=target,
+                target_state=TargetCombatState(phase_weakness_level=0),
+                damage_instance=di,
+            )
+
+    def test_venomfire_iii_tile_applies_reduction(self):
+        """Venomfire III tile applies the 95% resistance reduction."""
+        attacker, target = TestResolveElementalResistance.construct_units(
+            elemental_boost=50, elemental_resistance=200, tag=DamageTag.CORROSION
+        )
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.CORROSION})
+
+        result = StandardDamageCalculationStrategy().resolve_elemental_resistance(
+            attacker=attacker,
+            target=target,
+            target_state=TargetCombatState(
+                phase_weakness_level=0,
+                is_on_phase_tile=True,
+                elemental_phase_tile=ElementalPhaseTile.VENOMFIRE,
+                phase_tile_ascension_level=3,
+            ),
+            damage_instance=di,
+        )
+
+        assert result == pytest.approx(0.517241379, abs=1e-6)
+
+    def test_non_venomfire_tile_does_not_apply_reduction(self):
+        """A non-Venomfire tile at ascension 3 must not apply the reduction."""
+        attacker, target = TestResolveElementalResistance.construct_units(
+            elemental_boost=50, elemental_resistance=200, tag=DamageTag.CORROSION
+        )
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.CORROSION})
+
+        result = StandardDamageCalculationStrategy().resolve_elemental_resistance(
+            attacker=attacker,
+            target=target,
+            target_state=TargetCombatState(
+                phase_weakness_level=0,
+                is_on_phase_tile=True,
+                elemental_phase_tile=ElementalPhaseTile.INCINERATION,
+                phase_tile_ascension_level=3,
+            ),
+            damage_instance=di,
+        )
+
+        assert result == pytest.approx(0.5, abs=1e-6)
+
+    def test_venomfire_below_level_3_does_not_apply_reduction(self):
+        """Venomfire at ascension level below 3 must not apply the reduction."""
+        attacker, target = TestResolveElementalResistance.construct_units(
+            elemental_boost=50, elemental_resistance=200, tag=DamageTag.CORROSION
+        )
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.CORROSION})
+
+        result = StandardDamageCalculationStrategy().resolve_elemental_resistance(
+            attacker=attacker,
+            target=target,
+            target_state=TargetCombatState(
+                phase_weakness_level=0,
+                is_on_phase_tile=True,
+                elemental_phase_tile=ElementalPhaseTile.VENOMFIRE,
+                phase_tile_ascension_level=2,
+            ),
+            damage_instance=di,
+        )
+
+        assert result == pytest.approx(0.5, abs=1e-6)
+
+    def test_venomfire_iii_off_phase_tile_does_not_apply_reduction(self):
+        """is_on_phase_tile=False must not apply the reduction, even if the other Venomfire III fields are set."""
+        attacker, target = TestResolveElementalResistance.construct_units(
+            elemental_boost=50, elemental_resistance=200, tag=DamageTag.CORROSION
+        )
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.CORROSION})
+
+        result = StandardDamageCalculationStrategy().resolve_elemental_resistance(
+            attacker=attacker,
+            target=target,
+            target_state=TargetCombatState(
+                phase_weakness_level=0,
+                is_on_phase_tile=False,
+                elemental_phase_tile=ElementalPhaseTile.VENOMFIRE,
+                phase_tile_ascension_level=3,
+            ),
+            damage_instance=di,
+        )
+
+        assert result == pytest.approx(0.5, abs=1e-6)
+
+    def test_branch1_pierce_with_venomfire_reduction(self):
+        """RES <= EleBoost branch must also apply the Venomfire III reduction to RES."""
+        attacker, target = TestResolveElementalResistance.construct_units(
+            elemental_boost=100, elemental_resistance=100, tag=DamageTag.BURN
+        )
+        di = DamageInstance(label="", base_potency=100, tags={DamageTag.BURN})
+
+        result = StandardDamageCalculationStrategy().resolve_elemental_resistance(
+            attacker=attacker,
+            target=target,
+            target_state=TargetCombatState(
+                phase_weakness_level=0,
+                is_on_phase_tile=True,
+                elemental_phase_tile=ElementalPhaseTile.VENOMFIRE,
+                phase_tile_ascension_level=3,
+            ),
+            damage_instance=di,
+        )
+
+        assert result == pytest.approx(0.884146341, abs=1e-6)
+
+
+class TestElementalResistanceDamagePipeline:
+    """End-to-end coverage for elemental resistance in calculate_damage."""
+
+    @staticmethod
+    def construct_units() -> tuple[Unit, Unit]:
+        attacker = Unit()
+        attacker.initial_stats.basic_attributes[StatType.ATTACK] = 1000
+        attacker.initial_stats.basic_attributes[StatType.CRIT_RATE] = 100
+        attacker.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 200
+        attacker.initial_stats.elemental_attributes[
+            ElementalAttribute.ELEMENTAL_BOOST
+        ].set_multiplier(DamageTag.BURN, 50)
+
+        target = Unit()
+        target.initial_stats.elemental_attributes[
+            ElementalAttribute.ELEMENTAL_RESISTANCE
+        ].set_multiplier(DamageTag.BURN, 200)
+
+        return attacker, target
+
+    def test_phase_damage_applies_elemental_resistance_before_crit(self):
+        """A Burn phase attack with 50 boost versus 200 resistance is halved."""
+        attacker, target = self.construct_units()
+        damage_instance = DamageInstance(
+            label="Burn attack",
+            base_potency=100,
+            tags={DamageTag.PHASE, DamageTag.BURN},
+        )
+
+        summary = StandardDamageCalculationStrategy().calculate_damage(
+            attacker=attacker,
+            target=target,
+            damage_instance=damage_instance,
+            target_combat_state=TargetCombatState(is_stability_broken=True),
+        )
+
+        assert summary.non_critical_damage == pytest.approx(500)
+        assert summary.critical_damage == pytest.approx(1000)
+        assert summary.expected_damage == pytest.approx(1000)
+
+    def test_non_phase_damage_skips_elemental_resistance(self):
+        """Elemental stats must not affect a damage instance without the Phase tag."""
+        attacker, target = self.construct_units()
+        damage_instance = DamageInstance(
+            label="Physical attack",
+            base_potency=100,
+            tags={DamageTag.PHYSICAL},
+        )
+
+        summary = StandardDamageCalculationStrategy().calculate_damage(
+            attacker=attacker,
+            target=target,
+            damage_instance=damage_instance,
+            target_combat_state=TargetCombatState(is_stability_broken=True),
+        )
+
+        assert summary.non_critical_damage == pytest.approx(1000)
+        assert summary.critical_damage == pytest.approx(2000)
+        assert summary.expected_damage == pytest.approx(2000)
+
+    def test_omni_damage_skips_single_element_resistance_resolution(self):
+        """OMNI expands to five elements and must not be passed to the single-element resolver."""
+        attacker, target = self.construct_units()
+        damage_instance = DamageInstance(
+            label="Omni attack",
+            base_potency=100,
+            tags={DamageTag.OMNI},
+        )
+
+        summary = StandardDamageCalculationStrategy().calculate_damage(
+            attacker=attacker,
+            target=target,
+            damage_instance=damage_instance,
+            target_combat_state=TargetCombatState(is_stability_broken=True),
+        )
+
+        assert summary.non_critical_damage == pytest.approx(1000)
+        assert summary.critical_damage == pytest.approx(2000)
+        assert summary.expected_damage == pytest.approx(2000)
