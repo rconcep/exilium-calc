@@ -2109,7 +2109,7 @@ class TestResolveElementalResistance:
         return attacker, target
 
     def test_resistance_le_boost_uses_pierce(self):
-        """RES <= EleBoost at phase weakness level 0 (no pierce, no shred)."""
+        """RES <= EleBoost at phase weakness level 0 applies 100% RES Pierce."""
         attacker, target = TestResolveElementalResistance.construct_units(
             elemental_boost=100, elemental_resistance=100, tag=DamageTag.BURN
         )
@@ -2122,7 +2122,7 @@ class TestResolveElementalResistance:
             damage_instance=di,
         )
 
-        assert result == pytest.approx(0.875, abs=1e-6)
+        assert result == pytest.approx(1.0, abs=1e-6)
 
     def test_resistance_le_boost_uses_pierce_at_max_level(self):
         """RES <= EleBoost at phase weakness level 3 applies 600% RESPierce."""
@@ -2311,7 +2311,7 @@ class TestResolveElementalResistance:
             damage_instance=di,
         )
 
-        assert result == pytest.approx(0.884146341, abs=1e-6)
+        assert result == pytest.approx(1.004098361, abs=1e-6)
 
 
 class TestElementalResistanceDamagePipeline:

@@ -1,7 +1,14 @@
 import copy
 from typing import Any
 
-from core.types import Doll, StatType, DamageTag, SpecialAttribute
+from core.types import (
+    Doll,
+    StatType,
+    DamageTag,
+    ElementalAttribute,
+    PHASE_ELEMENT_TAGS,
+    SpecialAttribute,
+)
 from core.combat import CombatSummary
 
 
@@ -35,6 +42,9 @@ def update_expected_damage_delta_chart(tool: Any, _event: Any = None) -> None:
     selected_multi_multiplicative_conditional_basic_stats: list[str] = (
         tool.delta_multi_multiplicative_conditional_basic_stats_selector.value or []
     )
+    selected_multi_elemental: list[str] = (
+        tool.delta_multi_elemental_selector.value or []
+    )
 
     selected_stats: list[StatType] = tool.delta_stats_selector.value or []
     selected_special_attribute: SpecialAttribute | None = (
@@ -43,8 +53,14 @@ def update_expected_damage_delta_chart(tool: Any, _event: Any = None) -> None:
     selected_special_attribute_tag: DamageTag | None = (
         tool.delta_special_attribute_tag_selector.value
     )
+    selected_elemental_tag: DamageTag | None = tool.delta_elemental_tag_selector.value
 
-    if stat_source != "additive_special_attributes" and not selected_stats:
+    if stat_source not in (
+        "additive_special_attributes",
+        "initial_elemental_attributes",
+        "additive_elemental_attributes",
+        "multiplicative_elemental_attributes",
+    ) and not selected_stats:
         tool.delta_chart["data"] = []
         ui_update(tool)
         return
@@ -52,6 +68,15 @@ def update_expected_damage_delta_chart(tool: Any, _event: Any = None) -> None:
     if stat_source == "additive_special_attributes" and (
         selected_special_attribute is None or selected_special_attribute_tag is None
     ):
+        tool.delta_chart["data"] = []
+        ui_update(tool)
+        return
+
+    if stat_source in (
+        "initial_elemental_attributes",
+        "additive_elemental_attributes",
+        "multiplicative_elemental_attributes",
+    ) and selected_elemental_tag is None:
         tool.delta_chart["data"] = []
         ui_update(tool)
         return
@@ -72,6 +97,7 @@ def update_expected_damage_delta_chart(tool: Any, _event: Any = None) -> None:
             and not selected_multi_additive_conditional_basic_stats
             and not selected_multi_multiplicative_stats
             and not selected_multi_multiplicative_conditional_basic_stats
+            and not selected_multi_elemental
         ):
             tool.delta_chart["data"] = []
             ui_update(tool)
@@ -94,6 +120,32 @@ def update_expected_damage_delta_chart(tool: Any, _event: Any = None) -> None:
                     "type": "scatter",
                     "mode": "lines+markers",
                     "name": f"{stat} (Initial)",
+                    "x": x_values,
+                    "y": deltas,
+                    "hovertemplate": "%{x}: %{y:.2f}%<extra>%{fullData.name}</extra>",
+                }
+            )
+
+        for elemental_combo in selected_multi_elemental:
+            selected_tag = DamageTag(elemental_combo)
+            deltas = []
+            for stat_increment in x_values:
+                doll = copy.deepcopy(tool.doll)
+                doll.initial_stats.elemental_attributes[
+                    ElementalAttribute.ELEMENTAL_BOOST
+                ].add_to_multiplier(selected_tag, stat_increment)
+                summary = tool._get_combat_summary_with_doll(doll)
+                deltas.append(
+                    (summary.expected_damage - base_expected_damage)
+                    / base_expected_damage
+                    * 100
+                )
+
+            traces.append(
+                {
+                    "type": "scatter",
+                    "mode": "lines+markers",
+                    "name": f"{ElementalAttribute.ELEMENTAL_BOOST.value} [{selected_tag}] (Initial)",
                     "x": x_values,
                     "y": deltas,
                     "hovertemplate": "%{x}: %{y:.2f}%<extra>%{fullData.name}</extra>",
@@ -265,6 +317,46 @@ def update_expected_damage_delta_chart(tool: Any, _event: Any = None) -> None:
                 "hovertemplate": "%{x}: %{y:.2f}%<extra>%{fullData.name}</extra>",
             }
         )
+    elif stat_source in (
+        "initial_elemental_attributes",
+        "additive_elemental_attributes",
+        "multiplicative_elemental_attributes",
+    ):
+        selected_elemental_tag_typed: DamageTag = selected_elemental_tag  # type: ignore
+        deltas = []
+
+        for stat_increment in x_values:
+            doll = copy.deepcopy(tool.doll)
+            elemental_attributes = (
+                doll.initial_stats.elemental_attributes
+                if stat_source == "initial_elemental_attributes"
+                else (
+                    doll.additive_modifiers.elemental_attributes
+                    if stat_source == "additive_elemental_attributes"
+                    else doll.multiplicative_modifiers.elemental_attributes
+                )
+            )
+            elemental_attributes[ElementalAttribute.ELEMENTAL_BOOST].add_to_multiplier(
+                selected_elemental_tag_typed, stat_increment
+            )
+
+            summary = tool._get_combat_summary_with_doll(doll)
+            deltas.append(
+                (summary.expected_damage - base_expected_damage)
+                / base_expected_damage
+                * 100
+            )
+
+        traces.append(
+            {
+                "type": "scatter",
+                "mode": "lines+markers",
+                "name": f"{ElementalAttribute.ELEMENTAL_BOOST.value} [{selected_elemental_tag_typed}] ({'Initial' if stat_source == 'initial_elemental_attributes' else 'Additive'})",
+                "x": x_values,
+                "y": deltas,
+                "hovertemplate": "%{x}: %{y:.2f}%<extra>%{fullData.name}</extra>",
+            }
+        )
     else:
         for stat in selected_stats:
             deltas: list[float] = []
@@ -364,10 +456,16 @@ def update_delta_control_visibility(tool: Any) -> None:
 
     show_basic_stats: bool = stat_source in ["initial_stats", "additive_modifiers"]
     show_single_special: bool = stat_source == "additive_special_attributes"
+    show_elemental: bool = stat_source in (
+        "initial_elemental_attributes",
+        "additive_elemental_attributes",
+        "multiplicative_elemental_attributes",
+    )
     show_multi: bool = stat_source == "multi_series"
 
     tool.delta_basic_controls_container.set_visibility(show_basic_stats)
     tool.delta_single_special_controls_container.set_visibility(show_single_special)
+    tool.delta_elemental_controls_container.set_visibility(show_elemental)
     tool.delta_multi_controls_container.set_visibility(show_multi)
 
 

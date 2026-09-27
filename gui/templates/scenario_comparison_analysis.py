@@ -5,7 +5,14 @@ from typing import Any
 
 from nicegui import ui
 
-from core.types import Doll, StatType, DamageTag, SpecialAttribute
+from core.types import (
+    Doll,
+    StatType,
+    DamageTag,
+    ElementalAttribute,
+    PHASE_ELEMENT_TAGS,
+    SpecialAttribute,
+)
 from core.combat import CombatSummary
 
 
@@ -25,9 +32,22 @@ def apply_scenario_component(
     stat: StatType,
     special_attribute: SpecialAttribute,
     tag: DamageTag,
+    elemental_tag: DamageTag = DamageTag.CORROSION,
 ) -> None:
     """Applies one increment component to a doll clone."""
-    if source == "additive_special_attributes":
+    if source == "initial_elemental_attributes":
+        doll.initial_stats.elemental_attributes[
+            ElementalAttribute.ELEMENTAL_BOOST
+        ].add_to_multiplier(elemental_tag, increment)
+    elif source == "additive_elemental_attributes":
+        doll.additive_modifiers.elemental_attributes[
+            ElementalAttribute.ELEMENTAL_BOOST
+        ].add_to_multiplier(elemental_tag, increment)
+    elif source == "multiplicative_elemental_attributes":
+        doll.multiplicative_modifiers.elemental_attributes[
+            ElementalAttribute.ELEMENTAL_BOOST
+        ].add_to_multiplier(elemental_tag, increment)
+    elif source == "additive_special_attributes":
         doll.additive_modifiers.special_attributes[special_attribute].add_to_multiplier(
             tag, increment
         )
@@ -57,12 +77,18 @@ def update_scenario_component_visibility(
     """Shows only the relevant selectors for one scenario component."""
     source: str = scenario_row[f"source_{component_index}"].value
     show_basic: bool = source in ["initial_stats", "additive_modifiers", "multiplicative_modifiers"]
+    show_elemental: bool = source in [
+        "initial_elemental_attributes",
+        "additive_elemental_attributes",
+        "multiplicative_elemental_attributes",
+    ]
     show_special: bool = source in ["additive_special_attributes", "multiplicative_special_attributes"]
     show_conditional_basic: bool = source in ["additive_conditional_basic_attributes", "multiplicative_conditional_basic_attributes"]
 
     scenario_row[f"stat_{component_index}"].set_visibility(show_basic or show_conditional_basic)
     scenario_row[f"special_attribute_{component_index}"].set_visibility(show_special)
     scenario_row[f"tag_{component_index}"].set_visibility(show_special or show_conditional_basic)
+    scenario_row[f"elemental_tag_{component_index}"].set_visibility(show_elemental)
 
 
 def update_scenario_row_visibility(tool: Any, scenario_row: dict[str, Any]) -> None:
@@ -220,12 +246,15 @@ def create_scenario_row(
 
         with ui.column().classes("w-full gap-2") as component_container_1:
             ui.label("Component 1").classes("text-caption text-bold")
-            with ui.grid(columns=5).classes("w-full gap-2"):
+            with ui.grid(columns=6).classes("w-full gap-2"):
                 row_source_1 = ui.select(
                     options={
                         "initial_stats": "Initial Stats",
+                        "initial_elemental_attributes": "Initial Elemental Boost",
                         "additive_modifiers": "Additive Modifiers (Basic)",
+                        "additive_elemental_attributes": "Additive Elemental Boost",
                         "multiplicative_modifiers": "Multiplicative Modifiers (Basic)",
+                        "multiplicative_elemental_attributes": "Multiplicative Elemental Boost",
                         "additive_special_attributes": "Additive Modifiers (Special)",
                         "multiplicative_special_attributes": "Multiplicative Modifiers (Special)",
                         "additive_conditional_basic_attributes": "Additive Modifiers (Basic Conditional)",
@@ -266,15 +295,26 @@ def create_scenario_row(
                     "update:model-value",
                     lambda e: update_scenario_comparison_chart(tool, e),
                 )
+                row_elemental_tag_1 = ui.select(
+                    options=list(PHASE_ELEMENT_TAGS),
+                    value=component_1.get("elemental_tag", PHASE_ELEMENT_TAGS[0]),
+                    label="Phase element",
+                ).on(
+                    "update:model-value",
+                    lambda e: update_scenario_comparison_chart(tool, e),
+                )
 
         with ui.column().classes("w-full gap-2") as component_container_2:
             ui.label("Component 2").classes("text-caption text-bold")
-            with ui.grid(columns=5).classes("w-full gap-2"):
+            with ui.grid(columns=6).classes("w-full gap-2"):
                 row_source_2 = ui.select(
                     options={
                         "initial_stats": "Initial Stats",
+                        "initial_elemental_attributes": "Initial Elemental Boost",
                         "additive_modifiers": "Additive Modifiers (Basic)",
+                        "additive_elemental_attributes": "Additive Elemental Boost",
                         "multiplicative_modifiers": "Multiplicative Modifiers (Basic)",
+                        "multiplicative_elemental_attributes": "Multiplicative Elemental Boost",
                         "additive_special_attributes": "Additive Modifiers (Special)",
                         "multiplicative_special_attributes": "Multiplicative Modifiers (Special)",
                         "additive_conditional_basic_attributes": "Additive Modifiers (Basic Conditional)",
@@ -315,15 +355,26 @@ def create_scenario_row(
                     "update:model-value",
                     lambda e: update_scenario_comparison_chart(tool, e),
                 )
+                row_elemental_tag_2 = ui.select(
+                    options=list(PHASE_ELEMENT_TAGS),
+                    value=component_2.get("elemental_tag", PHASE_ELEMENT_TAGS[0]),
+                    label="Phase element",
+                ).on(
+                    "update:model-value",
+                    lambda e: update_scenario_comparison_chart(tool, e),
+                )
 
         with ui.column().classes("w-full gap-2") as component_container_3:
             ui.label("Component 3").classes("text-caption text-bold")
-            with ui.grid(columns=5).classes("w-full gap-2"):
+            with ui.grid(columns=6).classes("w-full gap-2"):
                 row_source_3 = ui.select(
                     options={
                         "initial_stats": "Initial Stats",
+                        "initial_elemental_attributes": "Initial Elemental Boost",
                         "additive_modifiers": "Additive Modifiers (Basic)",
+                        "additive_elemental_attributes": "Additive Elemental Boost",
                         "multiplicative_modifiers": "Multiplicative Modifiers (Basic)",
+                        "multiplicative_elemental_attributes": "Multiplicative Elemental Boost",
                         "additive_special_attributes": "Additive Modifiers (Special)",
                         "multiplicative_special_attributes": "Multiplicative Modifiers (Special)",
                         "additive_conditional_basic_attributes": "Additive Modifiers (Basic Conditional)",
@@ -364,6 +415,14 @@ def create_scenario_row(
                     "update:model-value",
                     lambda e: update_scenario_comparison_chart(tool, e),
                 )
+                row_elemental_tag_3 = ui.select(
+                    options=list(PHASE_ELEMENT_TAGS),
+                    value=component_3.get("elemental_tag", PHASE_ELEMENT_TAGS[0]),
+                    label="Phase element",
+                ).on(
+                    "update:model-value",
+                    lambda e: update_scenario_comparison_chart(tool, e),
+                )
 
     scenario_row: dict[str, Any] = {
         "container": row_container,
@@ -381,16 +440,19 @@ def create_scenario_row(
         "stat_1": row_stat_1,
         "special_attribute_1": row_special_attribute_1,
         "tag_1": row_tag_1,
+        "elemental_tag_1": row_elemental_tag_1,
         "source_2": row_source_2,
         "increment_2": row_increment_2,
         "stat_2": row_stat_2,
         "special_attribute_2": row_special_attribute_2,
         "tag_2": row_tag_2,
+        "elemental_tag_2": row_elemental_tag_2,
         "source_3": row_source_3,
         "increment_3": row_increment_3,
         "stat_3": row_stat_3,
         "special_attribute_3": row_special_attribute_3,
         "tag_3": row_tag_3,
+        "elemental_tag_3": row_elemental_tag_3,
     }
 
     row_mode.on(
@@ -488,6 +550,9 @@ def update_scenario_comparison_chart(tool: Any, _event: Any = None) -> None:
                 f"special_attribute_{component_idx}"
             ].value
             tag: DamageTag = scenario_row[f"tag_{component_idx}"].value
+            elemental_tag: DamageTag = scenario_row[
+                f"elemental_tag_{component_idx}"
+            ].value
 
             if increment == 0:
                 continue
@@ -499,6 +564,7 @@ def update_scenario_comparison_chart(tool: Any, _event: Any = None) -> None:
                 stat=stat,
                 special_attribute=special_attribute,
                 tag=tag,
+                elemental_tag=elemental_tag,
             )
 
         summary: CombatSummary = tool._get_combat_summary_with_doll(doll)

@@ -110,7 +110,9 @@ class RotationSimulator:
         self.delta_stat_source_selector: ui.select
         self.delta_special_attribute_selector: ui.select
         self.delta_special_attribute_tag_selector: ui.select
+        self.delta_elemental_tag_selector: ui.select
         self.delta_multi_initial_stats_selector: ui.select
+        self.delta_multi_elemental_selector: ui.select
         self.delta_multi_additive_stats_selector: ui.select
         self.delta_multi_additive_special_selector: ui.select
         self.delta_multi_additive_conditional_basic_stats_selector: ui.select
@@ -118,6 +120,7 @@ class RotationSimulator:
         self.delta_multi_multiplicative_conditional_basic_stats_selector: ui.select
         self.delta_basic_controls_container: ui.column
         self.delta_single_special_controls_container: ui.column
+        self.delta_elemental_controls_container: ui.column
         self.delta_multi_controls_container: ui.column
         self.scenario_rows_container: ui.column
         self.delta_scenario_rows: list[dict[str, Any]] = []
@@ -1008,8 +1011,11 @@ class RotationSimulator:
                     ui.select(
                         options={
                             "initial_stats": "Initial Stats",
+                            "initial_elemental_attributes": "Initial Elemental Boost",
                             "additive_modifiers": "Additive Modifiers (Basic)",
                             "additive_special_attributes": "Additive Modifiers (Special)",
+                            "additive_elemental_attributes": "Additive Elemental Boost",
+                            "multiplicative_elemental_attributes": "Multiplicative Elemental Boost",
                             "multi_series": "Custom Multi-Series",
                         },
                         value="multi_series",
@@ -1065,6 +1071,20 @@ class RotationSimulator:
                         )
                     )
 
+            with ui.column().classes("w-full") as self.delta_elemental_controls_container:
+                self.delta_elemental_tag_selector = (
+                    ui.select(
+                        options=list(PHASE_ELEMENT_TAGS),
+                        value=PHASE_ELEMENT_TAGS[0],
+                        label="Elemental Boost phase element",
+                    )
+                    .classes("w-full")
+                    .on(
+                        "update:model-value",
+                        self._update_expected_damage_delta_chart,
+                    )
+                )
+
             with ui.column().classes("w-full") as self.delta_multi_controls_container:
                 with ui.grid(columns=2).classes("w-full gap-2"):
                     self.delta_multi_initial_stats_selector = (
@@ -1091,6 +1111,23 @@ class RotationSimulator:
                             multiple=True,
                             with_input=False,
                             label="Additive modifiers (basic) (multi-series)",
+                        )
+                        .props(
+                            "use-chips options-selected-class=exilium-multiselect-selected"
+                        )
+                        .classes("w-full")
+                        .on(
+                            "update:model-value",
+                            self._update_expected_damage_delta_chart,
+                        )
+                    )
+                    self.delta_multi_elemental_selector = (
+                        ui.select(
+                            options=list(PHASE_ELEMENT_TAGS),
+                            value=[],
+                            multiple=True,
+                            with_input=False,
+                            label="Initial Elemental Boost (multi-series)",
                         )
                         .props(
                             "use-chips options-selected-class=exilium-multiselect-selected"
