@@ -648,7 +648,7 @@ class DamageCalculationStrategy(ABC):
         """
         # Multiplier to attacker's elemental boost when elemental boost exceeds target's elemental resistance
         resistance_pierce: dict[int, float] = {
-            0: 0.0,
+            0: 1.00,
             1: 1.50,
             2: 2.50,
             3: 6.00,
