@@ -26,6 +26,7 @@ from .lind import Lind
 from .lenna import Lenna
 from .makiatto import Makiatto
 from .mechty import Mechty
+from .mityl import Mityl
 from .mosin_nagant import MosinNagant
 from .nemesis_gnosis import NemesisGnosis
 from .nikketa import Nikketa
@@ -69,6 +70,7 @@ __all__ = [
     "Lind",
     "Makiatto",
     "Mechty",
+    "Mityl",
     "MosinNagant",
     "NemesisGnosis",
     "Nikketa",
