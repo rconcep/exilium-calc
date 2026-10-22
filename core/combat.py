@@ -2236,22 +2236,22 @@ class AlvaHoarfrostBreakDamageCalculationStrategy(DamageCalculationStrategy):
         )
 
 
-class HologramCloneDamageCalculationStrategy(DamageCalculationStrategy):
-    """Implements the base damage for Mityl's Hologram - Clone."""
+class SelfHologramDamageCalculationStrategy(DamageCalculationStrategy):
+    """Implements the base damage for Mityl's Self Hologram."""
 
     @final
-    def _require_hologram_clone_summon(self, attacker: Unit) -> SummonedUnit:
+    def _require_self_hologram_summon(self, attacker: Unit) -> SummonedUnit:
         owner: SummonOwningAttacker = _require_summon_owning_attacker(attacker)
-        summon: SummonedUnit | None = owner.get_summoned_unit("Hologram - Clone")
+        summon: SummonedUnit | None = owner.get_summoned_unit("Self Hologram")
         if summon is None:
-            raise ValueError("Hologram - Clone summon is required for this strategy")
+            raise ValueError("Self Hologram summon is required for this strategy")
 
         return summon
 
     @final
     @override
     def get_effective_attacker(self, attacker: Unit) -> Unit:
-        return self._require_hologram_clone_summon(attacker)
+        return self._require_self_hologram_summon(attacker)
 
     @final
     @override
@@ -2263,7 +2263,7 @@ class HologramCloneDamageCalculationStrategy(DamageCalculationStrategy):
         buffs_before: list[Buff] = [],
         debuffs_before: list[Debuff] = [],
     ) -> None:
-        summon: SummonedUnit = self._require_hologram_clone_summon(attacker)
+        summon: SummonedUnit = self._require_self_hologram_summon(attacker)
         return super().resolve_buffs(
             summon, target, damage_instance, buffs_before, debuffs_before
         )
@@ -2282,7 +2282,7 @@ class HologramCloneDamageCalculationStrategy(DamageCalculationStrategy):
         target -- the target of the attack
         damage_instance -- describes the action
         """
-        summon: SummonedUnit = self._require_hologram_clone_summon(attacker)
+        summon: SummonedUnit = self._require_self_hologram_summon(attacker)
 
         effective_atk: float = summon.get_basic_attribute(
             StatType.ATTACK, damage_instance.tags

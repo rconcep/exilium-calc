@@ -23,7 +23,7 @@ class Mityl(DollCalculatorPage):
 
         self.doll: mityl.Mityl = mityl.Mityl()
         self.doll.set_fortification_level(FortificationLevel.SEGMENT06)
-        self.doll_subtitle: str = """Sustained Damage / Summon
+        self.doll_subtitle: str = """AoE Damage / Agile Combat
 
             Sentinel / Hydro"""
         self.dandegate_link: str = "https://www.dandegate.net/dolls/mityl"
@@ -32,38 +32,32 @@ class Mityl(DollCalculatorPage):
     @override
     def update_doll_abilities(self) -> None:
         self.option_config: dict[str, dict[str, Any]] = {
-            "Ambush": {
+            "Assault Shot": {
                 "fields": [],
-                "function": self.doll.ambush.execute,
+                "function": self.doll.assault_shot.execute,
             },
-            "Aerial Dash": {
+            "Air Dash": {
                 "fields": [
                     {
-                        "key": "starting_tile_is_hydro_tile",
+                        "key": "is_skill_reuse",
                         "type": "checkbox",
-                        "label": "Starting Tile is Hydro Tile",
-                        "default": False,
-                    },
-                    {
-                        "key": "ending_tile_is_hydro_tile",
-                        "type": "checkbox",
-                        "label": "Ending Tile is Hydro Tile",
+                        "label": "Second Use of Air Dash",
                         "default": False,
                     },
                 ],
-                "function": self.doll.aerial_dash.execute,
+                "function": self.doll.air_dash.execute,
             },
-            "Support Action (Hologram - Clone)": {
+            "Support Action (Self Hologram)": {
                 "fields": [],
                 "function": self.doll.support_action.execute,
             },
-            "Convergence Resonance (Hologram - Clone)": {
+            "Aligned Resonance (Self Hologram)": {
                 "fields": [],
-                "function": self.doll.convergence_resonance.execute,
+                "function": self.doll.aligned_resonance.execute,
             },
-            "Hologram Strike (Hologram - Clone)": {
+            "Hologram Assault (Self Hologram)": {
                 "fields": [],
-                "function": self.doll.hologram_strike.execute,
+                "function": self.doll.hologram_assault.execute,
             },
         }
 
@@ -107,8 +101,8 @@ class Mityl(DollCalculatorPage):
             8 + 3.6 + 3
         )
 
-        # Sync Hologram - Clone's snapshot now that real stats are in place.
-        self.doll.refresh_hologram_clone()
+        # Sync Self Hologram's snapshot now that real stats are in place.
+        self.doll.refresh_self_hologram()
 
     def get_default_damage_calculator_buffs(self) -> list[dict[str, Any]]:
         return [
@@ -122,9 +116,9 @@ class Mityl(DollCalculatorPage):
 
     @override
     def stats_update_callback(self, update: ui.number) -> None:  # type: ignore[override]
-        # Keep Hologram - Clone's snapshot current before deepcopy is taken
+        # Keep Self Hologram's snapshot current before deepcopy is taken
         # for every damage calculation inside the parent's callback.
-        self.doll.refresh_hologram_clone()
+        self.doll.refresh_self_hologram()
         super().stats_update_callback(update)
 
     @override
@@ -132,11 +126,15 @@ class Mityl(DollCalculatorPage):
         return [
             ModelAssumption(
                 icon="pets",
-                description="Hologram - Clone is modeled as a summoned snapshot and refreshed when Mityl's stats change.",
+                description="Self Hologram is modeled as a summoned snapshot and refreshed when Mityl's stats change.",
             ),
             ModelAssumption(
                 icon="balance",
-                description="Hologram - Clone inherits Mityl's full initial stat snapshot (no stat ratio reduction).",
+                description="Self Hologram inherits Mityl's full initial stat snapshot (no stat ratio reduction).",
+            ),
+            ModelAssumption(
+                icon="pets",
+                description="Copy Holograms are not available.",
             ),
         ]
 

@@ -1943,6 +1943,112 @@ class Wellflow(Buff):
         self.tag = DamageTag.ALL
 
 
+class SaturationOverflow(Buff):
+    """Mityl buff. Increases attack.
+
+    Note: Due to summon snapshotting in the calculators, the user is likely to inadvertently
+    apply the buff to the summon when it is not applied to summons until V3.
+    """
+
+    display_name = "Saturation Overflow"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, mityl_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        mityl_fortification_level -- the Fortification Level of the Mityl granting this buff
+        """
+        self.value = 20
+        self.modifier_type = ModifierType.MULTIPLICATIVE
+        self.stat_type = StatType.ATTACK
+        self.tag = DamageTag.ALL
+
+        if mityl_fortification_level >= FortificationLevel.SEGMENT03:
+            self.value = 40
+
+
+class NoviceImpersonator(Buff):
+    """Mityl buff granted by the lowest Theater Rank."""
+
+    display_name = "Novice Impersonator (Mityl)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        """
+        Arguments:
+        """
+        self.value = 20
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = StatType.CRIT_RATE
+        self.tag = DamageTag.ALL
+
+
+class StuntDouble(Buff):
+    """Mityl buff granted by the second Theater Rank."""
+
+    display_name = "Stunt Double (Mityl)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self):
+        """
+        Arguments:
+        """
+        self.value = 20
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = StatType.CRIT_DAMAGE
+        self.tag = DamageTag.ALL
+
+
+class LegendaryStar(Buff):
+    """Mityl buff granted by the highest Theater Rank."""
+
+    display_name = "Legendary Star (Mityl)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, number_of_allied_units: int):
+        """
+        Arguments:
+        number_of_allied_units -- the number of allied units present on the field (excluding Mityl)
+        """
+        damage_boost_per_ally: int = 5
+        maximum_damage_boost: int = 40
+
+        self.value = min(
+            damage_boost_per_ally * max(0, number_of_allied_units), maximum_damage_boost
+        )
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.HYDRO
+
+
+class AlignedEnhancement(Buff):
+    """Stacking effect gained by Mityl's Holograms when they perform Aligned Resonance."""
+
+    display_name = "Aligned Enhancement (Hologram)"
+    max_stack_count = 6
+    stack_input_type = "select"
+
+    def __init__(self, stacks: int, mityl_fortification_level: FortificationLevel):
+        """
+        Arguments:
+        stacks -- the number of stacks of Aligned Enhancement
+        mityl_fortification_level -- the fortification level of Mityl
+        """
+        damage_boost_per_stack: int = 15
+
+        if mityl_fortification_level < FortificationLevel.SEGMENT06:
+            damage_boost_per_stack = 0
+
+        self.value = damage_boost_per_stack * min(self.max_stack_count, max(0, stacks))
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.PHYSICAL_SUMMON
+
+
 class CompetitiveSpirit(Buff):
     """Klukai buff"""
 
