@@ -217,6 +217,12 @@ Scenario Comparison and Stat Increment Analysis are also available in Rotation S
             with ui.scroll_area().classes("w-full h-150"):
                 with ui.timeline(side="right"):
                     ui.timeline_entry(
+                        "Added Mityl. Localization updates for Welrod and Faelynn. Added Phaetusa's Expansion Key. Implemented Elemental Phase Weakness and Ammo Weakness upgrade systems. UI improvements - increased UI size and made some elements dynamic (vs. static with scroll area) to accommodate more content.",
+                        title="Added Elemental Phase Weakness and Ammo Weakness upgrade systems",
+                        subtitle="November 13, 2026",
+                        icon="zoom_in",
+                    )
+                    ui.timeline_entry(
                         "Updated Soppo's localization and sample rotation. Added previews for: Welrod, Faelynn, Eagletta.",
                         title="",
                         subtitle="September 20, 2026",
