@@ -14,6 +14,25 @@ ACTION_NAME_ALIASES: dict[str, str] = {
     "Hour of Reckoning": "Judgement Blast",
     "Crime Backlash": "Iniquity's Retribution",
     "Case Detective": "Case Controller",
+    "Cuspid Combo": "Burst Fang",
+    "Triple Maule": "Triple Maul",
+    "Triple Maule (follow-up)": "Triple Maul (follow-up)",
+    "Scent Mark": "Scent Trail",
+    "Loyal Hunt": "Loyal Dash",
+    "Hunter's Instinct I": "Pursuit Instinct I",
+    "Hunter's Instinct II": "Pursuit Instinct II",
+    "Hunter's Instinct III": "Pursuit Instinct III",
+}
+
+ACTION_FIELD_ALIASES: dict[str, dict[str, str]] = {
+    action_name: {"stacks_of_hunters_tracking": "stacks_of_hunt_tracking"}
+    for action_name in (
+        "Triple Maul",
+        "Loyal Dash",
+        "Pursuit Instinct I",
+        "Pursuit Instinct II",
+        "Pursuit Instinct III",
+    )
 }
 
 EFFECT_NAME_ALIASES: dict[str, str] = {
@@ -33,11 +52,18 @@ EFFECT_NAME_ALIASES: dict[str, str] = {
     "Frost Strike": "Boreal Assault",
     "Deductive Obsession (Welrod)": "Deduction Obsession (Welrod)",
     "Case Detective (Welrod)": "Case Controller (Welrod)",
+    "Hunter's Tracking (Faelynn)": "Hunt Tracking (Faelynn)",
+    "Roving Bloodlust (Faelynn)": "Roving Ferocity (Faelynn)",
+    "Scent Mark (Faelynn)": "Scent Trail (Faelynn)",
 }
 
 
 def canonical_action_name(name: str) -> str:
     return ACTION_NAME_ALIASES.get(name, name)
+
+
+def canonical_action_field_name(action_name: str, field_name: str) -> str:
+    return ACTION_FIELD_ALIASES.get(action_name, {}).get(field_name, field_name)
 
 
 def canonical_effect_name(name: str) -> str:

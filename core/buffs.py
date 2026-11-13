@@ -2596,10 +2596,10 @@ class CaseController(Buff):
         self.tag = DamageTag.ALL
 
 
-class HuntersTracking(Buff):
+class HuntTracking(Buff):
     """Faelynn's stacking buff."""
 
-    display_name = "Hunter's Tracking (Faelynn)"
+    display_name = "Hunt Tracking (Faelynn)"
     max_stack_count = 6
     stack_input_type = "input"
 
@@ -2609,7 +2609,7 @@ class HuntersTracking(Buff):
 
         if faelynn_fortification_level >= FortificationLevel.SEGMENT03:
             damage_boost_per_stack = 5
-            maximum_stacks = HuntersTracking.max_stack_count
+            maximum_stacks = HuntTracking.max_stack_count
 
         self.value = 0
         if stacks > 0:
@@ -2619,10 +2619,10 @@ class HuntersTracking(Buff):
         self.tag = DamageTag.CORROSION
 
 
-class RovingBloodlust(Buff):
+class RovingFerocity(Buff):
     """Faelynn's buff."""
 
-    display_name = "Roving Bloodlust (Faelynn)"
+    display_name = "Roving Ferocity (Faelynn)"
     max_stack_count = 1
     stack_input_type = "input"
 
@@ -3996,13 +3996,13 @@ class CollarBrand(Debuff):
         self.tag = DamageTag.CORROSION
 
 
-class ScentMark(Debuff):
+class ScentTrail(Debuff):
     """Faelynn's mark. Increases damage taken from Faelynn.
     Does not check if Faelynn is the attacker. Do not use when Faelynn
     is not the attacker.
     """
 
-    display_name = "Scent Mark (Faelynn)"
+    display_name = "Scent Trail (Faelynn)"
     max_stack_count = 1
     stack_input_type = "input"
 

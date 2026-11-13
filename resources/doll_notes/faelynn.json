@@ -26,7 +26,7 @@
         },
         {
           "label": "Buff cleanse",
-          "detail": "(1) Fixed Key 2 - before using Hunter's Instinct skills"
+          "detail": "(1) Fixed Key 2 - before using Pursuit Instinct skills"
         }
       ]
     },
@@ -37,27 +37,27 @@
       "upgrades": [
         {
           "level": 1,
-          "description": "S2: Extends duration of Dog-Eared Radar by one turn (ensures it's still up when it can be refreshed) and increases attack boost of Roving Bloodlust."
+          "description": "S2: Extends duration of Canine Radar by one turn (ensures it's still up when it can be refreshed) and increases attack boost of Roving Ferocity."
         },
         {
           "level": 2,
-          "description": "S1: Increase damage and range. Damage dealt when Scent Mark is applied to the same target is increased."
+          "description": "S1: Increase damage and range. Damage dealt when Scent Trail is applied to the same target is increased."
         },
         {
           "level": 3,
-          "description": "Ult: Increases damage of Hunter's Instinct. Adds increased Corrosion damage taken effect to Collar Brand. Bestows Collar Brand on hit if Hunter's Instinct II kills a target afflicted with Collar Brand."
+          "description": "Ult: Increases damage of Pursuit Instinct. Adds increased Corrosion damage taken effect to Collar Brand. Bestows Collar Brand on hit if Pursuit Instinct II kills a target afflicted with Collar Brand."
         },
         {
           "level": 4,
-          "description": "Passive: Start with 4 stacks of Hunter's Tracking each turn and increases stack limit to 6; increases damage boost per stack of Hunter's Tracking."
+          "description": "Passive: Start with 4 stacks of Hunt Tracking each turn and increases stack limit to 6; increases damage boost per stack of Hunt Tracking."
         },
         {
           "level": 5,
-          "description": "S1: Increases damage and adds a follow-up attack when hitting >= 3 targets or a Boss. Adds an increased damage taken from Faelynn effect to Scent Mark."
+          "description": "S1: Increases damage and adds a follow-up attack when hitting >= 3 targets or a Boss. Adds an increased damage taken from Faelynn effect to Scent Trail."
         },
         {
           "level": 6,
-          "description": "Ult: Increased damage of Ult and Hunter's Instinct attacks. Hunter's Instinct deals damage twice. Gain Combo Pounce if Hunter's Instinct III results in a kill."
+          "description": "Ult: Increased damage of Ult and Pursuit Instinct attacks. Pursuit Instinct deals damage twice. Gain Combo Pounce if Pursuit Instinct III results in a kill."
         }
       ]
     },
@@ -65,7 +65,7 @@
       "kind": "markdown",
       "key": "team_notes",
       "title": "Team notes",
-      "markdown": "Dog-Eared Radar converts tile generation into Scent Marks into damage instances which compose a significant portion of her overall damage output. It can be triggered up to four times per round. Typically, since Faelynn generates tiles by herself 1-2 times per round, look for 2-3 additional tile generator sources. Coincidentally, Basti fulfills this role effectively."
+      "markdown": "Canine Radar converts tile generation into Scent Trails into damage instances which compose a significant portion of her overall damage output. It can be triggered up to four times per round. Typically, since Faelynn generates tiles by herself 1-2 times per round, look for 2-3 additional tile generator sources. Coincidentally, Basti fulfills this role effectively."
     },
     {
       "kind": "markdown",

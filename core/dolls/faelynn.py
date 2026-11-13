@@ -17,16 +17,16 @@ from core.combat import (
     CombatAction,
 )
 
-HUNTERS_TRACKING_STACK_MAXIMUM: int = 3
-HUNTERS_TRACKING_STACK_MAXIMUM_V4: int = 6
+HUNT_TRACKING_STACK_MAXIMUM: int = 3
+HUNT_TRACKING_STACK_MAXIMUM_V4: int = 6
 
 
-class CuspidCombo(CombatAction):
+class BurstFang(CombatAction):
     """Faelynn Basic Attack."""
 
     @override
     def execute(self) -> DamageInstance:
-        label: str = "Cuspid Combo"
+        label: str = "Burst Fang"
         base_potency: int = 80
 
         tags: set[DamageTag] = {
@@ -41,16 +41,16 @@ class CuspidCombo(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Cuspid Combo",
+            group_name="Burst Fang",
         )
 
 
-class TripleMaule(CombatAction):
+class TripleMaul(CombatAction):
     """Faelynn S1."""
 
     @override
-    def execute(self, stacks_of_hunters_tracking: int) -> DamageInstance:
-        label: str = f"Triple Maule ({stacks_of_hunters_tracking})"
+    def execute(self, stacks_of_hunt_tracking: int) -> DamageInstance:
+        label: str = f"Triple Maul ({stacks_of_hunt_tracking})"
         base_potency: int = 60
 
         tags: set[DamageTag] = {
@@ -63,23 +63,23 @@ class TripleMaule(CombatAction):
 
         damage_multiplier_per_stack: int = 5
         base_potency += damage_multiplier_per_stack * max(
-            0, min(HUNTERS_TRACKING_STACK_MAXIMUM, stacks_of_hunters_tracking)
+            0, min(HUNT_TRACKING_STACK_MAXIMUM, stacks_of_hunt_tracking)
         )
 
         return DamageInstance(
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Triple Maule",
+            group_name="Triple Maul",
         )
 
 
-class TripleMauleV2(CombatAction):
+class TripleMaulV2(CombatAction):
     """Faelynn S1 (V2)."""
 
     @override
-    def execute(self, stacks_of_hunters_tracking: int) -> DamageInstance:
-        label: str = f"Triple Maule ({stacks_of_hunters_tracking})"
+    def execute(self, stacks_of_hunt_tracking: int) -> DamageInstance:
+        label: str = f"Triple Maul ({stacks_of_hunt_tracking})"
         base_potency: int = 60
 
         tags: set[DamageTag] = {
@@ -92,23 +92,23 @@ class TripleMauleV2(CombatAction):
 
         damage_multiplier_per_stack: int = 10
         base_potency += damage_multiplier_per_stack * max(
-            0, min(HUNTERS_TRACKING_STACK_MAXIMUM, stacks_of_hunters_tracking)
+            0, min(HUNT_TRACKING_STACK_MAXIMUM, stacks_of_hunt_tracking)
         )
 
         return DamageInstance(
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Triple Maule",
+            group_name="Triple Maul",
         )
 
 
-class TripleMauleV4(CombatAction):
+class TripleMaulV4(CombatAction):
     """Faelynn S1 (V4)."""
 
     @override
-    def execute(self, stacks_of_hunters_tracking: int) -> DamageInstance:
-        label: str = f"Triple Maule ({stacks_of_hunters_tracking})"
+    def execute(self, stacks_of_hunt_tracking: int) -> DamageInstance:
+        label: str = f"Triple Maul ({stacks_of_hunt_tracking})"
         base_potency: int = 60
 
         tags: set[DamageTag] = {
@@ -121,23 +121,23 @@ class TripleMauleV4(CombatAction):
 
         damage_multiplier_per_stack: int = 10
         base_potency += damage_multiplier_per_stack * max(
-            0, min(HUNTERS_TRACKING_STACK_MAXIMUM_V4, stacks_of_hunters_tracking)
+            0, min(HUNT_TRACKING_STACK_MAXIMUM_V4, stacks_of_hunt_tracking)
         )
 
         return DamageInstance(
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Triple Maule",
+            group_name="Triple Maul",
         )
 
 
-class TripleMauleV5(CombatAction):
+class TripleMaulV5(CombatAction):
     """Faelynn S1 (V5)."""
 
     @override
-    def execute(self, stacks_of_hunters_tracking: int) -> DamageInstance:
-        label: str = f"Triple Maule ({stacks_of_hunters_tracking})"
+    def execute(self, stacks_of_hunt_tracking: int) -> DamageInstance:
+        label: str = f"Triple Maul ({stacks_of_hunt_tracking})"
         base_potency: int = 120
 
         tags: set[DamageTag] = {
@@ -150,26 +150,26 @@ class TripleMauleV5(CombatAction):
 
         damage_multiplier_per_stack: int = 10
         base_potency += damage_multiplier_per_stack * max(
-            0, min(HUNTERS_TRACKING_STACK_MAXIMUM_V4, stacks_of_hunters_tracking)
+            0, min(HUNT_TRACKING_STACK_MAXIMUM_V4, stacks_of_hunt_tracking)
         )
 
         return DamageInstance(
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Triple Maule",
+            group_name="Triple Maul",
         )
 
 
-class TripleMauleFollowup(CombatAction):
-    """Followup to Faelynn's S1 at V5+ if more t han 3 targets or a Boss is hit.
+class TripleMaulFollowup(CombatAction):
+    """Followup to Faelynn's S1 at V5+ if more than 3 targets or a Boss is hit.
     The intent is to only use this if the conditions for the followup are met,
     but input args can allow the creation of placeholders that deal 0 damage.
     """
 
     @override
     def execute(self, number_of_targets_hit: int, boss_was_hit: bool) -> DamageInstance:
-        label: str = "Triple Maule (follow-up)"
+        label: str = "Triple Maul (follow-up)"
         base_potency: int = 0
 
         tags: set[DamageTag] = {
@@ -183,19 +183,19 @@ class TripleMauleFollowup(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Triple Maule",
+            group_name="Triple Maul",
         )
 
 
-class TripleMauleFollowupV5(CombatAction):
-    """Followup to Faelynn's S1 at V5+ if more t han 3 targets or a Boss is hit.
+class TripleMaulFollowupV5(CombatAction):
+    """Followup to Faelynn's S1 at V5+ if more than 3 targets or a Boss is hit.
     The intent is to only use this if the conditions for the followup are met,
     but input args can allow the creation of placeholders that deal 0 damage.
     """
 
     @override
     def execute(self, number_of_targets_hit: int, boss_was_hit: bool) -> DamageInstance:
-        label: str = "Triple Maule (follow-up)"
+        label: str = "Triple Maul (follow-up)"
         base_potency: int = 0
 
         tags: set[DamageTag] = {
@@ -212,16 +212,16 @@ class TripleMauleFollowupV5(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Triple Maule",
+            group_name="Triple Maul",
         )
 
 
-class ScentMarkAction(CombatAction):
-    """Damage triggered whenever Scent Mark is applied to a target that already has Scent Mark."""
+class ScentTrailAction(CombatAction):
+    """Damage triggered whenever Scent Trail is applied to a target that already has Scent Trail."""
 
     @override
     def execute(self) -> DamageInstance:
-        label: str = "Scent Mark"
+        label: str = "Scent Trail"
         base_potency: int = 60
 
         tags: set[DamageTag] = {
@@ -235,16 +235,16 @@ class ScentMarkAction(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Scent Mark",
+            group_name="Scent Trail",
         )
 
 
-class ScentMarkActionV2(CombatAction):
-    """Damage triggered whenever Scent Mark is applied to a target that already has Scent Mark."""
+class ScentTrailActionV2(CombatAction):
+    """Damage triggered whenever Scent Trail is applied to a target that already has Scent Trail."""
 
     @override
     def execute(self) -> DamageInstance:
-        label: str = "Scent Mark"
+        label: str = "Scent Trail"
         base_potency: int = 100
 
         tags: set[DamageTag] = {
@@ -258,16 +258,16 @@ class ScentMarkActionV2(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Scent Mark",
+            group_name="Scent Trail",
         )
 
 
-class LoyalHunt(CombatAction):
+class LoyalDash(CombatAction):
     """Faelynn Ultimate."""
 
     @override
-    def execute(self, stacks_of_hunters_tracking: int) -> DamageInstance:
-        label: str = f"Loyal Hunt ({stacks_of_hunters_tracking})"
+    def execute(self, stacks_of_hunt_tracking: int) -> DamageInstance:
+        label: str = f"Loyal Dash ({stacks_of_hunt_tracking})"
         base_potency: int = 120
 
         tags: set[DamageTag] = {
@@ -281,7 +281,7 @@ class LoyalHunt(CombatAction):
 
         damage_multiplier_per_stack: int = 5
         base_potency += (
-            max(0, min(HUNTERS_TRACKING_STACK_MAXIMUM, stacks_of_hunters_tracking))
+            max(0, min(HUNT_TRACKING_STACK_MAXIMUM, stacks_of_hunt_tracking))
             * damage_multiplier_per_stack
         )
 
@@ -289,16 +289,16 @@ class LoyalHunt(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Loyal Hunt",
+            group_name="Loyal Dash",
         )
 
 
-class LoyalHuntV3(CombatAction):
+class LoyalDashV3(CombatAction):
     """Faelynn Ultimate (V3)."""
 
     @override
-    def execute(self, stacks_of_hunters_tracking: int) -> DamageInstance:
-        label: str = f"Loyal Hunt ({stacks_of_hunters_tracking})"
+    def execute(self, stacks_of_hunt_tracking: int) -> DamageInstance:
+        label: str = f"Loyal Dash ({stacks_of_hunt_tracking})"
         base_potency: int = 120
 
         tags: set[DamageTag] = {
@@ -312,7 +312,7 @@ class LoyalHuntV3(CombatAction):
 
         damage_multiplier_per_stack: int = 10
         base_potency += (
-            max(0, min(HUNTERS_TRACKING_STACK_MAXIMUM, stacks_of_hunters_tracking))
+            max(0, min(HUNT_TRACKING_STACK_MAXIMUM, stacks_of_hunt_tracking))
             * damage_multiplier_per_stack
         )
 
@@ -320,16 +320,16 @@ class LoyalHuntV3(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Loyal Hunt",
+            group_name="Loyal Dash",
         )
 
 
-class LoyalHuntV4(CombatAction):
+class LoyalDashV4(CombatAction):
     """Faelynn Ultimate (V4)."""
 
     @override
-    def execute(self, stacks_of_hunters_tracking: int) -> DamageInstance:
-        label: str = f"Loyal Hunt ({stacks_of_hunters_tracking})"
+    def execute(self, stacks_of_hunt_tracking: int) -> DamageInstance:
+        label: str = f"Loyal Dash ({stacks_of_hunt_tracking})"
         base_potency: int = 120
 
         tags: set[DamageTag] = {
@@ -343,7 +343,7 @@ class LoyalHuntV4(CombatAction):
 
         damage_multiplier_per_stack: int = 10
         base_potency += (
-            max(0, min(HUNTERS_TRACKING_STACK_MAXIMUM_V4, stacks_of_hunters_tracking))
+            max(0, min(HUNT_TRACKING_STACK_MAXIMUM_V4, stacks_of_hunt_tracking))
             * damage_multiplier_per_stack
         )
 
@@ -351,16 +351,16 @@ class LoyalHuntV4(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Loyal Hunt",
+            group_name="Loyal Dash",
         )
 
 
-class LoyalHuntV6(CombatAction):
+class LoyalDashV6(CombatAction):
     """Faelynn Ultimate (V6)."""
 
     @override
-    def execute(self, stacks_of_hunters_tracking: int) -> DamageInstance:
-        label: str = f"Loyal Hunt ({stacks_of_hunters_tracking})"
+    def execute(self, stacks_of_hunt_tracking: int) -> DamageInstance:
+        label: str = f"Loyal Dash ({stacks_of_hunt_tracking})"
         base_potency: int = 150
 
         tags: set[DamageTag] = {
@@ -374,7 +374,7 @@ class LoyalHuntV6(CombatAction):
 
         damage_multiplier_per_stack: int = 10
         base_potency += (
-            max(0, min(HUNTERS_TRACKING_STACK_MAXIMUM_V4, stacks_of_hunters_tracking))
+            max(0, min(HUNT_TRACKING_STACK_MAXIMUM_V4, stacks_of_hunt_tracking))
             * damage_multiplier_per_stack
         )
 
@@ -382,18 +382,18 @@ class LoyalHuntV6(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Loyal Hunt",
+            group_name="Loyal Dash",
         )
 
 
-class HuntersInstinctI(CombatAction):
-    """Faelynn's Hunter's Instinct I."""
+class PursuitInstinctI(CombatAction):
+    """Faelynn's Pursuit Instinct I."""
 
     @override
     def execute(
-        self, stacks_of_hunters_tracking: int, number_of_targets_hit: int
+        self, stacks_of_hunt_tracking: int, number_of_targets_hit: int
     ) -> DamageInstance:
-        label: str = f"Hunter's Instinct I ({stacks_of_hunters_tracking})"
+        label: str = f"Pursuit Instinct I ({stacks_of_hunt_tracking})"
         base_potency: int = 60
 
         tags: set[DamageTag] = {
@@ -405,7 +405,7 @@ class HuntersInstinctI(CombatAction):
 
         damage_multiplier_per_stack: int = 5
         base_potency += (
-            max(0, min(HUNTERS_TRACKING_STACK_MAXIMUM, stacks_of_hunters_tracking))
+            max(0, min(HUNT_TRACKING_STACK_MAXIMUM, stacks_of_hunt_tracking))
             * damage_multiplier_per_stack
         )
 
@@ -416,18 +416,18 @@ class HuntersInstinctI(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Hunter's Instinct I",
+            group_name="Pursuit Instinct I",
         )
 
 
-class HuntersInstinctIV3(CombatAction):
-    """Faelynn's Hunter's Instinct I (V3)."""
+class PursuitInstinctIV3(CombatAction):
+    """Faelynn's Pursuit Instinct I (V3)."""
 
     @override
     def execute(
-        self, stacks_of_hunters_tracking: int, number_of_targets_hit: int
+        self, stacks_of_hunt_tracking: int, number_of_targets_hit: int
     ) -> DamageInstance:
-        label: str = f"Hunter's Instinct I ({stacks_of_hunters_tracking})"
+        label: str = f"Pursuit Instinct I ({stacks_of_hunt_tracking})"
         base_potency: int = 60
 
         tags: set[DamageTag] = {
@@ -439,7 +439,7 @@ class HuntersInstinctIV3(CombatAction):
 
         damage_multiplier_per_stack: int = 10
         base_potency += (
-            max(0, min(HUNTERS_TRACKING_STACK_MAXIMUM, stacks_of_hunters_tracking))
+            max(0, min(HUNT_TRACKING_STACK_MAXIMUM, stacks_of_hunt_tracking))
             * damage_multiplier_per_stack
         )
 
@@ -450,18 +450,18 @@ class HuntersInstinctIV3(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Hunter's Instinct I",
+            group_name="Pursuit Instinct I",
         )
 
 
-class HuntersInstinctIV4(CombatAction):
-    """Faelynn's Hunter's Instinct I (V4)."""
+class PursuitInstinctIV4(CombatAction):
+    """Faelynn's Pursuit Instinct I (V4)."""
 
     @override
     def execute(
-        self, stacks_of_hunters_tracking: int, number_of_targets_hit: int
+        self, stacks_of_hunt_tracking: int, number_of_targets_hit: int
     ) -> DamageInstance:
-        label: str = f"Hunter's Instinct I ({stacks_of_hunters_tracking})"
+        label: str = f"Pursuit Instinct I ({stacks_of_hunt_tracking})"
         base_potency: int = 60
 
         tags: set[DamageTag] = {
@@ -473,7 +473,7 @@ class HuntersInstinctIV4(CombatAction):
 
         damage_multiplier_per_stack: int = 10
         base_potency += (
-            max(0, min(HUNTERS_TRACKING_STACK_MAXIMUM_V4, stacks_of_hunters_tracking))
+            max(0, min(HUNT_TRACKING_STACK_MAXIMUM_V4, stacks_of_hunt_tracking))
             * damage_multiplier_per_stack
         )
 
@@ -484,18 +484,18 @@ class HuntersInstinctIV4(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Hunter's Instinct I",
+            group_name="Pursuit Instinct I",
         )
 
 
-class HuntersInstinctIV6(CombatAction):
-    """Faelynn's Hunter's Instinct I (V6)."""
+class PursuitInstinctIV6(CombatAction):
+    """Faelynn's Pursuit Instinct I (V6)."""
 
     @override
     def execute(
-        self, stacks_of_hunters_tracking: int, number_of_targets_hit: int
+        self, stacks_of_hunt_tracking: int, number_of_targets_hit: int
     ) -> DamageInstance:
-        label: str = f"Hunter's Instinct I ({stacks_of_hunters_tracking})"
+        label: str = f"Pursuit Instinct I ({stacks_of_hunt_tracking})"
         base_potency: int = 90
 
         tags: set[DamageTag] = {
@@ -507,7 +507,7 @@ class HuntersInstinctIV6(CombatAction):
 
         damage_multiplier_per_stack: int = 10
         base_potency += (
-            max(0, min(HUNTERS_TRACKING_STACK_MAXIMUM_V4, stacks_of_hunters_tracking))
+            max(0, min(HUNT_TRACKING_STACK_MAXIMUM_V4, stacks_of_hunt_tracking))
             * damage_multiplier_per_stack
         )
 
@@ -518,21 +518,21 @@ class HuntersInstinctIV6(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Hunter's Instinct I",
+            group_name="Pursuit Instinct I",
         )
 
 
-class HuntersInstinctII(CombatAction):
-    """Faelynn's Hunter's Instinct II."""
+class PursuitInstinctII(CombatAction):
+    """Faelynn's Pursuit Instinct II."""
 
     @override
     def execute(
         self,
-        stacks_of_hunters_tracking: int,
+        stacks_of_hunt_tracking: int,
         number_of_targets_hit: int,
         has_collar_brand: bool,
     ) -> DamageInstance:
-        label: str = f"Hunter's Instinct II ({stacks_of_hunters_tracking})"
+        label: str = f"Pursuit Instinct II ({stacks_of_hunt_tracking})"
         base_potency: int = 120
 
         tags: set[DamageTag] = {
@@ -544,7 +544,7 @@ class HuntersInstinctII(CombatAction):
 
         damage_multiplier_per_stack: int = 5
         base_potency += (
-            max(0, min(HUNTERS_TRACKING_STACK_MAXIMUM, stacks_of_hunters_tracking))
+            max(0, min(HUNT_TRACKING_STACK_MAXIMUM, stacks_of_hunt_tracking))
             * damage_multiplier_per_stack
         )
 
@@ -566,22 +566,22 @@ class HuntersInstinctII(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Hunter's Instinct II",
+            group_name="Pursuit Instinct II",
             buffs_before=buffs_before,
         )
 
 
-class HuntersInstinctIIV3(CombatAction):
-    """Faelynn's Hunter's Instinct II (V3)."""
+class PursuitInstinctIIV3(CombatAction):
+    """Faelynn's Pursuit Instinct II (V3)."""
 
     @override
     def execute(
         self,
-        stacks_of_hunters_tracking: int,
+        stacks_of_hunt_tracking: int,
         number_of_targets_hit: int,
         has_collar_brand: bool,
     ) -> DamageInstance:
-        label: str = f"Hunter's Instinct II ({stacks_of_hunters_tracking})"
+        label: str = f"Pursuit Instinct II ({stacks_of_hunt_tracking})"
         base_potency: int = 120
 
         tags: set[DamageTag] = {
@@ -593,7 +593,7 @@ class HuntersInstinctIIV3(CombatAction):
 
         damage_multiplier_per_stack: int = 10
         base_potency += (
-            max(0, min(HUNTERS_TRACKING_STACK_MAXIMUM, stacks_of_hunters_tracking))
+            max(0, min(HUNT_TRACKING_STACK_MAXIMUM, stacks_of_hunt_tracking))
             * damage_multiplier_per_stack
         )
 
@@ -615,22 +615,22 @@ class HuntersInstinctIIV3(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Hunter's Instinct II",
+            group_name="Pursuit Instinct II",
             buffs_before=buffs_before,
         )
 
 
-class HuntersInstinctIIV4(CombatAction):
-    """Faelynn's Hunter's Instinct II (V4)."""
+class PursuitInstinctIIV4(CombatAction):
+    """Faelynn's Pursuit Instinct II (V4)."""
 
     @override
     def execute(
         self,
-        stacks_of_hunters_tracking: int,
+        stacks_of_hunt_tracking: int,
         number_of_targets_hit: int,
         has_collar_brand: bool,
     ) -> DamageInstance:
-        label: str = f"Hunter's Instinct II ({stacks_of_hunters_tracking})"
+        label: str = f"Pursuit Instinct II ({stacks_of_hunt_tracking})"
         base_potency: int = 120
 
         tags: set[DamageTag] = {
@@ -642,7 +642,7 @@ class HuntersInstinctIIV4(CombatAction):
 
         damage_multiplier_per_stack: int = 10
         base_potency += (
-            max(0, min(HUNTERS_TRACKING_STACK_MAXIMUM_V4, stacks_of_hunters_tracking))
+            max(0, min(HUNT_TRACKING_STACK_MAXIMUM_V4, stacks_of_hunt_tracking))
             * damage_multiplier_per_stack
         )
 
@@ -664,22 +664,22 @@ class HuntersInstinctIIV4(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Hunter's Instinct II",
+            group_name="Pursuit Instinct II",
             buffs_before=buffs_before,
         )
 
 
-class HuntersInstinctIIV6(CombatAction):
-    """Faelynn's Hunter's Instinct II (V6)."""
+class PursuitInstinctIIV6(CombatAction):
+    """Faelynn's Pursuit Instinct II (V6)."""
 
     @override
     def execute(
         self,
-        stacks_of_hunters_tracking: int,
+        stacks_of_hunt_tracking: int,
         number_of_targets_hit: int,
         has_collar_brand: bool,
     ) -> DamageInstance:
-        label: str = f"Hunter's Instinct II ({stacks_of_hunters_tracking})"
+        label: str = f"Pursuit Instinct II ({stacks_of_hunt_tracking})"
         base_potency: int = 170
 
         tags: set[DamageTag] = {
@@ -691,7 +691,7 @@ class HuntersInstinctIIV6(CombatAction):
 
         damage_multiplier_per_stack: int = 10
         base_potency += (
-            max(0, min(HUNTERS_TRACKING_STACK_MAXIMUM_V4, stacks_of_hunters_tracking))
+            max(0, min(HUNT_TRACKING_STACK_MAXIMUM_V4, stacks_of_hunt_tracking))
             * damage_multiplier_per_stack
         )
 
@@ -713,23 +713,23 @@ class HuntersInstinctIIV6(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Hunter's Instinct II",
+            group_name="Pursuit Instinct II",
             buffs_before=buffs_before,
         )
 
 
-class HuntersInstinctIII(CombatAction):
-    """Faelynn's Hunter's Instinct III."""
+class PursuitInstinctIII(CombatAction):
+    """Faelynn's Pursuit Instinct III."""
 
     @override
     def execute(
         self,
-        stacks_of_hunters_tracking: int,
+        stacks_of_hunt_tracking: int,
         number_of_targets_hit: int,
         has_collar_brand: bool,
         target_tile_ascension_level: int,
     ) -> DamageInstance:
-        label: str = f"Hunter's Instinct III ({stacks_of_hunters_tracking})"
+        label: str = f"Pursuit Instinct III ({stacks_of_hunt_tracking})"
         base_potency: int = 240
 
         tags: set[DamageTag] = {
@@ -741,7 +741,7 @@ class HuntersInstinctIII(CombatAction):
 
         damage_multiplier_per_stack: int = 5
         base_potency += (
-            max(0, min(HUNTERS_TRACKING_STACK_MAXIMUM, stacks_of_hunters_tracking))
+            max(0, min(HUNT_TRACKING_STACK_MAXIMUM, stacks_of_hunt_tracking))
             * damage_multiplier_per_stack
         )
 
@@ -787,24 +787,24 @@ class HuntersInstinctIII(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Hunter's Instinct III",
+            group_name="Pursuit Instinct III",
             buffs_before=buffs_before,
             debuffs_before=debuffs_before,
         )
 
 
-class HuntersInstinctIIIV3(CombatAction):
-    """Faelynn's Hunter's Instinct III (V3)."""
+class PursuitInstinctIIIV3(CombatAction):
+    """Faelynn's Pursuit Instinct III (V3)."""
 
     @override
     def execute(
         self,
-        stacks_of_hunters_tracking: int,
+        stacks_of_hunt_tracking: int,
         number_of_targets_hit: int,
         has_collar_brand: bool,
         target_tile_ascension_level: int,
     ) -> DamageInstance:
-        label: str = f"Hunter's Instinct III ({stacks_of_hunters_tracking})"
+        label: str = f"Pursuit Instinct III ({stacks_of_hunt_tracking})"
         base_potency: int = 240
 
         tags: set[DamageTag] = {
@@ -816,7 +816,7 @@ class HuntersInstinctIIIV3(CombatAction):
 
         damage_multiplier_per_stack: int = 10
         base_potency += (
-            max(0, min(HUNTERS_TRACKING_STACK_MAXIMUM, stacks_of_hunters_tracking))
+            max(0, min(HUNT_TRACKING_STACK_MAXIMUM, stacks_of_hunt_tracking))
             * damage_multiplier_per_stack
         )
 
@@ -862,24 +862,24 @@ class HuntersInstinctIIIV3(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Hunter's Instinct III",
+            group_name="Pursuit Instinct III",
             buffs_before=buffs_before,
             debuffs_before=debuffs_before,
         )
 
 
-class HuntersInstinctIIIV4(CombatAction):
-    """Faelynn's Hunter's Instinct III (V4)."""
+class PursuitInstinctIIIV4(CombatAction):
+    """Faelynn's Pursuit Instinct III (V4)."""
 
     @override
     def execute(
         self,
-        stacks_of_hunters_tracking: int,
+        stacks_of_hunt_tracking: int,
         number_of_targets_hit: int,
         has_collar_brand: bool,
         target_tile_ascension_level: int,
     ) -> DamageInstance:
-        label: str = f"Hunter's Instinct III ({stacks_of_hunters_tracking})"
+        label: str = f"Pursuit Instinct III ({stacks_of_hunt_tracking})"
         base_potency: int = 240
 
         tags: set[DamageTag] = {
@@ -891,7 +891,7 @@ class HuntersInstinctIIIV4(CombatAction):
 
         damage_multiplier_per_stack: int = 10
         base_potency += (
-            max(0, min(HUNTERS_TRACKING_STACK_MAXIMUM_V4, stacks_of_hunters_tracking))
+            max(0, min(HUNT_TRACKING_STACK_MAXIMUM_V4, stacks_of_hunt_tracking))
             * damage_multiplier_per_stack
         )
 
@@ -937,24 +937,24 @@ class HuntersInstinctIIIV4(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Hunter's Instinct III",
+            group_name="Pursuit Instinct III",
             buffs_before=buffs_before,
             debuffs_before=debuffs_before,
         )
 
 
-class HuntersInstinctIIIV6(CombatAction):
-    """Faelynn's Hunter's Instinct III (V6)."""
+class PursuitInstinctIIIV6(CombatAction):
+    """Faelynn's Pursuit Instinct III (V6)."""
 
     @override
     def execute(
         self,
-        stacks_of_hunters_tracking: int,
+        stacks_of_hunt_tracking: int,
         number_of_targets_hit: int,
         has_collar_brand: bool,
         target_tile_ascension_level: int,
     ) -> DamageInstance:
-        label: str = f"Hunter's Instinct III ({stacks_of_hunters_tracking})"
+        label: str = f"Pursuit Instinct III ({stacks_of_hunt_tracking})"
         base_potency: int = 480
 
         tags: set[DamageTag] = {
@@ -966,7 +966,7 @@ class HuntersInstinctIIIV6(CombatAction):
 
         damage_multiplier_per_stack: int = 10
         base_potency += (
-            max(0, min(HUNTERS_TRACKING_STACK_MAXIMUM_V4, stacks_of_hunters_tracking))
+            max(0, min(HUNT_TRACKING_STACK_MAXIMUM_V4, stacks_of_hunt_tracking))
             * damage_multiplier_per_stack
         )
 
@@ -1012,7 +1012,7 @@ class HuntersInstinctIIIV6(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Hunter's Instinct III",
+            group_name="Pursuit Instinct III",
             buffs_before=buffs_before,
             debuffs_before=debuffs_before,
         )
@@ -1040,67 +1040,67 @@ class Faelynn(Doll):
         ]
     )
 
-    cuspid_combo: CombatAction = Field(default_factory=CuspidCombo)
-    triple_maule: CombatAction = Field(default_factory=TripleMaule)
-    triple_maule_followup: CombatAction = Field(default_factory=TripleMauleFollowup)
-    scent_mark: CombatAction = Field(default_factory=ScentMarkAction)
-    loyal_hunt: CombatAction = Field(default_factory=LoyalHunt)
-    hunters_instinct_i: CombatAction = Field(default_factory=HuntersInstinctI)
-    hunters_instinct_ii: CombatAction = Field(default_factory=HuntersInstinctII)
-    hunters_instinct_iii: CombatAction = Field(default_factory=HuntersInstinctIII)
+    burst_fang: CombatAction = Field(default_factory=BurstFang)
+    triple_maul: CombatAction = Field(default_factory=TripleMaul)
+    triple_maul_followup: CombatAction = Field(default_factory=TripleMaulFollowup)
+    scent_trail: CombatAction = Field(default_factory=ScentTrailAction)
+    loyal_dash: CombatAction = Field(default_factory=LoyalDash)
+    pursuit_instinct_i: CombatAction = Field(default_factory=PursuitInstinctI)
+    pursuit_instinct_ii: CombatAction = Field(default_factory=PursuitInstinctII)
+    pursuit_instinct_iii: CombatAction = Field(default_factory=PursuitInstinctIII)
 
     def set_to_v0(self) -> None:
         """Sets Fortification Level to Segment00."""
-        self.cuspid_combo = CuspidCombo()
-        self.triple_maule = TripleMaule()
-        self.triple_maule_followup = TripleMauleFollowup()
-        self.scent_mark = ScentMarkAction()
-        self.loyal_hunt = LoyalHunt()
-        self.hunters_instinct_i = HuntersInstinctI()
-        self.hunters_instinct_ii = HuntersInstinctII()
-        self.hunters_instinct_iii = HuntersInstinctIII()
+        self.burst_fang = BurstFang()
+        self.triple_maul = TripleMaul()
+        self.triple_maul_followup = TripleMaulFollowup()
+        self.scent_trail = ScentTrailAction()
+        self.loyal_dash = LoyalDash()
+        self.pursuit_instinct_i = PursuitInstinctI()
+        self.pursuit_instinct_ii = PursuitInstinctII()
+        self.pursuit_instinct_iii = PursuitInstinctIII()
 
     def set_to_v2(self) -> None:
         """Sets Fortification Level to Segment02."""
         self.set_to_v0()
 
-        self.triple_maule = TripleMauleV2()
-        self.scent_mark = ScentMarkActionV2()
+        self.triple_maul = TripleMaulV2()
+        self.scent_trail = ScentTrailActionV2()
 
     def set_to_v3(self) -> None:
         """Sets Fortification Level to Segment03."""
         self.set_to_v2()
 
-        self.loyal_hunt = LoyalHuntV3()
-        self.hunters_instinct_i = HuntersInstinctIV3()
-        self.hunters_instinct_ii = HuntersInstinctIIV3()
-        self.hunters_instinct_iii = HuntersInstinctIIIV3()
+        self.loyal_dash = LoyalDashV3()
+        self.pursuit_instinct_i = PursuitInstinctIV3()
+        self.pursuit_instinct_ii = PursuitInstinctIIV3()
+        self.pursuit_instinct_iii = PursuitInstinctIIIV3()
 
     def set_to_v4(self) -> None:
         """Sets Fortification Level to Segment04."""
         self.set_to_v3()
 
-        self.triple_maule = TripleMauleV4()
-        self.loyal_hunt = LoyalHuntV4()
-        self.hunters_instinct_i = HuntersInstinctIV4()
-        self.hunters_instinct_ii = HuntersInstinctIIV4()
-        self.hunters_instinct_iii = HuntersInstinctIIIV4()
+        self.triple_maul = TripleMaulV4()
+        self.loyal_dash = LoyalDashV4()
+        self.pursuit_instinct_i = PursuitInstinctIV4()
+        self.pursuit_instinct_ii = PursuitInstinctIIV4()
+        self.pursuit_instinct_iii = PursuitInstinctIIIV4()
 
     def set_to_v5(self) -> None:
         """Sets Fortification Level to Segment05."""
         self.set_to_v4()
 
-        self.triple_maule = TripleMauleV5()
-        self.triple_maule_followup = TripleMauleFollowupV5()
+        self.triple_maul = TripleMaulV5()
+        self.triple_maul_followup = TripleMaulFollowupV5()
 
     def set_to_v6(self) -> None:
         """Sets Fortification Level to Segment06."""
         self.set_to_v5()
 
-        self.loyal_hunt = LoyalHuntV6()
-        self.hunters_instinct_i = HuntersInstinctIV6()
-        self.hunters_instinct_ii = HuntersInstinctIIV6()
-        self.hunters_instinct_iii = HuntersInstinctIIIV6()
+        self.loyal_dash = LoyalDashV6()
+        self.pursuit_instinct_i = PursuitInstinctIV6()
+        self.pursuit_instinct_ii = PursuitInstinctIIV6()
+        self.pursuit_instinct_iii = PursuitInstinctIIIV6()
 
     @override
     def set_fortification_level(self, level: FortificationLevel) -> None:

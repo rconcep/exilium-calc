@@ -4,7 +4,11 @@ import json
 from enum import Enum
 from typing import Any
 
-from core.rotation_name_aliases import canonical_action_name, canonical_effect_name
+from core.rotation_name_aliases import (
+    canonical_action_field_name,
+    canonical_action_name,
+    canonical_effect_name,
+)
 from core.types import ElementalPhaseTile, PHASE_ELEMENT_TAGS, StatType, UnitLevel
 
 
@@ -156,10 +160,22 @@ def _normalize_action_chip(
             f"{context} action '{action_name}' does not exist for this doll"
         )
 
+    action_fields: dict[str, Any] = {}
+    for field_name, value in chip.items():
+        if field_name == "name":
+            continue
+        canonical_field_name = canonical_action_field_name(action_name, field_name)
+        if canonical_field_name in action_fields:
+            raise RotationDataError(
+                f"{context} action '{action_name}' contains duplicate parameter "
+                f"'{canonical_field_name}'"
+            )
+        action_fields[canonical_field_name] = value
+
     expected_fields: list[str] = [
         field["key"] for field in option_config[action_name].get("fields", [])
     ]
-    actual_fields: set[str] = {key for key in chip.keys() if key != "name"}
+    actual_fields: set[str] = set(action_fields)
     missing = sorted(set(expected_fields) - actual_fields)
     extra = sorted(actual_fields - set(expected_fields))
     if missing or extra:
@@ -175,7 +191,7 @@ def _normalize_action_chip(
 
     normalized: dict[str, Any] = {"name": action_name}
     for field_key in expected_fields:
-        normalized[field_key] = chip[field_key]
+        normalized[field_key] = action_fields[field_key]
     return normalized
 
 

@@ -190,3 +190,140 @@ def test_rotation_data_normalizes_legacy_welrod_names():
         timeline_action["target"]["add_debuffs"][0]["name"]
         == "Case Controller (Welrod)"
     )
+
+
+def test_rotation_data_normalizes_legacy_faelynn_names_and_fields():
+    stack_field = {"key": "stacks_of_hunt_tracking"}
+    option_config = {
+        "Burst Fang": {"fields": []},
+        "Triple Maul": {"fields": [stack_field]},
+        "Triple Maul (follow-up)": {
+            "fields": [
+                {"key": "number_of_targets_hit"},
+                {"key": "boss_was_hit"},
+            ]
+        },
+        "Scent Trail": {"fields": []},
+        "Loyal Dash": {"fields": [stack_field]},
+        "Pursuit Instinct I": {
+            "fields": [stack_field, {"key": "number_of_targets_hit"}]
+        },
+        "Pursuit Instinct II": {
+            "fields": [
+                stack_field,
+                {"key": "number_of_targets_hit"},
+                {"key": "has_collar_brand"},
+            ]
+        },
+        "Pursuit Instinct III": {
+            "fields": [
+                stack_field,
+                {"key": "number_of_targets_hit"},
+                {"key": "has_collar_brand"},
+                {"key": "target_tile_ascension_level"},
+            ]
+        },
+    }
+    payload = string_to_payload(
+        """
+        {
+            "metadata": {"version": 1, "doll_name": "Faelynn"},
+            "baseline": {
+                "attacker": {
+                    "buffs": [
+                        {"name": "Hunter's Tracking (Faelynn)"},
+                        {"name": "Roving Bloodlust (Faelynn)"}
+                    ]
+                },
+                "target": {"debuffs": [{"name": "Scent Mark (Faelynn)"}]}
+            },
+            "planner": {
+                "turns": {
+                    "1": [
+                        {"name": "Cuspid Combo"},
+                        {"name": "Triple Maule", "stacks_of_hunters_tracking": 2},
+                        {
+                            "name": "Triple Maule (follow-up)",
+                            "number_of_targets_hit": 4,
+                            "boss_was_hit": false
+                        },
+                        {"name": "Scent Mark"},
+                        {"name": "Loyal Hunt", "stacks_of_hunters_tracking": 3},
+                        {
+                            "name": "Hunter's Instinct I",
+                            "stacks_of_hunters_tracking": 1,
+                            "number_of_targets_hit": 2
+                        },
+                        {
+                            "name": "Hunter's Instinct II",
+                            "stacks_of_hunters_tracking": 2,
+                            "number_of_targets_hit": 1,
+                            "has_collar_brand": true
+                        },
+                        {
+                            "name": "Hunter's Instinct III",
+                            "stacks_of_hunters_tracking": 3,
+                            "number_of_targets_hit": 2,
+                            "has_collar_brand": false,
+                            "target_tile_ascension_level": 1
+                        }
+                    ]
+                }
+            },
+            "timeline": {
+                "actions": [{
+                    "turn": 1,
+                    "action": {
+                        "name": "Hunter's Instinct I",
+                        "stacks_of_hunters_tracking": 1,
+                        "number_of_targets_hit": 1
+                    },
+                    "attacker": {
+                        "add_buffs": [
+                            {"name": "Hunter's Tracking (Faelynn)"},
+                            {"name": "Roving Bloodlust (Faelynn)"}
+                        ],
+                        "remove_buffs": []
+                    },
+                    "target": {
+                        "add_debuffs": [{"name": "Scent Mark (Faelynn)"}],
+                        "remove_debuffs": []
+                    }
+                }]
+            }
+        }
+        """,
+        option_config=option_config,
+    )
+
+    actions = payload["planner"]["turns"]["1"]
+    assert [action["name"] for action in actions] == [
+        "Burst Fang",
+        "Triple Maul",
+        "Triple Maul (follow-up)",
+        "Scent Trail",
+        "Loyal Dash",
+        "Pursuit Instinct I",
+        "Pursuit Instinct II",
+        "Pursuit Instinct III",
+    ]
+    assert actions[1]["stacks_of_hunt_tracking"] == 2
+    assert actions[4]["stacks_of_hunt_tracking"] == 3
+    assert actions[7]["stacks_of_hunt_tracking"] == 3
+    assert [
+        buff["name"] for buff in payload["baseline"]["attacker"]["buffs"]
+    ] == ["Hunt Tracking (Faelynn)", "Roving Ferocity (Faelynn)"]
+    assert (
+        payload["baseline"]["target"]["debuffs"][0]["name"]
+        == "Scent Trail (Faelynn)"
+    )
+    timeline_action = payload["timeline"]["actions"][0]
+    assert timeline_action["action"]["name"] == "Pursuit Instinct I"
+    assert timeline_action["action"]["stacks_of_hunt_tracking"] == 1
+    assert [
+        buff["name"] for buff in timeline_action["attacker"]["add_buffs"]
+    ] == ["Hunt Tracking (Faelynn)", "Roving Ferocity (Faelynn)"]
+    assert (
+        timeline_action["target"]["add_debuffs"][0]["name"]
+        == "Scent Trail (Faelynn)"
+    )

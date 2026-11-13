@@ -29,27 +29,27 @@ class Faelynn(DollCalculatorPage):
     def update_doll_abilities(self) -> None:
         doll = cast(faelynn.Faelynn, self.doll)
 
-        hunters_tracking_stack_options: list[int] = [n for n in range(7)]
+        hunt_tracking_stack_options: list[int] = [n for n in range(7)]
         targets_hit_options: list[int] = [n for n in range(1, 10)]
 
         self.option_config: dict[str, dict[str, Any]] = {
-            "Cuspid Combo": {
+            "Burst Fang": {
                 "fields": [],
-                "function": doll.cuspid_combo.execute,
+                "function": doll.burst_fang.execute,
             },
-            "Triple Maule": {
+            "Triple Maul": {
                 "fields": [
                     {
-                        "key": "stacks_of_hunters_tracking",
+                        "key": "stacks_of_hunt_tracking",
                         "type": "select",
-                        "label": "Stacks of Hunter's Tracking",
-                        "options": hunters_tracking_stack_options,
+                        "label": "Stacks of Hunt Tracking",
+                        "options": hunt_tracking_stack_options,
                         "default": 6,
                     },
                 ],
-                "function": doll.triple_maule.execute,
+                "function": doll.triple_maul.execute,
             },
-            "Triple Maule (follow-up)": {
+            "Triple Maul (follow-up)": {
                 "fields": [
                     {
                         "key": "number_of_targets_hit",
@@ -65,31 +65,31 @@ class Faelynn(DollCalculatorPage):
                         "default": True,
                     },
                 ],
-                "function": doll.triple_maule_followup.execute,
+                "function": doll.triple_maul_followup.execute,
             },
-            "Scent Mark": {
+            "Scent Trail": {
                 "fields": [],
-                "function": doll.scent_mark.execute,
+                "function": doll.scent_trail.execute,
             },
-            "Loyal Hunt": {
+            "Loyal Dash": {
                 "fields": [
                     {
-                        "key": "stacks_of_hunters_tracking",
+                        "key": "stacks_of_hunt_tracking",
                         "type": "select",
-                        "label": "Stacks of Hunter's Tracking",
-                        "options": hunters_tracking_stack_options,
+                        "label": "Stacks of Hunt Tracking",
+                        "options": hunt_tracking_stack_options,
                         "default": 6,
                     },
                 ],
-                "function": doll.loyal_hunt.execute,
+                "function": doll.loyal_dash.execute,
             },
-            "Hunter's Instinct I": {
+            "Pursuit Instinct I": {
                 "fields": [
                     {
-                        "key": "stacks_of_hunters_tracking",
+                        "key": "stacks_of_hunt_tracking",
                         "type": "select",
-                        "label": "Stacks of Hunter's Tracking",
-                        "options": hunters_tracking_stack_options,
+                        "label": "Stacks of Hunt Tracking",
+                        "options": hunt_tracking_stack_options,
                         "default": 6,
                     },
                     {
@@ -100,15 +100,15 @@ class Faelynn(DollCalculatorPage):
                         "default": 1,
                     },
                 ],
-                "function": doll.hunters_instinct_i.execute,
+                "function": doll.pursuit_instinct_i.execute,
             },
-            "Hunter's Instinct II": {
+            "Pursuit Instinct II": {
                 "fields": [
                     {
-                        "key": "stacks_of_hunters_tracking",
+                        "key": "stacks_of_hunt_tracking",
                         "type": "select",
-                        "label": "Stacks of Hunter's Tracking",
-                        "options": hunters_tracking_stack_options,
+                        "label": "Stacks of Hunt Tracking",
+                        "options": hunt_tracking_stack_options,
                         "default": 6,
                     },
                     {
@@ -125,15 +125,15 @@ class Faelynn(DollCalculatorPage):
                         "default": True,
                     },
                 ],
-                "function": doll.hunters_instinct_ii.execute,
+                "function": doll.pursuit_instinct_ii.execute,
             },
-            "Hunter's Instinct III": {
+            "Pursuit Instinct III": {
                 "fields": [
                     {
-                        "key": "stacks_of_hunters_tracking",
+                        "key": "stacks_of_hunt_tracking",
                         "type": "select",
-                        "label": "Stacks of Hunter's Tracking",
-                        "options": hunters_tracking_stack_options,
+                        "label": "Stacks of Hunt Tracking",
+                        "options": hunt_tracking_stack_options,
                         "default": 6,
                     },
                     {
@@ -157,7 +157,7 @@ class Faelynn(DollCalculatorPage):
                         "default": 3,
                     },
                 ],
-                "function": doll.hunters_instinct_iii.execute,
+                "function": doll.pursuit_instinct_iii.execute,
             },
         }
 

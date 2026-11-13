@@ -4,8 +4,8 @@ from core.types import DamageTag, FortificationLevel
 
 
 class TestFaelynnSkills:
-    def test_cuspid_combo(self):
-        result = CuspidCombo().execute()
+    def test_burst_fang(self):
+        result = BurstFang().execute()
 
         assert result.base_potency == 80
         assert result.tags == {
@@ -15,13 +15,13 @@ class TestFaelynnSkills:
             DamageTag.TARGETED,
             DamageTag.PHYSICAL,
         }
-        assert result.group_name == "Cuspid Combo"
+        assert result.group_name == "Burst Fang"
 
-    def test_triple_maule(self):
-        result = TripleMaule().execute(stacks_of_hunters_tracking=0)
+    def test_triple_maul(self):
+        result = TripleMaul().execute(stacks_of_hunt_tracking=0)
 
         assert result.base_potency == 60
-        assert result.label == "Triple Maule (0)"
+        assert result.label == "Triple Maul (0)"
         assert result.tags == {
             DamageTag.ACTIVE,
             DamageTag.CORROSION,
@@ -29,35 +29,35 @@ class TestFaelynnSkills:
             DamageTag.MEDIUM_AMMO,
             DamageTag.AREA_OF_EFFECT,
         }
-        assert result.group_name == "Triple Maule"
+        assert result.group_name == "Triple Maul"
 
-    def test_triple_maule_scales_with_hunters_tracking(self):
-        result = TripleMaule().execute(stacks_of_hunters_tracking=3)
+    def test_triple_maul_scales_with_hunt_tracking(self):
+        result = TripleMaul().execute(stacks_of_hunt_tracking=3)
 
         assert result.base_potency == 75
 
-    def test_triple_maule_ignores_negative_stacks(self):
-        result = TripleMaule().execute(stacks_of_hunters_tracking=-2)
+    def test_triple_maul_ignores_negative_stacks(self):
+        result = TripleMaul().execute(stacks_of_hunt_tracking=-2)
 
         assert result.base_potency == 60
 
-    def test_triple_maule_v2_scales_with_hunters_tracking(self):
-        result = TripleMauleV2().execute(stacks_of_hunters_tracking=3)
+    def test_triple_maul_v2_scales_with_hunt_tracking(self):
+        result = TripleMaulV2().execute(stacks_of_hunt_tracking=3)
 
         assert result.base_potency == 90
 
-    def test_triple_maule_v5_base(self):
-        result = TripleMauleV5().execute(stacks_of_hunters_tracking=0)
+    def test_triple_maul_v5_base(self):
+        result = TripleMaulV5().execute(stacks_of_hunt_tracking=0)
 
         assert result.base_potency == 120
 
-    def test_triple_maule_v5_scales_with_hunters_tracking(self):
-        result = TripleMauleV5().execute(stacks_of_hunters_tracking=3)
+    def test_triple_maul_v5_scales_with_hunt_tracking(self):
+        result = TripleMaulV5().execute(stacks_of_hunt_tracking=3)
 
         assert result.base_potency == 150
 
-    def test_triple_maule_followup_base(self):
-        result = TripleMauleFollowup().execute(
+    def test_triple_maul_followup_base(self):
+        result = TripleMaulFollowup().execute(
             number_of_targets_hit=1, boss_was_hit=False
         )
 
@@ -68,31 +68,31 @@ class TestFaelynnSkills:
             DamageTag.PHASE,
             DamageTag.AREA_OF_EFFECT,
         }
-        assert result.group_name == "Triple Maule"
+        assert result.group_name == "Triple Maul"
 
-    def test_triple_maule_followup_v5_no_conditions_met(self):
-        result = TripleMauleFollowupV5().execute(
+    def test_triple_maul_followup_v5_no_conditions_met(self):
+        result = TripleMaulFollowupV5().execute(
             number_of_targets_hit=1, boss_was_hit=False
         )
 
         assert result.base_potency == 0
 
-    def test_triple_maule_followup_v5_with_many_targets(self):
-        result = TripleMauleFollowupV5().execute(
+    def test_triple_maul_followup_v5_with_many_targets(self):
+        result = TripleMaulFollowupV5().execute(
             number_of_targets_hit=4, boss_was_hit=False
         )
 
         assert result.base_potency == 120
 
-    def test_triple_maule_followup_v5_with_boss_hit(self):
-        result = TripleMauleFollowupV5().execute(
+    def test_triple_maul_followup_v5_with_boss_hit(self):
+        result = TripleMaulFollowupV5().execute(
             number_of_targets_hit=1, boss_was_hit=True
         )
 
         assert result.base_potency == 120
 
-    def test_scent_mark(self):
-        result = ScentMarkAction().execute()
+    def test_scent_trail(self):
+        result = ScentTrailAction().execute()
 
         assert result.base_potency == 60
         assert result.tags == {
@@ -101,18 +101,18 @@ class TestFaelynnSkills:
             DamageTag.PHASE,
             DamageTag.AREA_OF_EFFECT,
         }
-        assert result.group_name == "Scent Mark"
+        assert result.group_name == "Scent Trail"
 
-    def test_scent_mark_v2(self):
-        result = ScentMarkActionV2().execute()
+    def test_scent_trail_v2(self):
+        result = ScentTrailActionV2().execute()
 
         assert result.base_potency == 100
 
-    def test_loyal_hunt(self):
-        result = LoyalHunt().execute(stacks_of_hunters_tracking=0)
+    def test_loyal_dash(self):
+        result = LoyalDash().execute(stacks_of_hunt_tracking=0)
 
         assert result.base_potency == 120
-        assert result.label == "Loyal Hunt (0)"
+        assert result.label == "Loyal Dash (0)"
         assert result.tags == {
             DamageTag.ACTIVE,
             DamageTag.CORROSION,
@@ -121,31 +121,31 @@ class TestFaelynnSkills:
             DamageTag.ULTIMATE,
             DamageTag.CONFECTANCE,
         }
-        assert result.group_name == "Loyal Hunt"
+        assert result.group_name == "Loyal Dash"
 
-    def test_loyal_hunt_scales_with_hunters_tracking(self):
-        result = LoyalHunt().execute(stacks_of_hunters_tracking=3)
+    def test_loyal_dash_scales_with_hunt_tracking(self):
+        result = LoyalDash().execute(stacks_of_hunt_tracking=3)
 
         assert result.base_potency == 135
 
-    def test_loyal_hunt_v3_scales_with_hunters_tracking(self):
-        result = LoyalHuntV3().execute(stacks_of_hunters_tracking=3)
+    def test_loyal_dash_v3_scales_with_hunt_tracking(self):
+        result = LoyalDashV3().execute(stacks_of_hunt_tracking=3)
 
         assert result.base_potency == 150
 
-    def test_loyal_hunt_v6_base(self):
-        result = LoyalHuntV6().execute(stacks_of_hunters_tracking=0)
+    def test_loyal_dash_v6_base(self):
+        result = LoyalDashV6().execute(stacks_of_hunt_tracking=0)
 
         assert result.base_potency == 150
 
-    def test_loyal_hunt_v6_scales_with_hunters_tracking(self):
-        result = LoyalHuntV6().execute(stacks_of_hunters_tracking=3)
+    def test_loyal_dash_v6_scales_with_hunt_tracking(self):
+        result = LoyalDashV6().execute(stacks_of_hunt_tracking=3)
 
         assert result.base_potency == 180
 
-    def test_hunters_instinct_i(self):
-        result = HuntersInstinctI().execute(
-            stacks_of_hunters_tracking=0, number_of_targets_hit=2
+    def test_pursuit_instinct_i(self):
+        result = PursuitInstinctI().execute(
+            stacks_of_hunt_tracking=0, number_of_targets_hit=2
         )
 
         assert result.base_potency == 60
@@ -155,50 +155,50 @@ class TestFaelynnSkills:
             DamageTag.PHASE,
             DamageTag.AREA_OF_EFFECT,
         }
-        assert result.group_name == "Hunter's Instinct I"
+        assert result.group_name == "Pursuit Instinct I"
 
-    def test_hunters_instinct_i_scales_with_hunters_tracking(self):
-        result = HuntersInstinctI().execute(
-            stacks_of_hunters_tracking=3, number_of_targets_hit=2
+    def test_pursuit_instinct_i_scales_with_hunt_tracking(self):
+        result = PursuitInstinctI().execute(
+            stacks_of_hunt_tracking=3, number_of_targets_hit=2
         )
 
         assert result.base_potency == 75
 
-    def test_hunters_instinct_i_single_target_bonus(self):
-        result = HuntersInstinctI().execute(
-            stacks_of_hunters_tracking=0, number_of_targets_hit=1
+    def test_pursuit_instinct_i_single_target_bonus(self):
+        result = PursuitInstinctI().execute(
+            stacks_of_hunt_tracking=0, number_of_targets_hit=1
         )
 
         assert result.base_potency == 90
 
-    def test_hunters_instinct_i_v3_scales_with_hunters_tracking(self):
-        result = HuntersInstinctIV3().execute(
-            stacks_of_hunters_tracking=3, number_of_targets_hit=2
+    def test_pursuit_instinct_i_v3_scales_with_hunt_tracking(self):
+        result = PursuitInstinctIV3().execute(
+            stacks_of_hunt_tracking=3, number_of_targets_hit=2
         )
 
         assert result.base_potency == 90
 
-    def test_hunters_instinct_i_v6_base(self):
-        result = HuntersInstinctIV6().execute(
-            stacks_of_hunters_tracking=0, number_of_targets_hit=2
+    def test_pursuit_instinct_i_v6_base(self):
+        result = PursuitInstinctIV6().execute(
+            stacks_of_hunt_tracking=0, number_of_targets_hit=2
         )
 
         assert result.base_potency == 90
 
-    def test_hunters_instinct_ii(self):
-        result = HuntersInstinctII().execute(
-            stacks_of_hunters_tracking=0,
+    def test_pursuit_instinct_ii(self):
+        result = PursuitInstinctII().execute(
+            stacks_of_hunt_tracking=0,
             number_of_targets_hit=2,
             has_collar_brand=False,
         )
 
         assert result.base_potency == 120
         assert result.buffs_before == []
-        assert result.group_name == "Hunter's Instinct II"
+        assert result.group_name == "Pursuit Instinct II"
 
-    def test_hunters_instinct_ii_with_collar_brand(self):
-        result = HuntersInstinctII().execute(
-            stacks_of_hunters_tracking=0, number_of_targets_hit=2, has_collar_brand=True
+    def test_pursuit_instinct_ii_with_collar_brand(self):
+        result = PursuitInstinctII().execute(
+            stacks_of_hunt_tracking=0, number_of_targets_hit=2, has_collar_brand=True
         )
 
         assert result.buffs_before == [
@@ -210,49 +210,49 @@ class TestFaelynnSkills:
             )
         ]
 
-    def test_hunters_instinct_ii_single_target_bonus(self):
-        result = HuntersInstinctII().execute(
-            stacks_of_hunters_tracking=0,
+    def test_pursuit_instinct_ii_single_target_bonus(self):
+        result = PursuitInstinctII().execute(
+            stacks_of_hunt_tracking=0,
             number_of_targets_hit=1,
             has_collar_brand=False,
         )
 
         assert result.base_potency == 150
 
-    def test_hunters_instinct_ii_v3_scales_with_hunters_tracking(self):
-        result = HuntersInstinctIIV3().execute(
-            stacks_of_hunters_tracking=3,
+    def test_pursuit_instinct_ii_v3_scales_with_hunt_tracking(self):
+        result = PursuitInstinctIIV3().execute(
+            stacks_of_hunt_tracking=3,
             number_of_targets_hit=2,
             has_collar_brand=False,
         )
 
         assert result.base_potency == 150
 
-    def test_hunters_instinct_ii_v6_base(self):
-        result = HuntersInstinctIIV6().execute(
-            stacks_of_hunters_tracking=0,
+    def test_pursuit_instinct_ii_v6_base(self):
+        result = PursuitInstinctIIV6().execute(
+            stacks_of_hunt_tracking=0,
             number_of_targets_hit=2,
             has_collar_brand=False,
         )
 
         assert result.base_potency == 170
 
-    def test_hunters_instinct_iii(self):
-        result = HuntersInstinctIII().execute(
-            stacks_of_hunters_tracking=0,
+    def test_pursuit_instinct_iii(self):
+        result = PursuitInstinctIII().execute(
+            stacks_of_hunt_tracking=0,
             number_of_targets_hit=2,
             has_collar_brand=False,
             target_tile_ascension_level=0,
         )
 
         assert result.base_potency == 240
-        assert result.group_name == "Hunter's Instinct III"
+        assert result.group_name == "Pursuit Instinct III"
         assert result.buffs_before == []
         assert result.debuffs_before == []
 
-    def test_hunters_instinct_iii_with_collar_brand(self):
-        result = HuntersInstinctIII().execute(
-            stacks_of_hunters_tracking=0,
+    def test_pursuit_instinct_iii_with_collar_brand(self):
+        result = PursuitInstinctIII().execute(
+            stacks_of_hunt_tracking=0,
             number_of_targets_hit=2,
             has_collar_brand=True,
             target_tile_ascension_level=0,
@@ -267,9 +267,9 @@ class TestFaelynnSkills:
             )
         ]
 
-    def test_hunters_instinct_iii_with_target_tile_ascension_level(self):
-        result = HuntersInstinctIII().execute(
-            stacks_of_hunters_tracking=0,
+    def test_pursuit_instinct_iii_with_target_tile_ascension_level(self):
+        result = PursuitInstinctIII().execute(
+            stacks_of_hunt_tracking=0,
             number_of_targets_hit=2,
             has_collar_brand=False,
             target_tile_ascension_level=2,
@@ -292,9 +292,9 @@ class TestFaelynnSkills:
             )
         ]
 
-    def test_hunters_instinct_iii_with_collar_brand_and_target_tile_ascension_level(self):
-        result = HuntersInstinctIII().execute(
-            stacks_of_hunters_tracking=0,
+    def test_pursuit_instinct_iii_with_collar_brand_and_target_tile_ascension_level(self):
+        result = PursuitInstinctIII().execute(
+            stacks_of_hunt_tracking=0,
             number_of_targets_hit=2,
             has_collar_brand=True,
             target_tile_ascension_level=2,
@@ -315,15 +315,15 @@ class TestFaelynnSkills:
             ),
         ]
 
-    def test_hunters_instinct_iii_target_tile_ascension_level_caps_at_three(self):
-        at_cap = HuntersInstinctIII().execute(
-            stacks_of_hunters_tracking=0,
+    def test_pursuit_instinct_iii_target_tile_ascension_level_caps_at_three(self):
+        at_cap = PursuitInstinctIII().execute(
+            stacks_of_hunt_tracking=0,
             number_of_targets_hit=2,
             has_collar_brand=False,
             target_tile_ascension_level=MAX_TILE_ASCENSION_LEVEL,
         )
-        over_cap = HuntersInstinctIII().execute(
-            stacks_of_hunters_tracking=0,
+        over_cap = PursuitInstinctIII().execute(
+            stacks_of_hunt_tracking=0,
             number_of_targets_hit=2,
             has_collar_brand=False,
             target_tile_ascension_level=MAX_TILE_ASCENSION_LEVEL + 5,
@@ -348,9 +348,9 @@ class TestFaelynnSkills:
         assert over_cap.buffs_before == at_cap.buffs_before
         assert over_cap.debuffs_before == at_cap.debuffs_before
 
-    def test_hunters_instinct_iii_ignores_non_positive_target_tile_ascension_level(self):
-        result = HuntersInstinctIII().execute(
-            stacks_of_hunters_tracking=0,
+    def test_pursuit_instinct_iii_ignores_non_positive_target_tile_ascension_level(self):
+        result = PursuitInstinctIII().execute(
+            stacks_of_hunt_tracking=0,
             number_of_targets_hit=2,
             has_collar_brand=False,
             target_tile_ascension_level=-1,
@@ -359,9 +359,9 @@ class TestFaelynnSkills:
         assert result.buffs_before == []
         assert result.debuffs_before == []
 
-    def test_hunters_instinct_iii_v3_scales_with_hunters_tracking(self):
-        result = HuntersInstinctIIIV3().execute(
-            stacks_of_hunters_tracking=3,
+    def test_pursuit_instinct_iii_v3_scales_with_hunt_tracking(self):
+        result = PursuitInstinctIIIV3().execute(
+            stacks_of_hunt_tracking=3,
             number_of_targets_hit=2,
             has_collar_brand=False,
             target_tile_ascension_level=0,
@@ -369,9 +369,9 @@ class TestFaelynnSkills:
 
         assert result.base_potency == 270
 
-    def test_hunters_instinct_iii_v3_with_target_tile_ascension_level(self):
-        result = HuntersInstinctIIIV3().execute(
-            stacks_of_hunters_tracking=0,
+    def test_pursuit_instinct_iii_v3_with_target_tile_ascension_level(self):
+        result = PursuitInstinctIIIV3().execute(
+            stacks_of_hunt_tracking=0,
             number_of_targets_hit=2,
             has_collar_brand=False,
             target_tile_ascension_level=MAX_TILE_ASCENSION_LEVEL,
@@ -394,9 +394,9 @@ class TestFaelynnSkills:
             )
         ]
 
-    def test_hunters_instinct_iii_v4_with_target_tile_ascension_level(self):
-        result = HuntersInstinctIIIV4().execute(
-            stacks_of_hunters_tracking=0,
+    def test_pursuit_instinct_iii_v4_with_target_tile_ascension_level(self):
+        result = PursuitInstinctIIIV4().execute(
+            stacks_of_hunt_tracking=0,
             number_of_targets_hit=2,
             has_collar_brand=False,
             target_tile_ascension_level=MAX_TILE_ASCENSION_LEVEL,
@@ -419,9 +419,9 @@ class TestFaelynnSkills:
             )
         ]
 
-    def test_hunters_instinct_iii_v6_base(self):
-        result = HuntersInstinctIIIV6().execute(
-            stacks_of_hunters_tracking=0,
+    def test_pursuit_instinct_iii_v6_base(self):
+        result = PursuitInstinctIIIV6().execute(
+            stacks_of_hunt_tracking=0,
             number_of_targets_hit=2,
             has_collar_brand=False,
             target_tile_ascension_level=0,
@@ -429,9 +429,9 @@ class TestFaelynnSkills:
 
         assert result.base_potency == 480
 
-    def test_hunters_instinct_iii_v6_with_target_tile_ascension_level(self):
-        result = HuntersInstinctIIIV6().execute(
-            stacks_of_hunters_tracking=0,
+    def test_pursuit_instinct_iii_v6_with_target_tile_ascension_level(self):
+        result = PursuitInstinctIIIV6().execute(
+            stacks_of_hunt_tracking=0,
             number_of_targets_hit=2,
             has_collar_brand=False,
             target_tile_ascension_level=MAX_TILE_ASCENSION_LEVEL,
@@ -455,117 +455,117 @@ class TestFaelynnSkills:
         ]
 
 
-class TestFaelynnHuntersTrackingStackCap:
-    """Below Fortification Level V4, stacks of Hunter's Tracking are capped at 3. At V4+, the cap is 6."""
+class TestFaelynnHuntTrackingStackCap:
+    """Below Fortification Level V4, stacks of Hunt Tracking are capped at 3. At V4+, the cap is 6."""
 
-    def test_triple_maule_caps_at_three_below_v4(self):
-        at_cap = TripleMaule().execute(stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM)
-        over_cap = TripleMaule().execute(stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM + 5)
+    def test_triple_maul_caps_at_three_below_v4(self):
+        at_cap = TripleMaul().execute(stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM)
+        over_cap = TripleMaul().execute(stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM + 5)
 
         assert at_cap.base_potency == 75
         assert over_cap.base_potency == at_cap.base_potency
 
-    def test_triple_maule_v2_caps_at_three(self):
-        at_cap = TripleMauleV2().execute(stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM)
-        over_cap = TripleMauleV2().execute(stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM + 5)
+    def test_triple_maul_v2_caps_at_three(self):
+        at_cap = TripleMaulV2().execute(stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM)
+        over_cap = TripleMaulV2().execute(stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM + 5)
 
         assert at_cap.base_potency == 90
         assert over_cap.base_potency == at_cap.base_potency
 
-    def test_triple_maule_v4_caps_at_six(self):
-        at_cap = TripleMauleV4().execute(stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM_V4)
-        over_cap = TripleMauleV4().execute(stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM_V4 + 5)
+    def test_triple_maul_v4_caps_at_six(self):
+        at_cap = TripleMaulV4().execute(stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM_V4)
+        over_cap = TripleMaulV4().execute(stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM_V4 + 5)
 
         assert at_cap.base_potency == 120
         assert over_cap.base_potency == at_cap.base_potency
 
-    def test_triple_maule_v5_caps_at_six(self):
-        at_cap = TripleMauleV5().execute(stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM_V4)
-        over_cap = TripleMauleV5().execute(stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM_V4 + 5)
+    def test_triple_maul_v5_caps_at_six(self):
+        at_cap = TripleMaulV5().execute(stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM_V4)
+        over_cap = TripleMaulV5().execute(stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM_V4 + 5)
 
         assert at_cap.base_potency == 180
         assert over_cap.base_potency == at_cap.base_potency
 
-    def test_loyal_hunt_caps_at_three(self):
-        at_cap = LoyalHunt().execute(stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM)
-        over_cap = LoyalHunt().execute(stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM + 5)
+    def test_loyal_dash_caps_at_three(self):
+        at_cap = LoyalDash().execute(stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM)
+        over_cap = LoyalDash().execute(stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM + 5)
 
         assert at_cap.base_potency == 135
         assert over_cap.base_potency == at_cap.base_potency
 
-    def test_loyal_hunt_v3_caps_at_three(self):
-        at_cap = LoyalHuntV3().execute(stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM)
-        over_cap = LoyalHuntV3().execute(stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM + 5)
+    def test_loyal_dash_v3_caps_at_three(self):
+        at_cap = LoyalDashV3().execute(stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM)
+        over_cap = LoyalDashV3().execute(stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM + 5)
 
         assert at_cap.base_potency == 150
         assert over_cap.base_potency == at_cap.base_potency
 
-    def test_loyal_hunt_v4_caps_at_six(self):
-        at_cap = LoyalHuntV4().execute(stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM_V4)
-        over_cap = LoyalHuntV4().execute(stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM_V4 + 5)
+    def test_loyal_dash_v4_caps_at_six(self):
+        at_cap = LoyalDashV4().execute(stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM_V4)
+        over_cap = LoyalDashV4().execute(stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM_V4 + 5)
 
         assert at_cap.base_potency == 180
         assert over_cap.base_potency == at_cap.base_potency
 
-    def test_loyal_hunt_v6_caps_at_six(self):
-        at_cap = LoyalHuntV6().execute(stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM_V4)
-        over_cap = LoyalHuntV6().execute(stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM_V4 + 5)
+    def test_loyal_dash_v6_caps_at_six(self):
+        at_cap = LoyalDashV6().execute(stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM_V4)
+        over_cap = LoyalDashV6().execute(stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM_V4 + 5)
 
         assert at_cap.base_potency == 210
         assert over_cap.base_potency == at_cap.base_potency
 
-    def test_hunters_instinct_i_caps_at_three(self):
-        at_cap = HuntersInstinctI().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM, number_of_targets_hit=2
+    def test_pursuit_instinct_i_caps_at_three(self):
+        at_cap = PursuitInstinctI().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM, number_of_targets_hit=2
         )
-        over_cap = HuntersInstinctI().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM + 5, number_of_targets_hit=2
+        over_cap = PursuitInstinctI().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM + 5, number_of_targets_hit=2
         )
 
         assert at_cap.base_potency == 75
         assert over_cap.base_potency == at_cap.base_potency
 
-    def test_hunters_instinct_i_v3_caps_at_three(self):
-        at_cap = HuntersInstinctIV3().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM, number_of_targets_hit=2
+    def test_pursuit_instinct_i_v3_caps_at_three(self):
+        at_cap = PursuitInstinctIV3().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM, number_of_targets_hit=2
         )
-        over_cap = HuntersInstinctIV3().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM + 5, number_of_targets_hit=2
+        over_cap = PursuitInstinctIV3().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM + 5, number_of_targets_hit=2
         )
 
         assert at_cap.base_potency == 90
         assert over_cap.base_potency == at_cap.base_potency
 
-    def test_hunters_instinct_i_v4_caps_at_six(self):
-        at_cap = HuntersInstinctIV4().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM_V4, number_of_targets_hit=2
+    def test_pursuit_instinct_i_v4_caps_at_six(self):
+        at_cap = PursuitInstinctIV4().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM_V4, number_of_targets_hit=2
         )
-        over_cap = HuntersInstinctIV4().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM_V4 + 5, number_of_targets_hit=2
+        over_cap = PursuitInstinctIV4().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM_V4 + 5, number_of_targets_hit=2
         )
 
         assert at_cap.base_potency == 120
         assert over_cap.base_potency == at_cap.base_potency
 
-    def test_hunters_instinct_i_v6_caps_at_six(self):
-        at_cap = HuntersInstinctIV6().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM_V4, number_of_targets_hit=2
+    def test_pursuit_instinct_i_v6_caps_at_six(self):
+        at_cap = PursuitInstinctIV6().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM_V4, number_of_targets_hit=2
         )
-        over_cap = HuntersInstinctIV6().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM_V4 + 5, number_of_targets_hit=2
+        over_cap = PursuitInstinctIV6().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM_V4 + 5, number_of_targets_hit=2
         )
 
         assert at_cap.base_potency == 150
         assert over_cap.base_potency == at_cap.base_potency
 
-    def test_hunters_instinct_ii_caps_at_three(self):
-        at_cap = HuntersInstinctII().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM,
+    def test_pursuit_instinct_ii_caps_at_three(self):
+        at_cap = PursuitInstinctII().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM,
             number_of_targets_hit=2,
             has_collar_brand=False,
         )
-        over_cap = HuntersInstinctII().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM + 5,
+        over_cap = PursuitInstinctII().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM + 5,
             number_of_targets_hit=2,
             has_collar_brand=False,
         )
@@ -573,14 +573,14 @@ class TestFaelynnHuntersTrackingStackCap:
         assert at_cap.base_potency == 135
         assert over_cap.base_potency == at_cap.base_potency
 
-    def test_hunters_instinct_ii_v3_caps_at_three(self):
-        at_cap = HuntersInstinctIIV3().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM,
+    def test_pursuit_instinct_ii_v3_caps_at_three(self):
+        at_cap = PursuitInstinctIIV3().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM,
             number_of_targets_hit=2,
             has_collar_brand=False,
         )
-        over_cap = HuntersInstinctIIV3().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM + 5,
+        over_cap = PursuitInstinctIIV3().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM + 5,
             number_of_targets_hit=2,
             has_collar_brand=False,
         )
@@ -588,14 +588,14 @@ class TestFaelynnHuntersTrackingStackCap:
         assert at_cap.base_potency == 150
         assert over_cap.base_potency == at_cap.base_potency
 
-    def test_hunters_instinct_ii_v4_caps_at_six(self):
-        at_cap = HuntersInstinctIIV4().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM_V4,
+    def test_pursuit_instinct_ii_v4_caps_at_six(self):
+        at_cap = PursuitInstinctIIV4().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM_V4,
             number_of_targets_hit=2,
             has_collar_brand=False,
         )
-        over_cap = HuntersInstinctIIV4().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM_V4 + 5,
+        over_cap = PursuitInstinctIIV4().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM_V4 + 5,
             number_of_targets_hit=2,
             has_collar_brand=False,
         )
@@ -603,14 +603,14 @@ class TestFaelynnHuntersTrackingStackCap:
         assert at_cap.base_potency == 180
         assert over_cap.base_potency == at_cap.base_potency
 
-    def test_hunters_instinct_ii_v6_caps_at_six(self):
-        at_cap = HuntersInstinctIIV6().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM_V4,
+    def test_pursuit_instinct_ii_v6_caps_at_six(self):
+        at_cap = PursuitInstinctIIV6().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM_V4,
             number_of_targets_hit=2,
             has_collar_brand=False,
         )
-        over_cap = HuntersInstinctIIV6().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM_V4 + 5,
+        over_cap = PursuitInstinctIIV6().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM_V4 + 5,
             number_of_targets_hit=2,
             has_collar_brand=False,
         )
@@ -618,15 +618,15 @@ class TestFaelynnHuntersTrackingStackCap:
         assert at_cap.base_potency == 230
         assert over_cap.base_potency == at_cap.base_potency
 
-    def test_hunters_instinct_iii_caps_at_three(self):
-        at_cap = HuntersInstinctIII().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM,
+    def test_pursuit_instinct_iii_caps_at_three(self):
+        at_cap = PursuitInstinctIII().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM,
             number_of_targets_hit=2,
             has_collar_brand=False,
             target_tile_ascension_level=0,
         )
-        over_cap = HuntersInstinctIII().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM + 5,
+        over_cap = PursuitInstinctIII().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM + 5,
             number_of_targets_hit=2,
             has_collar_brand=False,
             target_tile_ascension_level=0,
@@ -635,15 +635,15 @@ class TestFaelynnHuntersTrackingStackCap:
         assert at_cap.base_potency == 255
         assert over_cap.base_potency == at_cap.base_potency
 
-    def test_hunters_instinct_iii_v3_caps_at_three(self):
-        at_cap = HuntersInstinctIIIV3().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM,
+    def test_pursuit_instinct_iii_v3_caps_at_three(self):
+        at_cap = PursuitInstinctIIIV3().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM,
             number_of_targets_hit=2,
             has_collar_brand=False,
             target_tile_ascension_level=0,
         )
-        over_cap = HuntersInstinctIIIV3().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM + 5,
+        over_cap = PursuitInstinctIIIV3().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM + 5,
             number_of_targets_hit=2,
             has_collar_brand=False,
             target_tile_ascension_level=0,
@@ -652,15 +652,15 @@ class TestFaelynnHuntersTrackingStackCap:
         assert at_cap.base_potency == 270
         assert over_cap.base_potency == at_cap.base_potency
 
-    def test_hunters_instinct_iii_v4_caps_at_six(self):
-        at_cap = HuntersInstinctIIIV4().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM_V4,
+    def test_pursuit_instinct_iii_v4_caps_at_six(self):
+        at_cap = PursuitInstinctIIIV4().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM_V4,
             number_of_targets_hit=2,
             has_collar_brand=False,
             target_tile_ascension_level=0,
         )
-        over_cap = HuntersInstinctIIIV4().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM_V4 + 5,
+        over_cap = PursuitInstinctIIIV4().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM_V4 + 5,
             number_of_targets_hit=2,
             has_collar_brand=False,
             target_tile_ascension_level=0,
@@ -669,15 +669,15 @@ class TestFaelynnHuntersTrackingStackCap:
         assert at_cap.base_potency == 300
         assert over_cap.base_potency == at_cap.base_potency
 
-    def test_hunters_instinct_iii_v6_caps_at_six(self):
-        at_cap = HuntersInstinctIIIV6().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM_V4,
+    def test_pursuit_instinct_iii_v6_caps_at_six(self):
+        at_cap = PursuitInstinctIIIV6().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM_V4,
             number_of_targets_hit=2,
             has_collar_brand=False,
             target_tile_ascension_level=0,
         )
-        over_cap = HuntersInstinctIIIV6().execute(
-            stacks_of_hunters_tracking=HUNTERS_TRACKING_STACK_MAXIMUM_V4 + 5,
+        over_cap = PursuitInstinctIIIV6().execute(
+            stacks_of_hunt_tracking=HUNT_TRACKING_STACK_MAXIMUM_V4 + 5,
             number_of_targets_hit=2,
             has_collar_brand=False,
             target_tile_ascension_level=0,
@@ -692,87 +692,87 @@ class TestFaelynn:
         doll = Faelynn()
         doll.set_to_v0()
 
-        assert isinstance(doll.cuspid_combo, CuspidCombo)
-        assert isinstance(doll.triple_maule, TripleMaule)
-        assert isinstance(doll.triple_maule_followup, TripleMauleFollowup)
-        assert isinstance(doll.scent_mark, ScentMarkAction)
-        assert isinstance(doll.loyal_hunt, LoyalHunt)
-        assert isinstance(doll.hunters_instinct_i, HuntersInstinctI)
-        assert isinstance(doll.hunters_instinct_ii, HuntersInstinctII)
-        assert isinstance(doll.hunters_instinct_iii, HuntersInstinctIII)
+        assert isinstance(doll.burst_fang, BurstFang)
+        assert isinstance(doll.triple_maul, TripleMaul)
+        assert isinstance(doll.triple_maul_followup, TripleMaulFollowup)
+        assert isinstance(doll.scent_trail, ScentTrailAction)
+        assert isinstance(doll.loyal_dash, LoyalDash)
+        assert isinstance(doll.pursuit_instinct_i, PursuitInstinctI)
+        assert isinstance(doll.pursuit_instinct_ii, PursuitInstinctII)
+        assert isinstance(doll.pursuit_instinct_iii, PursuitInstinctIII)
 
     def test_set_to_v2(self):
         doll = Faelynn()
         doll.set_to_v2()
 
-        assert isinstance(doll.triple_maule, TripleMauleV2)
-        assert isinstance(doll.scent_mark, ScentMarkActionV2)
+        assert isinstance(doll.triple_maul, TripleMaulV2)
+        assert isinstance(doll.scent_trail, ScentTrailActionV2)
 
     def test_set_to_v3(self):
         doll = Faelynn()
         doll.set_to_v3()
 
-        assert isinstance(doll.loyal_hunt, LoyalHuntV3)
-        assert isinstance(doll.hunters_instinct_i, HuntersInstinctIV3)
-        assert isinstance(doll.hunters_instinct_ii, HuntersInstinctIIV3)
-        assert isinstance(doll.hunters_instinct_iii, HuntersInstinctIIIV3)
+        assert isinstance(doll.loyal_dash, LoyalDashV3)
+        assert isinstance(doll.pursuit_instinct_i, PursuitInstinctIV3)
+        assert isinstance(doll.pursuit_instinct_ii, PursuitInstinctIIV3)
+        assert isinstance(doll.pursuit_instinct_iii, PursuitInstinctIIIV3)
 
     def test_set_to_v4(self):
         doll = Faelynn()
         doll.set_to_v4()
 
-        assert isinstance(doll.triple_maule, TripleMauleV4)
-        assert isinstance(doll.loyal_hunt, LoyalHuntV4)
-        assert isinstance(doll.hunters_instinct_i, HuntersInstinctIV4)
-        assert isinstance(doll.hunters_instinct_ii, HuntersInstinctIIV4)
-        assert isinstance(doll.hunters_instinct_iii, HuntersInstinctIIIV4)
+        assert isinstance(doll.triple_maul, TripleMaulV4)
+        assert isinstance(doll.loyal_dash, LoyalDashV4)
+        assert isinstance(doll.pursuit_instinct_i, PursuitInstinctIV4)
+        assert isinstance(doll.pursuit_instinct_ii, PursuitInstinctIIV4)
+        assert isinstance(doll.pursuit_instinct_iii, PursuitInstinctIIIV4)
 
     def test_set_to_v5(self):
         doll = Faelynn()
         doll.set_to_v5()
 
-        assert isinstance(doll.triple_maule, TripleMauleV5)
-        assert isinstance(doll.triple_maule_followup, TripleMauleFollowupV5)
+        assert isinstance(doll.triple_maul, TripleMaulV5)
+        assert isinstance(doll.triple_maul_followup, TripleMaulFollowupV5)
 
     def test_set_to_v6(self):
         doll = Faelynn()
         doll.set_to_v6()
 
-        assert isinstance(doll.loyal_hunt, LoyalHuntV6)
-        assert isinstance(doll.hunters_instinct_i, HuntersInstinctIV6)
-        assert isinstance(doll.hunters_instinct_ii, HuntersInstinctIIV6)
-        assert isinstance(doll.hunters_instinct_iii, HuntersInstinctIIIV6)
+        assert isinstance(doll.loyal_dash, LoyalDashV6)
+        assert isinstance(doll.pursuit_instinct_i, PursuitInstinctIV6)
+        assert isinstance(doll.pursuit_instinct_ii, PursuitInstinctIIV6)
+        assert isinstance(doll.pursuit_instinct_iii, PursuitInstinctIIIV6)
 
     def test_set_fortification_level(self):
         doll = Faelynn()
 
         doll.set_fortification_level(FortificationLevel.SEGMENT00)
-        assert isinstance(doll.triple_maule, TripleMaule)
+        assert isinstance(doll.triple_maul, TripleMaul)
 
         doll.set_fortification_level(FortificationLevel.SEGMENT01)
-        assert isinstance(doll.triple_maule, TripleMaule)
+        assert isinstance(doll.triple_maul, TripleMaul)
 
         doll.set_fortification_level(FortificationLevel.SEGMENT02)
-        assert isinstance(doll.triple_maule, TripleMauleV2)
-        assert isinstance(doll.scent_mark, ScentMarkActionV2)
+        assert isinstance(doll.triple_maul, TripleMaulV2)
+        assert isinstance(doll.scent_trail, ScentTrailActionV2)
 
         doll.set_fortification_level(FortificationLevel.SEGMENT03)
-        assert isinstance(doll.loyal_hunt, LoyalHuntV3)
-        assert isinstance(doll.hunters_instinct_iii, HuntersInstinctIIIV3)
+        assert isinstance(doll.loyal_dash, LoyalDashV3)
+        assert isinstance(doll.pursuit_instinct_iii, PursuitInstinctIIIV3)
 
         doll.set_fortification_level(FortificationLevel.SEGMENT04)
-        assert isinstance(doll.triple_maule, TripleMauleV4)
-        assert isinstance(doll.loyal_hunt, LoyalHuntV4)
-        assert isinstance(doll.hunters_instinct_i, HuntersInstinctIV4)
-        assert isinstance(doll.hunters_instinct_ii, HuntersInstinctIIV4)
-        assert isinstance(doll.hunters_instinct_iii, HuntersInstinctIIIV4)
+        assert isinstance(doll.triple_maul, TripleMaulV4)
+        assert isinstance(doll.loyal_dash, LoyalDashV4)
+        assert isinstance(doll.pursuit_instinct_i, PursuitInstinctIV4)
+        assert isinstance(doll.pursuit_instinct_ii, PursuitInstinctIIV4)
+        assert isinstance(doll.pursuit_instinct_iii, PursuitInstinctIIIV4)
 
         doll.set_fortification_level(FortificationLevel.SEGMENT05)
-        assert isinstance(doll.triple_maule, TripleMauleV5)
-        assert isinstance(doll.triple_maule_followup, TripleMauleFollowupV5)
+        assert isinstance(doll.triple_maul, TripleMaulV5)
+        assert isinstance(doll.triple_maul_followup, TripleMaulFollowupV5)
 
         doll.set_fortification_level(FortificationLevel.SEGMENT06)
-        assert isinstance(doll.loyal_hunt, LoyalHuntV6)
-        assert isinstance(doll.hunters_instinct_i, HuntersInstinctIV6)
-        assert isinstance(doll.hunters_instinct_ii, HuntersInstinctIIV6)
-        assert isinstance(doll.hunters_instinct_iii, HuntersInstinctIIIV6)
+        assert isinstance(doll.loyal_dash, LoyalDashV6)
+        assert isinstance(doll.pursuit_instinct_i, PursuitInstinctIV6)
+        assert isinstance(doll.pursuit_instinct_ii, PursuitInstinctIIV6)
+        assert isinstance(doll.pursuit_instinct_iii, PursuitInstinctIIIV6)
