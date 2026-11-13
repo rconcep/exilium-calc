@@ -7,206 +7,6 @@ from core.types import DamageTag, FortificationLevel, SpecialAttribute, StatType
 from gui.templates.doll_calculator_page import DollCalculatorPage, ModelAssumption
 from gui.templates.rotation_planner import RotationPlanner
 
-sample_rotation: dict[int, list[dict[str, Any]]] = {
-    1: [
-        {
-            "name": "Dual-Winged Descent",
-            "has_bloodquenched": True,
-        },
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-    ],
-    2: [
-        {
-            "name": "Dual-Winged Descent",
-            "has_bloodquenched": False,
-        },
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-    ],
-    3: [
-        {
-            "name": "Twofold Rapture",
-            "has_bloodquenched": True,
-            "stacks_of_blade_resonance": 3,
-        },
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 920,
-        },
-        # Synchrony + Reversion
-        {
-            "name": "Twofold Rapture",
-            "has_bloodquenched": True,
-            "stacks_of_blade_resonance": 3,
-        },
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 920,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-    ],
-    4: [
-        {
-            "name": "Dual-Winged Descent",
-            "has_bloodquenched": False,
-        },
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-    ],
-    5: [
-        {
-            "name": "Dual-Winged Descent",
-            "has_bloodquenched": True,
-        },
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-    ],
-    6: [
-        {
-            "name": "Dual-Winged Descent",
-            "has_bloodquenched": False,
-        },
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-    ],
-    7: [
-        {
-            "name": "Twofold Rapture",
-            "has_bloodquenched": True,
-            "stacks_of_blade_resonance": 3,
-        },
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 920,
-        },
-        # Synchrony + Reversion
-        {
-            "name": "Twofold Rapture",
-            "has_bloodquenched": True,
-            "stacks_of_blade_resonance": 3,
-        },
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 920,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-        {"name": "Support Action"},
-        {
-            "name": "Lacerating Wound",
-            "original_damage_instance_potency": 120,
-        },
-    ],
-}
-
 
 class Phaetusa(DollCalculatorPage):
     """Page for Phaetusa."""
@@ -270,6 +70,10 @@ class Phaetusa(DollCalculatorPage):
             "Support Action": {
                 "fields": [],
                 "function": doll.support_action.execute,
+            },
+            "Pursuit (Twinsoul Resonance Sonata)": {
+                "fields": [],
+                "function": doll.twinsoul_resonance_sonata_pursuit.execute,
             },
             "Lacerating Wound": {
                 "fields": [
@@ -363,44 +167,18 @@ class Phaetusa(DollCalculatorPage):
             0.004 * doll.initial_stats.basic_attributes[StatType.HEALTH]
         )
 
-    def get_default_damage_calculator_buffs(self) -> list[dict[str, Any]]:
-        return [
-            {
-                "name": "Reversion (Phaetusa)",
-                "phaetusa_fortification_level": FortificationLevel.SEGMENT06,
-            },
-            {
-                "name": "Overwrite Trap (Phaetusa)",
-                "uses_of_overwrite_trap": 4,
-                "phaetusa_fortification_level": FortificationLevel.SEGMENT06,
-            },
-            {
-                "name": "Dream Guardian",
-            },
-            {
-                "name": "Nightmare Form",
-                "mechty_fortification_level": FortificationLevel.SEGMENT06,
-            },
-        ]
-
-    def get_default_damage_calculator_debuffs(self) -> list[dict[str, Any]]:
-        return [
-            {"name": "Radio Invitation: Defense Down"},
-            {
-                "name": "Corrosive Infusion (Klukai)",
-                "stacks": 15,
-                "klukai_fortification_level": FortificationLevel.SEGMENT06,
-            },
-            {"name": "Toxin Inundation"},
-            {"name": "Acid Corrosion II"},
-        ]
-
     @override
     def get_model_assumptions(self) -> list[ModelAssumption]:
         return [
             ModelAssumption(
                 icon="content_cut",
                 description="Lacerating Wound is modeled as 40% of the configured original potency.",
+            ),
+            ModelAssumption(
+                icon="key",
+                description="Expansion Key - Twinsoul Resonance Sonata is equipped.",
+                link_label="Dandegate",
+                link_target="https://www.dandegate.net/dolls/phaetusa/keys/expansion-key-twinsoul-resonance-sonata",
             ),
         ]
 
@@ -414,4 +192,3 @@ class Phaetusa(DollCalculatorPage):
 
             ui.button("Update", on_click=update_all).classes("w-full")
             self.rotation_planner = RotationPlanner(options_config=self.option_config)
-            self.rotation_planner.set_data(sample_rotation)

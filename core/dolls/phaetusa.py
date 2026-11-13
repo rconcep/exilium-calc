@@ -361,6 +361,30 @@ class SupportActionV5(CombatAction):
         )
 
 
+class TwinsoulResonanceSonataPursuit(CombatAction):
+    """Pursuit/followup attack after Phaetusa uses an active attack while
+    Expansion Key - Twinsoul Resonance Sonata is equipped."""
+
+    @override
+    def execute(self) -> DamageInstance:
+        label: str = "Pursuit (Twinsoul Resonance Sonata)"
+        base_potency: int = 100
+
+        tags: set[DamageTag] = {
+            DamageTag.MELEE,
+            DamageTag.CORROSION,
+            DamageTag.PHASE,
+            DamageTag.TARGETED,
+        }
+
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Pursuit (Twinsoul Resonance Sonata)",
+        )
+
+
 class Phaetusa(Doll):
     """Phaetusa."""
 
@@ -387,6 +411,7 @@ class Phaetusa(Doll):
     twofold_rapture: CombatAction = Field(default_factory=TwofoldRapture)
     support_action: CombatAction = Field(default_factory=SupportAction)
     lacerating_wound: CombatAction = Field(default_factory=LaceratingWound)
+    twinsoul_resonance_sonata_pursuit: CombatAction = Field(default_factory=TwinsoulResonanceSonataPursuit)
 
     def set_to_v0(self) -> None:
         """Sets Fortification Level to Segment00."""
@@ -395,6 +420,7 @@ class Phaetusa(Doll):
         self.twofold_rapture = TwofoldRapture()
         self.support_action = SupportAction()
         self.lacerating_wound = LaceratingWound()
+        self.twinsoul_resonance_sonata_pursuit = TwinsoulResonanceSonataPursuit()
 
     def set_to_v2(self) -> None:
         """Sets Fortification Level to Segment02."""

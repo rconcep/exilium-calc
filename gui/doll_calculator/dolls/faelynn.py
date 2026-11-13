@@ -19,7 +19,7 @@ class Faelynn(DollCalculatorPage):
 
         self.doll = faelynn.Faelynn()
         self.doll.set_fortification_level(FortificationLevel.SEGMENT06)
-        self.doll_subtitle: str = """Combo Attack / Tile
+        self.doll_subtitle: str = """AoE Damage / Pursuit / Burst Damage
 
             Sentinel / Corrosion"""
         self.dandegate_link: str = "https://www.dandegate.net/dolls/faelynn"

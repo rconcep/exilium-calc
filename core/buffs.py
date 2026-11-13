@@ -2350,6 +2350,51 @@ class OverwriteTrap(Buff):
         self.tag = DamageTag.ALL
 
 
+class BladeResonance(Buff):
+    """Additional effect of Phaetusa's Blade Resonance buff granted by 
+    Expansion Key - Twinsoul Resonance Sonata."""
+
+    display_name = "Blade Resonance (Phaetusa)"
+    max_stack_count = 1
+    stack_input_type = "input"
+
+    def __init__(
+        self,
+    ):
+        self.value = 30
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.ALL
+
+
+class SharpTippedTerror(Buff):
+    """Debuff applied by Phaetusa granted by Expansion Key - Twinsoul Resonance Sonata.
+    Increases the damage dealt to the debuff holder if the damage is dealt by an active 
+    attack using a blade.
+
+    TODO: Should make a distinction between blade attacks and other melee attacks (that
+    are not blade attacks).
+
+    Note: Implemented as a Buff because the effect is a damage boost to the attacker,
+    not an "increased damage taken" effect for the debuff holder.
+
+    Note2: The debuff is stackable but the effect does not scale with the number of stacks - 
+    a stack is consumed to provide an instance of the effect.
+    """
+
+    display_name = "Sharp-Tipped Terror (Phaetusa)"
+    max_stack_count = 1
+    stack_input_type = "input"
+
+    def __init__(
+        self,
+    ):
+        self.value = 30
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.MELEE  # Should ideally be restricted to blade attacks only
+
+
 class EnergyDrink(Buff):
     """Basti buff"""
 
