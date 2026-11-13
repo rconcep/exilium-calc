@@ -2348,10 +2348,10 @@ class WelrodStandardDamageCalculationStrategy(
     ...
 
 
-class WelrodConvictionAndPunishmentDamageCalculationStrategy(
+class WelrodSubjectiveSanctionDamageCalculationStrategy(
     WelrodStandardDamageCalculationStrategy
 ):
-    """Damage calculation strategy for Welrod's Conviction and Punishment skill.
+    """Damage calculation strategy for Welrod's Subjective Sanction skill.
     Adjusts the base potency based on increases to max HP.
     """
 
@@ -2364,7 +2364,7 @@ class WelrodConvictionAndPunishmentDamageCalculationStrategy(
         maximum_potency_increase: int = 60,
     ):
         """
-        Initialize the damage calculation strategy for Welrod's Conviction and Punishment skill.
+        Initialize the damage calculation strategy for Welrod's Subjective Sanction skill.
 
         Args:
             potency_to_max_health_increase (float): The increase in potency per 1% increase in max HP.
@@ -2399,9 +2399,12 @@ class WelrodConvictionAndPunishmentDamageCalculationStrategy(
         return super().calculate_adjusted_potency(attacker, target, damage_instance)
 
 
-class WelrodCrimeBacklashDamageCalculationStrategy(WelrodDamageCalculationStrategy):
-    """Damage calculation strategy for Welrod's Conviction and Punishment skill.
-    Adjusts the base potency based on increases to max HP.
+class WelrodIniquityRetributionDamageCalculationStrategy(
+    WelrodDamageCalculationStrategy
+):
+    """Damage calculation strategy for Welrod's Iniquity's Retribution effect.
+
+    Adjusts damage based on accumulated damage and the target's maximum HP.
     """
 
     accumulated_damage: int = Field(default=1000)
@@ -2415,7 +2418,8 @@ class WelrodCrimeBacklashDamageCalculationStrategy(WelrodDamageCalculationStrate
         fraction_of_maximum_health: float = 0.15,
     ):
         """
-        Initialize the damage calculation strategy for Welrod's Crime Backlash damage effect.
+        Initialize the damage calculation strategy for Welrod's Iniquity's
+        Retribution effect.
 
         Args:
             accumulated_damage (int): The accumulated damage threshold.

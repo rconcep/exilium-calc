@@ -9,6 +9,11 @@ ACTION_NAME_ALIASES: dict[str, str] = {
     "Midnight Howl (Form Swap)": "Lunar Howl (Form Swap)",
     "Deadly Pounce": "Fatal Pounce",
     "Deadly Pounce (Passive)": "Fatal Pounce (Passive)",
+    "Silent Takedown": "Hushed Erasure",
+    "Conviction and Punishment": "Subjective Sanction",
+    "Hour of Reckoning": "Judgement Blast",
+    "Crime Backlash": "Iniquity's Retribution",
+    "Case Detective": "Case Controller",
 }
 
 EFFECT_NAME_ALIASES: dict[str, str] = {
@@ -26,6 +31,8 @@ EFFECT_NAME_ALIASES: dict[str, str] = {
     "Feral Factor II (Soppo)": "Rabid Factor II (Soppo)",
     "Feral Factor III (Soppo)": "Rabid Factor III (Soppo)",
     "Frost Strike": "Boreal Assault",
+    "Deductive Obsession (Welrod)": "Deduction Obsession (Welrod)",
+    "Case Detective (Welrod)": "Case Controller (Welrod)",
 }
 
 

@@ -16,17 +16,17 @@ from core.combat import (
     CombatAction,
     FixedDamageInstance,
     WelrodStandardDamageCalculationStrategy,
-    WelrodConvictionAndPunishmentDamageCalculationStrategy,
-    WelrodCrimeBacklashDamageCalculationStrategy,
+    WelrodSubjectiveSanctionDamageCalculationStrategy,
+    WelrodIniquityRetributionDamageCalculationStrategy,
 )
 
 
-class SilentTakedown(CombatAction):
+class HushedErasure(CombatAction):
     """Welrod Basic Attack."""
 
     @override
     def execute(self) -> DamageInstance:
-        label: str = "Silent Takedown"
+        label: str = "Hushed Erasure"
         base_potency: int = 80
 
         tags: set[DamageTag] = {
@@ -41,7 +41,7 @@ class SilentTakedown(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Silent Takedown",
+            group_name="Hushed Erasure",
             damage_calculation_strategy=WelrodStandardDamageCalculationStrategy(),
         )
 
@@ -71,14 +71,14 @@ class JointInvestigation(CombatAction):
         )
 
 
-class ConvictionAndPunishment(CombatAction):
+class SubjectiveSanction(CombatAction):
     """Welrod S2."""
 
     @override
     def execute(
         self,
     ) -> DamageInstance:
-        label: str = "Conviction and Punishment"
+        label: str = "Subjective Sanction"
         base_potency: int = 100
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -94,21 +94,21 @@ class ConvictionAndPunishment(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Conviction and Punishment",
-            damage_calculation_strategy=WelrodConvictionAndPunishmentDamageCalculationStrategy(
+            group_name="Subjective Sanction",
+            damage_calculation_strategy=WelrodSubjectiveSanctionDamageCalculationStrategy(
                 1, 60
             ),
         )
 
 
-class ConvictionAndPunishmentV4(CombatAction):
+class SubjectiveSanctionV4(CombatAction):
     """Welrod S2 (V4)."""
 
     @override
     def execute(
         self,
     ) -> DamageInstance:
-        label: str = "Conviction and Punishment"
+        label: str = "Subjective Sanction"
         base_potency: int = 120
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -125,14 +125,14 @@ class ConvictionAndPunishmentV4(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Conviction and Punishment",
-            damage_calculation_strategy=WelrodConvictionAndPunishmentDamageCalculationStrategy(
+            group_name="Subjective Sanction",
+            damage_calculation_strategy=WelrodSubjectiveSanctionDamageCalculationStrategy(
                 1.5, 150
             ),
         )
 
 
-class HourOfReckoning(CombatAction):
+class JudgementBlast(CombatAction):
     """Welrod ultimate."""
 
     @override
@@ -141,7 +141,7 @@ class HourOfReckoning(CombatAction):
         instances_of_damage_taken: int,
         number_of_targets_hit: int,
     ) -> DamageInstance:
-        label: str = "Hour of Reckoning"
+        label: str = "Judgement Blast"
         base_potency: int = 100
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -155,12 +155,12 @@ class HourOfReckoning(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Hour of Reckoning",
+            group_name="Judgement Blast",
             damage_calculation_strategy=WelrodStandardDamageCalculationStrategy(),
         )
 
 
-class HourOfReckoningV3(CombatAction):
+class JudgementBlastV3(CombatAction):
     """Welrod ultimate (V3)."""
 
     @override
@@ -169,7 +169,7 @@ class HourOfReckoningV3(CombatAction):
         instances_of_damage_taken: int,
         number_of_targets_hit: int,
     ) -> DamageInstance:
-        label: str = "Hour of Reckoning"
+        label: str = "Judgement Blast"
         base_potency: int = 120
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -183,12 +183,12 @@ class HourOfReckoningV3(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Hour of Reckoning",
+            group_name="Judgement Blast",
             damage_calculation_strategy=WelrodStandardDamageCalculationStrategy(),
         )
 
 
-class HourOfReckoningV5(CombatAction):
+class JudgementBlastV5(CombatAction):
     """Welrod ultimate (V5)."""
 
     @override
@@ -197,7 +197,7 @@ class HourOfReckoningV5(CombatAction):
         instances_of_damage_taken: int,
         number_of_targets_hit: int,
     ) -> DamageInstance:
-        label: str = "Hour of Reckoning"
+        label: str = "Judgement Blast"
         base_potency: int = 120
         tags: set[DamageTag] = {
             DamageTag.ACTIVE,
@@ -244,19 +244,20 @@ class HourOfReckoningV5(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Hour of Reckoning",
+            group_name="Judgement Blast",
             buffs_before=buffs_before,
             damage_calculation_strategy=WelrodStandardDamageCalculationStrategy(),
         )
 
 
-class CrimeBacklashAction(CombatAction):
-    """Damage dealt by Welrod upon application of the Crime Backlash effect or at the end
-    of the debuff holder's action."""
+class IniquityRetributionAction(CombatAction):
+    """Damage dealt by Welrod upon application of Iniquity's Retribution or at the
+    end of the debuff holder's action.
+    """
 
     @override
     def execute(self, detectives_immunity_accumulated_damage) -> DamageInstance:
-        label: str = "Crime Backlash"
+        label: str = "Iniquity's Retribution"
         base_potency: int = 100
         tags: set[DamageTag] = {
             DamageTag.PASSIVE,
@@ -269,20 +270,21 @@ class CrimeBacklashAction(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Crime Backlash",
-            damage_calculation_strategy=WelrodCrimeBacklashDamageCalculationStrategy(
+            group_name="Iniquity's Retribution",
+            damage_calculation_strategy=WelrodIniquityRetributionDamageCalculationStrategy(
                 detectives_immunity_accumulated_damage, 0.25, 0.15
             ),
         )
 
 
-class CrimeBacklashActionV3(CombatAction):
-    """Damage dealt by Welrod upon application of the Crime Backlash effect or at the end
-    of the debuff holder's action."""
+class IniquityRetributionActionV3(CombatAction):
+    """Damage dealt by Welrod upon application of Iniquity's Retribution or at the
+    end of the debuff holder's action.
+    """
 
     @override
     def execute(self, detectives_immunity_accumulated_damage) -> DamageInstance:
-        label: str = "Crime Backlash"
+        label: str = "Iniquity's Retribution"
         base_potency: int = 100
         tags: set[DamageTag] = {
             DamageTag.PASSIVE,
@@ -295,8 +297,8 @@ class CrimeBacklashActionV3(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Crime Backlash",
-            damage_calculation_strategy=WelrodCrimeBacklashDamageCalculationStrategy(
+            group_name="Iniquity's Retribution",
+            damage_calculation_strategy=WelrodIniquityRetributionDamageCalculationStrategy(
                 detectives_immunity_accumulated_damage, 0.50, 0.30
             ),
         )
@@ -340,13 +342,13 @@ class SuspectActionV5(CombatAction):
         )
 
 
-class CaseDetectiveEndOfAction(CombatAction):
+class CaseControllerEndOfAction(CombatAction):
     """Damage dealt by Welrod at the end of her action or another allied Doll's action (V2)
     as part of her passive."""
 
     @override
     def execute(self, detectives_immunity_accumulated_damage) -> DamageInstance:
-        label: str = "Case Detective"
+        label: str = "Case Controller"
         base_potency: int = 100
         tags: set[DamageTag] = {
             DamageTag.PASSIVE,
@@ -359,8 +361,8 @@ class CaseDetectiveEndOfAction(CombatAction):
             label=label,
             base_potency=base_potency,
             tags=tags,
-            group_name="Case Detective",
-            damage_calculation_strategy=WelrodCrimeBacklashDamageCalculationStrategy(
+            group_name="Case Controller",
+            damage_calculation_strategy=WelrodIniquityRetributionDamageCalculationStrategy(
                 detectives_immunity_accumulated_damage, 0.30, 0
             ),
         )
@@ -385,41 +387,41 @@ class Welrod(Doll):
         ]
     )
 
-    silent_takedown: CombatAction = Field(default_factory=SilentTakedown)
+    hushed_erasure: CombatAction = Field(default_factory=HushedErasure)
     joint_investigation: CombatAction = Field(default_factory=JointInvestigation)
-    conviction_and_punishment: CombatAction = Field(
-        default_factory=ConvictionAndPunishment
+    subjective_sanction: CombatAction = Field(default_factory=SubjectiveSanction)
+    iniquity_retribution: CombatAction = Field(
+        default_factory=IniquityRetributionAction
     )
-    crime_backlash: CombatAction = Field(default_factory=CrimeBacklashAction)
     suspect: CombatAction = Field(default_factory=SuspectAction)
-    hour_of_reckoning: CombatAction = Field(default_factory=HourOfReckoning)
-    case_detective: CombatAction = Field(default_factory=CaseDetectiveEndOfAction)
+    judgement_blast: CombatAction = Field(default_factory=JudgementBlast)
+    case_controller: CombatAction = Field(default_factory=CaseControllerEndOfAction)
 
     def set_to_v0(self) -> None:
         """Sets Fortification Level to Segment00."""
-        self.silent_takedown = SilentTakedown()
+        self.hushed_erasure = HushedErasure()
         self.joint_investigation = JointInvestigation()
-        self.conviction_and_punishment = ConvictionAndPunishment()
-        self.crime_backlash = CrimeBacklashAction()
+        self.subjective_sanction = SubjectiveSanction()
+        self.iniquity_retribution = IniquityRetributionAction()
         self.suspect = SuspectAction()
-        self.hour_of_reckoning = HourOfReckoning()
-        self.case_detective = CaseDetectiveEndOfAction()
+        self.judgement_blast = JudgementBlast()
+        self.case_controller = CaseControllerEndOfAction()
 
     def set_to_v3(self) -> None:
         """Sets Fortification Level to Segment03."""
         self.set_to_v0()
-        self.hour_of_reckoning = HourOfReckoningV3()
-        self.crime_backlash = CrimeBacklashActionV3()
+        self.judgement_blast = JudgementBlastV3()
+        self.iniquity_retribution = IniquityRetributionActionV3()
 
     def set_to_v4(self) -> None:
         """Sets Fortification Level to Segment04."""
         self.set_to_v3()
-        self.conviction_and_punishment = ConvictionAndPunishmentV4()
+        self.subjective_sanction = SubjectiveSanctionV4()
 
     def set_to_v5(self) -> None:
         """Sets Fortification Level to Segment05."""
         self.set_to_v4()
-        self.hour_of_reckoning = HourOfReckoningV5()
+        self.judgement_blast = JudgementBlastV5()
         self.suspect = SuspectActionV5()
 
     @override

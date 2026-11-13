@@ -38,7 +38,7 @@
       "upgrades": [
         {
           "level": 1,
-          "description": "S1: Adds heal and Shelter to one ally with the lowest HP; Deductive Obsession: healing received increased, damage taken reduced, and adds Corrosion damage dealt effect."
+          "description": "S1: Adds heal and Shelter to one ally with the lowest HP; Deduction Obsession: healing received increased, damage taken reduced, and adds Corrosion damage dealt effect."
         },
         {
           "level": 2,
@@ -46,7 +46,7 @@
         },
         {
           "level": 3,
-          "description": "Ult: Increased damage multiplier of Ult and Crime Backlash; cooldown of V3 Protection reduced by 1 round."
+          "description": "Ult: Increased damage multiplier of Ult and Iniquity's Retribution; cooldown of V3 Protection reduced by 1 round."
         },
         {
           "level": 4,

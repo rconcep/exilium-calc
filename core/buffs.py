@@ -2540,10 +2540,10 @@ class Concentration(Buff):
         self.tag = DamageTag.ALL
 
 
-class DeductiveObsession(Buff):
+class DeductionObsession(Buff):
     """Welrod buff."""
 
-    display_name = "Deductive Obsession (Welrod)"
+    display_name = "Deduction Obsession (Welrod)"
     max_stack_count = 1
     stack_input_type = "input"
 
@@ -2570,10 +2570,10 @@ class V3Protection(Buff):
         self.tag = DamageTag.ALL
 
 
-class CaseDetective(Buff):
-    """Part of Welrod's passive Case Detective that increases attack for every instance of damage taken (V6)."""
+class CaseController(Buff):
+    """Part of Welrod's passive Case Controller that increases attack for every instance of damage taken (V6)."""
 
-    display_name = "Case Detective (Welrod)"
+    display_name = "Case Controller (Welrod)"
     max_stack_count = 50
     stack_input_type = "select"
 
@@ -2588,7 +2588,7 @@ class CaseDetective(Buff):
             attack_increase_per_instance = 0
 
         self.value = min(
-            CaseDetective.max_stack_count,
+            CaseController.max_stack_count,
             max(0, number_of_instances_of_damage_taken) * attack_increase_per_instance,
         )
         self.modifier_type = ModifierType.MULTIPLICATIVE

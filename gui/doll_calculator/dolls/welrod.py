@@ -18,7 +18,7 @@ class Welrod(DollCalculatorPage):
 
         self.doll: welrod.Welrod = welrod.Welrod()
         self.doll.set_fortification_level(FortificationLevel.SEGMENT06)
-        self.doll_subtitle: str = """Taunt / Damage taken over time
+        self.doll_subtitle: str = """AoE Damage / Crowd Control / Delayed Damage
 
             Bulwark / Corrosion"""
         self.dandegate_link: str = "https://www.dandegate.net/dolls/welrod"
@@ -29,19 +29,19 @@ class Welrod(DollCalculatorPage):
         doll = cast(welrod.Welrod, self.doll)
 
         self.option_config: dict[str, dict[str, Any]] = {
-            "Silent Takedown": {
+            "Hushed Erasure": {
                 "fields": [],
-                "function": doll.silent_takedown.execute,
+                "function": doll.hushed_erasure.execute,
             },
             "Joint Investigation": {
                 "fields": [],
                 "function": doll.joint_investigation.execute,
             },
-            "Conviction and Punishment": {
+            "Subjective Sanction": {
                 "fields": [],
-                "function": doll.conviction_and_punishment.execute,
+                "function": doll.subjective_sanction.execute,
             },
-            "Hour of Reckoning": {
+            "Judgement Blast": {
                 "fields": [
                     {
                         "key": "instances_of_damage_taken",
@@ -56,9 +56,9 @@ class Welrod(DollCalculatorPage):
                         "default": 1,
                     },
                 ],
-                "function": doll.hour_of_reckoning.execute,
+                "function": doll.judgement_blast.execute,
             },
-            "Crime Backlash": {
+            "Iniquity's Retribution": {
                 "fields": [
                     {
                         "key": "detectives_immunity_accumulated_damage",
@@ -67,9 +67,9 @@ class Welrod(DollCalculatorPage):
                         "default": 10000,
                     },
                 ],
-                "function": doll.crime_backlash.execute,
+                "function": doll.iniquity_retribution.execute,
             },
-            "Case Detective": {
+            "Case Controller": {
                 "fields": [
                     {
                         "key": "detectives_immunity_accumulated_damage",
@@ -78,7 +78,7 @@ class Welrod(DollCalculatorPage):
                         "default": 10000,
                     },
                 ],
-                "function": doll.case_detective.execute,
+                "function": doll.case_controller.execute,
             },
             "Suspect": {
                 "fields": [],
