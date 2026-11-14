@@ -536,6 +536,101 @@ class KineticReleasePlusV3(CombatAction):
         )
 
 
+class KoledaKineticRelease(CombatAction):
+    """Used at the end of Koleda's turn or after using Tactical Routebook."""
+
+    @override
+    def execute(self) -> DamageInstance:
+        label: str = "Kinetic Release (Koleda)"
+        base_potency: int = 90
+
+        tags: set[DamageTag] = {
+            DamageTag.AREA_OF_EFFECT,
+            DamageTag.HYDRO,
+            DamageTag.PHASE,
+        }
+
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Kinetic Release (Koleda)",
+        )
+
+
+class KoledaKineticReleaseV2(CombatAction):
+    """Used at the end of Koleda's turn or after using Tactical Routebook."""
+
+    @override
+    def execute(self) -> DamageInstance:
+        label: str = "Kinetic Release (Koleda)"
+        base_potency: int = 120
+
+        tags: set[DamageTag] = {
+            DamageTag.AREA_OF_EFFECT,
+            DamageTag.HYDRO,
+            DamageTag.PHASE,
+        }
+
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Kinetic Release (Koleda)",
+        )
+
+
+class KoledaKineticReleasePlus(CombatAction):
+    """Used at the end of Koleda's turn or after using Tactical Routebook."""
+
+    @override
+    def execute(self) -> DamageInstance:
+        label: str = "Kinetic Release+ (Koleda)"
+        base_potency: int = 120
+
+        tags: set[DamageTag] = {
+            DamageTag.AREA_OF_EFFECT,
+            DamageTag.HYDRO,
+            DamageTag.PHASE,
+        }
+
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Kinetic Release (Koleda)",
+        )
+
+
+class KoledaKineticReleasePlusV2(CombatAction):
+    """Used at the end of Koleda's turn or after using Tactical Routebook."""
+
+    @override
+    def execute(self) -> DamageInstance:
+        label: str = "Kinetic Release+ (Koleda)"
+        base_potency: int = 150
+
+        tags: set[DamageTag] = {
+            DamageTag.AREA_OF_EFFECT,
+            DamageTag.HYDRO,
+            DamageTag.PHASE,
+        }
+
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Kinetic Release (Koleda)",
+        )
+
+
+# TODO: Koleda passive The Sinner - When Sinveiler uses the active skill Let's Go For a Spin!,
+# Koleda gains Sinveiler's initial attack and critical damage.
+# This is based on the value after any stat increase from Out for a Spin!
+# Implement as a Buff?
+# Does "gain" mean add to or set equal to? Adding to sounds like it would double+ the value.
+
+
 class Koleda(Doll):
     """Koleda."""
 
@@ -562,15 +657,55 @@ class Koleda(Doll):
     snow_wolfs_eye: CombatAction = Field(default_factory=SnowWolfsEye)
     lets_go_for_a_drift: CombatAction = Field(default_factory=LetsGoForADrift)
     lets_go_full_speed: CombatAction = Field(default_factory=LetsGoFullSpeed)
-    lets_go_full_speed_pursuit: CombatAction = Field(default_factory=LetsGoFullSpeedPursuit)
+    lets_go_full_speed_pursuit: CombatAction = Field(
+        default_factory=LetsGoFullSpeedPursuit
+    )
     kinetic_release: CombatAction = Field(default_factory=KineticRelease)
     kinetic_release_plus: CombatAction = Field(default_factory=KineticReleasePlus)
+    koleda_kinetic_release: CombatAction = Field(default_factory=KoledaKineticRelease)
+    koleda_kinetic_release_plus: CombatAction = Field(
+        default_factory=KoledaKineticReleasePlus
+    )
+
+    # Driver configuration for Sinveiler inheritance
+    driver_attack: float = 0.0
+    driver_defense: float = 0.0
+    driver_health: float = 0.0
+    driver_crit_damage: float = 0.0
 
     def _build_sinveiler(self) -> PhysicalSummonedUnit:
         # Sinveiler inherits all of Koleda's initial attributes.
         initial_stats, additive_modifiers, multiplicative_modifiers = (
             build_physical_summon_stat_snapshot(self)
         )
+
+        # Apply driver stat inheritance based on fortification level
+        # Different fortification levels have different inheritance percentages
+        driver_inheritance_rate = self._get_driver_inheritance_rate()
+        if driver_inheritance_rate > 0 and (
+            self.driver_attack > 0
+            or self.driver_defense > 0
+            or self.driver_health > 0
+            or self.driver_crit_damage > 0
+        ):
+            # Apply driver stats to Sinveiler's initial stats
+            if self.driver_attack > 0:
+                initial_stats.basic_attributes[StatType.ATTACK] += (
+                    self.driver_attack * driver_inheritance_rate
+                )
+            if self.driver_defense > 0:
+                initial_stats.basic_attributes[StatType.DEFENSE] += (
+                    self.driver_defense * driver_inheritance_rate
+                )
+            if self.driver_health > 0:
+                initial_stats.basic_attributes[StatType.HEALTH] += (
+                    self.driver_health * driver_inheritance_rate
+                )
+            if self.driver_crit_damage > 0:
+                initial_stats.basic_attributes[StatType.CRIT_DAMAGE] += (
+                    self.driver_crit_damage * driver_inheritance_rate
+                )
+
         sinveiler: PhysicalSummonedUnit = PhysicalSummonedUnit(
             name="Sinveiler",
             initial_stats=initial_stats,
@@ -579,6 +714,39 @@ class Koleda(Doll):
         )
 
         return sinveiler
+
+    def _get_driver_inheritance_rate(self) -> float:
+        """Returns the percentage of driver stats inherited by Sinveiler based on fortification level.
+
+        Driver inheritance rates increase with fortification level:
+        - V0-V5: 50%
+        - V6: 70%
+        """
+        match self.fortification_level:
+            case FortificationLevel.SEGMENT06:
+                return 0.70
+            case _:
+                return 0.50
+
+    def set_driver(
+        self,
+        attack: float = 0.0,
+        defense: float = 0.0,
+        health: float = 0.0,
+        crit_damage: float = 0.0,
+    ) -> None:
+        """Sets the driver stats for Sinveiler inheritance.
+
+        Args:
+            attack: Driver's attack stat
+            defense: Driver's defense stat
+            health: Driver's health stat
+            crit_damage: Driver's crit damage stat
+        """
+        self.driver_attack = attack
+        self.driver_defense = defense
+        self.driver_health = health
+        self.driver_crit_damage = crit_damage
 
     def summon_sinveiler(self) -> None:
         """Summons Sinveiler with a snapshot of Koleda's current stats."""
@@ -612,6 +780,8 @@ class Koleda(Doll):
         self.lets_go_full_speed_pursuit = LetsGoFullSpeedPursuit()
         self.kinetic_release = KineticRelease()
         self.kinetic_release_plus = KineticReleasePlus()
+        self.koleda_kinetic_release = KoledaKineticRelease()
+        self.koleda_kinetic_release_plus = KoledaKineticReleasePlus()
 
         self.summon_sinveiler()
 
@@ -627,6 +797,8 @@ class Koleda(Doll):
 
         self.kinetic_release = KineticReleaseV2()
         self.kinetic_release_plus = KineticReleasePlusV2()
+        self.koleda_kinetic_release = KoledaKineticReleaseV2()
+        self.koleda_kinetic_release_plus = KoledaKineticReleasePlusV2()
 
     def set_to_v3(self) -> None:
         """Sets Fortification Level to Segment03."""

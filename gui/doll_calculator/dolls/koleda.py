@@ -33,6 +33,12 @@ class Koleda(DollCalculatorPage):
         self.dandegate_link: str = "https://www.dandegate.net/dolls/koleda"
         self.doll_portrait: str = "resources/koleda.webp"
 
+        # Driver configuration inputs
+        self.driver_attack_input: ui.number | None = None
+        self.driver_defense_input: ui.number | None = None
+        self.driver_health_input: ui.number | None = None
+        self.driver_crit_damage_input: ui.number | None = None
+
     @override
     def update_doll_abilities(self) -> None:
         self.option_config: dict[str, dict[str, Any]] = {
@@ -142,6 +148,14 @@ class Koleda(DollCalculatorPage):
                 ],
                 "function": self.doll.kinetic_release_plus.execute,
             },
+            "Kinetic Release (Koleda)": {
+                "fields": [],
+                "function": self.doll.koleda_kinetic_release.execute,
+            },
+            "Kinetic Release+ (Koleda)": {
+                "fields": [],
+                "function": self.doll.koleda_kinetic_release_plus.execute,
+            },
         }
 
         self.add_elemental_tile_actions_for_element(
@@ -157,27 +171,30 @@ class Koleda(DollCalculatorPage):
         self.doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 154.5
 
         # imagoform: 5+12
-        # CQC elite: 0.4
-        # Alva 6P33: 10
-        # Imagoform (Shoot): 4+3
+        # summon boost: 20
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
-        ].set_multiplier(DamageTag.ALL, 17 + 0.4 + 10 + 4 + 3)
+        ].set_multiplier(DamageTag.ALL, 17 + 20)
 
         # weapon: 15
-        # attachment: 20
         # imagoform: 5
         # freeze boost: 1.5
         # Freeze Unity: 0.9
         # Dushevnaya Imagoform (Bud): 3
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
-        ].set_multiplier(DamageTag.HYDRO, 15 + 20 + 5 + 1.5 + 0.9 + 3)
+        ].set_multiplier(DamageTag.HYDRO, 15 + 5 + 1.5 + 0.9 + 3)
 
-        # keys: 30
+        # keys: 20
         self.doll.additive_modifiers.special_attributes[
             SpecialAttribute.DAMAGE_BOOST
-        ].set_multiplier(DamageTag.PHASE, 30)
+        ].set_multiplier(DamageTag.PHASE, 20)
+
+        # summon boost: 20
+        # keys: 10
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.PHYSICAL_SUMMON, 20 + 10)
 
         # weapon: 14
         # raid stance: 1
@@ -193,6 +210,36 @@ class Koleda(DollCalculatorPage):
         # Sync Sinveiler now that real stats are in place.
         self.doll.refresh_sinveiler()
 
+    def _sync_driver_stats(self) -> None:
+        """Syncs driver input fields to the Koleda doll's driver stats."""
+        if all(
+            [
+                self.driver_attack_input,
+                self.driver_defense_input,
+                self.driver_health_input,
+                self.driver_crit_damage_input,
+            ]
+        ):
+            self.doll.set_driver(
+                attack=self.driver_attack_input.value,
+                defense=self.driver_defense_input.value,
+                health=self.driver_health_input.value,
+                crit_damage=self.driver_crit_damage_input.value,
+            )
+
+    def _driver_update_callback(self, _: ui.number) -> None:  # type: ignore
+        """Callback for driver stat changes."""
+        self._sync_driver_stats()
+        self.doll.refresh_sinveiler()
+        self.stats_update_callback(None)  # type: ignore
+
+    @override
+    def stats_update_callback(self, update: ui.number) -> None:  # type: ignore[override]
+        # Keep Sinveiler's snapshot current before deepcopy is taken
+        # for every damage calculation inside the parent's callback.
+        self.doll.refresh_sinveiler()
+        super().stats_update_callback(update)
+
     @override
     def get_rotation_planner(self) -> None:
         with ui.card().classes("w-full h-full"):
@@ -206,13 +253,72 @@ class Koleda(DollCalculatorPage):
             self.rotation_planner.set_data(sample_rotation)
 
     @override
+    def render_context_cards(self) -> None:
+        """Renders Koleda-specific context card for driver configuration."""
+        with ui.row().classes("w-full gap-4"):
+            self.render_driver_configuration_tab()
+
+    def render_driver_configuration_tab(self) -> None:
+        """Renders the driver configuration tab UI with stat inputs."""
+        with ui.card().classes("w-110 exilium-panel"):
+            ui.label("Sinveiler: Let's Go For a Spin!").classes("text-bold text-lg")
+            ui.label(
+                "Specify the target of Out for a Spin! If none, leave stats at 0."
+            ).classes("italic text-caption")
+
+            with ui.list().props("bordered dense separator").classes("w-full"):
+                ui.item_label("Driver Stats").props("header").classes("text-bold")
+                ui.separator()
+
+                with ui.item():
+                    with ui.item_section().props("no-wrap"):
+                        ui.item_label("Attack")
+                    with ui.item_section().props("side"):
+                        self.driver_attack_input = ui.number(
+                            value=0,
+                            min=0,
+                            precision=1,
+                            on_change=self._driver_update_callback,
+                        )
+
+                with ui.item():
+                    with ui.item_section().props("no-wrap"):
+                        ui.item_label("Defense")
+                    with ui.item_section().props("side"):
+                        self.driver_defense_input = ui.number(
+                            value=0,
+                            min=0,
+                            precision=1,
+                            on_change=self._driver_update_callback,
+                        )
+
+                with ui.item():
+                    with ui.item_section().props("no-wrap"):
+                        ui.item_label("Health")
+                    with ui.item_section().props("side"):
+                        self.driver_health_input = ui.number(
+                            value=0,
+                            min=0,
+                            precision=1,
+                            on_change=self._driver_update_callback,
+                        )
+
+                with ui.item():
+                    with ui.item_section().props("no-wrap"):
+                        ui.item_label("Crit Damage")
+                    with ui.item_section().props("side"):
+                        self.driver_crit_damage_input = ui.number(
+                            value=0,
+                            min=0,
+                            precision=1,
+                            on_change=self._driver_update_callback,
+                        )
+
+    @override
     def get_model_assumptions(self) -> list[ModelAssumption]:
         return [
             ModelAssumption(
-                name="Sinveiler Gear",
-                description=(
-                    "The current gear of Sinveiler. Select the gear to calculate damage with. "
-                    "S+ Gear at V3+ fortification applies +30 to base potency for applicable skills."
-                ),
+                icon="car_crash",
+                description="Sinveiler is modeled as a summoned snapshot of Koleda's stats and refreshed when Koleda stats change. Let's Go For a Spin! modifies Sinveiler's initial stats.",
             ),
         ]

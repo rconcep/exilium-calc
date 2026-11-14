@@ -2049,6 +2049,293 @@ class AlignedEnhancement(Buff):
         self.tag = DamageTag.PHYSICAL_SUMMON
 
 
+class Upshift(Buff):
+    """Koleda buff."""
+
+    display_name = "Upshift (Koleda)"
+    max_stack_count = 5
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(
+        self, stacks: int, koleda_fortification_level: FortificationLevel
+    ) -> list[Buff]:
+        """
+        Arguments:
+        stacks -- the number of Upshift stacks
+        koleda_fortification_level -- the fortification level of Koleda
+        """
+
+        ret: list[Buff] = []
+
+        damage_boost_per_stack: int = 10
+
+        if koleda_fortification_level > FortificationLevel.SEGMENT00:
+            damage_boost_per_stack = 15
+
+        ret.append(
+            Buff(
+                value=damage_boost_per_stack
+                * min(self.max_stack_count, max(0, stacks)),
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=SpecialAttribute.DAMAGE_BOOST,
+                tag=DamageTag.HYDRO,
+            )
+        )
+
+        if (
+            koleda_fortification_level > FortificationLevel.SEGMENT00
+            and stacks == self.max_stack_count
+        ):
+            ret.append(
+                Buff(
+                    value=30,
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=SpecialAttribute.CRITICAL_DAMAGE,
+                    tag=DamageTag.ALL,
+                )
+            )
+
+        return ret
+
+
+class TurboBoost(Buff):
+    """Koleda buff."""
+
+    display_name = "Turbo Boost (Koleda)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self, koleda_fortification_level: FortificationLevel) -> list[Buff]:
+        """
+        Arguments:
+        koleda_fortification_level -- the fortification level of Koleda
+        """
+
+        ret: list[Buff] = []
+
+        attack_boost: int = 20
+        defense_ignore: int = 20
+
+        if koleda_fortification_level == FortificationLevel.SEGMENT06:
+            attack_boost = 45
+
+        ret.append(
+            Buff(
+                value=attack_boost,
+                modifier_type=ModifierType.MULTIPLICATIVE,
+                stat_type=StatType.ATTACK,
+                tag=DamageTag.ALL,
+            )
+        )
+        ret.append(
+            Buff(
+                value=defense_ignore,
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=SpecialAttribute.DEFENSE_IGNORE,
+                tag=DamageTag.ALL,
+            )
+        )
+
+        return ret
+
+
+class KineticRecovery(Buff):
+    """Koleda buff."""
+
+    display_name = "Kinetic Recovery (Koleda)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self, koleda_fortification_level: FortificationLevel) -> list[Buff]:
+        """
+        Arguments:
+        stacks -- the number of Upshift stacks
+        koleda_fortification_level -- the fortification level of Koleda
+        """
+
+        ret: list[Buff] = []
+
+        attack_boost: int = 10
+        critical_damage: int = 10
+
+        if koleda_fortification_level >= FortificationLevel.SEGMENT04:
+            attack_boost = 25
+            critical_damage = 25
+
+        ret.append(
+            Buff(
+                value=attack_boost,
+                modifier_type=ModifierType.MULTIPLICATIVE,
+                stat_type=StatType.ATTACK,
+                tag=DamageTag.ALL,
+            )
+        )
+        ret.append(
+            Buff(
+                value=critical_damage,
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=SpecialAttribute.CRITICAL_DAMAGE,
+                tag=DamageTag.ALL,
+            )
+        )
+        return ret
+
+
+class PostMoveSupport(Buff):
+    """Buff granted to Koleda and Sinveiler while both are on the field."""
+
+    display_name = "Post-Move Support (Koleda)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self) -> list[Buff]:
+        """
+        Arguments:
+        """
+
+        ret: list[Buff] = []
+
+        ret.append(
+            Buff(
+                value=30,
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=SpecialAttribute.DAMAGE_BOOST,
+                tag=DamageTag.ALL,
+            )
+        )
+        ret.append(
+            Buff(
+                value=15,
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=StatType.CRIT_RATE,
+                tag=DamageTag.ALL,
+            )
+        )
+        return ret
+
+
+class SinveilerDGear(Buff):
+    """Sinveiler buff."""
+
+    display_name = "D Gear (Sinveiler)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self, koleda_fortification_level: FortificationLevel):
+        self.value = (
+            20 if koleda_fortification_level < FortificationLevel.SEGMENT03 else 30
+        )
+        self.modifier_type = ModifierType.ADDITIVE
+        self.stat_type = SpecialAttribute.DAMAGE_BOOST
+        self.tag = DamageTag.PHYSICAL_SUMMON
+
+
+class SinveilerSGear(Buff):
+    """Sinveiler buff."""
+
+    display_name = "S Gear (Sinveiler)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self, koleda_fortification_level: FortificationLevel) -> list[Buff]:
+        """
+        Arguments:
+        """
+
+        ret: list[Buff] = []
+
+        ret.append(
+            Buff(
+                value=(
+                    20
+                    if koleda_fortification_level < FortificationLevel.SEGMENT03
+                    else 30
+                ),
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=SpecialAttribute.DAMAGE_BOOST,
+                tag=DamageTag.PHYSICAL_SUMMON,
+            )
+        )
+        ret.append(
+            Buff(
+                value=(
+                    20
+                    if koleda_fortification_level < FortificationLevel.SEGMENT03
+                    else 30
+                ),
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=StatType.CRIT_DAMAGE,
+                tag=DamageTag.PHYSICAL_SUMMON,
+            )
+        )
+        return ret
+
+
+class SinveilerSPlusGear(Buff):
+    """Sinveiler buff."""
+
+    display_name = "S+ Gear (Sinveiler)"
+    max_stack_count = 1
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self, koleda_fortification_level: FortificationLevel) -> list[Buff]:
+        """
+        Arguments:
+        """
+
+        ret: list[Buff] = []
+
+        ret.append(
+            Buff(
+                value=(
+                    20
+                    if koleda_fortification_level < FortificationLevel.SEGMENT03
+                    else 30
+                ),
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=SpecialAttribute.DAMAGE_BOOST,
+                tag=DamageTag.PHYSICAL_SUMMON,
+            )
+        )
+        ret.append(
+            Buff(
+                value=(
+                    20
+                    if koleda_fortification_level < FortificationLevel.SEGMENT03
+                    else 30
+                ),
+                modifier_type=ModifierType.ADDITIVE,
+                stat_type=StatType.CRIT_DAMAGE,
+                tag=DamageTag.PHYSICAL_SUMMON,
+            )
+        )
+
+        if koleda_fortification_level >= FortificationLevel.SEGMENT03:
+            ret.append(
+                Buff(
+                    value=30,
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=SpecialAttribute.DEFENSE_IGNORE,
+                    tag=DamageTag.PHYSICAL_SUMMON,
+                )
+            )
+            # Damage Multiplier increase is implemented as an arg to the CombatAction
+
+        return ret
+
+
 class CompetitiveSpirit(Buff):
     """Klukai buff"""
 
@@ -2351,7 +2638,7 @@ class OverwriteTrap(Buff):
 
 
 class BladeResonance(Buff):
-    """Additional effect of Phaetusa's Blade Resonance buff granted by 
+    """Additional effect of Phaetusa's Blade Resonance buff granted by
     Expansion Key - Twinsoul Resonance Sonata."""
 
     display_name = "Blade Resonance (Phaetusa)"
@@ -2369,7 +2656,7 @@ class BladeResonance(Buff):
 
 class SharpTippedTerror(Buff):
     """Debuff applied by Phaetusa granted by Expansion Key - Twinsoul Resonance Sonata.
-    Increases the damage dealt to the debuff holder if the damage is dealt by an active 
+    Increases the damage dealt to the debuff holder if the damage is dealt by an active
     attack using a blade.
 
     TODO: Should make a distinction between blade attacks and other melee attacks (that
@@ -2378,7 +2665,7 @@ class SharpTippedTerror(Buff):
     Note: Implemented as a Buff because the effect is a damage boost to the attacker,
     not an "increased damage taken" effect for the debuff holder.
 
-    Note2: The debuff is stackable but the effect does not scale with the number of stacks - 
+    Note2: The debuff is stackable but the effect does not scale with the number of stacks -
     a stack is consumed to provide an instance of the effect.
     """
 

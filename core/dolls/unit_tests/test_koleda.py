@@ -22,6 +22,10 @@ from core.dolls.koleda import (
     KineticReleasePlus,
     KineticReleasePlusV2,
     KineticReleasePlusV3,
+    KoledaKineticRelease,
+    KoledaKineticReleaseV2,
+    KoledaKineticReleasePlus,
+    KoledaKineticReleasePlusV2,
 )
 from core.types import (
     DamageTag,
@@ -246,6 +250,69 @@ class TestKineticReleasePlus:
         assert result.base_potency == 180  # 150 + 30
 
 
+class TestKoledaKineticRelease:
+    """Tests for Kinetic Release performed by Koleda."""
+
+    def test_base_version(self) -> None:
+        """Base version."""
+        skill = KoledaKineticRelease()
+        result = skill.execute()
+        assert result.label == "Kinetic Release (Koleda)"
+        assert result.base_potency == 90
+        assert DamageTag.AREA_OF_EFFECT in result.tags
+        assert DamageTag.PHYSICAL_SUMMON not in result.tags  # Koleda action, not Sinveiler
+
+    def test_base_version_has_no_physical_summon_tag(self) -> None:
+        """Base version should NOT have PHYSICAL_SUMMON tag."""
+        skill = KoledaKineticRelease()
+        result = skill.execute()
+        assert DamageTag.PHYSICAL_SUMMON not in result.tags
+
+    def test_v2_version(self) -> None:
+        """V2 version with higher potency."""
+        skill = KoledaKineticReleaseV2()
+        result = skill.execute()
+        assert result.base_potency == 120
+        assert DamageTag.AREA_OF_EFFECT in result.tags
+        assert DamageTag.PHYSICAL_SUMMON not in result.tags
+
+    def test_all_versions_have_hydro_phase_tags(self) -> None:
+        """All Koleda Kinetic Release versions should have HYDRO and PHASE tags."""
+        for skill_class in [KoledaKineticRelease, KoledaKineticReleaseV2]:
+            skill = skill_class()
+            result = skill.execute()
+            assert DamageTag.HYDRO in result.tags
+            assert DamageTag.PHASE in result.tags
+
+
+class TestKoledaKineticReleasePlus:
+    """Tests for Kinetic Release+ performed by Koleda."""
+
+    def test_base_version(self) -> None:
+        """Base version."""
+        skill = KoledaKineticReleasePlus()
+        result = skill.execute()
+        assert result.label == "Kinetic Release+ (Koleda)"
+        assert result.base_potency == 120
+        assert DamageTag.AREA_OF_EFFECT in result.tags
+        assert DamageTag.PHYSICAL_SUMMON not in result.tags
+
+    def test_v2_version(self) -> None:
+        """V2 version with higher potency."""
+        skill = KoledaKineticReleasePlusV2()
+        result = skill.execute()
+        assert result.base_potency == 150
+        assert DamageTag.PHYSICAL_SUMMON not in result.tags
+
+    def test_all_versions_have_hydro_phase_tags(self) -> None:
+        """All Koleda Kinetic Release+ versions should have HYDRO and PHASE tags."""
+        for skill_class in [KoledaKineticReleasePlus, KoledaKineticReleasePlusV2]:
+            skill = skill_class()
+            result = skill.execute()
+            assert DamageTag.HYDRO in result.tags
+            assert DamageTag.PHASE in result.tags
+
+
 class TestKoledaFortification:
     """Tests for Koleda's fortification level system."""
 
@@ -278,6 +345,9 @@ class TestKoledaFortification:
         assert isinstance(koleda.lets_go_full_speed_pursuit, LetsGoFullSpeedPursuitV3)
         assert isinstance(koleda.kinetic_release, KineticReleaseV3)
         assert isinstance(koleda.kinetic_release_plus, KineticReleasePlusV3)
+        # Koleda's kinetic release actions stay at V2 (not affected by S+ Gear bonuses)
+        assert isinstance(koleda.koleda_kinetic_release, KoledaKineticReleaseV2)
+        assert isinstance(koleda.koleda_kinetic_release_plus, KoledaKineticReleasePlusV2)
 
     def test_koleda_v4_additional_upgrades(self) -> None:
         """Koleda at V4 upgrades Let's Go for a Drift to V4."""
@@ -379,3 +449,143 @@ class TestSinveilerGearEnum:
         """SinveilerGear values should be strings."""
         assert isinstance(SinveilerGear.P.value, str)
         assert isinstance(SinveilerGear.S_PLUS.value, str)
+
+
+class TestKoledaDriverInheritance:
+    """Tests for Koleda's driver stat inheritance system."""
+
+    def test_set_driver_default_values(self) -> None:
+        """Driver stats should default to 0."""
+        koleda = Koleda()
+        assert koleda.driver_attack == 0.0
+        assert koleda.driver_defense == 0.0
+        assert koleda.driver_health == 0.0
+        assert koleda.driver_crit_damage == 0.0
+
+    def test_set_driver_stats(self) -> None:
+        """set_driver() should store driver stats."""
+        koleda = Koleda()
+        koleda.set_driver(attack=1000, defense=500, health=2000, crit_damage=50)
+        assert koleda.driver_attack == 1000
+        assert koleda.driver_defense == 500
+        assert koleda.driver_health == 2000
+        assert koleda.driver_crit_damage == 50
+
+    def test_driver_inheritance_rate_v0_to_v5(self) -> None:
+        """V0-V5 should have 50% driver inheritance rate."""
+        koleda = Koleda()
+        for level in [
+            FortificationLevel.SEGMENT00,
+            FortificationLevel.SEGMENT01,
+            FortificationLevel.SEGMENT02,
+            FortificationLevel.SEGMENT03,
+            FortificationLevel.SEGMENT04,
+            FortificationLevel.SEGMENT05,
+        ]:
+            koleda.set_fortification_level(level)
+            assert koleda._get_driver_inheritance_rate() == 0.50
+
+    def test_driver_inheritance_rate_v3(self) -> None:
+        """V3 should have 50% driver inheritance rate."""
+        koleda = Koleda()
+        koleda.set_fortification_level(FortificationLevel.SEGMENT03)
+        assert koleda._get_driver_inheritance_rate() == 0.50
+
+    def test_driver_inheritance_rate_v4(self) -> None:
+        """V4 should have 50% driver inheritance rate."""
+        koleda = Koleda()
+        koleda.set_fortification_level(FortificationLevel.SEGMENT04)
+        assert koleda._get_driver_inheritance_rate() == 0.50
+
+    def test_driver_inheritance_rate_v5_v6(self) -> None:
+        """V5 should have 50%, V6 should have 70% driver inheritance rate."""
+        koleda = Koleda()
+        koleda.set_fortification_level(FortificationLevel.SEGMENT05)
+        assert koleda._get_driver_inheritance_rate() == 0.50
+        
+        koleda.set_fortification_level(FortificationLevel.SEGMENT06)
+        assert koleda._get_driver_inheritance_rate() == 0.70
+
+    def test_driver_inheritance_applied_v3(self) -> None:
+        """Driver stats should be applied to Sinveiler at V3 (50%)."""
+        koleda = Koleda()
+        koleda.set_fortification_level(FortificationLevel.SEGMENT03)
+
+        # Set initial Koleda stats
+        koleda.initial_stats.basic_attributes[StatType.ATTACK] = 1000
+
+        # Set driver stats
+        koleda.set_driver(attack=2000, defense=500, health=3000, crit_damage=50)
+
+        # Refresh Sinveiler
+        koleda.prepare_for_calculation()
+
+        # Get Sinveiler
+        sinveiler = koleda.get_summoned_unit("Sinveiler")
+        assert sinveiler is not None
+
+        # Sinveiler should have Koleda's attack + 50% of driver's attack
+        expected_attack = 1000 + (2000 * 0.50)  # 2000
+        assert sinveiler.initial_stats.basic_attributes[StatType.ATTACK] == expected_attack
+
+    def test_driver_inheritance_applied_v6(self) -> None:
+        """Driver stats should be applied to Sinveiler at V6 (70%)."""
+        koleda = Koleda()
+        koleda.set_fortification_level(FortificationLevel.SEGMENT06)
+
+        # Set initial Koleda stats
+        koleda.initial_stats.basic_attributes[StatType.DEFENSE] = 500
+
+        # Set driver stats
+        koleda.set_driver(attack=1000, defense=1000, health=2000, crit_damage=100)
+
+        # Refresh Sinveiler
+        koleda.prepare_for_calculation()
+
+        # Get Sinveiler
+        sinveiler = koleda.get_summoned_unit("Sinveiler")
+        assert sinveiler is not None
+
+        # Sinveiler should have Koleda's defense + 70% of driver's defense
+        expected_defense = 500 + (1000 * 0.70)  # 1200
+        assert sinveiler.initial_stats.basic_attributes[StatType.DEFENSE] == expected_defense
+
+    def test_no_driver_inheritance_without_driver_stats(self) -> None:
+        """Sinveiler should not be affected if driver stats are all 0."""
+        koleda = Koleda()
+        koleda.set_fortification_level(FortificationLevel.SEGMENT06)
+
+        # Set Koleda's initial stats
+        initial_attack = 1000
+        koleda.initial_stats.basic_attributes[StatType.ATTACK] = initial_attack
+
+        # No driver stats set (all default to 0)
+        koleda.prepare_for_calculation()
+
+        sinveiler = koleda.get_summoned_unit("Sinveiler")
+        assert sinveiler is not None
+
+        # Sinveiler should only have Koleda's stats
+        assert sinveiler.initial_stats.basic_attributes[StatType.ATTACK] == initial_attack
+
+    def test_driver_inheritance_multiple_stats(self) -> None:
+        """All driver stats should be inherited proportionally."""
+        koleda = Koleda()
+        koleda.set_fortification_level(FortificationLevel.SEGMENT04)
+
+        koleda.initial_stats.basic_attributes[StatType.ATTACK] = 1000
+        koleda.initial_stats.basic_attributes[StatType.DEFENSE] = 500
+        koleda.initial_stats.basic_attributes[StatType.HEALTH] = 2000
+        koleda.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 100
+
+        koleda.set_driver(attack=2000, defense=1000, health=4000, crit_damage=200)
+
+        koleda.prepare_for_calculation()
+        sinveiler = koleda.get_summoned_unit("Sinveiler")
+        assert sinveiler is not None
+
+        # V4 = 50% inheritance rate
+        assert sinveiler.initial_stats.basic_attributes[StatType.ATTACK] == 1000 + (2000 * 0.50)  # 2000
+        assert sinveiler.initial_stats.basic_attributes[StatType.DEFENSE] == 500 + (1000 * 0.50)  # 1000
+        assert sinveiler.initial_stats.basic_attributes[StatType.HEALTH] == 2000 + (4000 * 0.50)  # 4000
+        assert sinveiler.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] == 100 + (200 * 0.50)  # 200

@@ -301,6 +301,23 @@ class DollCalculatorPage(ABC):
         """Generates the Rotation Planner section."""
         ...
 
+    def render_context_cards(self) -> None:
+        """Renders context-specific cards below the main stat card.
+        
+        Override this method in subclasses to add custom card content that appears
+        in a second row beneath the main dashboard cards (doll info, portrait, stats).
+        
+        By default, this renders nothing. Subclasses should check if they need
+        to render any context-specific content and only call ui elements if needed.
+        
+        Example (Koleda):
+            def render_context_cards(self) -> None:
+                with ui.row().classes("w-full gap-4"):
+                    with ui.card().classes("w-110 exilium-panel"):
+                        self.render_driver_configuration_tab()
+        """
+        pass  # Default: no context cards
+
     def get_rotation_analysis(self) -> None:
         """Generates the Rotation Analysis section."""
         with ui.grid(columns="50% auto").classes("w-full"):
@@ -765,8 +782,6 @@ class DollCalculatorPage(ABC):
         with ui.row().classes("w-full exilium-dashboard"):
             with ui.card().classes("w-110 exilium-panel"):
                 self.doll_header()
-                # with ui.scroll_area().classes("w-full h-full"):
-                #     self.render_model_assumptions()
                 self.render_model_assumptions()
 
                 with ui.grid(columns="75% auto").classes("w-full gap-0"):
@@ -1598,6 +1613,9 @@ class DollCalculatorPage(ABC):
                             on_upload=_on_upload,
                             auto_upload=True,
                         ).props("accept=.json outlined")
+
+        # Second row: Context-specific cards (overridable by subclasses)
+        self.render_context_cards()
 
         ui.separator().classes("w-380 exilium-divider")
 
