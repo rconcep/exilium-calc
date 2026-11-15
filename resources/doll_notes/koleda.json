@@ -1,0 +1,75 @@
+{
+  "doll": "Koleda",
+  "sections": [
+    {
+      "kind": "markdown",
+      "key": "synopsis",
+      "title": "Synopsis",
+      "markdown": "High mobility hydro vanguard DPS capable of immobilizing and dealing damage in large areas. One of the premier damage dealers in both mobbing and bossing at the time of writing."
+    },
+    {
+      "kind": "utility_table",
+      "key": "utility",
+      "title": "Utility",
+      "rows": [
+        {
+          "label": "Tile generation (V6)",
+          "detail": "Let's Go Full Speed! (Sinveiler) - based on phase attribute of the driver."
+        },
+        {
+          "label": "Pull-in (Tow)",
+          "detail": "(5-7 tiles) Let's Go for a Drift!"
+        },
+        {
+          "label": "Immobilized (V4)",
+          "detail": "(2 turns) Let's Go for a Drift!"
+        },
+        { "label": "Buff cleanse", "detail": "Fixed Key 3" },
+        { "label": "Defense Down II", "detail": "Fixed Key 5" }
+      ]
+    },
+    {
+      "kind": "fortification_table",
+      "key": "fortification_upgrades",
+      "title": "Fortification Level upgrades",
+      "upgrades": [
+        {
+          "level": 1,
+          "description": "Adds Turbo Boost buff; enhances effects of Upshift."
+        },
+        {
+          "level": 2,
+          "description": "Increased confectance index gain; increased damage multiplier for Kinetic Release(+); changes Koleda's triggered Kinetic Releases to the + version."
+        },
+        {
+          "level": 3,
+          "description": "Increased survivability/damage-sharing with Sinveiler; increased effects of the Gear buffs."
+        },
+        {
+          "level": 4,
+          "description": "Increases effect of Kinetic Recovery; increased damage, range, and pull-range of Let's Go for a Drift! and adds Immobilized on-hit."
+        },
+        {
+          "level": 5,
+          "description": "Increased damage and AoE of Let's Go Full Speed! and increased damage multiplier of its pursuit/follow-up."
+        },
+        {
+          "level": 6,
+          "description": "Increased effect of Turbo Boost; increased stat inheritance from Sinveiler driver; adds tile-generation to Let's Go Full Speed!"
+        }
+      ]
+    },
+    {
+      "kind": "markdown",
+      "key": "team_notes",
+      "title": "Team notes",
+      "markdown": "Springfield for generic hydro support although the confectance index gain from Shared Telepathy is not essential for Koleda. Liushih's Lock On debuff helps with defense reduction for physical summons and at V5+, she provides the Boldness buff, a rare source of damage boost for physical summons. A 'driver' for Sinveiler is basically required (loses almost 50% of damage without one) - Mityl with Fixed Key 5 provides a hologram driver at no cost (aside from taking a key slot)."
+    },
+    {
+      "kind": "markdown",
+      "key": "build_notes",
+      "title": "Build notes",
+      "markdown": "Attack-scaling Hydro DPS with most damage coming from her physical summon. Summon Boost attachment set is recommended. For Remolding Pattern, prioritize boosts to AoE damage."
+    }
+  ]
+}

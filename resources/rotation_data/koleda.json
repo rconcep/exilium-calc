@@ -1,0 +1,1186 @@
+{
+  "metadata": {
+    "version": 1,
+    "doll_name": "Koleda"
+  },
+  "baseline": {
+    "attacker": {
+      "buffs": [
+        {
+          "name": "Overflowing Care",
+          "springfield_fortification_level": 6,
+          "percent_excess_healing": 105.0
+        },
+        {
+          "name": "Attack Up II"
+        },
+        {
+          "name": "Eagle's Vigilance (Taryz)",
+          "springfield_fortification_level": 6
+        },
+        {
+          "name": "Kinetic Recovery (Koleda)",
+          "koleda_fortification_level": 6
+        },
+        {
+          "name": "Post-Move Support (Koleda)"
+        },
+        {
+          "name": "Upshift (Koleda)",
+          "stacks": 3,
+          "koleda_fortification_level": 6
+        }
+      ]
+    },
+    "target": {
+      "debuffs": [
+        {
+          "name": "Taryz",
+          "springfield_fortification_level": 6
+        },
+        {
+          "name": "False Intelligence",
+          "springfield_fortification_level": 6
+        },
+        {
+          "name": "Defense Down II"
+        },
+        {
+          "name": "Vulnerability Analysis",
+          "springfield_fortification_level": 6,
+          "stacks": 3
+        }
+      ],
+      "phase_weaknesses_exploited": 2,
+      "ammo_weakness_level": 0,
+      "phase_weakness_level": 3,
+      "stability_broken": true,
+      "unit_level": "Boss",
+      "phase_tile_level": 3,
+      "elemental_phase_tile": "None",
+      "basic_attributes": {
+        "Defense": 5000.0,
+        "Health": 11000000.0,
+        "Stability Damage Reduction": 60.0
+      },
+      "elemental_resistance": {
+        "Corrosion": 0.0,
+        "Burn": 0.0,
+        "Freeze": 0.0,
+        "Hydro": 150.0,
+        "Electric": 0.0
+      }
+    }
+  },
+  "planner": {
+    "turns": {
+      "1": [
+        {
+          "name": "Snow Wolf's Eye",
+          "stacks_of_upshift": 3
+        },
+        {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        {
+          "name": "Let's Go for a Drift! (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        {
+          "name": "Let's Go Full Speed! (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        {
+          "name": "Let's Go Full Speed! (Pursuit) (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        {
+          "name": "Kinetic Release+ (Sinveiler)",
+          "gear": "S+ Gear"
+        }
+      ],
+      "2": [
+        {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        {
+          "name": "Let's Go for a Drift! (Sinveiler)",
+          "gear": "S Gear"
+        },
+        {
+          "name": "Let's Go Full Speed! (Sinveiler)",
+          "gear": "S Gear"
+        },
+        {
+          "name": "Let's Go Full Speed! (Pursuit) (Sinveiler)",
+          "gear": "S Gear"
+        }
+      ],
+      "3": [
+        {
+          "name": "Snow Wolf's Eye",
+          "stacks_of_upshift": 5
+        },
+        {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        {
+          "name": "Let's Go for a Drift! (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        {
+          "name": "Let's Go Full Speed! (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        {
+          "name": "Let's Go Full Speed! (Pursuit) (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        {
+          "name": "Kinetic Release+ (Sinveiler)",
+          "gear": "S+ Gear"
+        }
+      ],
+      "4": [
+        {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        {
+          "name": "Let's Go for a Drift! (Sinveiler)",
+          "gear": "S Gear"
+        },
+        {
+          "name": "Let's Go Full Speed! (Sinveiler)",
+          "gear": "S Gear"
+        },
+        {
+          "name": "Let's Go Full Speed! (Pursuit) (Sinveiler)",
+          "gear": "S Gear"
+        }
+      ],
+      "5": [
+        {
+          "name": "Snow Wolf's Eye",
+          "stacks_of_upshift": 5
+        },
+        {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        {
+          "name": "Let's Go for a Drift! (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        {
+          "name": "Let's Go Full Speed! (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        {
+          "name": "Let's Go Full Speed! (Pursuit) (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        {
+          "name": "Kinetic Release+ (Koleda)"
+        }
+      ],
+      "6": [
+        {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        {
+          "name": "Let's Go for a Drift! (Sinveiler)",
+          "gear": "S Gear"
+        },
+        {
+          "name": "Let's Go Full Speed! (Sinveiler)",
+          "gear": "S Gear"
+        },
+        {
+          "name": "Let's Go Full Speed! (Pursuit) (Sinveiler)",
+          "gear": "S Gear"
+        }
+      ],
+      "7": [
+        {
+          "name": "Snow Wolf's Eye",
+          "stacks_of_upshift": 5
+        },
+        {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        {
+          "name": "Let's Go for a Drift! (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        {
+          "name": "Let's Go Full Speed! (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        {
+          "name": "Let's Go Full Speed! (Pursuit) (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        {
+          "name": "Kinetic Release+ (Sinveiler)",
+          "gear": "S+ Gear"
+        }
+      ]
+    }
+  },
+  "timeline": {
+    "actions": [
+      {
+        "turn": 1,
+        "action": {
+          "name": "Snow Wolf's Eye",
+          "stacks_of_upshift": 3
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Turbo Boost (Koleda)",
+              "koleda_fortification_level": 6
+            }
+          ],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Let's Go for a Drift! (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "S+ Gear (Sinveiler)",
+              "koleda_fortification_level": 6
+            }
+          ],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Let's Go Full Speed! (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Let's Go Full Speed! (Pursuit) (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Kinetic Release+ (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Upshift (Koleda)",
+              "stacks": 5,
+              "koleda_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:Turbo Boost (Koleda):1:3aa184700c3d"
+            },
+            {
+              "name": "buff:S+ Gear (Sinveiler):1:cd33f86875ed"
+            },
+            {
+              "name": "buff:Upshift (Koleda):1:64463ae16326"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Let's Go for a Drift! (Sinveiler)",
+          "gear": "S Gear"
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "S Gear (Sinveiler)",
+              "koleda_fortification_level": 6
+            }
+          ],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Let's Go Full Speed! (Sinveiler)",
+          "gear": "S Gear"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Let's Go Full Speed! (Pursuit) (Sinveiler)",
+          "gear": "S Gear"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Snow Wolf's Eye",
+          "stacks_of_upshift": 5
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Turbo Boost (Koleda)",
+              "koleda_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:S Gear (Sinveiler):1:061d2847ec4a"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Let's Go for a Drift! (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "S+ Gear (Sinveiler)",
+              "koleda_fortification_level": 6
+            }
+          ],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Let's Go Full Speed! (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Let's Go Full Speed! (Pursuit) (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Kinetic Release+ (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": [
+            {
+              "name": "buff:Turbo Boost (Koleda):1:3aa184700c3d"
+            },
+            {
+              "name": "buff:S+ Gear (Sinveiler):1:cd33f86875ed"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Let's Go for a Drift! (Sinveiler)",
+          "gear": "S Gear"
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "S Gear (Sinveiler)",
+              "koleda_fortification_level": 6
+            }
+          ],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Let's Go Full Speed! (Sinveiler)",
+          "gear": "S Gear"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Let's Go Full Speed! (Pursuit) (Sinveiler)",
+          "gear": "S Gear"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Snow Wolf's Eye",
+          "stacks_of_upshift": 5
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Turbo Boost (Koleda)",
+              "koleda_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:S Gear (Sinveiler):1:061d2847ec4a"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Let's Go for a Drift! (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "S+ Gear (Sinveiler)",
+              "koleda_fortification_level": 6
+            }
+          ],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Let's Go Full Speed! (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Let's Go Full Speed! (Pursuit) (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": [
+            {
+              "name": "buff:Turbo Boost (Koleda):1:3aa184700c3d"
+            },
+            {
+              "name": "buff:S+ Gear (Sinveiler):1:cd33f86875ed"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Let's Go for a Drift! (Sinveiler)",
+          "gear": "S Gear"
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "S Gear (Sinveiler)",
+              "koleda_fortification_level": 6
+            }
+          ],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Let's Go Full Speed! (Sinveiler)",
+          "gear": "S Gear"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Let's Go Full Speed! (Pursuit) (Sinveiler)",
+          "gear": "S Gear"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Snow Wolf's Eye",
+          "stacks_of_upshift": 5
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "Turbo Boost (Koleda)",
+              "koleda_fortification_level": 6
+            }
+          ],
+          "remove_buffs": [
+            {
+              "name": "buff:S Gear (Sinveiler):1:061d2847ec4a"
+            }
+          ]
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Kinetic Release+ (Koleda)"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Let's Go for a Drift! (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        "attacker": {
+          "add_buffs": [
+            {
+              "name": "S+ Gear (Sinveiler)",
+              "koleda_fortification_level": 6
+            }
+          ],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Let's Go Full Speed! (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Let's Go Full Speed! (Pursuit) (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Kinetic Release+ (Sinveiler)",
+          "gear": "S+ Gear"
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      }
+    ]
+  }
+}
