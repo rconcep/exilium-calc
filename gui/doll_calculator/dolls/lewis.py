@@ -7,105 +7,6 @@ from core.types import DamageTag, SpecialAttribute, StatType, FortificationLevel
 from core.dolls import lewis
 from core.combat import Overburn
 
-sample_rotation: dict[int, list[dict]] = {
-    1: [
-        # Holders' Actions
-        {"name": "Volley Fire", "tin_soldier_rank": 2, "has_tin_soldiers_order": False},
-        {"name": "Volley Fire", "tin_soldier_rank": 2, "has_tin_soldiers_order": False},
-        # End of Holders' Actions
-        {"name": "Volley Fire", "tin_soldier_rank": 2, "has_tin_soldiers_order": False},
-        {"name": "Volley Fire", "tin_soldier_rank": 2, "has_tin_soldiers_order": False},
-        {
-            "name": "Surprising Funball",
-        },
-        {"name": "Surprising Funball (Fixed)"},
-    ],
-    2: [
-        # Holders' Actions
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": True},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": True},
-        # End of Holders' Actions
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        # Rank III - Toy Carnival triggers
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {
-            "name": "Toy Carnival",
-            "cumulative_tin_soldier_ranks": 6,
-            "highest_rank_tin_soldier": 3,
-        },
-    ],
-    3: [
-        # Holders' Actions
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        # End of Holders' Actions
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {
-            "name": "Surprising Funball",
-        },
-        {"name": "Surprising Funball (Fixed)"},
-    ],
-    4: [
-        # Holders' Actions
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": True},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": True},
-        # End of Holders' Actions
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        # Rank III - Toy Carnival triggers
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {
-            "name": "Toy Carnival",
-            "cumulative_tin_soldier_ranks": 6,
-            "highest_rank_tin_soldier": 3,
-        },
-    ],
-    5: [
-        # Holders' Actions
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        # End of Holders' Actions
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {
-            "name": "Surprising Funball",
-        },
-        {"name": "Surprising Funball (Fixed)"},
-    ],
-    6: [
-        # Holders' Actions
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": True},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": True},
-        # End of Holders' Actions
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        # Rank III - Toy Carnival triggers
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {
-            "name": "Toy Carnival",
-            "cumulative_tin_soldier_ranks": 6,
-            "highest_rank_tin_soldier": 3,
-        },
-    ],
-    7: [
-        # Holders' Actions
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        # End of Holders' Actions
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {"name": "Volley Fire", "tin_soldier_rank": 3, "has_tin_soldiers_order": False},
-        {
-            "name": "Surprising Funball",
-        },
-        {"name": "Surprising Funball (Fixed)"},
-    ],
-}
-
 
 class Lewis(DollCalculatorPage):
     """Page for Lewis."""
@@ -259,47 +160,14 @@ class Lewis(DollCalculatorPage):
             8 + 3.6 + 3 + 1
         )
 
-    def get_default_damage_calculator_buffs(self) -> list[dict[str, Any]]:
-        return [
-            {"name": "Blazing Assault II"},
-            {
-                "name": "Accelerant (Vector)",
-                "vector_fortification_level": FortificationLevel.SEGMENT06,
-                "number_of_burn_buffs": 3,
-            },
-            {
-                "name": "Rank (Lewis)",
-                "lewis_fortification_level": FortificationLevel.SEGMENT06,
-                "rank": 3,
-            },
-            {
-                "name": "Rank (Lewis)",
-                "lewis_fortification_level": FortificationLevel.SEGMENT06,
-                "rank": 3,
-            },
-        ]
-
-    def get_default_damage_calculator_debuffs(self) -> list[dict[str, Any]]:
-        return [
-            {"name": "Defense Down II"},
-            {
-                "name": "Overheat Combustion",
-                "vector_fortification_level": FortificationLevel.SEGMENT06,
-            },
-            {"name": "Conflagration"},
-            {
-                "name": "Smolder",
-                "vector_fortification_level": FortificationLevel.SEGMENT06,
-                "number_of_burn_debuffs": 4,
-            },
-        ]
-
     @override
     def get_model_assumptions(self) -> list[ModelAssumption]:
         return [
             ModelAssumption(
-                icon="whatshot",
-                description="Sample rotation assumes Tin Soldier holders are triggering Volley Fire.",
+                icon="key",
+                description="Expansion Key - Tin Soldiers' General Mobilization is active. The effect from consuming excess Merit is implemented as a buff with the Key's name.",
+                link_label="Dandegate",
+                link_target="https://www.dandegate.net/dolls/lewis/keys/expansion-key-tin-soldiers-general-mobilization",
             ),
         ]
 
@@ -315,4 +183,3 @@ class Lewis(DollCalculatorPage):
             self.rotation_planner: RotationPlanner = RotationPlanner(
                 options_config=self.option_config
             )
-            self.rotation_planner.set_data(sample_rotation)

@@ -378,6 +378,48 @@ class BurningTide(Buff):
         self.tag = DamageTag.ALL
 
 
+class TinSoldiersGeneralMobilization(Buff):
+    """Effect granted to Lewis by her Expansion Key - Tin Soldiers' General Mobilization."""
+
+    display_name = "Tin Soldiers' General Mobilization (Lewis)"
+    max_stack_count = 8
+    stack_input_type = "select"
+
+    def __init__(self): ...
+
+    def get_buffs(self, stacks_of_merit_consumed: int):
+        """
+        Arguments:
+        stacks_of_merit_consumed -- the number of stacks of Merit consumed, up to 8
+        """
+        ret: list[Buff] = []
+
+        damage_increase_per_stack: int = 6
+        critical_damage_increase_per_stack: int = 6
+
+        if stacks_of_merit_consumed > 0:
+            self.value = damage_increase_per_stack * min(
+                self.max_stack_count, max(0, stacks_of_merit_consumed)
+            )
+            self.modifier_type = ModifierType.ADDITIVE
+            self.stat_type = SpecialAttribute.DAMAGE_BOOST
+            self.tag = DamageTag.BURN
+
+            ret.append(self)
+
+            ret.append(
+                Buff(
+                    value=critical_damage_increase_per_stack
+                    * min(self.max_stack_count, max(0, stacks_of_merit_consumed)),
+                    modifier_type=ModifierType.ADDITIVE,
+                    stat_type=SpecialAttribute.CRITICAL_DAMAGE,
+                    tag=DamageTag.ALL,
+                )
+            )
+
+        return ret
+
+
 class GlacialDomain(Buff):
     """Dushevnaya buff, granted by her Ultimate."""
 
