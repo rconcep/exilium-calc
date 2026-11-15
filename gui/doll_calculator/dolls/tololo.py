@@ -3,47 +3,8 @@ from nicegui import ui
 from gui.templates.doll_calculator_page import DollCalculatorPage, ModelAssumption
 from gui.templates.rotation_planner import RotationPlanner
 from typing import Any, override
-from core.types import StatType, FortificationLevel
+from core.types import StatType, FortificationLevel, DamageTag, SpecialAttribute
 from core.dolls import tololo
-
-
-sample_rotation: dict[int, list[dict]] = {
-    1: [
-        {"name": "Morte Lumina", "number_of_active_buffs": 3},
-        {"name": "Supernova Impact", "number_of_active_buffs": 3},
-        {"name": "Black Hole Inversion"},
-    ],
-    2: [
-        {"name": "Morte Lumina", "number_of_active_buffs": 3},
-        {"name": "Supernova Impact", "number_of_active_buffs": 3},
-        {"name": "Black Hole Inversion"},
-    ],
-    3: [
-        {"name": "Morte Lumina", "number_of_active_buffs": 3},
-        {"name": "Supernova Impact", "number_of_active_buffs": 3},
-        {"name": "Black Hole Inversion"},
-    ],
-    4: [
-        {"name": "Morte Lumina", "number_of_active_buffs": 3},
-        {"name": "Supernova Impact", "number_of_active_buffs": 3},
-        {"name": "Black Hole Inversion"},
-    ],
-    5: [
-        {"name": "Morte Lumina", "number_of_active_buffs": 3},
-        {"name": "Supernova Impact", "number_of_active_buffs": 3},
-        {"name": "Black Hole Inversion"},
-    ],
-    6: [
-        {"name": "Morte Lumina", "number_of_active_buffs": 3},
-        {"name": "Supernova Impact", "number_of_active_buffs": 3},
-        {"name": "Black Hole Inversion"},
-    ],
-    7: [
-        {"name": "Morte Lumina", "number_of_active_buffs": 3},
-        {"name": "Supernova Impact", "number_of_active_buffs": 3},
-        {"name": "Morte Lumina", "number_of_active_buffs": 3},
-    ],
-}
 
 
 class Tololo(DollCalculatorPage):
@@ -90,49 +51,58 @@ class Tololo(DollCalculatorPage):
                 ],
                 "function": self.doll.morte_lumina.execute,
             },
+            "Call of the Stars (Geostationary Satellite)": {
+                "fields": [
+                    {
+                        "key": "stacks_of_observation_advantage",
+                        "type": "select",
+                        "options": [0, 1, 2, 3],
+                        "label": "Stacks of Observation Advantage",
+                        "default": 3,
+                    },
+                ],
+                "function": self.doll.call_of_the_stars.execute,
+            },
         }
 
     @override
     def set_initial_values(self) -> None:
-        self.doll.initial_stats.basic_attributes[StatType.ATTACK] = 5429
-        self.doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 78.9
-        self.doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 156.9
+        self.doll.initial_stats.basic_attributes[StatType.ATTACK] = 4830
+        self.doll.initial_stats.basic_attributes[StatType.CRIT_RATE] = 81
+        self.doll.initial_stats.basic_attributes[StatType.CRIT_DAMAGE] = 154.5
 
-    def get_default_damage_calculator_buffs(self) -> list[dict[str, Any]]:
-        return [
-            {"name": "Attack Up II"},
-            {
-                "name": "Overflowing Care",
-                "springfield_fortification_level": FortificationLevel.SEGMENT06,
-                "percent_excess_healing": 105,
-            },
-            {
-                "name": "Deep-Rooted Bonds",
-            },
-            {
-                "name": "Lightspike (Tololo)",
-                "stacks": 8,
-                "tololo_fortification_level": FortificationLevel.SEGMENT06,
-            },
-        ]
+        # imagoform: 5+12
+        # summon boost: 20
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.ALL, 17 + 20)
 
-    def get_default_damage_calculator_debuffs(self) -> list[dict[str, Any]]:
-        return [
-            {"name": "Defense Down II"},
-            {
-                "name": "False Intelligence",
-                "springfield_fortification_level": FortificationLevel.SEGMENT06,
-            },
-            {
-                "name": "Taryz",
-                "springfield_fortification_level": FortificationLevel.SEGMENT06,
-            },
-            {
-                "name": "Vulnerability Analysis",
-                "springfield_fortification_level": FortificationLevel.SEGMENT06,
-                "stacks": 3,
-            },
-        ]
+        # weapon: 15
+        # imagoform: 5
+        # freeze boost: 1.5
+        # Freeze Unity: 0.9
+        # Dushevnaya Imagoform (Bud): 3
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.HYDRO, 15 + 5 + 1.5 + 0.9 + 3)
+
+        # keys: 20
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.PHASE, 20)
+
+        # summon boost: 20
+        # keys: 10
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.PHYSICAL_SUMMON, 20 + 10)
+
+        # imagoform: 10
+        self.doll.additive_modifiers.special_attributes[
+            SpecialAttribute.DAMAGE_BOOST
+        ].set_multiplier(DamageTag.STABILITY_BROKEN, 10)
+
+        self.doll.refresh_geostationary_satellite()
 
     @override
     def get_model_assumptions(self) -> list[ModelAssumption]:
@@ -140,6 +110,12 @@ class Tololo(DollCalculatorPage):
             ModelAssumption(
                 icon="water_drop",
                 description="Sample rotation assumes Springfield support with Shared Telepathy and that a phase weakness is exploited for Black Hole Inversion.",
+            ),
+            ModelAssumption(
+                icon="key",
+                description="Expansion Key 2 - Captured Starlight is active.",
+                link_label="Dandegate",
+                link_target="https://www.dandegate.net/dolls/tololo/keys/expansion-key-2-captured-starlight",
             ),
         ]
 
@@ -155,4 +131,3 @@ class Tololo(DollCalculatorPage):
             self.rotation_planner: RotationPlanner = RotationPlanner(
                 options_config=self.option_config
             )
-            self.rotation_planner.set_data(sample_rotation)

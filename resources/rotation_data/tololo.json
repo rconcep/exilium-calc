@@ -21,6 +21,15 @@
           "name": "Lightspike (Tololo)",
           "stacks": 8,
           "tololo_fortification_level": 6
+        },
+        {
+          "name": "Targeted Attack Boost II"
+        },
+        {
+          "name": "Critical Rate Boost II"
+        },
+        {
+          "name": "Phase Boost II"
         }
       ]
     },
@@ -44,13 +53,23 @@
         }
       ],
       "phase_weaknesses_exploited": 2,
+      "ammo_weakness_level": 0,
+      "phase_weakness_level": 3,
       "stability_broken": true,
       "unit_level": "Boss",
-      "phase_tile_level": 0,
+      "phase_tile_level": 3,
+      "elemental_phase_tile": "None",
       "basic_attributes": {
         "Defense": 5000.0,
         "Health": 11000000.0,
         "Stability Damage Reduction": 60.0
+      },
+      "elemental_resistance": {
+        "Corrosion": 0.0,
+        "Burn": 0.0,
+        "Freeze": 0.0,
+        "Hydro": 0.0,
+        "Electric": 0.0
       }
     }
   },
@@ -67,6 +86,18 @@
         },
         {
           "name": "Black Hole Inversion"
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
         }
       ],
       "2": [
@@ -80,6 +111,18 @@
         },
         {
           "name": "Black Hole Inversion"
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
         }
       ],
       "3": [
@@ -93,6 +136,18 @@
         },
         {
           "name": "Black Hole Inversion"
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
         }
       ],
       "4": [
@@ -106,6 +161,18 @@
         },
         {
           "name": "Black Hole Inversion"
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
         }
       ],
       "5": [
@@ -119,6 +186,18 @@
         },
         {
           "name": "Black Hole Inversion"
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
         }
       ],
       "6": [
@@ -132,6 +211,18 @@
         },
         {
           "name": "Black Hole Inversion"
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
         }
       ],
       "7": [
@@ -146,6 +237,18 @@
         {
           "name": "Morte Lumina",
           "number_of_active_buffs": 3
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
         }
       ]
     }
@@ -166,9 +269,12 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       },
       {
@@ -185,9 +291,12 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       },
       {
@@ -203,9 +312,78 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 1,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       },
       {
@@ -222,9 +400,12 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       },
       {
@@ -241,9 +422,12 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       },
       {
@@ -259,9 +443,78 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 2,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       },
       {
@@ -278,9 +531,12 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       },
       {
@@ -297,9 +553,12 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       },
       {
@@ -315,9 +574,78 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 3,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       },
       {
@@ -334,9 +662,12 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       },
       {
@@ -353,9 +684,12 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       },
       {
@@ -371,9 +705,78 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 4,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       },
       {
@@ -390,9 +793,12 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       },
       {
@@ -409,9 +815,12 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       },
       {
@@ -427,9 +836,78 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 5,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       },
       {
@@ -446,9 +924,12 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       },
       {
@@ -465,9 +946,12 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       },
       {
@@ -483,9 +967,78 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 6,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       },
       {
@@ -502,9 +1055,12 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       },
       {
@@ -521,9 +1077,12 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       },
       {
@@ -540,9 +1099,78 @@
           "add_debuffs": [],
           "remove_debuffs": [],
           "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
           "stability_override": "Baseline",
           "unit_level_override": "Baseline",
-          "phase_tile_override": "Baseline"
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
+        }
+      },
+      {
+        "turn": 7,
+        "action": {
+          "name": "Call of the Stars (Geostationary Satellite)",
+          "stacks_of_observation_advantage": 3
+        },
+        "attacker": {
+          "add_buffs": [],
+          "remove_buffs": []
+        },
+        "target": {
+          "add_debuffs": [],
+          "remove_debuffs": [],
+          "phase_weaknesses_override": "Baseline",
+          "ammo_weakness_level_override": "Baseline",
+          "phase_weakness_level_override": "Baseline",
+          "stability_override": "Baseline",
+          "unit_level_override": "Baseline",
+          "phase_tile_override": "Baseline",
+          "elemental_phase_tile_override": "Baseline"
         }
       }
     ]

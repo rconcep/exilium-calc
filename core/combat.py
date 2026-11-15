@@ -2529,3 +2529,71 @@ class SinveilerDamageCalculationStrategy(DamageCalculationStrategy):
             negative_def,
             effective_atk / (1 + effective_def / effective_atk),
         )
+
+
+class GeostationarySatelliteDamageCalculationStrategy(DamageCalculationStrategy):
+    """Implements the base damage for Tololo's Geostationary Satellite."""
+
+    @final
+    def _require_geostationary_satellite_summon(self, attacker: Unit) -> SummonedUnit:
+        owner: SummonOwningAttacker = _require_summon_owning_attacker(attacker)
+        summon: SummonedUnit | None = owner.get_summoned_unit("Geostationary Satellite")
+        if summon is None:
+            raise ValueError(
+                "Geostationary Satellite summon is required for this strategy"
+            )
+
+        return summon
+
+    @final
+    @override
+    def get_effective_attacker(self, attacker: Unit) -> Unit:
+        return self._require_geostationary_satellite_summon(attacker)
+
+    @final
+    @override
+    def resolve_buffs(
+        self,
+        attacker: Unit,
+        target: Unit,
+        damage_instance: DamageInstance,
+        buffs_before: list[Buff] = [],
+        debuffs_before: list[Debuff] = [],
+    ) -> None:
+        summon: SummonedUnit = self._require_geostationary_satellite_summon(attacker)
+        return super().resolve_buffs(
+            summon, target, damage_instance, buffs_before, debuffs_before
+        )
+
+    @final
+    @override
+    def calculate_base_damage(
+        self, attacker: Unit, target: Unit, damage_instance: DamageInstance
+    ) -> tuple[float, float, float, float]:
+        """Returns the term in the damage formula that is a function of attacker attack
+        and target defense. In addition, returns the effective attack, effective defense,
+        and any defense reduced/ignored beyond 0.
+
+        Arguments:
+        attacker -- the attacking Unit
+        target -- the target of the attack
+        damage_instance -- describes the action
+        """
+        summon: SummonedUnit = self._require_geostationary_satellite_summon(attacker)
+
+        effective_atk: float = summon.get_basic_attribute(
+            StatType.ATTACK, damage_instance.tags
+        )
+        effective_def, negative_def = _calculate_effective_and_negative_defense(
+            attacker=attacker,
+            target=target,
+            damage_instance=damage_instance,
+            include_conditional_defense_modifiers=False,
+        )
+
+        return (
+            effective_atk,
+            effective_def,
+            negative_def,
+            effective_atk / (1 + effective_def / effective_atk),
+        )

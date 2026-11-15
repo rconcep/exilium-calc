@@ -4,13 +4,20 @@ from pydantic import Field
 from core.types import (
     DamageTag,
     ModifierType,
+    StatType,
     SpecialAttribute,
     Doll,
     FortificationLevel,
     SummonedUnit,
+    PhysicalSummonedUnit,
+    build_physical_summon_stat_snapshot,
 )
 from core.buffs import Buff
-from core.combat import DamageInstance, CombatAction
+from core.combat import (
+    DamageInstance,
+    CombatAction,
+    GeostationarySatelliteDamageCalculationStrategy,
+)
 
 
 class Meteor(CombatAction):
@@ -203,6 +210,78 @@ class MorteLuminaV3(CombatAction):
         )
 
 
+class CallOfTheStars(CombatAction):
+    """Passive skill of Geostationary Satellite.
+
+    Note: The buffs from Observation Advantage are encapsulated here as they only apply
+    to the Geostationary Satellite.
+    """
+
+    @override
+    def execute(self, stacks_of_observation_advantage: int = 0) -> DamageInstance:
+        label: str = "Call of the Stars (Geostationary Satellite)"
+        base_potency: int = 130
+        tags: set[DamageTag] = {
+            DamageTag.TARGETED,
+            DamageTag.MEDIUM_AMMO,
+            DamageTag.HYDRO,
+            DamageTag.PHASE,
+            DamageTag.PHYSICAL_SUMMON,
+        }
+
+        buffs_before: list[Buff] = []
+
+        attack_boost: int = 0
+        damage_boost: int = 0
+        critical_damage: int = 0
+
+        if stacks_of_observation_advantage >= 3:
+            attack_boost = 10
+            damage_boost = 40
+            critical_damage = 10
+
+            base_potency += 60
+        elif stacks_of_observation_advantage >= 1:
+            attack_boost = 5
+            damage_boost = 20
+            critical_damage = 5
+
+        if stacks_of_observation_advantage > 0:
+            buffs_before.append(
+                Buff(
+                    attack_boost,
+                    ModifierType.MULTIPLICATIVE,
+                    StatType.ATTACK,
+                    DamageTag.PHYSICAL_SUMMON,
+                )
+            )
+            buffs_before.append(
+                Buff(
+                    damage_boost,
+                    ModifierType.ADDITIVE,
+                    SpecialAttribute.DAMAGE_BOOST,
+                    DamageTag.PHYSICAL_SUMMON,
+                )
+            )
+            buffs_before.append(
+                Buff(
+                    critical_damage,
+                    ModifierType.ADDITIVE,
+                    SpecialAttribute.CRITICAL_DAMAGE,
+                    DamageTag.PHYSICAL_SUMMON,
+                )
+            )
+
+        return DamageInstance(
+            label=label,
+            base_potency=base_potency,
+            tags=tags,
+            group_name="Call of the Stars (Geostationary Satellite)",
+            buffs_before=buffs_before,
+            damage_calculation_strategy=GeostationarySatelliteDamageCalculationStrategy(),
+        )
+
+
 class Tololo(Doll):
     """Tololo."""
 
@@ -230,6 +309,47 @@ class Tololo(Doll):
     black_hole_inversion: CombatAction = Field(default_factory=BlackHoleInversion)
     supernova_impact: CombatAction = Field(default_factory=SupernovaImpact)
     morte_lumina: CombatAction = Field(default_factory=MorteLumina)
+    call_of_the_stars: CombatAction = Field(default_factory=CallOfTheStars)
+
+    def _build_geostationary_satellite(self) -> PhysicalSummonedUnit:
+        # Geostationary Satellite inherits all of Tololo's initial attributes at 100%.
+        initial_stats, additive_modifiers, multiplicative_modifiers = (
+            build_physical_summon_stat_snapshot(self)
+        )
+
+        geostationary_satellite: PhysicalSummonedUnit = PhysicalSummonedUnit(
+            name="Geostationary Satellite",
+            initial_stats=initial_stats,
+            additive_modifiers=additive_modifiers,
+            multiplicative_modifiers=multiplicative_modifiers,
+        )
+
+        return geostationary_satellite
+
+    def summon_geostationary_satellite(self) -> None:
+        """Summons Geostationary Satellite with a snapshot of Tololo's current stats."""
+        if super().get_summoned_unit("Geostationary Satellite") is None:
+            self.summoned_units.append(self._build_geostationary_satellite())
+
+    def refresh_geostationary_satellite(self) -> None:
+        """Replaces Geostationary Satellite with a fresh snapshot of Tololo's current stats.
+
+        Call this whenever Tololo's stats have been mutated so that subsequent
+        deepcopy-based damage calculations see up-to-date Geostationary Satellite stats.
+        """
+        self.summoned_units = [
+            u for u in self.summoned_units if u.name != "Geostationary Satellite"
+        ]
+        self.summoned_units.append(self._build_geostationary_satellite())
+
+    @override
+    def prepare_for_calculation(self) -> None:
+        self.refresh_geostationary_satellite()
+
+    @override
+    def get_summoned_unit(self, name: str) -> SummonedUnit | None:
+        self.summon_geostationary_satellite()
+        return super().get_summoned_unit(name)
 
     def set_to_v0(self) -> None:
         """Sets Fortification Level to Segment00."""
@@ -237,6 +357,9 @@ class Tololo(Doll):
         self.black_hole_inversion: CombatAction = BlackHoleInversion()
         self.supernova_impact: CombatAction = SupernovaImpact()
         self.morte_lumina: CombatAction = MorteLumina()
+        self.call_of_the_stars: CombatAction = CallOfTheStars()
+
+        self.summon_geostationary_satellite()
 
     def set_to_v2(self) -> None:
         """Sets Fortification Level to Segment02."""
@@ -268,38 +391,3 @@ class Tololo(Doll):
                 self.set_to_v3()
             case FortificationLevel.SEGMENT06:
                 self.set_to_v3()
-
-    def get_sample_data(self) -> list[DamageInstance]:
-        """Returns a sample single target rotation."""
-        rotation_data: list[DamageInstance] = [
-            # Turn 1
-            self.morte_lumina.execute(number_of_active_buffs=3),
-            self.supernova_impact.execute(number_of_active_buffs=3),
-            self.black_hole_inversion.execute(),
-            # Turn 2
-            self.morte_lumina.execute(number_of_active_buffs=3),
-            self.supernova_impact.execute(number_of_active_buffs=3),
-            self.black_hole_inversion.execute(),
-            # Turn 3
-            self.morte_lumina.execute(number_of_active_buffs=3),
-            self.supernova_impact.execute(number_of_active_buffs=3),
-            self.black_hole_inversion.execute(),
-            # Turn 4
-            self.morte_lumina.execute(number_of_active_buffs=3),
-            self.supernova_impact.execute(number_of_active_buffs=3),
-            self.black_hole_inversion.execute(),
-            # Turn 5
-            self.morte_lumina.execute(number_of_active_buffs=3),
-            self.supernova_impact.execute(number_of_active_buffs=3),
-            self.black_hole_inversion.execute(),
-            # Turn 6
-            self.morte_lumina.execute(number_of_active_buffs=3),
-            self.supernova_impact.execute(number_of_active_buffs=3),
-            self.black_hole_inversion.execute(),
-            # Turn 7
-            self.morte_lumina.execute(number_of_active_buffs=3),
-            self.supernova_impact.execute(number_of_active_buffs=3),
-            self.morte_lumina.execute(number_of_active_buffs=3),
-        ]
-
-        return rotation_data
